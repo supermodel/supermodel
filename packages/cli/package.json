@@ -1,0 +1,22 @@
+{
+  "name": "supermodel-cli",
+  "version": "1.0.0",
+  "description": "Supermodel.io CLI tool",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/supermodel/supermodel-cli.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/supermodel/supermodel-cli/issues"
+  },
+  "bin": {
+    "supermodel": "./index.js"
+  },
+  "homepage": "https://github.com/supermodel/supermodel-cli#readme"
+}
