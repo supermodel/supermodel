@@ -1,0 +1,16 @@
+$id: http://supermodel.io/supermodel/Team
+
+title: Team
+type: object
+description: Organization (Team) in supermodel.io
+
+properties:
+  layers:
+    type: array
+    items: 
+    - $ref: 'Layer'
+
+  members:
+    type: array
+    items:
+    - $ref: 'User'

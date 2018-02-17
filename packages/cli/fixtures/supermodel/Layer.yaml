@@ -1,0 +1,26 @@
+$id: http://supermodel.io/supermodel/Layer
+
+title: Layer
+type: object
+
+properties:
+  models:
+    type: array
+    items:
+    - $ref: 'Model'
+
+  layers:
+    type: array
+    items:
+    - $ref: '#/'
+
+  owner:
+    anyOf: 
+    - $ref: 'User'
+    - $ref: 'Team'
+
+  collaborators:
+    type: array
+    items:
+    - $ref: 'User'
+    - $ref: 'Team'

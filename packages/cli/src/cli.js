@@ -1,5 +1,6 @@
-const package = require('../package.json')
 const program = require('commander')
+const package = require('../package.json')
+const runJSON = require('./commands/json')
 
 function defineProgram({ description }, callProgram) {
   program
@@ -18,15 +19,15 @@ defineProgram({
   description: 'Supermodel command tool'
 }, function (program) {
 
-  // program
-  //   .command('ls [search]')
-  //   .description('List all services. Optionally you can search for specific part of name')
-  //   .action((search) => runLs(search))
-
   program
     .command('hello')
-    .description('Prints greeting.')
-    .action((search) => {
+    .description('Prints greeting')
+    .action(() => {
       console.log('hello world')
     })
-})
+
+  program
+    .command('json <yamlFile>')
+    .description('Convert YAML representation of a JSON Schema into JSON representation')
+    .action((yamlFile) => runJSON(yamlFile))
+  })

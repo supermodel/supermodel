@@ -1,0 +1,28 @@
+$id: 'http://supermodel.io/supermodel/User'
+
+title: User
+type: object
+description: User of supermodel.io
+
+properties:
+  name:
+    type: string
+    
+  email:
+    type: string
+
+  layers:
+    type: array
+    items: 
+    - $ref: 'Layer'
+    
+  teams:
+    type: array
+    items:
+    - $ref: 'Team'
+
+examples:
+- name: Zdenek Nemec
+  email: z@goodapi.co
+  layers: []
+  teams: []
