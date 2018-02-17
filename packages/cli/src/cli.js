@@ -1,6 +1,7 @@
 const program = require('commander')
 const package = require('../package.json')
 const runJSON = require('./commands/json')
+const runValidateSchema = require('./commands/validateSchema')
 
 function defineProgram({ description }, callProgram) {
   program
@@ -27,7 +28,13 @@ defineProgram({
     })
 
   program
-    .command('json <yamlFile>')
+    .command('json <yamlSchemaFile>')
     .description('Convert YAML representation of a JSON Schema into JSON representation')
-    .action((yamlFile) => runJSON(yamlFile))
-  })
+    .action((yamlSchemaFile) => runJSON(yamlSchemaFile))
+
+  program
+    .command('validate-schema <yamlSchemaFile>')
+    .description('Validate JSON Schema YAML representation without verifying $ref references')
+    .action((yamlSchemaFile) => runValidateSchema(yamlSchemaFile))
+
+})
