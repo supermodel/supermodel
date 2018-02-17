@@ -14,9 +14,9 @@ properties:
   layers:
     type: array
     items: 
-    - $ref: '#/definitions/Layer'
-    # - $ref: 'Layer'
-    # - $ref: 'http://supermodel.io/supermodel/Layer'
+    # - $ref: 'Layer'    
+    # - $ref: '#/definitions/Layer'
+    - $ref: 'http://supermodel.io/supermodel/Layer'
     
   # teams:
   #   type: array
@@ -32,3 +32,7 @@ examples:
 definitions: 
   Layer:
     type: object
+
+  # X:
+  #  $id: 'http://supermodel.io/supermodel/Layer' 
+  #  type: object
