@@ -1,7 +1,7 @@
 {
   "name": "supermodel-cli",
   "version": "1.0.0",
-  "description": "Supermodel.io CLI tool",
+  "description": "Supermodel command tool",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -16,7 +16,10 @@
     "url": "https://github.com/supermodel/supermodel-cli/issues"
   },
   "bin": {
-    "supermodel": "./index.js"
+    "supermodel": "./bin/supermodel"
   },
-  "homepage": "https://github.com/supermodel/supermodel-cli#readme"
+  "homepage": "https://github.com/supermodel/supermodel-cli#readme",
+  "dependencies": {
+    "commander": "^2.14.1"
+  }
 }
