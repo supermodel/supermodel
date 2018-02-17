@@ -14,15 +14,21 @@ properties:
   layers:
     type: array
     items: 
-    - $ref: 'Layer'
+    - $ref: '#/definitions/Layer'
+    # - $ref: 'Layer'
+    # - $ref: 'http://supermodel.io/supermodel/Layer'
     
-  teams:
-    type: array
-    items:
-    - $ref: 'Team'
+  # teams:
+  #   type: array
+  #   items:
+  #   - $ref: 'Team'
 
 examples:
 - name: Zdenek Nemec
-  email: z@goodapi.co
+  email: hello@goodapi.co
   layers: []
   teams: []
+
+definitions: 
+  Layer:
+    type: object
