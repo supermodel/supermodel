@@ -34,7 +34,7 @@ defineProgram({
 
   program
     .command('validate-schema <yamlSchemaFile>')
-    .description('Validate JSON Schema YAML representation without verifying $ref references')
+    .description('Validate JSON Schema YAML representation')
     .action((yamlSchemaFile) => runValidateSchema(yamlSchemaFile))
 
 })
