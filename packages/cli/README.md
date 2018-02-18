@@ -36,7 +36,7 @@ compile-schema <yamlSchemaFile>   Compile JSON Schema YAML representation, resol
 Compiles the target schema `<yamlSchemaFile>`, resolving its remote schema
  references into one JSON Schema file in YAML format.
 
-Note: Does not validates the target schema file
+Note: Does not validates the target schema file.
 
 ```
 $ ./bin/supermodel compile-schema ./fixtures/supermodel/Team.yaml > compiled.yaml
