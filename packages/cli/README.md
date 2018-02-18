@@ -43,3 +43,20 @@ $ ./bin/supermodel compile-schema ./fixtures/supermodel/Team.yaml > compiled.yam
 $ ./bin/supermodel validate-schema compiled.yaml
 ok.
 ```
+
+### Conversion to OAS2
+
+```
+oas2 <yamlSchemaFile>             Convert JSON Schema YAML representation to OpenAPI Specification 2.0 definitions. Doesn't resolve remote schema references.
+```
+
+Converts the target schema `<yamlSchemaFile>` into [OpenAPI Specification 2.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#schemaObject) definitions.
+
+The conversion drops unsupported properties by OAS2. It also "flattens" all 
+definitions, since in OAS2 you can't have nested definitions. Finally all remote
+schema references using relative identifiers are fully quantified.
+
+```
+$ ./bin/supermodel compile-schema ./fixtures/supermodel/Team.yaml > compiled.yaml
+$ ./bin/supermodel oas2 ./compiled.yaml
+```
