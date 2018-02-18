@@ -29,4 +29,10 @@ defineProgram({
     .command('validate-schema <yamlSchemaFile>')
     .description('Validate JSON Schema YAML representation')
     .action((yamlSchemaFile) => runValidateSchema(yamlSchemaFile))
+
+  program
+    .command('compile-schema <yamlSchemaFile>')
+    .description('Compiles JSON Schema YAML representation, resolving every references')
+    .action((yamlSchemaFile) => console.log('noop'))
+    
 })

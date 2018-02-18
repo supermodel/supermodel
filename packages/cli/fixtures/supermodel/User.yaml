@@ -14,14 +14,17 @@ properties:
   layers:
     type: array
     items:
-    - $ref: 'Layer'
+    - $ref: Layer
     # - $ref: '#/definitions/Layer'
     # - $ref: 'http://supermodel.io/supermodel/Layer'
+
+  address:
+    $ref: Address
 
   teams:
     type: array
     items:
-    - $ref: 'Team'
+    - $ref: Team
 
 examples:
 - name: Zdenek Nemec

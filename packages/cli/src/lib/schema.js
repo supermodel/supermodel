@@ -30,12 +30,12 @@ function validateSchema(schema, localSchemaDirectory) {
       remoteSchema = yaml.readYAMLFile(filePath)
 
       // Validate remote meta schema
-      validateMetaSchema(remoteSchema) 
+      validateMetaSchema(remoteSchema)
 
       // TODO: Check URI === id
       const id = remoteSchema['$id']
       if (id && uri !== id) {
-        throw new Error (`$id mismatch, expected '${uri}' got '${id}'`)
+        throw new Error(`$id mismatch, expected '${uri}' got '${id}'`)
       }
 
       console.log(`loaded '${uri}' from '${filePath}'`)
@@ -63,6 +63,17 @@ function validateSchema(schema, localSchemaDirectory) {
   const ajv = new Ajv({ allErrors: true, verbose: true, missingRefs: true, jsonPointers: true, loadSchema: loadSchema, validateSchema: false })
 
   // Return Promise
+  // return new Promise((resolve, reject) => {
+  //   ajv.compileAsync(schema)
+  //     .then((validate) => {
+  //       // console.log(ajv)
+  //       // console.log(validate)
+  //       // console.log(validate.schema)
+  //       resolve()
+  //     })
+  //     .catch((onreject) => reject(onreject))
+  // })
+
   return ajv.compileAsync(schema)
 }
 

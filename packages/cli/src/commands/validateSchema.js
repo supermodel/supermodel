@@ -13,12 +13,12 @@ function runValidateSchema(yamlSchemaFile) {
     // Validate schema including references
     schema.validateSchema(schemaObject, cd)
       .then(() => {
-        console.log('ok')
+        console.log('ok.')
       })
       .catch((onrejected) => {
         console.error(onrejected)
         process.exit(1)
-      });
+      })
   }
   catch (e) {
     if (e.message) console.error(e.message)
