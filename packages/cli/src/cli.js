@@ -2,6 +2,7 @@ const program = require('commander')
 const package = require('../package.json')
 const runJSON = require('./commands/json')
 const runValidateSchema = require('./commands/validateSchema')
+const runCompileSchema = require('./commands/compileSchema')
 
 function defineProgram({ description }, callProgram) {
   program
@@ -32,7 +33,7 @@ defineProgram({
 
   program
     .command('compile-schema <yamlSchemaFile>')
-    .description('Compiles JSON Schema YAML representation, resolving every references')
-    .action((yamlSchemaFile) => console.log('noop'))
+    .description('Compile JSON Schema YAML representation, resolving every references')
+    .action((yamlSchemaFile) => runCompileSchema(yamlSchemaFile))
     
 })

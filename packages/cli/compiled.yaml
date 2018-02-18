@@ -1,0 +1,73 @@
+$id: 'http://supermodel.io/supermodel/Team'
+title: Team
+type: object
+description: Organization (Team) in supermodel.io
+properties:
+  layers:
+    type: array
+    items:
+      - $ref: Layer
+  members:
+    type: array
+    items:
+      - $ref: User
+definitions:
+  'http://supermodel.io/supermodel/Layer':
+    $id: 'http://supermodel.io/supermodel/Layer'
+    title: Layer
+    type: object
+    properties:
+      models:
+        type: array
+        items:
+          - $ref: Model
+      layers:
+        type: array
+        items:
+          - $ref: '#/'
+      owner:
+        anyOf:
+          - $ref: User
+          - $ref: Team
+      collaborators:
+        type: array
+        items:
+          - $ref: User
+          - $ref: Team
+  'http://supermodel.io/supermodel/Model':
+    $id: 'http://supermodel.io/supermodel/Model'
+    title: Model
+    type: object
+  'http://supermodel.io/supermodel/User':
+    $id: 'http://supermodel.io/supermodel/User'
+    title: User
+    type: object
+    description: User of supermodel.io
+    properties:
+      name:
+        type: string
+      email:
+        type: string
+      layers:
+        type: array
+        items:
+          - $ref: Layer
+      address:
+        $ref: Address
+      teams:
+        type: array
+        items:
+          - $ref: Team
+    examples:
+      - name: Zdenek Nemec
+        email: hello@goodapi.co
+        layers: []
+        teams: []
+    definitions:
+      Layer:
+        type: object
+  'http://supermodel.io/supermodel/Address':
+    $id: 'http://supermodel.io/supermodel/Address'
+    title: Address
+    type: object
+

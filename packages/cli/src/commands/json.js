@@ -3,7 +3,7 @@ const yaml = require('../lib/readYAML')
 function runJSON(yamlSchemaFile) {
   try {
     const json = yaml.readYAMLFileToJSON(yamlSchemaFile, 2)
-    console.log(json);
+    console.log(json)
   }
   catch (e) {
     if (e.message) console.error(e.message)

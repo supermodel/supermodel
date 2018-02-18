@@ -2,28 +2,27 @@ const Ajv = require('ajv')
 const path = require('path')
 const yaml = require('../lib/readYAML')
 
-// Validate schema against its meta schema (draft-07)
-// schema ... JSON Schema object
-function validateMetaSchema(schema) {
-  const ajv = new Ajv({ allErrors: true, verbose: true, missingRefs: true, jsonPointers: true, validateSchema: false })
+const META_SCHEMA = 'http://json-schema.org/draft-07/schema#'
 
-  const valid = ajv.validate('http://json-schema.org/draft-07/schema#', schema)
-  if (!valid) {
-    throw new Error(ajv.errorsText(ajv.errors, { separator: '\n' }))
-  }
+// Helper function to create schema processor / validator
+// return ... ajv instance
+function createSchemaProcessor(schemaDirectory, schemaRefs) {
+  return new Ajv({
+    allErrors: true,
+    verbose: true,
+    missingRefs: true,
+    jsonPointers: true,
+    loadSchema: (schemaDirectory || schemaRefs) ? schemaLoader(schemaDirectory, schemaRefs) : undefined,
+    validateSchema: false
+  })
 }
 
-// Validate schema against meta schema and resolve any references
-//  This also validates any referenced schema
-// schema ... JSON Schema object
-// return ... promise
-function validateSchema(schema, localSchemaDirectory) {
-
-  // Helper function to load remote schema
-  function loadSchema(uri) {
+// Helper function to load remote schema
+function schemaLoader(schemaDirectory, schemaRefs) {
+  return (uri) => {
     // Attempt to resolve schema uri as a local file
     const fileName = uri.substr(uri.lastIndexOf('/') + 1) + '.yaml'
-    const filePath = path.join(localSchemaDirectory, fileName)
+    const filePath = path.join(schemaDirectory, fileName)
     let remoteSchema
     let errorMessage
     try {
@@ -32,13 +31,21 @@ function validateSchema(schema, localSchemaDirectory) {
       // Validate remote meta schema
       validateMetaSchema(remoteSchema)
 
-      // TODO: Check URI === id
+      // Check URI === $id
       const id = remoteSchema['$id']
       if (id && uri !== id) {
         throw new Error(`$id mismatch, expected '${uri}' got '${id}'`)
       }
 
-      console.log(`loaded '${uri}' from '${filePath}'`)
+      // log only when not collecting schemas
+      // TODO: add verbose CLI flag
+      if (!schemaRefs) { 
+        console.log(`loaded '${uri}' from '${filePath}'`)
+      }
+    
+      if (id && schemaRefs) {
+        schemaRefs[id] = remoteSchema
+      }
     }
     catch (e) {
       errorMessage = `\nError: unable to load '${filePath}' as '${uri}'`
@@ -55,29 +62,65 @@ function validateSchema(schema, localSchemaDirectory) {
       }
     })
   }
+}
+
+// Validate schema against its meta schema (draft-07)
+//  throws error if schema is not valid against its meta schema
+// schema ... JSON Schema object
+function validateMetaSchema(schema) {
+  const ajv = createSchemaProcessor()
+  const valid = ajv.validate(META_SCHEMA, schema)
+  if (!valid) {
+    throw new Error(ajv.errorsText(ajv.errors, { separator: '\n' }))
+  }
+}
+
+// Validate schema against meta schema and resolve any references
+//  This also validates any referenced schema
+// schema ... JSON Schema object
+// schemaDirectory ... local filesystem directory to use when searching for remote schemas
+// return ... promise
+function validateSchema(schema, schemaDirectory) {
 
   // First, validate meta schema
   validateMetaSchema(schema)
 
   // Next, try to compile the Schema
-  const ajv = new Ajv({ allErrors: true, verbose: true, missingRefs: true, jsonPointers: true, loadSchema: loadSchema, validateSchema: false })
-
-  // Return Promise
-  // return new Promise((resolve, reject) => {
-  //   ajv.compileAsync(schema)
-  //     .then((validate) => {
-  //       // console.log(ajv)
-  //       // console.log(validate)
-  //       // console.log(validate.schema)
-  //       resolve()
-  //     })
-  //     .catch((onreject) => reject(onreject))
-  // })
+  const ajv = createSchemaProcessor(schemaDirectory)
 
   return ajv.compileAsync(schema)
 }
 
+// Compile schema with referenced schemas into one schema
+// schema ... JSON Schema object
+// schemaDirectory ... local filesystem directory to use when searching for remote schemas
+// return ... promise
+function compileSchema(schema, schemaDirectory) {
+  return new Promise((resolve, reject) => {
+
+    let schemaRefs = {} // Cache of resolved schemas
+    const ajv = createSchemaProcessor(schemaDirectory, schemaRefs)
+    ajv.compileAsync(schema)
+      .then((validate) => {
+        let compiledSchema = schema
+
+        // Append definitions if not available
+        if (compiledSchema['definitions'] === undefined) {
+          compiledSchema['definitions'] = {}
+        }
+
+        // Enumerate load cache and add schemas
+        for (const id of Object.keys(schemaRefs)) {
+          const resolvedSchema = schemaRefs[id];
+          compiledSchema.definitions[id] = resolvedSchema
+        }
+
+        resolve(compiledSchema)
+      })
+  })
+}
 module.exports = {
   validateMetaSchema,
-  validateSchema
+  validateSchema,
+  compileSchema
 }
