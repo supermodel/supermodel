@@ -7,21 +7,21 @@ description: User of supermodel.io
 properties:
   name:
     type: string
-    
+
   email:
     type: string
 
   layers:
     type: array
-    items: 
-    # - $ref: 'Layer'    
+    items:
+    - $ref: 'Layer'
     # - $ref: '#/definitions/Layer'
-    - $ref: 'http://supermodel.io/supermodel/Layer'
-    
-  # teams:
-  #   type: array
-  #   items:
-  #   - $ref: 'Team'
+    # - $ref: 'http://supermodel.io/supermodel/Layer'
+
+  teams:
+    type: array
+    items:
+    - $ref: 'Team'
 
 examples:
 - name: Zdenek Nemec
@@ -29,10 +29,10 @@ examples:
   layers: []
   teams: []
 
-definitions: 
+definitions:
   Layer:
     type: object
 
   # X:
-  #  $id: 'http://supermodel.io/supermodel/Layer' 
+  #  $id: 'http://supermodel.io/supermodel/Layer'
   #  type: object

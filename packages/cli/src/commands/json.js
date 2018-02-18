@@ -6,8 +6,8 @@ function runJSON(yamlSchemaFile) {
     console.log(json);
   }
   catch (e) {
-    if (e.message) console.log(e.message)
-    else console.log(e)
+    if (e.message) console.error(e.message)
+    else console.error(e)
     process.exit(1)
   }
 }

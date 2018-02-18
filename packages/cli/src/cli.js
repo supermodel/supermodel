@@ -21,13 +21,6 @@ defineProgram({
 }, function (program) {
 
   program
-    .command('hello')
-    .description('Prints greeting')
-    .action(() => {
-      console.log('hello world')
-    })
-
-  program
     .command('json <yamlSchemaFile>')
     .description('Convert YAML representation of a JSON Schema into JSON representation')
     .action((yamlSchemaFile) => runJSON(yamlSchemaFile))
@@ -36,5 +29,4 @@ defineProgram({
     .command('validate-schema <yamlSchemaFile>')
     .description('Validate JSON Schema YAML representation')
     .action((yamlSchemaFile) => runValidateSchema(yamlSchemaFile))
-
 })
