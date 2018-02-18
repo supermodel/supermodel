@@ -3,7 +3,6 @@ const jsYaml = require('js-yaml')
 const schema = require('../lib/schema')
 const yaml = require('../lib/readYAML')
 
-
 function runCompileSchema(yamlSchemaFile) {
   try {
     const schemaObject = yaml.readYAMLFile(yamlSchemaFile)
