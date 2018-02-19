@@ -1,6 +1,6 @@
 const supportedKeys = ['title', 'multipleOf', 'maximum', 'exclusiveMaximum', 'minimum', 'exclusiveMinimum', 'maxLength', 'minLength', 'pattern', 'maxItems', 'minItems', 'uniqueItems', 'maxProperties', 'minProperties', 'required', 'enum', 'description', 'format', 'default']
 
-const schemaObjectArrayKeys = ['allOf', 'anyOf', 'oneOf']
+const schemaObjectArrayKeys = ['allOf', 'anyOf', 'oneOf'] // anyOf and oneOf are not really supported by OAS2, but we will pass through and let user to decide
 
 const schemaObjectKeys = ['not', 'additionalProperties']
 
@@ -36,7 +36,6 @@ function convertSchemaObjectProperty(key, value, basePath, definitions) {
 
   // Arrays of Schema Objects
   if (schemaObjectArrayKeys.includes(key)) {
-    // TODO: enumerate array
     let itemsArray = []
     value.forEach((element) => {
       itemsArray.push(convertSchemaObject(element, basePath, definitions))
