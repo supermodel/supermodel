@@ -2,6 +2,9 @@
 
 <http://supermodel.io>
 
+```
+$ npm i -g supermodel-cli
+```
 
 ## Usage
 
