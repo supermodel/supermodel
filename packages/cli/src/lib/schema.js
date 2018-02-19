@@ -1,31 +1,41 @@
 const Ajv = require('ajv')
 const path = require('path')
+const { URL } = require('url');
+
 const yaml = require('../lib/readYAML')
 
 const META_SCHEMA = 'http://json-schema.org/draft-07/schema#'
 
 // Helper function to create schema processor / validator
 // return ... ajv instance
-function createSchemaProcessor(schemaDirectory, schemaRefs) {
+function createSchemaProcessor(schemaDirectory, schemaRefs, schemaId) {
   return new Ajv({
     allErrors: true,
     verbose: true,
     missingRefs: true,
     jsonPointers: true,
-    loadSchema: (schemaDirectory || schemaRefs) ? schemaLoader(schemaDirectory, schemaRefs) : undefined,
+    loadSchema: (schemaDirectory || schemaRefs) ? schemaLoader(schemaDirectory, schemaRefs, schemaId) : undefined,
     validateSchema: false
   })
 }
 
 // Helper function to load remote schema
-function schemaLoader(schemaDirectory, schemaRefs) {
+function schemaLoader(schemaDirectory, schemaRefs, schemaId) {
   return (uri) => {
     // Attempt to resolve schema uri as a local file
-    const fileName = uri.substr(uri.lastIndexOf('/') + 1) + '.yaml'
-    const filePath = path.join(schemaDirectory, fileName)
     let remoteSchema
     let errorMessage
+    let filePath
     try {
+      const targetPathName = new URL(uri).pathname
+      const targetFile = path.basename(targetPathName) + '.yaml'
+      const targetPath = path.dirname(targetPathName)
+      const sourcePath = path.dirname(new URL(schemaId).pathname)
+      // console.log(`target: ${targetPath}, source: ${sourcePath}, dir: ${schemaDirectory}`)
+      const relative = path.relative(sourcePath, targetPath)
+      // console.log(`relative: ${relative}`)
+      filePath = path.join(schemaDirectory, relative, targetFile)
+      // console.log(`attempted path: ${filePath}`)
       remoteSchema = yaml.readYAMLFile(filePath)
 
       // Validate remote meta schema
@@ -86,7 +96,7 @@ function validateSchema(schema, schemaDirectory) {
   validateMetaSchema(schema)
 
   // Next, try to compile the Schema
-  const ajv = createSchemaProcessor(schemaDirectory)
+  const ajv = createSchemaProcessor(schemaDirectory, undefined, schema['$id'])
 
   return ajv.compileAsync(schema)
 }
@@ -99,7 +109,7 @@ function compileSchema(schema, schemaDirectory) {
   return new Promise((resolve, reject) => {
 
     let schemaRefs = {} // Cache of resolved schemas
-    const ajv = createSchemaProcessor(schemaDirectory, schemaRefs)
+    const ajv = createSchemaProcessor(schemaDirectory, schemaRefs, schema['$id'])
     ajv.compileAsync(schema)
       .then((validate) => {
         let compiledSchema = schema

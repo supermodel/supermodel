@@ -1,0 +1,8 @@
+$id: http://supermodel.io/domains/core/CoreModel
+
+title: Core Model
+type: object
+
+properties: 
+  property:
+    $ref: http://supermodel.io/domains/supporting/SupportingModel
