@@ -1,6 +1,6 @@
 const Ajv = require('ajv')
 const path = require('path')
-const { URL } = require('url');
+const { URL } = require('url')
 
 const yaml = require('../lib/readYAML')
 
