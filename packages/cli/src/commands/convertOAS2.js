@@ -9,7 +9,7 @@ function runConvertToOAS2(yamlSchemaFile) {
     console.log(jsYaml.safeDump(oas2SchemaObject))
   }
   catch (e) {
-    if (e.message) console.error(e.message)
+    if (e.message) console.error(e)
     else console.error(e)
     process.exit(1)
   }

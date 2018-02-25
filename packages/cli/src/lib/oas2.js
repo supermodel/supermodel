@@ -66,7 +66,7 @@ function convertSchemaObject(schema, rootId, currentId, definitions) {
 //
 // key ... key of the property being converted
 // value ... value of the property being converted
-// rootId ... root model id, used to resolve remote schema references
+// rootId ... root model id, used to resolve remote schema references   TODO: root id might be no longer needed
 // currentId ... id of the model being processed, used to resolve remote schema references
 // definitions ... a dictionary to place nested definitions into
 // return ... { key, value } tuple or undefined if conversion failed
@@ -106,9 +106,8 @@ function convertSchemaObjectProperty(key, value, rootId, currentId, definitions)
         // Handle definitions differently, see below for details
         let fullURI = dictKey
         if (!isURL(fullURI)) {
-          fullURI = `${rootId}#/definitions/${dictKey}`
+          fullURI = `${currentId}#/definitions/${dictKey}`
         }
-
         resultDictionary[convertURItoStringId(fullURI)] = resultSchemaObject
       }
     }
@@ -157,7 +156,7 @@ function convertSchemaObjectProperty(key, value, rootId, currentId, definitions)
       // We need to add "namespace" to the local reference to prevent clash in 
       // OAS2 flat definitions 
       const refValue = value.replace('#/definitions/', '')
-      const fullURI = `${rootId}/definitions/${refValue}`
+      const fullURI = `${currentId}#/definitions/${refValue}`
       // TODO: add options to use remote ref       
       return { key, value: `#/definitions/${convertURItoStringId(fullURI)}` }
     }
@@ -174,7 +173,7 @@ function convertSchemaObjectProperty(key, value, rootId, currentId, definitions)
     // Remote schema reference (e.g. $ref: Layer) 
     // OAS2 work-around is to always use full path qualification
     // TODO: add options to use remote ref 
-    const base = rootId.substr(0, rootId.lastIndexOf('/') + 1)
+    const base = currentId.substr(0, currentId.lastIndexOf('/') + 1)
     const fullURI = `${base}${value}`
     return { key, value: `#/definitions/${convertURItoStringId(fullURI)}` }
   }
@@ -209,7 +208,13 @@ function convertToOAS2(schema) {
   let result = {
     definitions: definitions
   }
-  result.definitions[convertURItoStringId(id)] = oas2Schema
+
+  if (id) {
+    result.definitions[convertURItoStringId(id)] = oas2Schema
+  }
+  else {
+    console.warn(`Warning: no id in the root document found`)
+  }
 
   return result
 }

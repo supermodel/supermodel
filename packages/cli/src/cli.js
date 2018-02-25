@@ -3,6 +3,7 @@ const package = require('../package.json')
 const runJSON = require('./commands/json')
 const runValidateSchema = require('./commands/validateSchema')
 const runResolveSchema = require('./commands/resolveSchema')
+const runCompileSchema = require('./commands/compileSchema')
 const runConvertToOAS2 = require('./commands/convertOAS2')
 
 function defineProgram({ description }, callProgram) {
@@ -32,10 +33,10 @@ defineProgram({
     .description('Validate JSON Schema YAML representation. If a directory is provided it validates all files in the directory recursively.')
     .action((path) => runValidateSchema(path))
 
-  // program
-  //   .command('compile-schema <dir>')
-  //   .description('Compile all JSON Schemas in YAML representation found in the directory into one schema recursively.')
-  //   .action((path) => runCompileSchema(path))
+  program
+    .command('compile-schema <dir>')
+    .description('Compile all JSON Schemas in YAML representation found in the directory into one schema recursively.')
+    .action((path) => runCompileSchema(path))
 
   program
     .command('resolve-schema <yamlSchemaFile>')

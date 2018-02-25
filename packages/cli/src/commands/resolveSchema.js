@@ -10,8 +10,8 @@ function runResolveSchema(yamlSchemaFile) {
     
     // Validate schema including references
     schema.compileSchema(schemaObject, cd)
-      .then((compiledSchema) => {
-        console.log(jsYaml.safeDump(compiledSchema))
+      .then((resolvedSchema) => {
+        console.log(jsYaml.safeDump(resolvedSchema))
       })
       .catch((onrejected) => {
         console.error(onrejected)

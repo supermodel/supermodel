@@ -1,35 +1,12 @@
 const path = require('path')
-const fs = require('fs')
 const schema = require('../lib/schema')
 const yaml = require('../lib/readYAML')
-
-function isDirectory(path) {
-  return fs.statSync(path).isDirectory()
-}
-
-function readDirectory(dir) {
-  const content = fs.readdirSync(dir)
-  let files = []
-  content.forEach((file) => {
-    const cur = path.join(dir, file)
-    if (isDirectory(cur)) {
-      files = files.concat(readDirectory(cur))
-    }
-    else {
-      const ext = path.extname(file)
-      if (ext === '.yaml' || ext === '.yml') {
-        files.push(cur)
-      }
-    }
-  })
-  return files
-}
+const utils = require('../lib/utils')
 
 function runValidateSchema(inputPath) {
-
   let inputFiles = []
-  if (isDirectory(inputPath)) {
-    inputFiles = readDirectory(inputPath)
+  if (utils.isDirectory(inputPath)) {
+    inputFiles = utils.readDirectory(inputPath)
   }
   else {
     inputFiles.push(inputPath)
@@ -60,7 +37,6 @@ function runValidateSchema(inputPath) {
       else console.error(e)
       process.exit(1)
     }
-
   })
 }
 
