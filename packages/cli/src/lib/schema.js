@@ -50,7 +50,7 @@ function schemaLoader(schemaDirectory, schemaRefs, schemaId) {
       // log only when not collecting schemas
       // TODO: add verbose CLI flag
       if (!schemaRefs) { 
-        console.log(`loaded '${uri}' from '${filePath}'`)
+        console.info(`loaded '${uri}' from '${filePath}'`)
       }
     
       if (id && schemaRefs) {
@@ -110,6 +110,7 @@ function compileSchema(schema, schemaDirectory) {
 
     let schemaRefs = {} // Cache of resolved schemas
     const ajv = createSchemaProcessor(schemaDirectory, schemaRefs, schema['$id'])
+    console.log('ok')
     ajv.compileAsync(schema)
       .then((validate) => {
         let compiledSchema = schema

@@ -16,7 +16,8 @@ function runValidateSchema(yamlSchemaFile) {
         console.log('ok.')
       })
       .catch((onrejected) => {
-        console.error(onrejected)
+        console.error(`Error: ${onrejected.message}`)
+        // console.error(onrejected)
         process.exit(1)
       })
   }
