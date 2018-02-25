@@ -3,7 +3,7 @@ const jsYaml = require('js-yaml')
 const schema = require('../lib/schema')
 const yaml = require('../lib/readYAML')
 
-function runCompileSchema(yamlSchemaFile) {
+function runResolveSchema(yamlSchemaFile) {
   try {
     const schemaObject = yaml.readYAMLFile(yamlSchemaFile)
     const cd = path.dirname(yamlSchemaFile)
@@ -25,4 +25,4 @@ function runCompileSchema(yamlSchemaFile) {
   }
 }
 
-module.exports = runCompileSchema
+module.exports = runResolveSchema
