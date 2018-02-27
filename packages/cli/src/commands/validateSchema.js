@@ -26,7 +26,7 @@ function runValidateSchema(inputPath) {
           console.log(`Passed: ${file}`)
         })
         .catch((onrejected) => {
-          console.error(`Error: ${onrejected.message}`)
+          console.error(`Error: ${onrejected}`)
           // console.error(onrejected)
           process.exit(1)
         })
