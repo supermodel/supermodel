@@ -57,9 +57,6 @@ function convertURItoStringId(uri) {
   if (appendHash) {
     target += appendHash.slice(1) // skip the leading '#' ie. in #/properties/a
   }
-
-  console.warn(`${target}`)
-
   return target
 }
 
