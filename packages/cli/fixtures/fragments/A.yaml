@@ -1,0 +1,13 @@
+$id: http://supermodel.io/fragments/A
+
+type: object
+
+properties:
+  a:
+    title: a property
+    type: string
+
+definitions:
+  adef: 
+    title: adef property
+    type: string

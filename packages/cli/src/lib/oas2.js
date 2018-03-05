@@ -26,15 +26,39 @@ function isURL(subject) {
 // return ... string id
 function convertURItoStringId(uri) {
   const inputURI = new URL(uri)
+  let source = `${inputURI.hostname}${inputURI.pathname}`
+
+  // If hash fragment is anything else but #/definitions keep do not convert it but append
+  //  for example:
+  //  http://supermodel.io/fragments/A#/definitions/a - needs to be converted including the hash
+  //  http://supermodel.io/fragments/A#/properties/a - the hash needs to be preserved
+  // one has to love OpenAI
+  const hash = inputURI.hash
+  let appendHash
+  if (hash) {
+    if (!hash.startsWith('#/definitions')) {
+      appendHash = hash
+    }
+    else {
+      source += hash
+    }
+  }
+  
   // snakeCase path segments
-  let source = `${inputURI.hostname}${inputURI.pathname}${inputURI.hash}`
   let target = source.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function (match, index) {
     if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
     return index == 0 ? match.toLowerCase() : match.toUpperCase();
   });
 
   // remove '/', '#' and '.' from the URI
-  return target.replace(/\/|\.|#/g, '')
+  target = target.replace(/\/|\.|#/g, '')
+  
+  // Append hash, that has not been converted
+  if (appendHash) {
+    target += appendHash
+  }
+
+  return target
 }
 
 // Helper function to convert a JSON Schema object to OAS2 Schema object

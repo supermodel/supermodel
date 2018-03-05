@@ -1,0 +1,12 @@
+$id: http://supermodel.io/fragments/B
+type: object
+
+properties:
+  b1:
+    $ref: http://supermodel.io/fragments/A#/properties/a
+  
+  b2:
+    $ref: A#/properties/a
+
+  b3:
+    $ref: A#/definitions/adef
