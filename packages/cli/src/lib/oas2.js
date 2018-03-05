@@ -31,7 +31,7 @@ function convertURItoStringId(uri) {
   // If hash fragment is anything else but #/definitions keep do not convert it but append
   //  for example:
   //  http://supermodel.io/fragments/A#/definitions/a - needs to be converted including the hash
-  //  http://supermodel.io/fragments/A#/properties/a - the hash needs to be preserved
+  //  http://supermodel.io/fragments/A#/properties/a - the hash needs to be preserved as '/properties/a'
   // one has to love OpenAI
   const hash = inputURI.hash
   let appendHash
@@ -55,8 +55,10 @@ function convertURItoStringId(uri) {
   
   // Append hash, that has not been converted
   if (appendHash) {
-    target += appendHash
+    target += appendHash.slice(1) // skip the leading '#' ie. in #/properties/a
   }
+
+  console.warn(`${target}`)
 
   return target
 }
