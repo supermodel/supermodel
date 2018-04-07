@@ -1,6 +1,59 @@
-# Supermodel CLI Tool
+# Supermodel CLI
 
-<http://supermodel.io>
+[<img src="supermodel.svg" width="200">](http://supermodel.io)
+
+The Supermodel CLI is used to manage JSON Schema models from the command line.
+
+For more information about Supermodel visit <https://supermodel.io>.
+
+## Overview
+This CLI tool enables management and use of Supermodel JSON Schema models.
+
+Supermodel JSON Schema models are JSON schemas files written in YAML format. Usually, with one type per one YAML file.
+
+The CLI tool currently supports the following functionality:
+
+- **YAML to JSON Conversion**
+
+    Converts JSON Schema in YAML format to JSON format
+
+    ```
+    $ supermodel json <yamlSchemaFile>
+    ```
+
+- **JSON Schema Validation**
+
+    Validates JSON Schema meta schema (read: validates that your JSON Schema is valid)
+
+    ```
+    $ supermodel validate-schema <path>
+    ```
+
+- **JSON Schema Compilation**
+
+    Compiles multiple Supermodel JSON Schema model files into one
+
+    ```
+    $ supermodel compile-schema <dir>
+    ```
+
+- **Resolve JSON Schema References**
+
+    Resolves all remote `$ref`s in a Supermodel JSON Schema model file, transcluding the referenced definitions in the output schema file
+
+    ```
+    $ supermodel resolve-schema <yamlSchemaFile>
+    ```
+
+- **Conversion to OpenAPI Specification 2.0**
+
+    Converts Supermodel JSON Schema model to [OpenAPI Specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) definitions object
+
+    ```
+    $ supermodel oas2 <yamlSchemaFile>
+    ```
+
+## Installation
 
 ```
 $ npm i -g supermodel-cli
@@ -8,58 +61,16 @@ $ npm i -g supermodel-cli
 
 ## Usage
 
-### Schema Validation 
+### Validate Data Models in CI/CD Pipeline
+
+Supermodel CLI is a CI/CD compliant CLI tool, that is it's `validate-schema` command can be used as a part of CI testing, to validate the data models against its meta schema
 
 ```
-validate-schema <yamlSchemaFile>  Validate JSON Schema YAML representation
+$ supermodel validate-schema <path>
+$ echo $?
+0
 ```
 
-Validates a JSON Schema in YAML format against [meta schema](http://json-schema.org/specification.html) 
-including any referenced remote schemas ([$ref](http://json-schema.org/latest/json-schema-core.html#rfc.section.8)).
+## A Good API Project
 
-Referenced remote schemas are resolved first from the local file system. The 
-parent directory of the `<yamlSchemaFile>` is used as the base path for
-resolving referenced schemas.
-
-```
-$ ./bin/supermodel validate-schema ./fixtures/supermodel/User.yaml
-loaded 'http://supermodel.io/supermodel/Layer' from 'fixtures/supermodel/Layer.yaml'
-loaded 'http://supermodel.io/supermodel/Model' from 'fixtures/supermodel/Model.yaml'
-loaded 'http://supermodel.io/supermodel/Team' from 'fixtures/supermodel/Team.yaml'
-loaded 'http://supermodel.io/supermodel/Address' from 'fixtures/supermodel/Address.yaml'
-ok.
-```
-
-### Schema Compilation
-
-```
-compile-schema <yamlSchemaFile>   Compile JSON Schema YAML representation, resolving every references
-```
-
-Compiles the target schema `<yamlSchemaFile>`, resolving its remote schema
- references into one JSON Schema file in YAML format.
-
-Note: Does not validates the target schema file.
-
-```
-$ ./bin/supermodel compile-schema ./fixtures/supermodel/Team.yaml > compiled.yaml
-$ ./bin/supermodel validate-schema compiled.yaml
-ok.
-```
-
-### Conversion to OAS2
-
-```
-oas2 <yamlSchemaFile>             Convert JSON Schema YAML representation to OpenAPI Specification 2.0 definitions. Doesn't resolve remote schema references.
-```
-
-Converts the target schema `<yamlSchemaFile>` into [OpenAPI Specification 2.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#schemaObject) definitions.
-
-The conversion drops unsupported properties by OAS2. It also "flattens" all 
-definitions, since in OAS2 you can't have nested definitions. Finally all remote
-schema references using relative identifiers are fully quantified.
-
-```
-$ ./bin/supermodel compile-schema ./fixtures/supermodel/Team.yaml > compiled.yaml
-$ ./bin/supermodel oas2 ./compiled.yaml
-```
+Supermodel and Supermodel CLI are Good API (<http://goodapi.co>) non-profit projects, aimed and promoting and improving modern, reusable, and sustainable data modeling.
