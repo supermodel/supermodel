@@ -71,6 +71,59 @@ $ echo $?
 0
 ```
 
+### Convert Data Models into Self-contained OpenAPI Spec Definitions Object
+
+```
+$ supermodel compile-schema <dir> > compiled-data-model.yaml
+$ supermodel resolve-schema compiled-data-model.yaml > resolved-data-model.yaml
+$ supermodel oas2 resolved-data-model.yaml
+```
+
+### Supermodel JSON Schema Model
+
+A Supermodel model is a plain [JSON Schema (draft 7)](http://json-schema.org/specification.html) schema file in YAML format. It is customary that Supermodel model contains a top-level type definition, its title and it starts with the model (`$id`).
+
+At minimum a Supermodel model file looks like:
+
+```yaml
+$id: http://supermodel.io/username/MyModel
+
+title: My Model
+type: object
+```
+
+A Supermodel model might reference another model as defined in [JSON Schema references with `$ref`](http://json-schema.org/latest/json-schema-core.html#rfc.section.8):
+
+
+```yaml
+$id: http://supermodel.io/username/MyModel
+
+title: My Model
+type: object
+
+properties:
+  someProperty:
+    $ref: http://supermodel.io/username/AnotherModel
+```
+
+If the referenced model `http://supermodel.io/username/AnotherModel` shares the same URI base with the `$id` of the referencing model (in this case `http://supermodel.io/username/MyModel`) a relative identifier might be used:
+
+```yaml
+$id: http://supermodel.io/username/MyModel
+
+title: My Model
+type: object
+
+properties:
+  someProperty:
+    $ref: AnotherModel
+```
+
+
+
+
+
+
 ## A Good API Project
 
 Supermodel and Supermodel CLI are Good API (<http://goodapi.co>) non-profit projects, aimed and promoting and improving modern, reusable, and sustainable data modeling.
