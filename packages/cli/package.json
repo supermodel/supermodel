@@ -1,6 +1,6 @@
 {
   "name": "supermodel-cli",
-  "version": "0.18.1",
+  "version": "0.19.0",
   "description": "Supermodel command tool",
   "main": "index.js",
   "scripts": {

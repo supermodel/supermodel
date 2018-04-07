@@ -1,5 +1,6 @@
 const Ajv = require('ajv')
 const path = require('path')
+const fs = require('fs')
 const { URL } = require('url')
 
 const yaml = require('../lib/readYAML')
@@ -28,13 +29,22 @@ function schemaLoader(schemaDirectory, schemaRefs, schemaId) {
     let filePath
     try {
       const targetPathName = new URL(uri).pathname
-      const targetFile = path.basename(targetPathName) + '.yaml'
+      let targetFile = path.basename(targetPathName) + '.yaml'
       const targetPath = path.dirname(targetPathName)
       const sourcePath = path.dirname(new URL(schemaId).pathname)
       // console.log(`target: ${targetPath}, source: ${sourcePath}, dir: ${schemaDirectory}`)
       const relative = path.relative(sourcePath, targetPath)
       // console.log(`relative: ${relative}`)
       filePath = path.join(schemaDirectory, relative, targetFile)
+
+      if (!fs.existsSync(filePath)) {
+        // .yaml not found, try .yml
+        targetFile = path.basename(targetPathName) + '.yml'
+        filePath = path.join(schemaDirectory, relative, targetFile)
+        if (!fs.existsSync(filePath)) {
+          throw Error(`no such file; ${filePath} (or .yaml)`)
+        }
+      }
       // console.log(`attempted path: ${filePath}`)
       remoteSchema = yaml.readYAMLFile(filePath)
 
@@ -68,7 +78,7 @@ function schemaLoader(schemaDirectory, schemaRefs, schemaId) {
       }
       else {
         // TODO: use fetch() and resolve schema from web
-        reject(`Error: unable to resolve the schema '${uri}'` + errorMessage)
+        reject(`unable to resolve the schema '${uri}'` + errorMessage)
       }
     })
   }
