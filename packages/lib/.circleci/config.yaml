@@ -1,27 +1,31 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
 version: 2
 jobs:
   build:
-    working_directory: ~/superlib
     docker:
-      - image: circleci/node:8.10.0
-        environment:
-          - JEST_JUNIT_OUTPUT=reports/junit/js-test-results.xml
+      - image: circleci/node:9.11.1-stretch
+
+    working_directory: ~/repo
+
     steps:
       - checkout
-      # - restore_cache:
-      #     key: dependency-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
+
+      # Download and cache dependencies
       - restore_cache:
-          key: dependency-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
-      - run:
-          name: update npm
-          command: 'sudo npm install -g npm@5.8.0'
-      - run: npm install
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run: yarn install
 
       - save_cache:
-          key: dependency-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
-            - /root/.npm
-      - run:
-          name: test
-          command: npm test
-          environment:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      # run tests!
+      - run: yarn test
