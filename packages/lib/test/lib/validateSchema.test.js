@@ -28,6 +28,6 @@ test('validate invalid schema', () => {
 
   expect.assertions(1)
   return validateSchema(schema, loader).catch(e =>
-    expect(e).toBeFalsy()
+    expect(e).toBeDefined()
   )
 })
