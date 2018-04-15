@@ -1,0 +1,9 @@
+$id: http://supermodel.io/superlib/references/AValidB
+
+tilte: A
+type: object
+
+properties:
+  b:
+    $ref: ValidB
+

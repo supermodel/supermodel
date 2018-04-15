@@ -1,0 +1,8 @@
+$id: http://supermodel.io/superlib/references/AInvalidB
+
+tilte: A
+type: object
+
+properties:
+  b:
+    $ref: InvalidB

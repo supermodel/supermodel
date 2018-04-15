@@ -6,7 +6,7 @@ const {
 // Validate schema against its meta schema (e.g., draft-07)
 //  throws error if schema is not valid against its meta schema
 //
-// @param {string} schema - JSON Schema object
+// @param {object} schema - JSON Schema object
 // @throws {Error} - Throws Error object when validation fails
 function validateMetaSchema(schema) {
   const ajv = createSchemaProcessor()
