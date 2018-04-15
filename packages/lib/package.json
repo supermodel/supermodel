@@ -22,5 +22,9 @@
   "homepage": "https://github.com/supermodel/superlib#readme",
   "devDependencies": {
     "jest": "^22.4.3"
+  },
+  "dependencies": {
+    "ajv": "^6.4.0",
+    "js-yaml": "^3.11.0"
   }
 }
