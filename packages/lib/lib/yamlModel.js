@@ -50,7 +50,7 @@ function convertYAMLFileToJSON(path, indentation = 0) {
 // @param {number} indentation - Number of spaces to use for indentation
 // @return {string} - JSON string buffer
 function convertYAMLToJSON(yamlBuffer, indentation = 0) {
-  return JSON.stringify(parsedYAML, null, indentation)
+  return JSON.stringify(yamlBuffer, null, indentation)
 }
 
 module.exports = {
