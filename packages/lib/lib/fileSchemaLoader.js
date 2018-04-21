@@ -7,9 +7,8 @@ const validateMetaSchema = require('./validateMetaSchema');
 // Create a schema loader that attempts to load referenced schemas from a local filesystem
 // @param {string} rootSchemaURI - URI / $id of the root schema
 // @param {string} rootSchemaDirectory - Directory of the root schema file
-// @param {object} loadedRefs - Optional dictionary to store loaded schema into
 // @return {function(uri: string): Promise}
-function createFileSchemaLoader(rootSchemaURI, rootSchemaDirectory, loadedRefs) {
+function createFileSchemaLoader(rootSchemaURI, rootSchemaDirectory) {
   return (uri) => {
     return new Promise((resolve, reject) => {
       let loadedSchema, errorMessage, filePath
@@ -46,10 +45,6 @@ function createFileSchemaLoader(rootSchemaURI, rootSchemaDirectory, loadedRefs) 
   
         // Logging
         // console.info(`loaded '${uri}' from '${filePath}'`)
-  
-        if (id && loadedRefs) {
-          loadedRefs[id] = loadedSchema
-        }
       }
       catch (e) {
         errorMessage = `\nError: unable to load '${filePath}' as '${uri}'`

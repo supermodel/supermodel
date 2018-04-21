@@ -12,9 +12,7 @@ function validateSchema(schema, schemaLoader) {
     validateMetaSchema(schema)
   }
   catch (e) {
-    return new Promise((resolve, reject) => {
-      reject(e)
-    })
+    return Promise.reject(e)
   }
 
   // Next, try to compile the schema

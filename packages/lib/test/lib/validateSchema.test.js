@@ -2,8 +2,6 @@ const { readYAMLFile } = require ('../../lib/yamlModel')
 const validateSchema = require('../../lib/validateSchema')
 const fileSchemaLoader = require('../../lib/fileSchemaLoader')
 
-// createFileSchemaLoader(rootSchemaURI, rootSchemaDirectory, loadedRefs)
-
 test('validate valid schema', () => {
   const schema = readYAMLFile('./fixtures/references/AValidB.yaml')
   loader = fileSchemaLoader(schema['$id'], './fixtures/references/')
