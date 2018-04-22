@@ -1,2 +1,10 @@
 #!/usr/bin/env node
-require('../src/cli')
+const program = require('commander')
+const package = require('../package.json')
+
+program
+  .version(package.version)
+  .command('schema [command]', 'validate, compile or resolve JSON Schema YAML representation of a model')
+  .command('model [command]', 'create and manage a model')
+  .command('help', 'display this help', {isDefault: true})
+  .parse(process.argv);

@@ -18,7 +18,7 @@ The CLI tool currently supports the following functionality:
     Converts JSON Schema in YAML format to JSON format
 
     ```
-    $ supermodel json <yamlSchemaFile>
+    $ supermodel schema json <modelPath>
     ```
 
 - **JSON Schema Validation**
@@ -26,7 +26,7 @@ The CLI tool currently supports the following functionality:
     Validates JSON Schema meta schema (read: validates that your JSON Schema is valid)
 
     ```
-    $ supermodel validate-schema <path>
+    $ supermodel schema validate <path>
     ```
 
 - **JSON Schema Compilation**
@@ -34,7 +34,7 @@ The CLI tool currently supports the following functionality:
     Compiles multiple Supermodel JSON Schema model files into one
 
     ```
-    $ supermodel compile-schema <dir>
+    $ supermodel schema compile <dir>
     ```
 
 - **Resolve JSON Schema References**
@@ -42,7 +42,7 @@ The CLI tool currently supports the following functionality:
     Resolves all remote `$ref`s in a Supermodel JSON Schema model file, transcluding the referenced definitions in the output schema file
 
     ```
-    $ supermodel resolve-schema <yamlSchemaFile>
+    $ supermodel schema resolve <modelPath>
     ```
 
 - **Conversion to OpenAPI Specification 2.0**
@@ -50,7 +50,7 @@ The CLI tool currently supports the following functionality:
     Converts Supermodel JSON Schema model to [OpenAPI Specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) definitions object
 
     ```
-    $ supermodel oas2 <yamlSchemaFile>
+    $ supermodel schema oas2 <modelPath>
     ```
 
 ## Installation
@@ -66,7 +66,7 @@ $ npm i -g supermodel-cli
 Supermodel CLI is a CI/CD compliant CLI tool, that is it's `validate-schema` command can be used as a part of CI testing, to validate the data models against its meta schema
 
 ```
-$ supermodel validate-schema <path>
+$ supermodel schema validate <path>
 $ echo $?
 0
 ```
@@ -74,14 +74,14 @@ $ echo $?
 ### Convert Data Models into Self-contained OpenAPI Spec Definitions Object
 
 ```
-$ supermodel compile-schema <dir> > compiled-data-model.yaml
-$ supermodel resolve-schema compiled-data-model.yaml > resolved-data-model.yaml
-$ supermodel oas2 resolved-data-model.yaml
+$ supermodel schema compile <dir> > compiled-data-model.yaml
+$ supermodel schema resolve compiled-data-model.yaml > resolved-data-model.yaml
+$ supermodel schema oas2 resolved-data-model.yaml
 ```
 
 ### Supermodel JSON Schema Model
 
-A Supermodel model is a plain [JSON Schema (draft 7)](http://json-schema.org/specification.html) schema file in YAML format. It is customary that Supermodel model contains a top-level type definition, its title and it starts with the model (`$id`).
+A Supermodel model (hereafter just "model") is a plain [JSON Schema (draft 7)](http://json-schema.org/specification.html) schema file in YAML format. It is customary that Supermodel model contains a top-level type definition, its title and it starts with the model (`$id`).
 
 At minimum a Supermodel model file looks like:
 

@@ -2,7 +2,7 @@ const path = require('path')
 const fs = require('fs')
 const jsYaml = require('js-yaml')
 const superlib = require('superlib')
-const utils = require('../lib/utils')
+const utils = require('../../lib/utils')
 
 function runCompileSchema(dir) {
   if (!utils.isDirectory(dir)) {

@@ -1,0 +1,38 @@
+const program = require('commander')
+const runConvertToJSON = require('./json')
+const runValidateSchema = require('./validate')
+const runResolveSchema = require('./resolve')
+const runCompileSchema = require('./compile')
+const runConvertToOAS2 = require('./convertOAS2')
+const package = require('../../../package.json')
+
+program
+  .version(package.version)
+
+program
+  .command('validate <path>')
+  .description('Validate given model. If a directory is provided it validates all models in the directory recursively.')
+  .action((path) => runValidateSchema(path))
+
+program
+  .command('compile <dir>')
+  .description('Compile all models in the given directory into one, recursive.')
+  .action((dir) => runCompileSchema(dir))
+
+program
+  .command('resolve <modelPath>')
+  .description('Resolves given model remote references.')
+  .action((modelPath) => runResolveSchema(modelPath))
+
+program
+  .command('oas2 <modelPath>')
+  .description('Convert given model to OpenAPI Specification 2.0 definitions.')
+  .action((modelPath) => runConvertToOAS2(modelPath))
+
+program
+  .command('json <modelPath>')
+  .description('Convert given model to JSON Schema (JSON).')
+  .action((modelPath) => runConvertToJSON(modelPath))
+
+program
+  .parse(process.argv);

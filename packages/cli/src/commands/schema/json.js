@@ -1,6 +1,6 @@
 const superlib = require('superlib')
 
-function runJSON(yamlSchemaFile) {
+function runConvertToJSON(yamlSchemaFile) {
 
   try {
     const json = superlib.yamlModel.convertYAMLFileToJSON(yamlSchemaFile, 2)
@@ -13,4 +13,4 @@ function runJSON(yamlSchemaFile) {
   }
 }
 
-module.exports = runJSON
+module.exports = runConvertToJSON

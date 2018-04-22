@@ -1,6 +1,6 @@
 const path = require('path')
 const superlib = require('superlib')
-const utils = require('../lib/utils')
+const utils = require('../../lib/utils')
 
 function runValidateSchema(inputPath) {
   let inputFiles = []
