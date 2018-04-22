@@ -1,6 +1,5 @@
 const path = require('path')
-const schema = require('../lib/schema')
-const yaml = require('../lib/readYAML')
+const superlib = require('superlib')
 const utils = require('../lib/utils')
 
 function runValidateSchema(inputPath) {
@@ -15,13 +14,14 @@ function runValidateSchema(inputPath) {
   inputFiles.forEach((file) => {
     try {
       // Parse YAML input
-      const schemaObject = yaml.readYAMLFile(file)
+      const schemaObject = superlib.yamlModel.readYAMLFile(file)
 
       // Get working directory for resolving local remote schemas
       const cd = path.dirname(file)
 
       // Validate schema including references
-      schema.validateSchema(schemaObject, cd)
+      const loader = superlib.fileSchemaLoader(schemaObject['$id'], cd)
+      superlib.validateSchema(schemaObject, loader)
         .then(() => {
           console.log(`Passed: ${file}`)
         })

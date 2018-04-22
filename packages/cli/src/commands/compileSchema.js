@@ -1,8 +1,7 @@
 const path = require('path')
 const fs = require('fs')
 const jsYaml = require('js-yaml')
-const schema = require('../lib/schema')
-const yaml = require('../lib/readYAML')
+const superlib = require('superlib')
 const utils = require('../lib/utils')
 
 function runCompileSchema(dir) {
@@ -16,7 +15,7 @@ function runCompileSchema(dir) {
   
   inputFiles.forEach((file) => {
     try {
-      const schema = yaml.readYAMLFile(file)
+      const schema = superlib.yamlModel.readYAMLFile(file)
       const id = schema['$id']
       if (!id) {
         console.warn(`Warning: ignoring schema without id (${file})`)
@@ -33,7 +32,6 @@ function runCompileSchema(dir) {
     }
   })
 
-  // Dump result
   console.log(jsYaml.safeDump(compiledSchema))
 }
 
