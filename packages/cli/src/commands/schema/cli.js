@@ -34,5 +34,16 @@ program
   .description('Convert given model to JSON Schema (JSON).')
   .action((modelPath) => runConvertToJSON(modelPath))
 
+// Contribution welcomed <3
 program
-  .parse(process.argv);
+  .command('oas3 <modelPath>')
+  .description('Convert given model to OpenAPI Specification 3.0 definitions.')
+  .action((modelPath) => { console.error('not implemented') })
+
+program
+  .command('graphql <modelPath>')
+  .description('Convert given model to GraphQL Schema.')
+  .action((modelPath) => { console.error('not implemented') })
+
+program
+  .parse(process.argv)

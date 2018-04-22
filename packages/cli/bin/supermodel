@@ -1,10 +1,21 @@
 #!/usr/bin/env node
 const program = require('commander')
+
+const runInit = require('../src/commands/init')
 const package = require('../package.json')
 
 program
   .version(package.version)
-  .command('schema [command]', 'validate, compile or resolve JSON Schema YAML representation of a model')
-  .command('model [command]', 'create and manage a model')
-  .command('help', 'display this help', {isDefault: true})
-  .parse(process.argv);
+  .command('schema [command]', 'Validate, compile or resolve JSON Schema YAML representation of a model.')
+  .command('model [command]', 'Create and manage a model.')
+
+program
+  .command('init <baseId>')
+  .description('Creates and initializes the supermodel directory.')
+  .action((baseUri) => { runInit(baseUri); process.exit(0) })
+
+program
+  .command('help', 'display this help', { isDefault: true })
+
+program
+  .parse(process.argv)
