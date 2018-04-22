@@ -2,16 +2,53 @@
 
 [<img src="supermodel.svg" width="200">](http://supermodel.io)
 
-The Supermodel CLI is used to manage JSON Schema models from the command line.
+The Supermodel CLI is used to manage and work with JSON Schema YAML models from the command line.
 
 For more information about Supermodel visit <https://supermodel.io>.
 
 ## Overview
-This CLI tool enables management and use of Supermodel JSON Schema models.
+Supermodel JSON Schema models are JSON schemas files written in YAML format. Usually, with one type per one YAML file. See [Supermodel JSON Schema Model](#supermodel-json-schema-model) for more details about the Supermodel Model.
 
-Supermodel JSON Schema models are JSON schemas files written in YAML format. Usually, with one type per one YAML file.
 
-The CLI tool currently supports the following functionality:
+## Installation
+
+```
+$ npm i -g supermodel-cli
+```
+
+## Getting Started
+After the installation, initialize the current directory for the use with Supermodel:
+
+```
+$ supermodel init http://acme.com/
+```
+
+The first parameter (`http://acme.com/`) of the `init` command should represent your application, team or project domain. This domain will be used as the base path for all the model identifiers created in the initialized supermodel directory. This parameter MUST be in the for of a URI but it doesn't have to be resolvable. 
+
+After you have initialized the supermodel directory, step into it: 
+
+```
+$ cd ./supermodel
+```
+
+And go ahead and create your first model: 
+
+```
+$ supermodel 
+model 'MyModel' created as /Users/you/supermodel/MyModel.yaml
+```
+
+```
+$ ls
+MyModel.yaml
+```
+
+You can open `MyModel.yaml` in an editor and edit it as necessary. When you are ready to create your next models simply use the `supermodel model create <name>` command again. You can also nest models in directories as long as they are nested under the initial supermodel directory.
+
+Refer to [Supermodel JSON Schema Model](#supermodel-json-schema-model) for more details about the Supermodel Model or learn about some [usage examples](#Usage-Examples)
+
+## JSON Schema Functionality
+This CLI tool currently supports the following JSON schema operations:
 
 - **YAML to JSON Conversion**
 
@@ -53,13 +90,7 @@ The CLI tool currently supports the following functionality:
     $ supermodel schema oas2 <modelPath>
     ```
 
-## Installation
-
-```
-$ npm i -g supermodel-cli
-```
-
-## Usage
+## Usage Examples
 
 ### Validate Data Models in CI/CD Pipeline
 
@@ -79,7 +110,7 @@ $ supermodel schema resolve compiled-data-model.yaml > resolved-data-model.yaml
 $ supermodel schema oas2 resolved-data-model.yaml
 ```
 
-### Supermodel JSON Schema Model
+## Supermodel JSON Schema Model
 
 A Supermodel model (hereafter just "model") is a plain [JSON Schema (draft 7)](http://json-schema.org/specification.html) schema file in YAML format. It is customary that Supermodel model contains a top-level type definition, its title and it starts with the model (`$id`).
 
@@ -102,7 +133,7 @@ title: My Model
 type: object
 
 properties:
-  someProperty:
+  modelProperty:
     $ref: http://supermodel.io/username/AnotherModel
 ```
 
@@ -115,7 +146,7 @@ title: My Model
 type: object
 
 properties:
-  someProperty:
+  modelProperty:
     $ref: AnotherModel
 ```
 
