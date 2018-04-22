@@ -4,5 +4,9 @@ title: Core Model
 type: object
 
 properties: 
-  property:
-    $ref: http://supermodel.io/domains/supporting/SupportingModel
+  a:
+    $ref: '#/definitions/a'
+
+definitions:
+    a:
+      $ref: http://supermodel.io/domains/supporting/SupportingModel

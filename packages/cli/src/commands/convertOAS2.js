@@ -1,11 +1,10 @@
 const jsYaml = require('js-yaml')
-const yaml = require('../lib/readYAML')
-const convertToOAS2 = require('../lib/oas2')
+const superlib = require('superlib')
 
 function runConvertToOAS2(yamlSchemaFile) {
   try {
-    const schemaObject = yaml.readYAMLFile(yamlSchemaFile)
-    const oas2SchemaObject = convertToOAS2(schemaObject)
+    const schemaObject = superlib.yamlModel.readYAMLFile(yamlSchemaFile)
+    const oas2SchemaObject = superlib.convertToOAS2(schemaObject)
     console.log(jsYaml.safeDump(oas2SchemaObject))
   }
   catch (e) {

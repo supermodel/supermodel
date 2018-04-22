@@ -1,8 +1,9 @@
-const yaml = require('../lib/readYAML')
+const superlib = require('superlib')
 
 function runJSON(yamlSchemaFile) {
+
   try {
-    const json = yaml.readYAMLFileToJSON(yamlSchemaFile, 2)
+    const json = superlib.yamlModel.convertYAMLFileToJSON(yamlSchemaFile, 2)
     console.log(json)
   }
   catch (e) {

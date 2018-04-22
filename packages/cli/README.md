@@ -119,10 +119,7 @@ properties:
     $ref: AnotherModel
 ```
 
-
-
-
-
+See [JSON Schema specification](http://json-schema.org/specification.html) for more about JSON Schema references and JSON pointer.
 
 ## A Good API Project
 

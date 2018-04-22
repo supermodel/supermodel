@@ -6,11 +6,12 @@ const runResolveSchema = require('./commands/resolveSchema')
 const runCompileSchema = require('./commands/compileSchema')
 const runConvertToOAS2 = require('./commands/convertOAS2')
 
-function defineProgram({ description }, callProgram) {
-  program
-    .version(package.version)
+function defineProgram(callProgram) {
+
+  program.version(package.version)
 
   callProgram(program)
+
   program.parse(process.argv)
 
   if (!process.argv.slice(2).length) {
@@ -19,9 +20,12 @@ function defineProgram({ description }, callProgram) {
   }
 }
 
-defineProgram({
-  description: 'Supermodel command tool'
-}, function (program) {
+defineProgram(function (program) {
+  program
+    .command('*')
+    .action(function (command) {
+      console.log(`unknown command '${command}'`)
+    })
 
   program
     .command('json <yamlSchemaFile>')
@@ -48,4 +52,8 @@ defineProgram({
     .description('Convert JSON Schema YAML representation to OpenAPI Specification 2.0 definitions. Doesn\'t resolve remote schema references.')
     .action((yamlSchemaFile) => runConvertToOAS2(yamlSchemaFile))
 
+  program
+    .command('model')
+    .description('Manages model lifecycle')
+    .action((yamlSchemaFile) => console.log('sssa'))
 })
