@@ -34,7 +34,7 @@ $ cd ./supermodel
 And go ahead and create your first model: 
 
 ```
-$ supermodel 
+$ supermodel model create MyModel
 model 'MyModel' created as /Users/you/supermodel/MyModel.yaml
 ```
 
@@ -45,7 +45,7 @@ MyModel.yaml
 
 You can open `MyModel.yaml` in an editor and edit it as necessary. When you are ready to create your next models simply use the `supermodel model create <name>` command again. You can also nest models in directories as long as they are nested under the initial supermodel directory.
 
-Refer to [Supermodel JSON Schema Model](#supermodel-json-schema-model) for more details about the Supermodel Model or learn about some [usage examples](#Usage-Examples)
+Refer to [Supermodel JSON Schema Model](#supermodel-json-schema-model) for more details about the Supermodel Model or learn about some [usage examples](#usage-examples)
 
 ## JSON Schema Functionality
 This CLI tool currently supports the following JSON schema operations:
