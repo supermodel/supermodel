@@ -25,9 +25,13 @@ program
   .action((modelPath) => runResolveSchema(modelPath))
 
 program
-  .command('oas2 <modelPath>')
-  .description('Convert given model to OpenAPI Specification 2.0 definitions.')
-  .action((modelPath) => runConvertToOAS2(modelPath))
+  .command('oas2 <path>')
+  .description('Convert given model or directory to OpenAPI Specification 2.0 definitions.')
+  .option(
+    '-o, --out <oas2Path>',
+    'Replace existing OAS2 file definitions section instead of writing to stdout'
+  )
+  .action((path, command) => runConvertToOAS2(path, command.out))
 
 program
   .command('json <modelPath>')
