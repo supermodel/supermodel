@@ -7,8 +7,13 @@ The Supermodel CLI is used to manage and work with JSON Schema YAML models from 
 For more information about Supermodel visit <https://supermodel.io>.
 
 ## Overview
-Supermodel JSON Schema models are JSON schemas files written in YAML format. Usually, with one type per one YAML file. See [Supermodel JSON Schema Model](#supermodel-json-schema-model) for more details about the Supermodel Model.
+Supermodel JSON Schema models are JSON schemas files written in YAML format. The conventions with Supermodel models is that one YAML file represents one model. See [Supermodel JSON Schema Model](#supermodel-json-schema-model) for more details about the Supermodel Model.
 
+Models can be freely arranged in a directory structure under the `supermodel` directory. The structure might reflect the systems or domains and subdomains of an application to ease further navigation. 
+
+<img src="exampleDiagram.png">
+
+The Supermodel CLI then facilitates the creation of these models as well as working with them. See [Usage Examples](#usage-examples) for some examples of how can be the Supermodel CLI used.
 
 ## Installation
 
