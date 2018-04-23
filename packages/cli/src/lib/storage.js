@@ -31,8 +31,8 @@ function mkdirpSync (targetDir) {
  * @param {string} path
  * @returns
  */
-function resolvePath (path) {
-  return path.join(APP_ROOT, path)
+function resolvePath (filePath) {
+  return path.join(APP_ROOT, filePath)
 }
 
 /**
@@ -70,11 +70,11 @@ function readFileSync (filePath, options) {
  * @param {Object} [options]
  */
 function writeFileSync (filePath, data, options) {
-  return fs.writeFileSync(prepareFile(file), data, options)
+  return fs.writeFileSync(prepareFile(filePath), data, options)
 }
 
 /**
- * Remove file or directory with given apth
+ * Remove file or directory with given path
  * TODO: optimise and remove all parent empty directories
  *
  * @param {string} path

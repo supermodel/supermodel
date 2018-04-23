@@ -108,7 +108,7 @@ function login(username, password) {
     .then(supermodelAuthenticate)
     .then(user => {
       cache.update('user', user)
-      console.log("Login succesfull")
+      console.log("Login successful")
     })
     .catch(error => {
       console.error(`Login failed:`)
