@@ -112,7 +112,7 @@ $ echo $?
 Converts a model or set of models (via `supermodel schema compile`) if `<path>` is a directory into OAS2 definitions. If the `-o` parameter is provided it replaces the definitions section in the existing OAS2 document.
 
 ```
-$ supermodel schema oas2 <path> -o <pathToOAS2>
+$ supermodel schema oas2 <pathToModel(s)> -o <pathToOAS2>
 ```
 
 ## Supermodel JSON Schema Model
