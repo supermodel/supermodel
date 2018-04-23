@@ -107,12 +107,12 @@ $ echo $?
 0
 ```
 
-### Convert Data Models into Self-contained OpenAPI Spec Definitions Object
+### Convert Data Models into Self-contained OpenAPI Spec 2.0
+
+Converts a model or set of models (via `supermodel schema compile`) if `<path>` is a directory into OAS2 definitions. If the `-o` parameter is provided it replaces the definitions section in the existing OAS2 document.
 
 ```
-$ supermodel schema compile <dir> > compiled-data-model.yaml
-$ supermodel schema resolve compiled-data-model.yaml > resolved-data-model.yaml
-$ supermodel schema oas2 resolved-data-model.yaml
+$ supermodel schema oas2 <path> -o <pathToOAS2>
 ```
 
 ## Supermodel JSON Schema Model

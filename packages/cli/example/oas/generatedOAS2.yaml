@@ -20,4 +20,14 @@ definitions:
     properties:
       customerId:
         type: string
-        description: Unique Id of the customer XXXX
+        description: Unique Id of the customer
+  supermodelIoGoodapiExampleMyAppUserUser:
+    title: User
+    description: User model description
+    type: object
+    properties:
+      name:
+        type: string
+        description: Name of the user
+      email:
+        description: Email of the user

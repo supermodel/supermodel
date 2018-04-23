@@ -1,6 +1,8 @@
 const jsYaml = require('js-yaml')
 const fs = require('fs')
 const superlib = require('superlib')
+const utils = require('../../lib/utils')
+const compileSchema = require('../../lib/compileSchema')
 
 const GENERATED_BY_SUPERMODEL = `
 # DO NOT EDIT
@@ -9,17 +11,24 @@ const GENERATED_BY_SUPERMODEL = `
 # http://supermodel.io
 # https://github.com/supermodel/supermodel-cli
 `
-
-function runConvertToOAS2(yamlSchemaFile, oas2Path) {
+// TODO: Break down the spaghetti
+function runConvertToOAS2(path, oas2Path) {
   try {
-    const schemaObject = superlib.yamlModel.readYAMLFile(yamlSchemaFile)
+    let schemaObject
+    if (utils.isDirectory(path)) {
+      schemaObject = compileSchema(path)
+    }
+    else {
+      schemaObject = superlib.yamlModel.readYAMLFile(path)
+    }
+    
     const oas2SchemaObject = superlib.convertToOAS2(schemaObject)
-
     const oas2definitions = `${GENERATED_BY_SUPERMODEL}${jsYaml.safeDump(oas2SchemaObject)}`
     if (oas2Path) {
       if (!fs.existsSync(oas2Path)) {
         throw new Error(`Output OAS2 file doesn't exists (${oas2Path})`)
       }
+
       // Read OAS2 file as string, to preserve formatting
       let oas2Content = fs.readFileSync(oas2Path).toString()
       if (!oas2Content) {
