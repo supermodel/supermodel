@@ -1,0 +1,15 @@
+
+$id: http://supermodel.io/goodapi/example/MyApp/User/Customer
+$schema: http://json-schema.org/draft-07/schema#
+
+title: Customer
+description: Customer model description
+type: object
+
+allOf:
+  - $ref: User
+
+properties:
+  customerId:
+    type: string
+    description: Unique Id of the customer

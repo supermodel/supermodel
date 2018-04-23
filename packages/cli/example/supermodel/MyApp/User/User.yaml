@@ -1,0 +1,15 @@
+
+$id: http://supermodel.io/goodapi/example/MyApp/User/User
+$schema: http://json-schema.org/draft-07/schema#
+
+title: User
+description: User model description
+type: object
+
+properties:
+  name:
+    type: string
+    description: Name of the user
+
+  email:
+    description: Email of the user
