@@ -1,26 +1,19 @@
 #!/usr/bin/env node
 const program = require('commander')
-
 const runInit = require('../src/commands/init')
-const runLogin = require('../src/commands/login')
 const package = require('../package.json')
 
+program.version(package.version)
+
 program
-  .version(package.version)
   .command('schema [command]', 'Validate, compile or resolve JSON Schema YAML representation of a model.')
   .command('model [command]', 'Create and manage a model.')
+  .command('login', 'Login with Auth0 credentials.')
 
 program
   .command('init <baseId>')
   .description('Creates and initializes the supermodel directory.')
   .action((baseUri) => { runInit(baseUri); process.exit(0) })
-
-program
-  .command('login <username> <password>')
-  .description('Log in with Auth0 credentials')
-  .action((username, password) => {
-    runLogin(username, password)
-  })
 
 program
   .command('help', 'display this help', { isDefault: true })
