@@ -2,7 +2,7 @@
 const program = require('commander')
 
 const runInit = require('../src/commands/init')
-const runSignin = require('../src/commands/signin')
+const runLogin = require('../src/commands/login')
 const package = require('../package.json')
 
 program
@@ -16,10 +16,10 @@ program
   .action((baseUri) => { runInit(baseUri); process.exit(0) })
 
 program
-  .command('signin <username> <password>')
-  .description('Sign in with Auth0 credentials')
+  .command('login <username> <password>')
+  .description('Log in with Auth0 credentials')
   .action((username, password) => {
-    runSignin(username, password)
+    runLogin(username, password)
   })
 
 program

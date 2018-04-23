@@ -6,12 +6,12 @@ const auth = new auth0.Authentication({
 });
 
 /**
- * Runs signin command. Authenticate user against Auth0 and store necessary data ... TODO: which one?
+ * Runs login command. Authenticate user against Auth0 and store necessary data ... TODO: which one?
  *
  * @param {string} username
  * @param {string} password
  */
-function signin(username, password) {
+function login(username, password) {
   auth.login({
     realm: 'Username-Password-Authentication',
     username,
@@ -27,4 +27,4 @@ function signin(username, password) {
   });
 }
 
-module.exports = signin
+module.exports = login
