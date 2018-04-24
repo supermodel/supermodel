@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+require('../src/dotenv')
 const program = require('commander')
 const runInit = require('../src/commands/init')
 const package = require('../package.json')

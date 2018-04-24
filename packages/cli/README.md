@@ -157,6 +157,10 @@ properties:
 
 See [JSON Schema specification](http://json-schema.org/specification.html) for more about JSON Schema references and JSON pointer.
 
+## Contribution
+
+After clonning this repository copy .env.development into .env and change variables for your needs.
+
 ## A Good API Project
 
 Supermodel and Supermodel CLI are Good API (<http://goodapi.co>) non-profit projects, aimed and promoting and improving modern, reusable, and sustainable data modeling.
