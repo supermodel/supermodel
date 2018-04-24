@@ -44,6 +44,8 @@ function makePromptQuestions(username = null) {
  * @param {string} credentials.username
  * @param {string} credentials.password
  * @returns {Promise<Object, Error>} returns auth0 user data
+ * @property {string} idToken
+ * @property {Object} user
  */
 function auth0Authenticate({ username, password }) {
   return new Promise((resolve, reject) => {
@@ -54,18 +56,12 @@ function auth0Authenticate({ username, password }) {
     }, (error, response) =>
       error ? reject(error) : resolve(response)
     )
-  }).then(({ accessToken, idToken }) => {
-    return new Promise((resolve, reject) => {
-      auth0.userInfo(accessToken, (error, profile) =>
-        error ? reject(error) : resolve(normalizeProfile(profile))
-      )
-    });
   })
 }
 
 /**
  * Convert auth0 user info into structure of our user.
- * NOTE: duplicate code with supermodel frontend
+ * NOTE: duplicated code with supermodel frontend
  *
  * @param {Object} auth0userInfo
  * @returns {Object} user
@@ -78,26 +74,66 @@ function normalizeProfile(auth0userInfo) {
 /**
  * Register or login in Supermodel app and retrieve user details
  *
- * @param {Object} user
+ * @param {string} accessToken
  * @returns {Promise<Object,Error>} authenticated user
  */
-function supermodelAuthenticate(user) {
-  return fetch('https://supermodel.herokuapp.com/auth0',{
+function supermodelAuthenticate(accessToken) {
+  return new Promise((resolve, reject) => {
+    auth0.userInfo(accessToken, (error, profile) =>
+      error ? reject(error) : resolve(profile)
+    )
+  }).then(profile =>
+    fetch(`${process.env['SUPERMODEL_URL']}/auth0`,{
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        auth0: normalizeProfile(profile)
+      })
+    })
+  ).then(response => {
+    if (response.ok) {
+      return response.json()
+    }
+
+    throw new Error(`Authentication of user failed: ${response.status}`)
+  })
+}
+
+/**
+ * Register supermodel CLI in supermodel app
+ *
+ * @param {string} idToken
+ * @returns {Promise<Object,Error>} application
+ */
+function supermodelRegisterApplication(idToken) {
+  return fetch(`${process.env['SUPERMODEL_URL']}/applications`,{
     method: 'POST',
     headers: {
+      'Authorization': 'Basic ' + idToken,
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      auth0: user
+      application: {
+        name: 'Supermodel CLI'
+      }
     })
-  }).then(response => response.json())
+  }).then(response => {
+    if (response.ok) {
+      return response.json()
+    }
+
+    throw new Error(`Registering of application failed: ${response.status}`)
+  })
 }
 
 /**
  * Runs login command. Authenticate and store data into home folder
  */
-function login(username, password) {
+function login() {
   inquirer
     .prompt(makePromptQuestions(cache.get('loginUsername')))
     .then(credentials => {
@@ -105,9 +141,13 @@ function login(username, password) {
       return credentials
     })
     .then(auth0Authenticate)
-    .then(supermodelAuthenticate)
-    .then(user => {
-      cache.update('user', user)
+    .then(({ accessToken, idToken }) => {
+      return supermodelAuthenticate(accessToken)
+        .then(user => cache.update('user', user))
+        .then(() => supermodelRegisterApplication(idToken))
+        .then(application => cache.update('token', application.token))
+    })
+    .then(() => {
       console.log("Login successful")
     })
     .catch(error => {
