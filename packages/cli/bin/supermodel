@@ -9,12 +9,12 @@ program.version(package.version)
 program
   .command('schema [command]', 'Validate, compile or resolve JSON Schema YAML representation of a model.')
   .command('model [command]', 'Create and manage a model.')
-  .command('login', 'Login with Auth0 credentials.')
+  .command('login', 'Login with Supermodel.io credentials.')
 
 program
-  .command('init <baseId>')
-  .description('Creates and initializes the supermodel directory.')
-  .action((baseUri) => { runInit(baseUri); process.exit(0) })
+  .command('init [layerPath]')
+  .description('Initialize the supermodel directory, create directory structure to match the layerPath if provided.')
+  .action((layerName) => { runInit(layerName); process.exit(0) })
 
 program
   .command('help', 'display this help', { isDefault: true })

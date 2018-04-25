@@ -85,9 +85,10 @@ function unlinkSync (path) {
 }
 
 module.exports = {
+  mkdirpSync,
   dir: APP_ROOT,
   readFileSync,
   resolvePath,
   unlinkSync,
-  writeFileSync
+  writeFileSync,
 }

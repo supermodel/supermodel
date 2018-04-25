@@ -2,33 +2,37 @@ const fs = require('fs')
 const path = require('path')
 
 const SUPERMODEL_DIR_NAME = 'supermodel'
-const SUPERMODEL_CONFIG_FILENAME = '.config.yaml'
-const SUPERMODEL_CONFIG_FILE = {
-  '$id': ''
-}
+// TODO: Remove
+// const SUPERMODEL_CONFIG_FILENAME = '.config.yaml'
+// const SUPERMODEL_CONFIG_FILE = {
+//   '$id': ''
+// }
 
-// Helper to check whether a directory is a supermodel-initialized directory
-//
-// @param {string} dir - Path to a directory to check
-// @return {boolean} true whether the directory is a supermodel directory, false otherwise
+/**
+ * Helper to check whether a directory is a supermodel-initialized directory
+ * @param {string} dir - Path to a directory to check
+ * @return {boolean} true whether the directory is a supermodel directory, false otherwise
+ */
 function isSupermodelDir(dir) {
-  if (path.basename(dir) !== SUPERMODEL_DIR_NAME) {
-    return false
+  if (path.basename(dir) === SUPERMODEL_DIR_NAME) {
+    return true
   }
 
-  // We have the right directory, let's see if it has config in it
-  const supermodelConfigPath = path.join(dir, SUPERMODEL_CONFIG_FILENAME)
-  if (!fs.existsSync(supermodelConfigPath)) {
-    return false
-  }
+  // TODO: Remove
+  // // We have the right directory, let's see if it has config in it
+  // const supermodelConfigPath = path.join(dir, SUPERMODEL_CONFIG_FILENAME)
+  // if (!fs.existsSync(supermodelConfigPath)) {
+  //   return false
+  // }
 
-  return true
+  return false
 }
-
-// Finds a supermodel config directory within the path or its parents
-//
-// @param {string} dir - Dir to start search in
-// @returns {string} Path to a found supermodel directory or undefined if not found
+/**
+ * Finds a supermodel config directory within the path or its parents
+ * 
+ * @param {string} dir Dir to start search in
+ * @returns {string} Path to a found supermodel directory or undefined if not found 
+ */
 function findSupermodelDir(dir) {
   let currentPath = dir
   while (fs.lstatSync(currentPath).isDirectory()) {
@@ -49,7 +53,5 @@ function findSupermodelDir(dir) {
 
 module.exports = {
   SUPERMODEL_DIR_NAME,
-  SUPERMODEL_CONFIG_FILENAME,
-  SUPERMODEL_CONFIG_FILE,
   findSupermodelDir
 }

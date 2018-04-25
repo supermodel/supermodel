@@ -4,6 +4,9 @@ const querystring = require('querystring')
 const superlib = require('superlib')
 const supermodelConfig = require('../../lib/supermodelConfig')
 
+const SUPERMODEL_BASE_ID = 'http://supermodel.io'
+
+
 // Helper function to CamelCase a string
 // https://stackoverflow.com/questions/2970525/converting-any-string-into-camel-case
 function camelize(str) {
@@ -12,7 +15,6 @@ function camelize(str) {
     return match.toUpperCase();
   });
 }
-
 
 function runCreate(name) {
   // Find if we are in a supermodel directory or one of its descendants
@@ -43,24 +45,24 @@ function runCreate(name) {
   const relative = path.relative(configDir, currentDir)
   const idBasename = querystring.escape(modelFileName)
 
+  // TODO: Remove
   // Read base id
-  const supermodelConfigPath = path.join(configDir, supermodelConfig.SUPERMODEL_CONFIG_FILENAME)
-  const config = superlib.yamlModel.readYAMLFile(supermodelConfigPath) // TODO: missing try {}
-  const baseId = config['$id']
+  // const supermodelConfigPath = path.join(configDir, supermodelConfig.SUPERMODEL_CONFIG_FILENAME)
+  // const config = superlib.yamlModel.readYAMLFile(supermodelConfigPath) // TODO: missing try {}
+  // const baseId = config['$id']
 
   // Build Model's id 
   let modelId
   if (relative.length) {
-    modelId = `${baseId}/${relative}/${idBasename}`
+    modelId = `${SUPERMODEL_BASE_ID}/${relative}/${idBasename}`
   }
   else {
-    modelId = `${baseId}/${idBasename}`
+    modelId = `${SUPERMODEL_BASE_ID}/${idBasename}`
   }
 
   // console.log(`modelId ${modelId}, modelFilePath ${modelFilePath}`)
 
-  const modelData = `
-$id: ${modelId}
+  const modelData = `$id: ${modelId}
 $schema: http://json-schema.org/draft-07/schema#
 
 title: ${name}
