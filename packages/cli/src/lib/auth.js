@@ -4,16 +4,14 @@
  * @param {Object} userData
  * @returns {Promise<Object,Error>} authenticated user
  */
-function supermodelAuthenticate(userData) {
+function supermodelAuthenticate(idToken) {
   return fetch(`${process.env['SUPERMODEL_URL']}/auth0`,{
     method: 'POST',
     headers: {
+      'Authorization': 'Basic ' + idToken,
       'Accept': 'application/json',
       'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      auth0: userData
-    })
+    }
   }).then(response => {
     if (response.ok) {
       return response.json()

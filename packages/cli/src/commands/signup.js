@@ -111,8 +111,7 @@ function signup() {
     })
     .then(auth0SignUp)
     .then(({ idToken }) => {
-      const userData = idTokenToUser(idToken)
-      return supermodelAuthenticate(userData)
+      return supermodelAuthenticate(idToken)
         .then(user => cache.update('user', user))
         .then(() => supermodelRegisterApplication(idToken))
         .then(application => cache.update('token', application.token))

@@ -2,7 +2,6 @@ const decode = require('jwt-decode')
 const inquirer = require('inquirer')
 const fetch = require('isomorphic-fetch')
 const auth0 = require('../lib/auth0/authClient')
-const idTokenToUser = require('../lib/auth0/idTokenToUser')
 
 const cache = require('../cache')
 const {
@@ -73,8 +72,7 @@ function login() {
     })
     .then(auth0Login)
     .then(({ idToken }) => {
-      const userData = idTokenToUser(idToken)
-      return supermodelAuthenticate(userData)
+      return supermodelAuthenticate(idToken)
         .then(user => cache.update('user', user))
         .then(() => supermodelRegisterApplication(idToken))
         .then(application => cache.update('token', application.token))
