@@ -1,10 +1,10 @@
 /**
- * Register or login in Supermodel with user details
+ * Register or login in Supermodel with user data
  *
- * @param {Object} profile
+ * @param {Object} userData
  * @returns {Promise<Object,Error>} authenticated user
  */
-function supermodelAuthenticate(profile) {
+function supermodelAuthenticate(userData) {
   return fetch(`${process.env['SUPERMODEL_URL']}/auth0`,{
     method: 'POST',
     headers: {
@@ -12,7 +12,7 @@ function supermodelAuthenticate(profile) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      auth0: normalizeProfile(profile)
+      auth0: userData
     })
   }).then(response => {
     if (response.ok) {
@@ -49,18 +49,6 @@ function supermodelRegisterApplication(idToken) {
 
     throw new Error(`Registering of application failed: ${response.status}`)
   })
-}
-
-/**
- * Convert auth0 user info into structure of our user.
- * NOTE: duplicated code with supermodel frontend
- *
- * @param {Object} auth0userInfo
- * @returns {Object} user
- */
-function normalizeProfile(auth0userInfo) {
-  const { email, email_verified, name, nickname: username, sub } = auth0userInfo
-  return { email, email_verified, name, username, sub }
 }
 
 module.exports = {

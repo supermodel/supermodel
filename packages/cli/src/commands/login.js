@@ -2,7 +2,7 @@ const decode = require('jwt-decode')
 const inquirer = require('inquirer')
 const fetch = require('isomorphic-fetch')
 const auth0 = require('../lib/auth0/authClient')
-const fetchUserInfo = require('../lib/auth0/fetchUserInfo')
+const idTokenToUser = require('../lib/auth0/idTokenToUser')
 
 const cache = require('../cache')
 const {
@@ -72,16 +72,14 @@ function login() {
       return credentials
     })
     .then(auth0Login)
-    .then(({ accessToken, idToken }) => {
-      return fetchUserInfo(accessToken)
-        .then(supermodelAuthenticate)
+    .then(({ idToken }) => {
+      const userData = idTokenToUser(idToken)
+      return supermodelAuthenticate(userData)
         .then(user => cache.update('user', user))
         .then(() => supermodelRegisterApplication(idToken))
         .then(application => cache.update('token', application.token))
     })
-    .then(() => {
-      console.log("Login successful")
-    })
+    .then(() => console.log("Login successful"))
     .catch(error => {
       if (error && error.description == 'Wrong email or password.') {
         console.error('Invalid username, password or not registerd user.')
@@ -90,6 +88,7 @@ function login() {
         console.error(`Login failed:`)
         const message = error.description || error.message || error
         console.error(message)
+
         if(process.env['NODE_ENV'] !== 'production') {
           console.error(error)
         }

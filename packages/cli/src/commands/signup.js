@@ -1,7 +1,7 @@
 const inquirer = require('inquirer')
 const fetch = require('isomorphic-fetch')
 const webAuth0 = require('../lib/auth0/webAuthClient')
-const fetchUserInfo = require('../lib/auth0/fetchUserInfo')
+const idTokenToUser = require('../lib/auth0/idTokenToUser')
 const cache = require('../cache')
 const {
   supermodelAuthenticate,
@@ -102,7 +102,7 @@ function auth0SignUp({ username, email, password }) {
 /**
  * Runs login command. Authenticate and store data into home folder
  */
-function signUp() {
+function signup() {
   inquirer
     .prompt(makePromptQuestions())
     .then(credentials => {
@@ -110,16 +110,14 @@ function signUp() {
       return credentials
     })
     .then(auth0SignUp)
-    .then(({ accessToken, idToken }) => {
-      return fetchUserInfo(accessToken)
-        .then(supermodelAuthenticate)
+    .then(({ idToken }) => {
+      const userData = idTokenToUser(idToken)
+      return supermodelAuthenticate(userData)
         .then(user => cache.update('user', user))
         .then(() => supermodelRegisterApplication(idToken))
         .then(application => cache.update('token', application.token))
     })
-    .then(() => {
-      console.log("Signup successful. You are logged in automatically.")
-    })
+    .then(() => console.log("Signup successful. You are logged in automatically."))
     .catch(error => {
       console.error(`Login failed:`)
       const message = error.description || error.message || error
@@ -131,4 +129,4 @@ function signUp() {
     })
 }
 
-module.exports = signUp
+module.exports = signup
