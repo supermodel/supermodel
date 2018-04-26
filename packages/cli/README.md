@@ -9,7 +9,7 @@ For more information about Supermodel visit <https://supermodel.io>.
 ## Overview
 Supermodel JSON Schema models are JSON schemas files written in YAML format. The conventions with Supermodel models is that one YAML file represents one model. See [Supermodel JSON Schema Model](#supermodel-json-schema-model) for more details about the Supermodel Model.
 
-Models can be freely arranged in a directory structure under the `supermodel` directory. The structure might reflect the systems or domains and subdomains of an application to ease further navigation. 
+Models can be freely arranged in a directory structure under the `supermodel` directory. The structure might reflect the systems or domains and subdomains of an application to ease further navigation.
 
 <img src="exampleDiagram.png">
 
@@ -28,15 +28,15 @@ After the installation, initialize the current directory for the use with Superm
 $ supermodel init http://acme.com/
 ```
 
-The first parameter (`http://acme.com/`) of the `init` command should represent your application, team or project domain. This domain will be used as the base path for all the model identifiers created in the initialized supermodel directory. This parameter MUST be in the for of a URI but it doesn't have to be resolvable. 
+The first parameter (`http://acme.com/`) of the `init` command should represent your application, team or project domain. This domain will be used as the base path for all the model identifiers created in the initialized supermodel directory. This parameter MUST be in the for of a URI but it doesn't have to be resolvable.
 
-After you have initialized the supermodel directory, step into it: 
+After you have initialized the supermodel directory, step into it:
 
 ```
 $ cd ./supermodel
 ```
 
-And go ahead and create your first model: 
+And go ahead and create your first model:
 
 ```
 $ supermodel model create MyModel
@@ -159,7 +159,10 @@ See [JSON Schema specification](http://json-schema.org/specification.html) for m
 
 ## Contribution
 
-After clonning this repository copy .env.development into .env and change variables for your needs.
+After cloning this repository you can either:
+
+1. copy .env.development into .env `cp ./.env.development ./.env` and change variables for your needs
+2. symlink `ln ./.env.development ./.env`
 
 ## A Good API Project
 

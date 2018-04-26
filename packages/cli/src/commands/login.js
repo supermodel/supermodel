@@ -1,31 +1,33 @@
-const Auth0 = require('auth0-js')
+const decode = require('jwt-decode')
 const inquirer = require('inquirer')
 const fetch = require('isomorphic-fetch')
+const auth0 = require('../lib/auth0/authClient')
+const fetchUserInfo = require('../lib/auth0/fetchUserInfo')
+
 const cache = require('../cache')
+const {
+  supermodelAuthenticate,
+  supermodelRegisterApplication
 
-const auth0 = new Auth0.Authentication({
-  domain:       'goodapi.auth0.com',
-  clientID:     'TCJ1lTepFTDAfxe1QjPB70vgVKqqwpCl'
-});
-
+} = require('../lib/auth')
 const required = label => value =>
   value === '' ? `${label} can't be empty` : true
 
 /**
  * Generates inquirer questions structure for login prompt
  *
- * @param {string} [username]
+ * @param {string} [email]
  * @returns {Array<Object>}
  */
-function makePromptQuestions(username = null) {
+function makePromptQuestions(email = null) {
   return [
     {
-      name: 'username',
+      name: 'email',
       type: 'input',
-      message: 'Username:',
+      message: 'email:',
       allow_empty: false,
-      validate: required('Username'),
-      default: username
+      validate: required('Email'),
+      default: email
     },
     {
       name: 'password',
@@ -45,13 +47,13 @@ function makePromptQuestions(username = null) {
  * @param {string} credentials.password
  * @returns {Promise<Object, Error>} returns auth0 user data
  * @property {string} idToken
- * @property {Object} user
+ * @property {string} accessToken
  */
-function auth0Authenticate({ username, password }) {
+function auth0Login({ email, password }) {
   return new Promise((resolve, reject) => {
     auth0.login({
       realm: 'Username-Password-Authentication',
-      username,
+      username: email,
       password,
     }, (error, response) =>
       error ? reject(error) : resolve(response)
@@ -60,89 +62,19 @@ function auth0Authenticate({ username, password }) {
 }
 
 /**
- * Convert auth0 user info into structure of our user.
- * NOTE: duplicated code with supermodel frontend
- *
- * @param {Object} auth0userInfo
- * @returns {Object} user
- */
-function normalizeProfile(auth0userInfo) {
-  const { email, email_verified, name, nickname: username, sub } = auth0userInfo
-  return { email, email_verified, name, username, sub }
-}
-
-/**
- * Register or login in Supermodel app and retrieve user details
- *
- * @param {string} accessToken
- * @returns {Promise<Object,Error>} authenticated user
- */
-function supermodelAuthenticate(accessToken) {
-  return new Promise((resolve, reject) => {
-    auth0.userInfo(accessToken, (error, profile) =>
-      error ? reject(error) : resolve(profile)
-    )
-  }).then(profile =>
-    fetch(`${process.env['SUPERMODEL_URL']}/auth0`,{
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        auth0: normalizeProfile(profile)
-      })
-    })
-  ).then(response => {
-    if (response.ok) {
-      return response.json()
-    }
-
-    throw new Error(`Authentication of user failed: ${response.status}`)
-  })
-}
-
-/**
- * Register supermodel CLI in supermodel app
- *
- * @param {string} idToken
- * @returns {Promise<Object,Error>} application
- */
-function supermodelRegisterApplication(idToken) {
-  return fetch(`${process.env['SUPERMODEL_URL']}/applications`,{
-    method: 'POST',
-    headers: {
-      'Authorization': 'Basic ' + idToken,
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      application: {
-        name: 'Supermodel CLI'
-      }
-    })
-  }).then(response => {
-    if (response.ok) {
-      return response.json()
-    }
-
-    throw new Error(`Registering of application failed: ${response.status}`)
-  })
-}
-
-/**
  * Runs login command. Authenticate and store data into home folder
  */
 function login() {
   inquirer
-    .prompt(makePromptQuestions(cache.get('loginUsername')))
+    .prompt(makePromptQuestions(cache.get('loginWith')))
     .then(credentials => {
-      cache.update('loginUsername', credentials.username)
+      cache.update('loginWith', credentials.email)
       return credentials
     })
-    .then(auth0Authenticate)
+    .then(auth0Login)
     .then(({ accessToken, idToken }) => {
-      return supermodelAuthenticate(accessToken)
+      return fetchUserInfo(accessToken)
+        .then(supermodelAuthenticate)
         .then(user => cache.update('user', user))
         .then(() => supermodelRegisterApplication(idToken))
         .then(application => cache.update('token', application.token))
@@ -158,6 +90,9 @@ function login() {
         console.error(`Login failed:`)
         const message = error.description || error.message || error
         console.error(message)
+        if(process.env['NODE_ENV'] !== 'production') {
+          console.error(error)
+        }
       }
     })
 }
