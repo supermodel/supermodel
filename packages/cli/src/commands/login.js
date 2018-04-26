@@ -151,8 +151,14 @@ function login() {
       console.log("Login successful")
     })
     .catch(error => {
-      console.error(`Login failed:`)
-      console.error(error)
+      if (error && error.description == 'Wrong email or password.') {
+        console.error('Invalid username, password or not registerd user.')
+        console.error(`For registration run 'supermodel signup' command`)
+      } else {
+        console.error(`Login failed:`)
+        const message = error.description || error.message || error
+        console.error(message)
+      }
     })
 }
 
