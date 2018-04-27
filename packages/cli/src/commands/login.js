@@ -23,7 +23,7 @@ function makePromptQuestions(email = null) {
     {
       name: 'email',
       type: 'input',
-      message: 'email:',
+      message: 'Email:',
       allow_empty: false,
       validate: required('Email'),
       default: email

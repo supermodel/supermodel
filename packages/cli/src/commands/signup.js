@@ -24,17 +24,6 @@ function makePromptQuestions() {
       message: 'Username:',
       allow_empty: false,
       validate: required('Username')
-      // TODO: validate unique username
-      // validate: username => {
-      //   const emptyErr = required('Username')(username)
-      //   if (emptyErr !== true) {
-      //     return emptyErr
-      //   }
-
-      //   return new Promise(resolve => {
-      //     setTimeout(resolve('WOOT'), 2000)
-      //   })
-      // }
     },
     {
       name: 'email',
@@ -89,10 +78,7 @@ function auth0SignUp({ username, email, password }) {
       connection: 'Username-Password-Authentication',
       username,
       email,
-      password,
-      // userMetadata: {
-      //   username
-      // }
+      password
     }, (error, response) =>
       error ? reject(error) : resolve(response)
     )

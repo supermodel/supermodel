@@ -10,6 +10,7 @@ program
   .command('schema [command]', 'Validate, compile or resolve JSON Schema YAML representation of a model.')
   .command('model [command]', 'Create and manage a model.')
   .command('login', 'Login with Supermodel.io credentials.')
+  .command('signup', 'Signup to Supermodel.io app.')
 
 program
   .command('init [layerPath]')
