@@ -10,15 +10,13 @@ function runInit(layerPath) {
     const createdDirectoryPath = init(layerPath)
 
     console.log(
-`Successfully initialized the supermodel directory!
+`--> Successfully initialized the supermodel directory!
 
 Use \'cd ${createdDirectoryPath}\' and \'supermodel model create <name>\' to create the first model.
-`
-)
+`)
   }
-  catch(e) {
-    if (e.message) console.error(`Error: ${e.message}`)
-    else console.error(e)
+  catch(e) { 
+    console.error(e)
     process.exit(1)
   }
 }

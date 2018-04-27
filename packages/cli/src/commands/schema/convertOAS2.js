@@ -47,15 +47,14 @@ function runConvertToOAS2(path, oas2Path) {
       }
 
       fs.writeFileSync(oas2Path, oas2Content)
-      console.info(`${oas2Path} updated.`)
+      console.info(`--> Updated ${oas2Path}`)
     }
     else {
       console.log(oas2definitions)
     }
   }
   catch (e) {
-    if (e.message) console.error(e)
-    else console.error(e)
+    console.error(e)
     process.exit(1)
   }
 }

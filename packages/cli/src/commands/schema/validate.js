@@ -23,18 +23,17 @@ function runValidateSchema(inputPath) {
       const loader = superlib.fileSchemaLoader(schemaObject['$id'], cd)
       superlib.validateSchema(schemaObject, loader)
         .then(() => {
-          console.log(`Passed: ${file}`)
+          console.log(`--> Passed ${file}`)
         })
         .catch((onrejected) => {
-          console.error(`Error: ${onrejected}`)
-          // console.error(onrejected)
+          console.error(`--> Failed ${file}:`)
+          console.error(`${onrejected}`)
           process.exit(1)
         })
     }
     catch (e) {
-      console.error(`Error:\nin '${file}':`)
-      if (e.message) console.error(e.message)
-      else console.error(e)
+      console.error(`--> Failed ${file}:`)
+      console.error(e)
       process.exit(1)
     }
   })

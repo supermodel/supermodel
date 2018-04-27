@@ -20,7 +20,7 @@ function runCreate(name) {
   const currentDir = process.cwd()
   const configDir = supermodelConfig.findSupermodelDir(currentDir)
   if (!configDir) {
-    console.error('Error: Unable to find supermodel configuration. Run \'supermodel init\'.')
+    console.error('Unable to find supermodel configuration. Run \'supermodel init\'.')
     process.exit(1)
   }
   
@@ -29,26 +29,20 @@ function runCreate(name) {
   let modelFilePath = path.join(currentDir, modelFileName)
   modelFilePath += '.yml'
   if (fs.existsSync(modelFilePath)) {
-    console.error(`Error: model with the same name already exists: ${modelFilePath}`)
+    console.error(`Model with the same name already exists: ${modelFilePath}`)
     process.exit(1)
   }
 
   modelFilePath = path.join(currentDir, modelFileName)
   modelFilePath += '.yaml'
   if (fs.existsSync(modelFilePath)) {
-    console.error(`Error: model with the same name already exists: ${modelFilePath}`)
+    console.error(`Model with the same name already exists: ${modelFilePath}`)
     process.exit(1)
   }  
 
   // Figure out model's URI
   const relative = path.relative(configDir, currentDir)
   const idBasename = querystring.escape(modelFileName)
-
-  // TODO: Remove
-  // Read base id
-  // const supermodelConfigPath = path.join(configDir, supermodelConfig.SUPERMODEL_CONFIG_FILENAME)
-  // const config = superlib.yamlModel.readYAMLFile(supermodelConfigPath) // TODO: missing try {}
-  // const baseId = config['$id']
 
   // Build Model's id 
   let modelId
@@ -58,8 +52,6 @@ function runCreate(name) {
   else {
     modelId = `${SUPERMODEL_BASE_ID}/${idBasename}`
   }
-
-  // console.log(`modelId ${modelId}, modelFilePath ${modelFilePath}`)
 
   const modelData = `$id: ${modelId}
 $schema: http://json-schema.org/draft-07/schema#
@@ -79,7 +71,7 @@ type: object  # Change to the desired model type (http://json-schema.org/latest/
 `
 
   fs.writeFileSync(modelFilePath, modelData)
-  console.info(`model '${name}' created as ${modelFilePath}`)
+  console.info(`--> created model '${name}' as ${modelFileName}.yaml`)
 }
 
 module.exports = runCreate

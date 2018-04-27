@@ -76,10 +76,10 @@ function login() {
         .then(() => supermodelRegisterApplication(idToken))
         .then(application => cache.update('token', application.token))
     })
-    .then(() => console.log("Login successful"))
+    .then(() => console.log("--> Login successful"))
     .catch(error => {
-      if (error && error.description == 'Wrong email or password.') {
-        console.error('Invalid username, password or not registerd user.')
+      if (error && error.description == 'Wrong email or password') {
+        console.error('Invalid username, password or not registered user')
         console.error(`For registration run 'supermodel signup' command`)
       } else {
         console.error(`Login failed:`)

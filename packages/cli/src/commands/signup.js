@@ -102,7 +102,7 @@ function signup() {
         .then(() => supermodelRegisterApplication(idToken))
         .then(application => cache.update('token', application.token))
     })
-    .then(() => console.log("Signup successful. You are logged in automatically."))
+    .then(() => console.log("--> Signup successful! You are logged in automatically."))
     .catch(error => {
       console.error(`Login failed:`)
       const message = error.description || error.message || error

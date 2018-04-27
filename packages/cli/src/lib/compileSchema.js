@@ -4,7 +4,7 @@ const fsUtils = require('./fsUtils')
 
 function compileSchema(path) {
   if (!fsUtils.isDirectory(path)) {
-    console.error(`Error: input must be a directory (${path})`)
+    console.error(`Input must be a directory (${path})`)
     process.exit(0)
   }
 
@@ -16,16 +16,15 @@ function compileSchema(path) {
       const schema = superlib.yamlModel.readYAMLFile(file)
       const id = schema['$id']
       if (!id) {
-        console.warn(`Warning: ignoring schema without id (${file})`)
+        console.warn(`Ignoring schema without id: ${file}`)
         return
       }
 
       compiledSchema.definitions[id] = schema
     }
     catch (e) {
-      console.error(`Error:\nin '${file}':`)
-      if (e.message) console.error(e.message)
-      else console.error(e)
+      console.error(`\in '${file}':`)
+      console.error(e)
       process.exit(1)
     }
   })
