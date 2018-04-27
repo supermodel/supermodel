@@ -1,29 +1,9 @@
 const os = require('os')
 const path = require('path')
 const fs = require('fs')
+const fsUtils = require('./fsUtils')
 
-const SEPARATOR = path.sep
 const APP_ROOT = path.join(os.homedir(), '.supermodel')
-
-/**
- * Recursively generate directories structure
- *
- * @param {string} targetDir
- * @returns {string} created directory
- */
-function mkdirpSync (targetDir) {
-  const initDir = path.isAbsolute(targetDir) ? SEPARATOR : ''
-
-  targetDir.split(SEPARATOR).reduce((parentDir, childDir) => {
-    const curDir = path.resolve(parentDir, childDir)
-
-    if (!fs.existsSync(curDir)) {
-      fs.mkdirSync(curDir)
-    }
-
-    return curDir
-  }, initDir)
-}
 
 /**
  * Get full path
@@ -43,7 +23,7 @@ function resolvePath (filePath) {
  */
 function prepareFile (filePath) {
   filePath = resolvePath(filePath)
-  mkdirpSync(path.dirname(filePath))
+  fsUtils.mkdirpSync(path.dirname(filePath))
   return filePath
 }
 
@@ -85,7 +65,6 @@ function unlinkSync (path) {
 }
 
 module.exports = {
-  mkdirpSync,
   dir: APP_ROOT,
   readFileSync,
   resolvePath,

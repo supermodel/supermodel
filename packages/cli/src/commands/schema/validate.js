@@ -1,11 +1,11 @@
 const path = require('path')
 const superlib = require('superlib')
-const utils = require('../../lib/utils')
+const fsUtils = require('../../lib/fsUtils')
 
 function runValidateSchema(inputPath) {
   let inputFiles = []
-  if (utils.isDirectory(inputPath)) {
-    inputFiles = utils.readDirectory(inputPath)
+  if (fsUtils.isDirectory(inputPath)) {
+    inputFiles = fsUtils.readDirectory(inputPath)
   }
   else {
     inputFiles.push(inputPath)

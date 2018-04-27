@@ -1,6 +1,8 @@
 const fs = require('fs')
 const path = require('path')
 
+const SEPARATOR = path.sep
+
 // Return true if path is a directory
 function isDirectory(path) {
   return fs.statSync(path).isDirectory()
@@ -25,7 +27,28 @@ function readDirectory(dir) {
   return files
 }
 
+/**
+ * Recursively generate directories structure
+ *
+ * @param {string} targetDir
+ * @returns {string} created directory
+ */
+function mkdirpSync (targetDir) {
+  const initDir = path.isAbsolute(targetDir) ? SEPARATOR : ''
+
+  targetDir.split(SEPARATOR).reduce((parentDir, childDir) => {
+    const curDir = path.resolve(parentDir, childDir)
+
+    if (!fs.existsSync(curDir)) {
+      fs.mkdirSync(curDir)
+    }
+
+    return curDir
+  }, initDir)
+}
+
 module.exports = {
   isDirectory,
-  readDirectory
+  readDirectory,
+  mkdirpSync
 }

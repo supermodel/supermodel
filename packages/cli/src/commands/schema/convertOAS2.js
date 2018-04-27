@@ -1,7 +1,7 @@
 const jsYaml = require('js-yaml')
 const fs = require('fs')
 const superlib = require('superlib')
-const utils = require('../../lib/utils')
+const fsUtils = require('../../lib/fsUtils')
 const compileSchema = require('../../lib/compileSchema')
 
 const GENERATED_BY_SUPERMODEL = `
@@ -15,7 +15,7 @@ const GENERATED_BY_SUPERMODEL = `
 function runConvertToOAS2(path, oas2Path) {
   try {
     let schemaObject
-    if (utils.isDirectory(path)) {
+    if (fsUtils.isDirectory(path)) {
       schemaObject = compileSchema(path)
     }
     else {

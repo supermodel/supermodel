@@ -2,8 +2,8 @@ const fs = require('fs')
 const path = require('path')
 const jsYaml = require('js-yaml')
 const cache = require('../cache')
-const storage = require('../lib/storage')
-const supermodelConfig = require('../lib/supermodelConfig')
+const fsUtils = require('./fsUtils')
+const supermodelConfig = require('./supermodelConfig')
 
 /**
  * Crates and initializes the supermodel directory
@@ -30,7 +30,7 @@ const supermodelConfig = require('../lib/supermodelConfig')
 
   // Supermodel directory
   const supermodelDir = path.join(process.cwd(), relativeDir)
-  storage.mkdirpSync(supermodelDir)
+  fsUtils.mkdirpSync(supermodelDir)
 
   return relativeDir
  }

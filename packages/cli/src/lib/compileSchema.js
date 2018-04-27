@@ -1,14 +1,14 @@
 const jsYaml = require('js-yaml')
 const superlib = require('superlib')
-const utils = require('./utils')
+const fsUtils = require('./fsUtils')
 
 function compileSchema(path) {
-  if (!utils.isDirectory(path)) {
+  if (!fsUtils.isDirectory(path)) {
     console.error(`Error: input must be a directory (${path})`)
     process.exit(0)
   }
 
-  const inputFiles = utils.readDirectory(path)
+  const inputFiles = fsUtils.readDirectory(path)
   const compiledSchema = { definitions: {} }
   
   inputFiles.forEach((file) => {
