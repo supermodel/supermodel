@@ -7,13 +7,14 @@ The Supermodel CLI is used to manage and work with JSON Schema YAML models from 
 For more information about Supermodel visit <https://supermodel.io>.
 
 ## Overview
-Supermodel JSON Schema models are JSON schemas files written in YAML format. The conventions with Supermodel models is that one YAML file represents one model. See [Supermodel JSON Schema Model](#supermodel-json-schema-model) for more details about the Supermodel Model.
+Supermodel JSON Schema models are JSON schemas files written in YAML format. By convention on YAML file represents one model.
+It is also customary for all Supermodel models to include a model id (JSON Schema `$id` field). See [Supermodel JSON Schema Model](#supermodel-json-schema-model) for more details.
 
-Models can be freely arranged in a directory structure under the `supermodel` directory. The structure might reflect the systems or domains and subdomains of an application to ease further navigation.
+Models can be freely arranged in the directory structure under the `supermodel` (precisely `supermodel/<username>`) directory. It is recommended that the directory structure reflects the application domains and subdomains to further ease the organization of models.
 
 <img src="exampleDiagram.png">
 
-The Supermodel CLI then facilitates the creation of these models as well as working with them. See [Usage Examples](#usage-examples) for some examples of how can be the Supermodel CLI used.
+The Supermodel CLI then facilitates the creation of these models as well as working with them. Refer to [Usage Examples](#usage-examples) for some examples of how can be the Supermodel CLI used.
 
 ## Installation
 
@@ -22,33 +23,42 @@ $ npm i -g supermodel-cli
 ```
 
 ## Getting Started
-After the installation, initialize the current directory for the use with Supermodel:
+After the installation, login into the <Supermodel.io>:
 
 ```
-$ supermodel init http://acme.com/
+$ supermodel login 
 ```
 
-The first parameter (`http://acme.com/`) of the `init` command should represent your application, team or project domain. This domain will be used as the base path for all the model identifiers created in the initialized supermodel directory. This parameter MUST be in the for of a URI but it doesn't have to be resolvable.
+Your account is need for two reasons. First, to make your model identifiers globally unique and second, to enable publishing your models at <Supermodel.io>. If you haven't created an account at <Supermodel.io> you can do so from the command line using the `supermodel signup` command.
+
+
+When you are logged in, initialize the current directory and create your first model:
+
+```
+$ supermodel init MyApp
+--> created ./supermodel/<username>/MyApp
+```
+
+The first parameter (`MyApp`) of the `init` command should represent your application, team or domain. This, together with your Supermodel user name will be used as the base path for all the model identifiers created in the initialized supermodel directory.
 
 After you have initialized the supermodel directory, step into it:
 
 ```
-$ cd ./supermodel
+$ cd ./supermodel/<username>/MyApp
 ```
 
 And go ahead and create your first model:
 
 ```
 $ supermodel model create MyModel
-model 'MyModel' created as /Users/you/supermodel/MyModel.yaml
+model 'MyModel' created as /supermodel/<username>/MyApp/MyModel.yaml
 ```
 
 ```
-$ ls
-MyModel.yaml
+$ open MyModel.yaml
 ```
 
-You can open `MyModel.yaml` in an editor and edit it as necessary. When you are ready to create your next models simply use the `supermodel model create <name>` command again. You can also nest models in directories as long as they are nested under the initial supermodel directory.
+You can open `MyModel.yaml` in an editor and edit it as necessary. When you are ready to create your next models simply use the `supermodel model create <name>` command again. You can also nest models in directories as long as they are nested under the initial `supermodel/<username>` directory.
 
 Refer to [Supermodel JSON Schema Model](#supermodel-json-schema-model) for more details about the Supermodel Model or learn about some [usage examples](#usage-examples)
 
@@ -98,8 +108,7 @@ This CLI tool currently supports the following JSON schema operations:
 ## Usage Examples
 
 ### Validate Data Models in CI/CD Pipeline
-
-Supermodel CLI is a CI/CD compliant CLI tool, that is it's `validate-schema` command can be used as a part of CI testing, to validate the data models against its meta schema
+Supermodel CLI is a CI/CD compliant CLI tool, that is it's `schema validate` command can be used as a part of CI testing, to validate the data models against its meta schema
 
 ```
 $ supermodel schema validate <path>
@@ -108,7 +117,6 @@ $ echo $?
 ```
 
 ### Convert Data Models into Self-contained OpenAPI Spec 2.0
-
 Converts a model or set of models (via `supermodel schema compile`) if `<path>` is a directory into OAS2 definitions. If the `-o` parameter is provided it replaces the definitions section in the existing OAS2 document.
 
 ```
@@ -116,7 +124,6 @@ $ supermodel schema oas2 <pathToModel(s)> -o <pathToOAS2>
 ```
 
 ## Supermodel JSON Schema Model
-
 A Supermodel model (hereafter just "model") is a plain [JSON Schema (draft 7)](http://json-schema.org/specification.html) schema file in YAML format. It is customary that Supermodel model contains a top-level type definition, its title and it starts with the model (`$id`).
 
 At minimum a Supermodel model file looks like:
@@ -157,8 +164,7 @@ properties:
 
 See [JSON Schema specification](http://json-schema.org/specification.html) for more about JSON Schema references and JSON pointer.
 
-## Contribution
-
+## Developing Supermodel CLI
 After cloning this repository you can either:
 
 1. copy .env.development into .env `cp ./.env.development ./.env` and change variables for your needs
