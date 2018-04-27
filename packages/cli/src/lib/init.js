@@ -33,7 +33,9 @@ const supermodelConfig = require('./supermodelConfig')
   fsUtils.mkdirpSync(supermodelDir)
 
   // Supermodel directory config file
-  const supermodelConfigFile = path.join(supermodelDir, supermodelConfig.SUPERMODEL_CONFIG_FILENAME)
+  const supermodelConfigFile = path.join(process.cwd(), 
+    supermodelConfig.SUPERMODEL_DIR_NAME,
+    supermodelConfig.SUPERMODEL_CONFIG_FILENAME)
   fs.closeSync(fs.openSync(supermodelConfigFile, 'a'))
   // fs.writeFileSync(supermodelConfigFile, "")
 
