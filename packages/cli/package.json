@@ -4,9 +4,7 @@
   "description": "Supermodel command tool",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postpublish": "npx publishr postpublish",
-    "postversion": "npx publishr postversion"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -34,13 +32,5 @@
     "isomorphic-fetch": "2.2.1",
     "js-yaml": "^3.10.0",
     "superlib": "github:supermodel/superlib"
-  },
-  "devDependencies": {
-    "publishr": "1.0.0"
-  },
-  "publishr": {
-    "files": {
-      ".env": ".env.production"
-    }
   }
 }
