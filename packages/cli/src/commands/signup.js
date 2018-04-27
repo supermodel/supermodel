@@ -1,7 +1,6 @@
 const inquirer = require('inquirer')
 const fetch = require('isomorphic-fetch')
 const webAuth0 = require('../lib/auth0/webAuthClient')
-const idTokenToUser = require('../lib/auth0/idTokenToUser')
 const cache = require('../cache')
 const {
   supermodelAuthenticate,
