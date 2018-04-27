@@ -23,13 +23,14 @@ $ npm i -g supermodel-cli
 ```
 
 ## Getting Started
-After the installation, login into the <Supermodel.io>:
+After the installation, login into the [Supermodel.io](http://supermodel.io):
 
 ```
-$ supermodel login 
+$ supermodel login
+--> logged as 'username'
 ```
 
-Your account is need for two reasons. First, to make your model identifiers globally unique and second, to enable publishing your models at <Supermodel.io>. If you haven't created an account at <Supermodel.io> you can do so from the command line using the `supermodel signup` command.
+Your account is need for two reasons. First, to make your model identifiers globally unique and second, to enable publishing your models at [Supermodel.io](http://supermodel.io). If you haven't created an account at [Supermodel.io](http://supermodel.io) you can do so from the command line using the `supermodel signup` command.
 
 
 When you are logged in, initialize the current directory and create your first model:
@@ -51,7 +52,7 @@ And go ahead and create your first model:
 
 ```
 $ supermodel model create MyModel
-model 'MyModel' created as /supermodel/<username>/MyApp/MyModel.yaml
+--> created model 'MyModel' as MyModel.yaml 
 ```
 
 ```
