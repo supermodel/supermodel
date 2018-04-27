@@ -1,4 +1,3 @@
-const decode = require('jwt-decode')
 const inquirer = require('inquirer')
 const fetch = require('isomorphic-fetch')
 const auth0 = require('../lib/auth0/authClient')
