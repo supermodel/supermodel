@@ -4,8 +4,7 @@ const querystring = require('querystring')
 const superlib = require('superlib')
 const supermodelConfig = require('../../lib/supermodelConfig')
 
-const SUPERMODEL_BASE_ID = 'http://supermodel.io'
-
+const SUPERMODEL_BASE_ID = process.env.SUPERMODEL_URL
 
 // Helper function to CamelCase a string
 // https://stackoverflow.com/questions/2970525/converting-any-string-into-camel-case
