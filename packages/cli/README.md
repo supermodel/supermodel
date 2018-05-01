@@ -27,7 +27,7 @@ After the installation, login into the [Supermodel.io](http://supermodel.io):
 
 ```
 $ supermodel login
---> logged as 'username'
+--> Logged as 'username'
 ```
 
 Your account is need for two reasons. First, to make your model identifiers globally unique and second, to enable publishing your models at [Supermodel.io](http://supermodel.io). If you haven't created an account at [Supermodel.io](http://supermodel.io) you can do so from the command line using the `supermodel signup` command.
@@ -37,7 +37,7 @@ When you are logged in, initialize the current directory and create your first m
 
 ```
 $ supermodel init MyApp
---> created ./supermodel/<username>/MyApp
+--> Created ./supermodel/<username>/MyApp
 ```
 
 The first parameter (`MyApp`) of the `init` command should represent your application, team or domain. This, together with your Supermodel user name will be used as the base path for all the model identifiers created in the initialized supermodel directory.
@@ -52,7 +52,7 @@ And go ahead and create your first model:
 
 ```
 $ supermodel model create MyModel
---> created model 'MyModel' as MyModel.yaml 
+--> Created model 'MyModel' as MyModel.yaml 
 ```
 
 ```
