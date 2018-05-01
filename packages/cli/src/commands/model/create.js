@@ -93,7 +93,7 @@ type: object  # Change to the desired model type (http://json-schema.org/latest/
 `
 
   fs.writeFileSync(modelFilePath, modelData)
-  console.info(`--> Created model '${basename}' as ${modelFilePath}.yaml`)
+  console.info(`--> Created model '${basename}' as ${modelFilePath}`)
 }
 
 module.exports = runCreate
