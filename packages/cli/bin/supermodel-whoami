@@ -1,0 +1,4 @@
+#!/usr/bin/env node
+const whoAmI = require('../src/commands/whoami')
+
+whoAmI()
