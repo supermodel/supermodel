@@ -1,5 +1,6 @@
 const fs = require('fs')
 const path = require('path')
+const rmrf = require('rimraf')
 
 const SEPARATOR = path.sep
 
@@ -47,7 +48,18 @@ function mkdirpSync (targetDir) {
   }, initDir)
 }
 
+/**
+ * Empty content of directory
+ *
+ * @param {string} dir
+ */
+function emptyDirectory (dir) {
+  const items = fs.readdirSync(dir)
+  items.forEach(item => rmrf.sync(item))
+}
+
 module.exports = {
+  emptyDirectory,
   isDirectory,
   readDirectory,
   mkdirpSync

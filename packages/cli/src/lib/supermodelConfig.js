@@ -3,6 +3,7 @@ const path = require('path')
 
 const SUPERMODEL_DIR_NAME = 'supermodel'
 const SUPERMODEL_CONFIG_FILENAME = '.super'
+const CWD = process.cwd()
 
 /**
  * Helper to check whether a directory is a supermodel-initialized directory
@@ -24,11 +25,11 @@ function isSupermodelDir(dir) {
 }
 /**
  * Finds a supermodel config directory within the path or its parents
- * 
- * @param {string} dir Dir to start search in
- * @returns {string} Path to a found supermodel directory or undefined if not found 
+ *
+ * @param {string} [dir=CWD] Dir to start search in
+ * @returns {string} Path to a found supermodel directory or undefined if not found
  */
-function findSupermodelDir(dir) {
+function findSupermodelDir(dir = CWD) {
   let currentPath = dir
   while (fs.lstatSync(currentPath).isDirectory()) {
     if (isSupermodelDir(currentPath)) {
@@ -46,8 +47,45 @@ function findSupermodelDir(dir) {
   return undefined
 }
 
+/**
+ * Finds a supermodel config file
+ *
+ * @param {string} [dir=CWD] Dir to start search in
+ * @returns {string} Path to a found supermodel config file or undefined if not found
+ */
+function findSupermodelConfigFile(dir = CWD) {
+  const supermodelDir = findSupermodelDir(dir)
+
+  if (supermodelDir) {
+    return path.join(supermodelDir, SUPERMODEL_CONFIG_FILENAME)
+  }
+}
+
+/**
+ * Finds, parse and returns supermodel config
+ *
+ * @param {string} [dir=CWD] Dir to start search in
+ * @returns {!Object} parsed or empty config
+ */
+function getSupermodelConfig(dir = CWD) {
+  const configFile = findSupermodelConfigFile(dir)
+
+  if (configFile !== undefined) {
+    const rawConfig = fs.readFileSync(configFile, "utf8")
+
+    if (rawConfig.length) {
+      return JSON.parse(rawConfig)
+    }
+  }
+
+  return {}
+}
+
+
 module.exports = {
   SUPERMODEL_DIR_NAME,
   SUPERMODEL_CONFIG_FILENAME,
-  findSupermodelDir
+  findSupermodelDir,
+  findSupermodelConfigFile,
+  getSupermodelConfig
 }
