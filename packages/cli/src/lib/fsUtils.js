@@ -55,12 +55,41 @@ function mkdirpSync (targetDir) {
  */
 function emptyDirectory (dir) {
   const items = fs.readdirSync(dir)
-  items.forEach(item => rmrf.sync(item))
+  items.forEach(item => rmrf.sync(path.join(dir, item)))
+}
+
+/**
+ * Resolve if yaml file has extension .yaml, .yml or does not exist
+ *
+ * @param {Array<string>} ...pathParts
+ * @returns {?string} path to yaml file
+ */
+function resolveYamlFile (...pathParts) {
+  let filePath = path.join(...pathParts)
+  const ext = path.extname(filePath)
+
+  if (ext !== '.yaml' && ext !== '.yml') {
+    throw `Yaml file '${filePath}' must have extname 'yml' or 'yaml'`
+  }
+
+  if (fs.existsSync(filePath)) {
+    return filePath
+  }
+
+  filePath = filePath.replace(
+    ext === '.yaml' ? '.yaml' : '.yml',
+    ext === '.yaml' ? '.yml' : '.yaml'
+  )
+
+  if (fs.existsSync(filePath)) {
+    return filePath
+  }
 }
 
 module.exports = {
   emptyDirectory,
   isDirectory,
   readDirectory,
-  mkdirpSync
+  mkdirpSync,
+  resolveYamlFile
 }

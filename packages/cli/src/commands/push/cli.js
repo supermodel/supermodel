@@ -1,6 +1,6 @@
 const program = require('commander')
 const package = require('../../../package.json')
-const runPull = require('./pull')
+const runPush = require('./push')
 
 program
   .version(package.version)
@@ -8,4 +8,4 @@ program
 program
   .parse(process.argv)
 
-runPull(program)
+runPush(program)

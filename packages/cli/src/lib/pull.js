@@ -4,7 +4,7 @@ const fetch = require('node-fetch')
 const { URL } = require('url')
 const yaml = require('js-yaml')
 const supermodelConfig = require('./supermodelConfig')
-const fsUtils = require('../lib/fsUtils')
+const fsUtils = require('./fsUtils')
 
 async function pull(directory = process.cwd()) {
   const supermodelDirectory = supermodelConfig.findSupermodelDir(directory)

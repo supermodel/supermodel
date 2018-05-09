@@ -11,6 +11,7 @@ program
   .command('model [command]', 'Create and manage a model.')
   .command('clone [domainUrl]', 'Pull the domain from supermodel.io app')
   .command('pull', 'Pull from supermodel.io app')
+  .command('push', 'Push to supermodel.io app')
   .command('login', 'Login with Supermodel.io credentials.')
   .command('signup', 'Signup to Supermodel.io app.')
   .command('whoami', 'Show who you are logged in as.')
