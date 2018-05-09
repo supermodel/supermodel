@@ -11,8 +11,10 @@ async function runClone(domainUrl) {
     // 1. Run init
     const directory = init(domain, config)
 
-    // 2. Run pull
+    // 2. Enter into created directory
     process.chdir(directory)
+
+    // 2. Run pull and copy schemas from supermodel app
     await pull()
 
     console.log(

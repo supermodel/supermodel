@@ -20,6 +20,9 @@ async function runPush() {
   }
 }
 
+/**
+ * Sync current working direcotry to supermodel app.
+ */
 async function push() {
   const user = cache.get('user')
   if (!user || ! user.username ) {
@@ -33,22 +36,28 @@ async function push() {
     throw new Error(`Can't push into ${config.host} because logged into ${process.env['SUPERMODEL_URL']}`)
   }
 
-  const directory = process.cwd()
-  const supermodelDirectory = supermodelConfig.findSupermodelDir(directory)
+  const currentDirectory = process.cwd()
+  const supermodelDirectory = supermodelConfig.findSupermodelDir(currentDirectory)
 
   if (supermodelDirectory) {
-    if (supermodelDirectory == directory) {
-      throw new Error(`Root supermodel directory '${directory}' cannot be pushed`)
+    if (supermodelDirectory == currentDirectory) {
+      throw new Error(`Root supermodel directory '${currentDirectory}' cannot be pushed`)
     }
 
-    const layerPath = directory.substr(supermodelDirectory.length + 1)
-    const layerData = FSLayerToEntity(directory)
+    const layerPath = currentDirectory.substr(supermodelDirectory.length + 1)
+    const layerData = FSLayerToEntity(currentDirectory)
     return updateLayer(layerPath, layerData)
   } else {
-    throw new Error(`Directory '${directory}' is not within supermodel scope.`)
+    throw new Error(`Directory '${currentDirectory}' is not within supermodel scope.`)
   }
 }
 
+/**
+ * Upload layer data to supermodel app
+ *
+ * @param {string} layerPath
+ * @param {Object} layerData
+ */
 async function updateLayer (layerPath, layerData) {
   const url = new URL(process.env['SUPERMODEL_URL'])
   url.pathname = layerPath
@@ -76,6 +85,12 @@ async function updateLayer (layerPath, layerData) {
   }
 }
 
+/**
+ * Get current layer (directory), collect its metadata and nested entities
+ *
+ * @param {string} layerDirectory
+ * @returns {Object} layerData
+ */
 function FSLayerToEntity(layerDirectory) {
   const layerDataFile = fsUtils.resolveYamlFile(layerDirectory, '$index.yaml')
   let layerData
@@ -108,6 +123,12 @@ function FSLayerToEntity(layerDirectory) {
   }
 }
 
+/**
+ * Convert model schema (file) json data structure
+ *
+ * @param {string} modelFile
+ * @returns {Object} modelData
+ */
 function FSModelToEntity(modelFile) {
   try {
     const schemaRaw = fs.readFileSync(modelFile, 'utf-8')
@@ -121,13 +142,7 @@ function FSModelToEntity(modelFile) {
       schema: schemaRaw
     }
   } catch(error) {
-    console.error(`Cannot read or parse model file '${modelFile}'`)
-
-    if (process.env['NODE_ENV'] !== 'production') {
-      console.error(error)
-    }
-
-    process.exit(1)
+    throw new Error(`Cannot read or parse model file '${modelFile}', error: ${error}`)
   }
 }
 

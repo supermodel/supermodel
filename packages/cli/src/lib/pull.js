@@ -6,6 +6,11 @@ const yaml = require('js-yaml')
 const supermodelConfig = require('./supermodelConfig')
 const fsUtils = require('./fsUtils')
 
+/**
+ * Sync directory (layer) from supermodel app.
+ *
+ * @param {string} [directory=process.cwd()]
+ */
 async function pull(directory = process.cwd()) {
   const supermodelDirectory = supermodelConfig.findSupermodelDir(directory)
 
@@ -24,6 +29,14 @@ async function pull(directory = process.cwd()) {
   }
 }
 
+/**
+ * Download layer data from supermodel app.
+ *
+ * @param {string} layerPath
+ * @param {Object}  config
+ * @param {?string} config.host
+ * @returns {Object}
+ */
 async function fetchLayer(layerPath, config) {
   let host
 
@@ -44,9 +57,20 @@ async function fetchLayer(layerPath, config) {
     }
   })
 
+  if (!response.ok) {
+    const data = await response.json()
+    throw new Error('Fetching layer failed:\n${JSON.stringify(data, null, 2)}')
+  }
+
   return response.json()
 }
 
+/**
+ * Convert layer data and nested entities into directory structure
+ *
+ * @param {string} directory
+ * @param {Object} layer
+ */
 function layerToFS(directory, layer) {
   const layerPath = path.join(directory, layer.url)
 
@@ -79,6 +103,12 @@ function layerToFS(directory, layer) {
   })
 }
 
+/**
+ * Convert model data into yaml file
+ *
+ * @param {string} directory
+ * @param {Object} model
+ */
 function modelToFS(directory, model) {
   const modelFile = path.join(directory, `${model.url}.yaml`)
   fs.writeFileSync(modelFile, model.schema)
