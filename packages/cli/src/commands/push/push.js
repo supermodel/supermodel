@@ -64,7 +64,7 @@ async function updateLayer (layerPath, layerData) {
   url.searchParams.set('subtree', true)
 
   const response = await fetch(url.toString(), {
-    method: 'PATCH',
+    method: 'PUT',
     headers: {
       'Authorization': `Application ${cache.get('token')}`,
       'Accept': 'application/json',
