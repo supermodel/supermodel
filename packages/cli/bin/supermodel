@@ -9,7 +9,7 @@ program.version(package.version)
 program
   .command('schema [command]', 'Validate, compile or resolve JSON Schema YAML representation of a model.')
   .command('model [command]', 'Create and manage a model.')
-  .command('clone [domainUrl]', 'Pull the domain from supermodel.io app')
+  .command('install [domainUrl]', 'Install the domain from supermodel.io app')
   .command('pull', 'Pull from supermodel.io app')
   .command('push', 'Push to supermodel.io app')
   .command('login', 'Login with Supermodel.io credentials.')

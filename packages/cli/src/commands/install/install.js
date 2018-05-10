@@ -2,7 +2,7 @@ const { URL } = require('url')
 const init = require('../../lib/init')
 const pull = require('../../lib/pull')
 
-async function runClone(domainUrl) {
+async function runInstall(domainUrl) {
   try {
     const url = new URL(domainUrl)
     const { origin: host, pathname: domain } = url
@@ -18,9 +18,9 @@ async function runClone(domainUrl) {
     await pull()
 
     console.log(
-      `--> Successfully cloned the supermodel domain!
+      `--> Successfully installed the supermodel domain!
 
-      Use \'cd ${directory}\' to work with your cloned domain`
+      Use \'cd ${directory}\' to work with your domain`
     )
   } catch(error) {
     console.error(error)
@@ -28,4 +28,4 @@ async function runClone(domainUrl) {
   }
 }
 
-module.exports = runClone
+module.exports = runInstall

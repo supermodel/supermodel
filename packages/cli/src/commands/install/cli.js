@@ -1,10 +1,10 @@
 const program = require('commander')
 const package = require('../../../package.json')
-const runClone = require('./clone')
+const runInstall = require('./install')
 
 program
   .version(package.version)
-  .action(domainUrl => runClone(domainUrl))
+  .action(domainUrl => runInstall(domainUrl))
 
 program
   .parse(process.argv)
