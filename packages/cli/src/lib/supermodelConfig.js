@@ -26,11 +26,14 @@ function isSupermodelDir(dir) {
 /**
  * Finds a supermodel config directory within the path or its parents
  *
- * @param {string} [dir=CWD] Dir to start search in
+ * @param {string} [path=CWD] Dir or file to start search in
  * @returns {string} Path to a found supermodel directory or undefined if not found
  */
-function findSupermodelDir(dir = CWD) {
-  let currentPath = dir
+function findSupermodelDir(currentPath = CWD) {
+  if (fs.lstatSync(currentPath).isFile()) {
+    currentPath = path.join(currentPath, '..')
+  }
+
   while (fs.lstatSync(currentPath).isDirectory()) {
     if (isSupermodelDir(currentPath)) {
       return currentPath

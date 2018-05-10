@@ -130,19 +130,38 @@ function FSLayerToEntity(layerDirectory) {
  * @returns {Object} modelData
  */
 function FSModelToEntity(modelFile) {
-  try {
-    const schemaRaw = fs.readFileSync(modelFile, 'utf-8')
-    const schema = yaml.load(schemaRaw)
+  let schemaRaw
+  let schema
 
-    return {
-      type: 'Model',
-      slug: path.basename(modelFile).split('.')[0],
-      name: schema.title,
-      description: schema.description,
-      schema: schemaRaw
-    }
+  try {
+    schemaRaw = fs.readFileSync(modelFile, 'utf-8')
+    schema = yaml.load(schemaRaw)
   } catch(error) {
     throw new Error(`Cannot read or parse model file '${modelFile}', error: ${error}`)
+  }
+
+  const supermodelDirectory = supermodelConfig.findSupermodelDir(modelFile)
+  const filePath = modelFile.substr(supermodelDirectory.length + 1)
+
+  if (schema.$id) {
+    const modelPath = filePath.replace(/\.(ya?ml)/, '')
+    const url = new URL(schema.$id)
+    const idPath = url.pathname.substr(1)
+
+    if (idPath != modelPath) {
+      throw new Error(`Model '${filePath}' has different path than its schema $id '${idPath}'`)
+    }
+  } else {
+    throw new Error(`Model '${filePath}' is missing '$id' in schema`)
+  }
+
+
+  return {
+    type: 'Model',
+    slug: path.basename(modelFile).split('.')[0],
+    name: schema.title,
+    description: schema.description,
+    schema: schemaRaw
   }
 }
 
