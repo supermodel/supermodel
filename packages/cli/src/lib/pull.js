@@ -58,8 +58,12 @@ async function fetchLayer(layerPath, config) {
   })
 
   if (!response.ok) {
-    const data = await response.json()
-    throw new Error('Fetching layer failed:\n${JSON.stringify(data, null, 2)}')
+    if (response.status === 404) {
+      throw new Error(`Layer ${layerPath} does not exists`)
+    } else {
+      const data = await response.json()
+      throw new Error('Fetching layer failed:\n${JSON.stringify(data, null, 2)}')
+    }
   }
 
   return response.json()
