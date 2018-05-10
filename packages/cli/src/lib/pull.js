@@ -81,17 +81,17 @@ function layerToFS(directory, layer) {
     fs.mkdirSync(layerPath)
   }
 
-  // Store layer metadata
-  const data = {
-    // TODO: concat with host
-    $id: layer.url,
-    title: layer.name,
-    description: layer.description || '',
-    type: 'object'
-  }
+  // NOTE: disable layer metadata feature
+  // // Store layer metadata
+  // const data = {
+  //   // TODO: concat with host
+  //   $id: layer.url,
+  //   title: layer.name,
+  //   description: layer.description || '',
+  // }
 
-  const layerDataFile = path.join(layerPath, '$index.yaml')
-  fs.writeFileSync(layerDataFile, yaml.dump(data))
+  // const layerDataFile = path.join(layerPath, '$index.yaml')
+  // fs.writeFileSync(layerDataFile, yaml.dump(data))
 
   // Iterate nested entities and write them too
   layer.nested_entities.forEach(entity => {
