@@ -4,6 +4,8 @@ const yamlFile = require('./yamlFile')
 
 module.exports = {
   fileSchemaLoader,
-  yamlModel,
-  yamlFile
+  readYAML: yamlModel.readYAML,
+  convertYAMLToJSON: yamlModel.convertYAMLToJSON,
+  readYAMLFile: yamlFile.readYAMLFile,
+  convertYAMLFileToJSON: yamlFile.convertYAMLFileToJSON
 }
