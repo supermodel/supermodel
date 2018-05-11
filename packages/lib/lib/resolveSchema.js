@@ -1,5 +1,4 @@
 const validateSchema = require('./validateSchema')
-const fileSchemaLoader = require('./fileSchemaLoader')
 
 // Resolves "live" external references in a schema
 // @param {object} schema - JSON Schema object

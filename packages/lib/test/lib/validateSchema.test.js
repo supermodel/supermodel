@@ -1,10 +1,10 @@
-const { readYAMLFile } = require ('../../lib/yamlModel')
+const { fileSchemaLoader, readYAMLFile } = require('file')
 const validateSchema = require('../../lib/validateSchema')
-const fileSchemaLoader = require('../../lib/fileSchemaLoader')
+const validateMetaSchema = require('../../lib/validateMetaSchema');
 
 test('validate valid schema', () => {
   const schema = readYAMLFile('./fixtures/references/AValidB.yaml')
-  loader = fileSchemaLoader(schema['$id'], './fixtures/references/')
+  loader = fileSchemaLoader(schema['$id'], './fixtures/references/', validateMetaSchema)
 
   expect.assertions(1)
   return expect(validateSchema(schema, loader)).resolves.toBeDefined()
@@ -12,7 +12,7 @@ test('validate valid schema', () => {
 
 test('validate valid schema referencing invalid schema', () => {
   const schema = readYAMLFile('./fixtures/references/AInvalidB.yaml')
-  loader = fileSchemaLoader(schema['$id'], './fixtures/references/')
+  loader = fileSchemaLoader(schema['$id'], './fixtures/references/', validateMetaSchema)
 
   expect.assertions(1)
   return validateSchema(schema, loader).catch(e =>
@@ -22,7 +22,7 @@ test('validate valid schema referencing invalid schema', () => {
 
 test('validate invalid schema', () => {
   const schema = readYAMLFile('./fixtures/references/InvalidB.yaml')
-  loader = fileSchemaLoader(schema['$id'], './fixtures/references/')
+  loader = fileSchemaLoader(schema['$id'], './fixtures/references/', validateMetaSchema)
 
   expect.assertions(1)
   return validateSchema(schema, loader).catch(e =>

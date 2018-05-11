@@ -1,4 +1,4 @@
-const { readYAMLFile } = require ('../../lib/yamlModel')
+const { readYAMLFile } = require('file')
 const convertToOAS2 = require('../../lib/convertToOAS2')
 
 const OAS2_SCHEMA = {"definitions": {"supermodelIoSuperlibBasicSimpleSchema": {"title": "Simple Schema", "type": "object"}}}

@@ -1,4 +1,4 @@
-const { readYAMLFile } = require ('../../lib/yamlModel')
+const { readYAMLFile } = require('file')
 const validateMetaSchema = require('../../lib/validateMetaSchema');
 
 test('validate correct meta schema', () => {
