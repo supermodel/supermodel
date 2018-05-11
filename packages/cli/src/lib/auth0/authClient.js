@@ -1,6 +1,6 @@
 const Auth0 = require('auth0-js')
 
 module.exports = new Auth0.Authentication({
-  domain:       'goodapi.auth0.com',
-  clientID:     'TCJ1lTepFTDAfxe1QjPB70vgVKqqwpCl'
+  domain:   process.env['AUTH0_DOMAIN'],
+  clientID: process.env['AUTH0_CLIENT_ID'],
 });

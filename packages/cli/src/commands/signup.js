@@ -110,6 +110,8 @@ function signup() {
       if(process.env['NODE_ENV'] !== 'production') {
         console.error(error)
       }
+
+      process.exit(1)
     })
 }
 
