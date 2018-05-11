@@ -1,6 +1,6 @@
 const path = require('path')
 const fs = require('fs')
-const { readYAMLFile } = require ('./yamlModel')
+const { readYAMLFile } = require ('./yamlFile')
 // const validateMetaSchema = require('./validateMetaSchema');
 
 /**
