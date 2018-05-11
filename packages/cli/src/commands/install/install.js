@@ -1,5 +1,5 @@
 const { URL } = require('url')
-const init = require('../../lib/init')
+const initLayer = require('../../lib/initLayer')
 const pull = require('../../lib/pull')
 
 async function runInstall(domainUrl) {
@@ -9,7 +9,7 @@ async function runInstall(domainUrl) {
     const config = { host }
 
     // 1. Run init
-    const directory = init(domain, config)
+    const directory = initLayer(domain, config)
 
     // 2. Enter into created directory
     process.chdir(directory)

@@ -6,6 +6,10 @@ const SEPARATOR = path.sep
 
 // Return true if path is a directory
 function isDirectory(path) {
+  if (!fs.existsSync(path)) {
+    return false
+  }
+
   return fs.statSync(path).isDirectory()
 }
 

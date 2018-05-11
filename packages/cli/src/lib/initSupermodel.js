@@ -5,21 +5,14 @@ const supermodelConfig = require('./supermodelConfig')
 
 /**
  * Crates and initializes the supermodel directory
- *  optionally it also creates the directory structure to a layer
  *
- * @param {string} layerPath Optional path to a layer to be created
  * @param {Object} [config] Optional config to be stored in .super file
- * @returns {string} Path to the newly created directory
+ * @returns {string} Path to the newly created supermodel root directory
  * @throws {Error} In the case of failure an error is thrown
- *
  */
-
- function init(layerPath, config = null) {
-  // Find  the relative
-  let relativeDir = path.join(supermodelConfig.SUPERMODEL_DIR_NAME, layerPath)
-
+ function initSupermodel(config = null) {
   // Supermodel directory
-  const supermodelDir = path.join(process.cwd(), relativeDir)
+  const supermodelDir = path.join(process.cwd(), supermodelConfig.SUPERMODEL_DIR_NAME)
   fsUtils.mkdirpSync(supermodelDir)
 
   // Supermodel directory config file
@@ -38,7 +31,7 @@ const supermodelConfig = require('./supermodelConfig')
 
   fs.closeSync(configFileDescriptor)
 
-  return relativeDir
+  return supermodelDir
  }
 
- module.exports = init
+ module.exports = initSupermodel

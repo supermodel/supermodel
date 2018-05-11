@@ -3,11 +3,12 @@ const path = require('path')
 const fetch = require('node-fetch')
 const { URL } = require('url')
 const yaml = require('js-yaml')
+const rmrf = require('rimraf')
 const supermodelConfig = require('./supermodelConfig')
 const fsUtils = require('./fsUtils')
 
 /**
- * Sync directory (layer) from supermodel app.
+ * Sync entity from supermodel app.
  *
  * @param {string} [directory=process.cwd()]
  */
@@ -19,11 +20,11 @@ async function pull(directory = process.cwd()) {
       throw new Error(`Root supermodel directory '${directory}' cannot be pulled`)
     }
 
-    const layerPath = directory.substr(supermodelDirectory.length + 1)
+    const entityPath = directory.substr(supermodelDirectory.length + 1)
     const config = supermodelConfig.getSupermodelConfig(supermodelDirectory)
 
-    const layerData = await fetchLayer(layerPath, config)
-    layerToFS(supermodelDirectory, layerData)
+    const entityData = await fetchEntity(entityPath, config)
+    entityToFS(supermodelDirectory, entityData)
   } else {
     const message = `Unable to pull, current directory '${directory}' is not in the supermodel directory subtree.`
     throw new Error(message)
@@ -31,14 +32,14 @@ async function pull(directory = process.cwd()) {
 }
 
 /**
- * Download layer data from supermodel app.
+ * Download entity data from supermodel app.
  *
- * @param {string} layerPath
+ * @param {string} entityPath
  * @param {Object}  config
  * @param {?string} config.host
  * @returns {Object}
  */
-async function fetchLayer(layerPath, config) {
+async function fetchEntity(entityPath, config) {
   let host
 
   if (config && config.host) {
@@ -48,7 +49,7 @@ async function fetchLayer(layerPath, config) {
   }
 
   const url = new URL(host)
-  url.pathname = layerPath
+  url.pathname = entityPath
   url.searchParams.set('subtree', true)
 
   const response = await fetch(url.toString(), {
@@ -60,14 +61,22 @@ async function fetchLayer(layerPath, config) {
 
   if (!response.ok) {
     if (response.status === 404) {
-      throw new Error(`Layer ${layerPath} does not exists`)
+      throw new Error(`Model ${entityPath} does not exists`)
     } else {
       const data = await response.json()
-      throw new Error('Fetching layer failed:\n${JSON.stringify(data, null, 2)}')
+      throw new Error('Fetching model failed:\n${JSON.stringify(data, null, 2)}')
     }
   }
 
   return response.json()
+}
+
+function entityToFS(directory, entity) {
+  if (entity.type === 'Layer') {
+    layerToFS(directory, entity)
+  } else {
+    modelToFS(directory, entity)
+  }
 }
 
 /**
@@ -85,27 +94,8 @@ function layerToFS(directory, layer) {
   } else {
     fs.mkdirSync(layerPath)
   }
-
-  // NOTE: disable layer metadata feature
-  // // Store layer metadata
-  // const data = {
-  //   // TODO: concat with host
-  //   $id: layer.url,
-  //   title: layer.name,
-  //   description: layer.description || '',
-  // }
-
-  // const layerDataFile = path.join(layerPath, '$index.yaml')
-  // fs.writeFileSync(layerDataFile, yaml.dump(data))
-
   // Iterate nested entities and write them too
-  layer.nested_entities.forEach(entity => {
-    if (entity.type === 'Layer') {
-      layerToFS(directory, entity)
-    } else {
-      modelToFS(directory, entity)
-    }
-  })
+  layer.nested_entities.forEach(entity => entityToFS(directory, entity))
 }
 
 /**
@@ -115,7 +105,13 @@ function layerToFS(directory, layer) {
  * @param {Object} model
  */
 function modelToFS(directory, model) {
-  const modelFile = path.join(directory, `${model.url}.yaml`)
+  const pathWithoutExt = path.join(directory, model.url)
+
+  if (fsUtils.isDirectory(pathWithoutExt)) {
+    rmrf.sync(pathWithoutExt)
+  }
+
+  const modelFile = `${pathWithoutExt}.yaml`
   fs.writeFileSync(modelFile, model.schema)
 }
 

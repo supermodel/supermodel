@@ -1,5 +1,5 @@
 const path = require('path')
-const init = require('../lib/init')
+const initLayer = require('../lib/initLayer')
 const cache = require('../cache')
 
 /**
@@ -16,7 +16,7 @@ function runInit(layerPath) {
     }
 
     layerPath = path.join(user.username, layerPath)
-    const createdDirectoryPath = init(layerPath)
+    const createdDirectoryPath = initLayer(layerPath)
 
     console.log(
 `--> Successfully initialized the supermodel directory!
