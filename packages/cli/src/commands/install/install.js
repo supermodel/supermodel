@@ -18,10 +18,10 @@ async function runInstall(domainUrl) {
     await pull()
 
     console.log(
-      `--> Successfully installed the supermodel domain!
+`--> Successfully installed the supermodel model!
 
-      Use \'cd ${directory}\' to work with your domain`
-    )
+Use \'cd ${directory}\' to work with your model`)
+
   } catch(error) {
     console.error(error)
     process.exit(1)

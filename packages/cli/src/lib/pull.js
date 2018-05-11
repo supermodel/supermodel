@@ -25,7 +25,8 @@ async function pull(directory = process.cwd()) {
     const layerData = await fetchLayer(layerPath, config)
     layerToFS(supermodelDirectory, layerData)
   } else {
-    throw new Error(`Directory '${directory}' is not within supermodel scope.`)
+    const message = `Unable to pull, current directory '${directory}' is not in the supermodel directory subtree.`
+    throw new Error(message)
   }
 }
 

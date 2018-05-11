@@ -149,7 +149,7 @@ function FSModelToEntity(modelFile) {
     const idPath = url.pathname.substr(1)
 
     if (idPath != modelPath) {
-      throw new Error(`Model '${filePath}' has different path than its schema $id '${idPath}'`)
+      throw new Error(`Model '${filePath}' file path does not match its $id '${idPath}'`)
     }
   } else {
     throw new Error(`Model '${filePath}' is missing '$id' in schema`)
