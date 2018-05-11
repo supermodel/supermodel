@@ -1,16 +1,16 @@
 const path = require('path')
 const fs = require('fs')
 const { readYAMLFile } = require ('./yamlFile')
-// const validateMetaSchema = require('./validateMetaSchema');
 
 /**
  * Create a schema loader that attempts to load referenced schemas from a local filesystem
  *
  * @param {string} rootSchemaURI URI / $id of the root schema
  * @param {string} rootSchemaDirectory Directory of the root schema file
+ * @param {function} validateMetaSchema Optional function to validate meta schema of schema being loaded
  * @return {function(uri: string): Promise}
  */
-function createFileSchemaLoader(rootSchemaURI, rootSchemaDirectory) {
+function createFileSchemaLoader(rootSchemaURI, rootSchemaDirectory, validateMetaSchema) {
   return (uri) => {
     return new Promise((resolve, reject) => {
       let loadedSchema, errorMessage, filePath
@@ -37,7 +37,9 @@ function createFileSchemaLoader(rootSchemaURI, rootSchemaDirectory) {
         loadedSchema = readYAMLFile(filePath)
 
         // Validate the remote meta schema
-        // TODO:
+        if (validateMetaSchema) {
+          validateMetaSchema(loadedSchema)
+        }
         // validateMetaSchema(loadedSchema)
 
         // Sanity check, check the requested URI is equal to loaded schema $id
