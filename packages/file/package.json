@@ -1,0 +1,26 @@
+{
+  "name": "file",
+  "version": "0.1.0",
+  "description": "File Schema Loader for Supermodel",
+  "main": "lib/file.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/supermodel/file.git"
+  },
+  "author": {
+    "name": "Zdenek Nemec",
+    "email": "z@goodapi.co",
+    "url": "http://goodapi.co"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/supermodel/file/issues"
+  },
+  "homepage": "https://github.com/supermodel/file#readme",
+  "dependencies": {
+    "js-yaml": "^3.11.0"
+  }
+}
