@@ -1,5 +1,5 @@
 const { fileSchemaLoader, readYAMLFile } = require('file')
-const resolveSchema = require('../../lib/resolveSchema')
+const resolveSchema = require('../../src/resolveSchema')
 
 const RESOLVED_SCHEMA_DEFINITIONS = {"http://supermodel.io/superlib/references/ValidB": {"$id": "http://supermodel.io/superlib/references/ValidB", "title": "B", "type": "object"}}
 
