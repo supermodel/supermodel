@@ -1,5 +1,5 @@
 const fs = require('fs')
-const { readYAML, convertYAMLToJSON } = require('./yamlModel')
+const { readYAML, convertYAMLToJSON } = require('./yamlFile')
 
 /**
  * Read YAML file
