@@ -22,12 +22,12 @@ function resolveSchema(schema, schemaLoader) {
   // the definition object
   return validateSchema(schema, loader).then(() => {
     // Append definitions if not already available
-    let compiledSchema = { ...schema }
+    let compiledSchema = Object.assign({}, schema )
     if (compiledSchema['definitions'] === undefined) {
       compiledSchema['definitions'] = {}
     }
     // Concatenate all definitions into the result
-    compiledSchema.definitions = { ...compiledSchema.definitions, ...loadedRefs }
+    compiledSchema.definitions = Object.assign({}, compiledSchema.definitions, loadedRefs)
     return Promise.resolve(compiledSchema)
   })
 }
