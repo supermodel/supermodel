@@ -4,6 +4,7 @@ const createModelSchema = require('./src/createModelSchema')
 const resolveSchema = require('./src/resolveSchema')
 const validateMetaSchema = require('./src/validateMetaSchema')
 const validateSchema = require('./src/validateSchema')
+const yamlModel = require('./src/yamlModel') 
 
 module.exports = {
   camelize,
@@ -12,4 +13,5 @@ module.exports = {
   resolveSchema,
   validateMetaSchema,
   validateSchema,
+  yamlModel
 }
