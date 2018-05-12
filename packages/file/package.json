@@ -21,7 +21,6 @@
   },
   "homepage": "https://github.com/supermodel/file#readme",
   "dependencies": {
-    "js-yaml": "^3.11.0",
-    "superlib": "github:supermodel/superlib"
+    "js-yaml": "^3.11.0"
   }
 }

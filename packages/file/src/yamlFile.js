@@ -1,5 +1,5 @@
 const fs = require('fs')
-const yamlModel = require('superlib')
+const yaml = require('js-yaml')
 
 /**
  * Read YAML file
@@ -11,16 +11,19 @@ function readYAMLFile(path) {
   let buffer
   try {
     buffer = fs.readFileSync(path, 'utf8')
+    return yaml.safeLoad(buffer)
   }
   catch (e) {
-    if (e.code && e.code === 'ENOENT') {
+    if (e.name && e.name === 'YAMLException') {
+      reason = `${e.name}: ${e.reason}; line ${e.mark.line}, column ${e.mark.column}`
+      throw new Error(reason)
+    }    
+    else if (e.code && e.code === 'ENOENT') {
       const reason = `Error: no such file or directory; ${e.syscall} ${e.path}`
       throw new Error(reason)
     }
     throw (e)
   }
-
-  return yamlModel.readYAML(buffer)
 }
 
 /**
@@ -32,7 +35,7 @@ function readYAMLFile(path) {
  */
 function convertYAMLFileToJSON(path, indentation = 0) {
   const buffer = readYAMLFile(path)
-  return yamlModel.convertYAMLToJSON(buffer, indentation)
+  return JSON.stringify(buffer, null, indentation)
 }
 
 module.exports = {
