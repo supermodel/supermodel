@@ -66,7 +66,7 @@ async function updateLayer (layerPath, layerData) {
   const response = await fetch(url.toString(), {
     method: 'PUT',
     headers: {
-      'Authorization': `Application ${cache.get('token')}`,
+      'Authorization': `Application ${cache.get('authToken')}`,
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },

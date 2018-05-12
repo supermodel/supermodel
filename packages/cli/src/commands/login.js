@@ -1,13 +1,9 @@
 const inquirer = require('inquirer')
 const fetch = require('isomorphic-fetch')
 const auth0 = require('../lib/auth0/authClient')
-
 const cache = require('../cache')
-const {
-  supermodelAuthenticate,
-  supermodelRegisterApplication
+const supermodelAuthenticate = require('../lib/supermodelAuthenticate')
 
-} = require('../lib/auth')
 const required = label => value =>
   value === '' ? `${label} can't be empty` : true
 
@@ -72,9 +68,10 @@ function login() {
     .then(auth0Login)
     .then(({ idToken }) => {
       return supermodelAuthenticate(idToken)
-        .then(user => cache.update('user', user))
-        .then(() => supermodelRegisterApplication(idToken))
-        .then(application => cache.update('token', application.token))
+        .then(({ user, auth_token: authToken}) => {
+          cache.update('user', user)
+          cache.update('authToken', authToken)
+        })
     })
     .then(() => console.log("--> Login successful"))
     .catch(error => {
