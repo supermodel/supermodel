@@ -1,7 +1,7 @@
 const jsYaml = require('js-yaml')
 const fs = require('fs')
 const superlib = require('superlib')
-const file = require('file')
+const { readYAMLFile } = require('superfile')
 const fsUtils = require('../../lib/fsUtils')
 const compileSchema = require('../../lib/compileSchema')
 
@@ -20,7 +20,7 @@ function runConvertToOAS2(inputPath, oas2Path) {
       schemaObject = compileSchema(inputPath)
     }
     else {
-      schemaObject = file.readYAMLFile(inputPath)
+      schemaObject = readYAMLFile(inputPath)
     }
     
     const oas2SchemaObject = superlib.convertToOAS2(schemaObject)

@@ -1,5 +1,5 @@
 const jsYaml = require('js-yaml')
-const file = require('file')
+const { readYAMLFile } = require('superfile')
 const fsUtils = require('./fsUtils')
 
 function compileSchema(path) {
@@ -13,7 +13,7 @@ function compileSchema(path) {
   
   inputFiles.forEach((filePath) => {
     try {
-      const schema = file.readYAMLFile(filePath)
+      const schema = readYAMLFile(filePath)
       const id = schema['$id']
       if (!id) {
         console.warn(`Ignoring schema without id: ${filePath}`)
