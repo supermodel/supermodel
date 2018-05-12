@@ -112,7 +112,14 @@ function modelToFS(directory, model) {
   }
 
   const modelFile = `${pathWithoutExt}.yaml`
-  fs.writeFileSync(modelFile, model.schema)
+  const modelFileDescriptor = fs.openSync(modelFile, 'w')
+
+  if (model.schema !== null) {
+    fs.writeSync(modelFileDescriptor, model.schema)
+  }
+
+  fs.closeSync(modelFileDescriptor)
+
 }
 
 module.exports = pull
