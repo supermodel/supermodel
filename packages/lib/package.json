@@ -21,8 +21,8 @@
   },
   "homepage": "https://github.com/supermodel/superlib#readme",
   "devDependencies": {
-    "file": "github:supermodel/file",
-    "jest": "^22.4.3"
+    "jest": "^22.4.3",
+    "superfile": "github:supermodel/superfile"
   },
   "dependencies": {
     "ajv": "^6.4.0",

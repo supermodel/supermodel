@@ -1,4 +1,4 @@
-const { fileSchemaLoader, readYAMLFile } = require('file')
+const { fileSchemaLoader, readYAMLFile } = require('superfile')
 const validateSchema = require('../../src/validateSchema')
 const validateMetaSchema = require('../../src/validateMetaSchema');
 
