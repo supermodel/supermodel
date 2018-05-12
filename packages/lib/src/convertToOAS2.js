@@ -1,3 +1,5 @@
+const { URL } = require('url') // TODO: verify this works on browser
+
 const supportedKeys = ['title', 'multipleOf', 'maximum', 'exclusiveMaximum', 'minimum', 'exclusiveMinimum', 'maxLength', 'minLength', 'pattern', 'maxItems', 'minItems', 'uniqueItems', 'maxProperties', 'minProperties', 'required', 'enum', 'description', 'format', 'default']
 const schemaObjectArrayKeys = ['allOf' /*, 'anyOf', 'oneOf'*/]
 const schemaObjectKeys = [/*'not'*/, 'additionalProperties']
