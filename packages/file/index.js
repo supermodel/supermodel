@@ -1,6 +1,6 @@
-const fileSchemaLoader = require('./fileSchemaLoader')
-const yamlModel = require('./yamlModel')
-const yamlFile = require('./yamlFile')
+const fileSchemaLoader = require('./src/fileSchemaLoader')
+const yamlModel = require('./src/yamlModel')
+const yamlFile = require('./src/yamlFile')
 
 module.exports = {
   fileSchemaLoader,
