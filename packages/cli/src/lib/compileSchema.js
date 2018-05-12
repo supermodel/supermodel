@@ -1,5 +1,5 @@
 const jsYaml = require('js-yaml')
-const superlib = require('superlib')
+const file = require('file')
 const fsUtils = require('./fsUtils')
 
 function compileSchema(path) {
@@ -11,19 +11,19 @@ function compileSchema(path) {
   const inputFiles = fsUtils.readDirectory(path)
   const compiledSchema = { definitions: {} }
   
-  inputFiles.forEach((file) => {
+  inputFiles.forEach((filePath) => {
     try {
-      const schema = superlib.yamlModel.readYAMLFile(file)
+      const schema = file.readYAMLFile(filePath)
       const id = schema['$id']
       if (!id) {
-        console.warn(`Ignoring schema without id: ${file}`)
+        console.warn(`Ignoring schema without id: ${filePath}`)
         return
       }
 
       compiledSchema.definitions[id] = schema
     }
     catch (e) {
-      console.error(`\in '${file}':`)
+      console.error(`\in '${filePath}':`)
       console.error(e)
       process.exit(1)
     }

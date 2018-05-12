@@ -1,14 +1,15 @@
 const path = require('path')
 const jsYaml = require('js-yaml')
 const superlib = require('superlib')
+const file = require('file')
 
 function runResolveSchema(yamlSchemaFile) {
   try {
-    const schemaObject = superlib.yamlModel.readYAMLFile(yamlSchemaFile)
+    const schemaObject = file.readYAMLFile(yamlSchemaFile)
     const cd = path.dirname(yamlSchemaFile)
     
     // Validate schema including references
-    const loader = superlib.fileSchemaLoader(schemaObject['$id'], cd)
+    const loader = file.fileSchemaLoader(schemaObject['$id'], cd, superlib.validateMetaSchema)
     superlib.resolveSchema(schemaObject, loader)
       .then((resolvedSchema) => {
         console.log(jsYaml.safeDump(resolvedSchema))

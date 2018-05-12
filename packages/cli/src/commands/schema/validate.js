@@ -1,5 +1,6 @@
 const path = require('path')
 const superlib = require('superlib')
+const file = require('file')
 const fsUtils = require('../../lib/fsUtils')
 
 function runValidateSchema(inputPath) {
@@ -11,28 +12,28 @@ function runValidateSchema(inputPath) {
     inputFiles.push(inputPath)
   }
 
-  inputFiles.forEach((file) => {
+  inputFiles.forEach((filePath) => {
     try {
       // Parse YAML input
-      const schemaObject = superlib.yamlModel.readYAMLFile(file)
+      const schemaObject = file.readYAMLFile(filePath)
 
       // Get working directory for resolving local remote schemas
-      const cd = path.dirname(file)
+      const cd = path.dirname(filePath)
 
       // Validate schema including references
-      const loader = superlib.fileSchemaLoader(schemaObject['$id'], cd)
+      const loader = file.fileSchemaLoader(schemaObject['$id'], cd, superlib.validateMetaSchema)
       superlib.validateSchema(schemaObject, loader)
         .then(() => {
-          console.log(`--> Passed ${file}`)
+          console.log(`--> Passed ${filePath}`)
         })
         .catch((onrejected) => {
-          console.error(`--> Failed ${file}:`)
+          console.error(`--> Failed ${filePath}:`)
           console.error(`${onrejected}`)
           process.exit(1)
         })
     }
     catch (e) {
-      console.error(`--> Failed ${file}:`)
+      console.error(`--> Failed ${filePath}:`)
       console.error(e)
       process.exit(1)
     }

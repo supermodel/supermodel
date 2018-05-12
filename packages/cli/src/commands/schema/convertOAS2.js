@@ -1,6 +1,7 @@
 const jsYaml = require('js-yaml')
 const fs = require('fs')
 const superlib = require('superlib')
+const file = require('file')
 const fsUtils = require('../../lib/fsUtils')
 const compileSchema = require('../../lib/compileSchema')
 
@@ -12,14 +13,14 @@ const GENERATED_BY_SUPERMODEL = `
 # https://github.com/supermodel/supermodel-cli
 `
 // TODO: Break down the spaghetti
-function runConvertToOAS2(path, oas2Path) {
+function runConvertToOAS2(inputPath, oas2Path) {
   try {
     let schemaObject
-    if (fsUtils.isDirectory(path)) {
-      schemaObject = compileSchema(path)
+    if (fsUtils.isDirectory(inputPath)) {
+      schemaObject = compileSchema(inputPath)
     }
     else {
-      schemaObject = superlib.yamlModel.readYAMLFile(path)
+      schemaObject = file.readYAMLFile(inputPath)
     }
     
     const oas2SchemaObject = superlib.convertToOAS2(schemaObject)
