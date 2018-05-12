@@ -1,5 +1,5 @@
 const fs = require('fs')
-const { readYAML, convertYAMLToJSON } = require('./yamlModel')
+const yamlModel = require('superlib')
 
 /**
  * Read YAML file
@@ -20,7 +20,7 @@ function readYAMLFile(path) {
     throw (e)
   }
 
-  return readYAML(buffer)
+  return yamlModel.readYAML(buffer)
 }
 
 /**
@@ -32,7 +32,7 @@ function readYAMLFile(path) {
  */
 function convertYAMLFileToJSON(path, indentation = 0) {
   const buffer = readYAMLFile(path)
-  return convertYAMLToJSON(buffer, indentation)
+  return yamlModel.convertYAMLToJSON(buffer, indentation)
 }
 
 module.exports = {
