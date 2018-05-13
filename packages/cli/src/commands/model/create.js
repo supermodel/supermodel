@@ -66,7 +66,7 @@ function runCreate(modelPath) {
     modelId = `${SUPERMODEL_BASE_ID}/${idBasename}`
   }
 
-  const modelData = super.createModelSchema(basename, modelId)
+  const modelData = superlib.createModelSchema(basename, modelId)
 
   fs.writeFileSync(modelFilePath, modelData)
   console.info(`--> Created model '${basename}' as ${modelFilePath}`)
