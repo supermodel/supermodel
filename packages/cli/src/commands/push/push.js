@@ -66,7 +66,7 @@ async function updateLayer (layerPath, layerData) {
   const response = await fetch(url.toString(), {
     method: 'PUT',
     headers: {
-      'Authorization': `Application ${cache.get('authToken')}`,
+      'Authorization': `Bearer ${cache.get('authToken')}`,
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
@@ -79,6 +79,8 @@ async function updateLayer (layerPath, layerData) {
     const data = await response.json()
     if (response.status === 400) {
       throw new Error(`Push failed with validation errors: ${data.errors}`)
+    } else if (response.status === 401) {
+      throw new Error(`Push failed for unauthorized user`)
     } else if (response.status === 403) {
       throw new Error(`Push failed due to insufficient permissions for layer '${layerPath}'`)
     } else {

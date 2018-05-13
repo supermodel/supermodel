@@ -5,7 +5,7 @@
  * @returns {Promise<Object,Error>} authenticated user
  */
 function supermodelAuthenticate(idToken) {
-  return fetch(`${process.env['SUPERMODEL_URL']}/auth0?cli=1`,{
+  return fetch(`${process.env['SUPERMODEL_URL']}/auth0?client_id=${process.env['CLIENT_ID']}`,{
     method: 'POST',
     headers: {
       'Authorization': 'Basic ' + idToken,
