@@ -79,6 +79,8 @@ async function updateLayer (layerPath, layerData) {
     const data = await response.json()
     if (response.status === 400) {
       throw new Error(`Push failed with validation errors: ${data.errors}`)
+    } else if (response.status === 403) {
+      throw new Error(`Push failed due to insufficient permissions for layer '${layerPath}'`)
     } else {
       throw new Error(`Push failed:\n${JSON.stringify(data, null, 2)}`)
     }
@@ -143,7 +145,7 @@ function FSModelToEntity(modelFile) {
   const supermodelDirectory = supermodelConfig.findSupermodelDir(modelFile)
   const filePath = modelFile.substr(supermodelDirectory.length + 1)
 
-  if (schema.$id) {
+  if (schema && schema.$id) {
     const modelPath = filePath.replace(/\.(ya?ml)/, '')
     const url = new URL(schema.$id)
     const idPath = url.pathname.substr(1)
@@ -152,7 +154,7 @@ function FSModelToEntity(modelFile) {
       throw new Error(`Model '${filePath}' file path does not match its $id '${idPath}'`)
     }
   } else {
-    throw new Error(`Model '${filePath}' is missing '$id' in schema`)
+    throw new Error(`Model '${filePath}' is missing schema or its '$id'`)
   }
 
 
