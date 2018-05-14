@@ -82,7 +82,7 @@ async function updateLayer (layerPath, layerData) {
     } else if (response.status === 401) {
       throw new Error(`Push failed for unauthorized user`)
     } else if (response.status === 403) {
-      throw new Error(`Push failed due to insufficient permissions for layer '${layerPath}'`)
+      throw new Error(`Push failed for insufficient permissions to '${layerPath}'`)
     } else {
       throw new Error(`Push failed:\n${JSON.stringify(data, null, 2)}`)
     }
