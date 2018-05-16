@@ -1,5 +1,5 @@
 function createModelSchema(basename, modelId) {
-  return `$id: ${modelId}
+  return `$id: ${encodeURI(modelId)}
 $schema: http://json-schema.org/draft-07/schema#
 
 title: ${basename}
