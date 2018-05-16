@@ -150,8 +150,11 @@ function FSModelToEntity(modelFile) {
   if (schema && schema.$id) {
     const modelPath = filePath.replace(/\.(ya?ml)/, '')
     const url = new URL(schema.$id)
-    const idPath = url.pathname.substr(1)
+    let idPath = url.pathname.substr(1)
 
+    try {
+      idPath = decodeURI(idPath)
+    } catch {}
     if (idPath != modelPath) {
       throw new Error(`Model '${filePath}' file path does not match its $id '${idPath}'`)
     }
