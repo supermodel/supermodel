@@ -154,7 +154,7 @@ function FSModelToEntity(modelFile) {
 
     try {
       idPath = decodeURI(idPath)
-    } catch {}
+    } catch(er) {}
     if (idPath != modelPath) {
       throw new Error(`Model '${filePath}' file path does not match its $id '${idPath}'`)
     }
