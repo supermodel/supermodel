@@ -58,3 +58,5 @@ typings/
 .env
 
 oas2.yaml
+
+lib/

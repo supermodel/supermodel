@@ -2,9 +2,10 @@
   "name": "superlib",
   "version": "0.2.0",
   "description": "Supermodel.io core functionality library",
-  "main": "index.js",
-  "module": "inedx.js",
+  "main": "lib/index.js",
   "scripts": {
+    "compile": "npx babel --presets es2015 -d lib/ src/",
+    "postinstall": "npm run compile",
     "test": "jest"
   },
   "repository": {
@@ -26,6 +27,8 @@
     "superfile": "github:supermodel/superfile"
   },
   "dependencies": {
+    "babel-cli": "6.26.0",
+    "babel-preset-es2015": "6.24.1",
     "ajv": "^6.4.0",
     "js-yaml": "^3.11.0"
   }
