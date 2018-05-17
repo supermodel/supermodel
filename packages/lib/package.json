@@ -3,6 +3,7 @@
   "version": "0.2.0",
   "description": "Supermodel.io core functionality library",
   "main": "index.js",
+  "module": "inedx.js",
   "scripts": {
     "test": "jest"
   },
