@@ -12,7 +12,7 @@ function readYAML(yamlBuffer) {
   }
   catch (e) {
     if (e.name && e.name === 'YAMLException') {
-      reason = `${e.name}: ${e.reason}; line ${e.mark.line}, column ${e.mark.column}`
+      const reason = `${e.name}: ${e.reason}; line ${e.mark.line}, column ${e.mark.column}`
       throw new Error(reason)
     }
     throw (e)
