@@ -102,7 +102,7 @@ function FSLayerToEntity(layerDirectory) {
   if (layerDataFile) {
     const layerDataRaw = fs.readFileSync(layerDataFile, 'utf-8')
     const { title, description } = yaml.load(layerDataRaw)
-    layerData = { name: title, description }
+    layerData = { title, description }
   }
 
   const items = fs.readdirSync(layerDirectory)
@@ -166,8 +166,6 @@ function FSModelToEntity(modelFile) {
   return {
     type: 'Model',
     slug: path.basename(modelFile).split('.')[0],
-    name: schema.title,
-    description: schema.description,
     schema: schemaRaw
   }
 }

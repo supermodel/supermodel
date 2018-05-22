@@ -37,7 +37,7 @@ async function pull(directory = process.cwd()) {
  * @param {string} entityPath
  * @param {Object}  config
  * @param {?string} config.host
- * @returns {Object}
+ * @returns {Promise<Object,Error>}
  */
 async function fetchEntity(entityPath, config) {
   let host
@@ -86,7 +86,7 @@ function entityToFS(directory, entity) {
  * @param {Object} layer
  */
 function layerToFS(directory, layer) {
-  const layerPath = path.join(directory, layer.url)
+  const layerPath = path.join(directory, layer.slug)
 
   // Empty directory or create new one
   if (fs.existsSync(layerPath)) {
@@ -95,7 +95,7 @@ function layerToFS(directory, layer) {
     fs.mkdirSync(layerPath)
   }
   // Iterate nested entities and write them too
-  layer.nested_entities.forEach(entity => entityToFS(directory, entity))
+  layer.nested_entities.forEach(entity => entityToFS(layerPath, entity))
 }
 
 /**
@@ -105,7 +105,7 @@ function layerToFS(directory, layer) {
  * @param {Object} model
  */
 function modelToFS(directory, model) {
-  const pathWithoutExt = path.join(directory, model.url)
+  const pathWithoutExt = path.join(directory, model.slug)
 
   if (fsUtils.isDirectory(pathWithoutExt)) {
     rmrf.sync(pathWithoutExt)
