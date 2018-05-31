@@ -21,9 +21,7 @@ function runClone(modelFilePath, clonedName) {
 
     // Create the new model
     clonedModelFilePath = runCreate(clonedName)
-    
     const clonedFile = fs.readFileSync(clonedModelFilePath, 'utf8');
-    // console.log(clonedFile)
 
     // Clone properties
     const sortedKeys = Object.keys(schemaObject.properties).sort()
