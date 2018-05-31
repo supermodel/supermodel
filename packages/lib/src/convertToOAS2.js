@@ -164,7 +164,14 @@ function convertSchemaObjectProperty(key, value, rootId, currentId, definitions)
         value.forEach((element) => {
           itemsArray.push(convertSchemaObject(element, rootId, currentId, definitions))
         })
-        return { key, value: itemsArray }
+        // Converting all items is not supported in OAS2
+        // return { key, value: itemsArray }
+
+        // Return only first of the items...
+        if (itemsArray.length > 1) {
+          console.warn(`Warning: dropping additional array items`)
+        }
+        return { key, value: itemsArray[0] }
       }
       else {
         return { key, value: convertSchemaObject(value, rootId, currentId, definitions) }
