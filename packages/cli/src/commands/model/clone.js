@@ -1,4 +1,6 @@
+const fs = require('fs')
 const { readYAMLFile } = require('superfile')
+const runCreate = require('./create')
 
 function formatProperty(propertyName, baseId) {
   return `
@@ -7,11 +9,25 @@ function formatProperty(propertyName, baseId) {
 `
 }
 
-function runClone(modelPath, newModelName) {
+function runClone(modelFilePath, clonedName) {
   try {
-    const schemaObject = readYAMLFile(modelPath)
+    const schemaObject = readYAMLFile(modelFilePath)
+
+    // Check where we are cloning an object
+    if (!schemaObject.type || schemaObject.type !== 'object') {
+      console.error('Unable to clone other types but object')
+      process.exit(1)        
+    }
+
+    // Create the new model
+    clonedModelFilePath = runCreate(clonedName)
+    
+    const clonedFile = fs.readFileSync(clonedModelFilePath, 'utf8');
+    // console.log(clonedFile)
+
+    // Clone properties
     const sortedKeys = Object.keys(schemaObject.properties).sort()
-    let buffer = ''
+    let buffer = `${clonedFile}\n`
     let index = 0
     sortedKeys.forEach((key => {
       if (index === 0) {
@@ -23,7 +39,10 @@ properties:`)
       index++
     }))
 
-    console.log(buffer)
+    // Write the result
+    fs.writeFileSync(clonedModelFilePath, buffer)
+    console.info(`--> Cloned model '${modelFilePath}' as ${clonedModelFilePath}`)
+    return clonedModelFilePath
   }
   catch (e) {
     console.error(e)

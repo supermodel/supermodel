@@ -12,9 +12,9 @@ program
   .action((name) => runCreate(name))
 
 program
-  .command('clone <modelPath> <newModelName>')
+  .command('clone <modelFilePath> <clonedName>')
   .description('Clone a model')
-  .action((modelPath, newModelName) => runClone(modelPath, newModelName))
+  .action((modelFilePath, clonedName) => runClone(modelFilePath, clonedName))
 
 program
   .parse(process.argv)

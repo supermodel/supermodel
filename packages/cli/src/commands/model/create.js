@@ -70,6 +70,7 @@ function runCreate(modelPath) {
 
   fs.writeFileSync(modelFilePath, modelData)
   console.info(`--> Created model '${basename}' as ${modelFilePath}`)
+  return modelFilePath
 }
 
 module.exports = runCreate
