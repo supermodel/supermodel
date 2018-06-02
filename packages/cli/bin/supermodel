@@ -7,18 +7,18 @@ const package = require('../package.json')
 program.version(package.version)
 
 program
-  .command('schema [command]', 'Validate, compile or resolve JSON Schema YAML representation of a model.')
-  .command('model [command]', 'Create and manage a model.')
-  .command('install [url]', 'Install the domain from Supermodel.io app')
-  .command('pull', 'Pull from Supermodel.io app')
-  .command('push', 'Push to Supermodel.io app')
-  .command('login', 'Login with Supermodel.io credentials.')
-  .command('signup', 'Signup to Supermodel.io app.')
-  .command('whoami', 'Show who you are logged in as.')
+  .command('schema [command]', 'validate, compile or resolve JSON Schema YAML representation of a model')
+  .command('model [command]', 'create, clone and manage a model')
+  .command('install [url]', 'install the models from supermodel.io')
+  .command('pull', 'pull installed models from supermodel.io into current directory')
+  .command('push', 'push models from current directory to supermodel.io')
+  .command('login', 'login with supermodel.io credentials')
+  .command('signup', 'signup for supermodel.io')
+  .command('whoami', 'show who you are')
 
 program
   .command('init [layerPath]')
-  .description('Initialize the supermodel directory, create directory structure to match the layerPath if provided.')
+  .description('initialize the supermodel directory, create directory structure to match the layerPath if provided')
   .action((layerName) => { runInit(layerName); process.exit(0) })
 
 program

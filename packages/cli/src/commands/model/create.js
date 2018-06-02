@@ -8,7 +8,7 @@ const cache = require('../../cache')
 
 const SUPERMODEL_BASE_ID = process.env.SUPERMODEL_URL
 
-function runCreate(modelPath) {
+function runCreate(modelPath, verbose = true) {
   // Find if we are in a supermodel directory or one of its descendants
   const currentDir = process.cwd()
   const configDir = supermodelConfig.findSupermodelDir(currentDir)
@@ -69,7 +69,8 @@ function runCreate(modelPath) {
   const modelData = superlib.createModelSchema(basename, modelId)
 
   fs.writeFileSync(modelFilePath, modelData)
-  console.info(`--> Created model '${basename}' as ${modelFilePath}`)
+  if (verbose)
+    console.info(`--> Created model '${basename}' as ${modelFilePath}`)
   return modelFilePath
 }
 

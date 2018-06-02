@@ -8,12 +8,12 @@ program
 
 program
   .command('create <name>')
-  .description('Create a new model.')
+  .description('create a new model')
   .action((name) => runCreate(name))
 
 program
   .command('clone <modelFilePath> <clonedName>')
-  .description('Clone a model')
+  .description('clone the model at <modelFilePath> as <clonedName>')
   .action((modelFilePath, clonedName) => runClone(modelFilePath, clonedName))
 
 program

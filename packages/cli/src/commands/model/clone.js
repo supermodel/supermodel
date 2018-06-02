@@ -20,7 +20,7 @@ function runClone(modelFilePath, clonedName) {
     }
 
     // Create the new model
-    clonedModelFilePath = runCreate(clonedName)
+    clonedModelFilePath = runCreate(clonedName, false)
     const clonedFile = fs.readFileSync(clonedModelFilePath, 'utf8');
 
     // Clone properties
@@ -29,8 +29,7 @@ function runClone(modelFilePath, clonedName) {
     let index = 0
     sortedKeys.forEach((key => {
       if (index === 0) {
-        buffer = buffer.concat(`
-properties:`)
+        buffer = buffer.concat(`properties:`)
         index++
       }
       buffer = buffer.concat(formatProperty(key, schemaObject.$id))
