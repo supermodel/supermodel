@@ -78,7 +78,7 @@ async function updateLayer (layerPath, layerData) {
   if (!response.ok) {
     const data = await response.json()
     if (response.status === 400) {
-      throw new Error(`Push failed with validation errors: ${data.errors}`)
+      throw new Error(`Push failed for $id '${data.instance}' with validation errors:\n${data.detail}`)
     } else if (response.status === 401) {
       throw new Error(`Push failed for unauthorized user`)
     } else if (response.status === 403) {
