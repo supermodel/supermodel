@@ -10,23 +10,23 @@ const fsUtils = require('./fsUtils')
 /**
  * Sync entity from supermodel app.
  *
- * @param {string} [directory=process.cwd()]
+ * @param {string} [entity=process.cwd()]
  */
-async function pull(directory = process.cwd()) {
-  const supermodelDirectory = supermodelConfig.findSupermodelDir(directory)
+async function pull(entity = process.cwd()) {
+  const supermodelDirectory = supermodelConfig.findSupermodelDir(entity)
 
   if (supermodelDirectory) {
-    if (supermodelDirectory == directory) {
-      throw new Error(`Root supermodel directory '${directory}' cannot be pulled`)
+    if (supermodelDirectory == entity) {
+      throw new Error(`Root supermodel directory '${entity}' cannot be pulled`)
     }
 
-    const entityPath = directory.substr(supermodelDirectory.length + 1)
+    const entityPath = entity.substr(supermodelDirectory.length + 1)
     const config = supermodelConfig.getSupermodelConfig(supermodelDirectory)
 
     const entityData = await fetchEntity(entityPath, config)
-    entityToFS(supermodelDirectory, entityData)
+    entityToFS(path.join(entity, '..'), entityData)
   } else {
-    const message = `Unable to pull, current directory '${directory}' is not in the supermodel directory subtree.`
+    const message = `Unable to pull '${entity}'. Not in the supermodel directory subtree.`
     throw new Error(message)
   }
 }
