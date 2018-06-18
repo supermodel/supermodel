@@ -1,6 +1,8 @@
 const fs = require('fs')
+const { URL } = require('url')
 const { validateData, validateMetaSchema } = require('superlib')
 const fetch = require('node-fetch')
+const readData = require('../../lib/readData')
 
 /**
  * Validates data file againts supermodel schema
@@ -9,18 +11,36 @@ const fetch = require('node-fetch')
  * @param {string} modelSchema - url or path of schema
  */
 async function runValidate (dataFile, modelSchema) {
-  let data, schema
+  const data = await loadData(dataFile)
+  const schema = await loadSchema(modelSchema)
 
   try {
-    data = JSON.parse(fs.readFileSync(dataFile, 'utf8'))
+    validateData(data, schema)
+    console.log("Data are valid")
+    process.exit(0)
+  } catch(e) {
+    console.error('Validation failed:')
+    console.error(e.message)
+    process.exit(1)
+  }
+}
+
+async function loadData(dataFile) {
+  try {
+    return await readData(dataFile)
   } catch(e) {
     console.error('Loading data failed:')
     console.error(e.message)
     process.exit(1)
   }
+}
+
+async function loadSchema(modelSchema) {
+  let schema
+  const url = new URL(modelSchema, process.env['SUPERMODEL_URL'])
 
   try {
-    const response = await fetch(modelSchema, {
+    const response = await fetch(url.toString(), {
       headers: {
         'Accept': 'application/schema+json'
       }
@@ -45,15 +65,7 @@ async function runValidate (dataFile, modelSchema) {
     process.exit(1)
   }
 
-  try {
-    validateData(data, schema)
-    console.log("Data are valid")
-    process.exit(0)
-  } catch(e) {
-    console.error('Validation failed:')
-    console.error(e.message)
-    process.exit(1)
-  }
+  return schema
 }
 
 module.exports = runValidate
