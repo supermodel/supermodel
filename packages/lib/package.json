@@ -6,7 +6,8 @@
   "scripts": {
     "compile": "npx babel --presets es2015 -d lib/ src/",
     "postinstall": "npm run compile",
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "npm run test -- --watch"
   },
   "repository": {
     "type": "git",
