@@ -12,6 +12,7 @@ program
   .command('install [url]', 'install the models from supermodel.io')
   .command('pull', 'pull installed models from supermodel.io into current directory')
   .command('push', 'push models from current directory to supermodel.io')
+  .command('validate <file> <schemaUrl>', 'validate file against schema')
   .command('login', 'login with supermodel.io credentials')
   .command('signup', 'signup for supermodel.io')
   .command('whoami', 'show who you are')
