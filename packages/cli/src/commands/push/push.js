@@ -12,7 +12,7 @@ async function runPush() {
     await push()
 
     console.log(
-      `--> Successfully synced domain to supermodel.io!`
+      `--> Successfully pushed to supermodel.io`
     )
   } catch(error) {
     console.error(error)

@@ -4,7 +4,7 @@ async function runPull() {
   try {
     await pull()
     console.log(
-      `--> Successfully synced model from supermodel.io!`
+      `--> Successfully pulled model from supermodel.io`
     )
   } catch(error) {
     console.error(error)

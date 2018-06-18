@@ -5,7 +5,7 @@ const fetch = require('node-fetch')
 const readData = require('../../lib/readData')
 
 /**
- * Validates data file againts supermodel schema
+ * Validates data file against supermodel model
  *
  * @param {string} dataFile - fs path to validated data
  * @param {string} modelSchema - url or path of schema
@@ -16,10 +16,10 @@ async function runValidate (dataFile, modelSchema) {
 
   try {
     validateData(data, schema)
-    console.log("Data are valid")
+    console.log(`--> Passed ${dataFile}`)
     process.exit(0)
   } catch(e) {
-    console.error('Validation failed:')
+    console.error(`-->  Failed ${dataFile}:`)
     console.error(e.message)
     process.exit(1)
   }
@@ -29,7 +29,7 @@ async function loadData(dataFile) {
   try {
     return await readData(dataFile)
   } catch(e) {
-    console.error('Loading data failed:')
+    console.error('--> Failed to load instance:')
     console.error(e.message)
     process.exit(1)
   }
@@ -52,7 +52,7 @@ async function loadSchema(modelSchema) {
 
     schema = await response.json()
   } catch(e) {
-    console.error('Loading schema failed:')
+    console.error('--> Failed load model:')
     console.error(e.message)
     process.exit(1)
   }
@@ -60,7 +60,7 @@ async function loadSchema(modelSchema) {
   try {
     validateMetaSchema(schema)
   } catch(e) {
-    console.error('Schema is not valid:')
+    console.error(`--> Schema ${`modelSchema`} is not valid:`)
     console.error(e.message)
     process.exit(1)
   }
