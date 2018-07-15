@@ -52,7 +52,7 @@ And go ahead and create your first model:
 
 ```
 $ supermodel model create MyModel
---> Created model 'MyModel' as MyModel.yaml 
+--> Created model 'MyModel' as MyModel.yaml
 ```
 
 ```
@@ -104,6 +104,14 @@ This CLI tool currently supports the following JSON schema operations:
 
     ```
     $ supermodel schema oas2 <modelPath>
+    ```
+
+- **Conversion to GraphQL schema**
+
+    Converts Supermodel JSON Schema model to [GraphQL](https://graphql.org/) schema
+
+    ```
+    $ supermodel schema graphql <modelPath>
     ```
 
 ## Usage Examples

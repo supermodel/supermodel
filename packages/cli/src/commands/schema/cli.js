@@ -4,6 +4,7 @@ const runValidateSchema = require('./validate')
 const runResolveSchema = require('./resolve')
 const runCompileSchema = require('./compile')
 const runConvertToOAS2 = require('./convertOAS2')
+const runConvertToGraphQL = require('./convertGraphQL')
 const package = require('../../../package.json')
 
 program
@@ -47,7 +48,7 @@ program
 program
   .command('graphql <modelPath>')
   .description('convert given model to GraphQL Schema')
-  .action((modelPath) => { console.error('not implemented') })
+  .action((modelPath) => { runConvertToGraphQL(modelPath) })
 
 program
   .parse(process.argv)
