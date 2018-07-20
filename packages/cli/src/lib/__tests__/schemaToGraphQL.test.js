@@ -1,4 +1,6 @@
-const schemaToGraphQL = require('./schemaToGraphQL')
+const path = require('path')
+const fs = require('fs')
+const schemaToGraphQL = require('../schemaToGraphQL')
 
 function matchSchema(schema) {
   expect(schemaToGraphQL(schema)).toMatchSnapshot();
@@ -171,5 +173,11 @@ describe('schemaToGraphQL', () => {
         }
       })
     })
+  })
+
+  test('complex schema', () => {
+    const content = fs.readFileSync(path.resolve(__dirname, './__fixtures__/Article.json'))
+    const schema = JSON.parse(content.toString())
+    matchSchema(schema)
   })
 })

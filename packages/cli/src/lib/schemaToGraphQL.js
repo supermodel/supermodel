@@ -1,6 +1,6 @@
 const casex = require('casex')
 const {
-  GraphQLObjectType, GraphQLList, GraphQLNonNull, GraphQLEnumType,
+  GraphQLObjectType, GraphQLList, GraphQLUnionType, GraphQLNonNull, GraphQLEnumType,
   GraphQLString, GraphQLInt, GraphQLFloat, GraphQLBoolean,
   printType
 } = require('graphql');
@@ -8,31 +8,49 @@ const {
   idToName,
   resolveRef,
   toSafeEnumKey,
-  makeContext,
-  extendContext,
   fetchType
 } = require('./graphql/utils')
 
+/**
+ * Generates GraphQL schema for given JSON Schema
+ *
+ * @param {Object} schema
+ * @returns {string}
+ */
 function schemaToGraphQL(schema) {
-  const context = makeContext(schema)
+  const types = new Map()
 
-  objectToGrapQL({ context })
+  objectToGrapQL(types, schema)
 
   const stringifiedTypes = []
 
-  context.types.forEach(type => stringifiedTypes.unshift(printType(type)))
+  types.forEach(type => {
+    // console.log(type)
+    // console.log(type.getFields())
+    stringifiedTypes.push(printType(type))
+  })
   return stringifiedTypes.join("\n\n")
 }
 
-function objectToGrapQL({
-  context,
-  object = context.schema,
+/**
+ * Reoslve JSON Schema object into GraphQL types
+ *
+ * @param {Map} types are cached graphql types
+ * @param {Object} schema whole schema
+ * @param {Object} [object=schema] current object to be resolved
+ * @param {string} [name=null] type name generated in context above
+ * @returns {GraphQLObjectType}
+ */
+function objectToGrapQL(
+  types,
+  schema,
+  object = schema,
   name = null
-}) {
+) {
   const { type, $id, properties, required } = object
 
   if (type !== 'object') {
-    throw new Error(`Can't convert non 'object' type into object`)
+    throw new Error(`A JSON schema type '${type}' can't convert into GraphQL object`)
   }
 
   if ($id) {
@@ -41,82 +59,105 @@ function objectToGrapQL({
     throw new Error(`Missing name`)
   }
 
-  return fetchType(context, name, () => {
-    const fields = {}
-
-    if (properties) {
-      const nextContext = extendContext(context, $id, name)
-
-      Object.keys(properties).forEach(propertyName => {
-        let graphQLType = propertyToType({
-          context: nextContext,
-          property: properties[propertyName],
-          parentName: name,
-          propertyName,
-        })
-
-        if (required && required.includes(propertyName)) {
-          graphQLType = new GraphQLNonNull(graphQLType)
-        }
-
-        fields[propertyName] = {
-          type: graphQLType
-        }
-      })
-    }
-
+  return fetchType(types, name, () => {
     return new GraphQLObjectType({
       name,
-      fields
+      fields: () => {
+        const fields = {}
+
+        if (properties) {
+          Object.keys(properties).forEach(propertyName => {
+            let graphQLType = propertyToType(
+              types,
+              schema,
+              object,
+              name,
+              properties[propertyName],
+              propertyName
+            )
+
+            if (required && required.includes(propertyName)) {
+              graphQLType = new GraphQLNonNull(graphQLType)
+            }
+
+            fields[propertyName] = {
+              type: graphQLType
+            }
+          })
+        }
+
+        return fields
+      }
     });
   })
 }
 
-function propertyToType({
-  context,
-  property,
+/**
+ * Convert JSON Schema property into GraphQL type
+ *
+ * @param {Map} types
+ * @param {Object} schema
+ * @param {Object} parentObject
+ * @param {string} parentName
+ * @param {object} property
+ * @param {string} propertyName
+ * @returns {GraphQLObjectType|GraphQLList|GraphQLUnionType|GraphQLEnumType|GraphQLString|GraphQLInt|GraphQLFloat|GraphQLBoolean}
+ */
+function propertyToType(
+  types,
+  schema,
+  parentObject,
   parentName,
+  property,
   propertyName
-}) {
+) {
   const { anyOf, enum: enumValues, $ref, type } = property
 
   if ($ref !== undefined) {
-    return objectToGrapQL({
-      context,
-      object: resolveRef(context, $ref)
-    })
+    const resolved = resolveRef(schema, parentObject, $ref)
+    const name = resolved.$id ? undefined : `${parentName}${casex(resolved.title, 'CaSe')}`
+
+    return objectToGrapQL(
+      types,
+      schema,
+      resolved,
+      name
+    )
   } else if (enumValues !== undefined) {
-    return enumToType({
-      context,
+    return enumToType(
+      types,
       type,
       parentName,
       propertyName,
       enumValues
-    })
+    )
   } else if (anyOf !== undefined) {
-    throw new Error(`anyOf is not yet implemented`)
-    // return anyOfToGraphQL({})
+    return anyOfToGraphQL(
+      types,
+      schema,
+      parentObject,
+      parentName,
+      propertyName,
+      anyOf
+    )
   } else if (type !== undefined) {
     switch (type) {
       case 'object':
-        return objectToGrapQL({
-          context,
-          object: property,
-          name: `${parentName}${casex(propertyName, 'CaSe')}`
-        })
+        return objectToGrapQL(
+          types,
+          schema,
+          property,
+          `${parentName}${casex(propertyName, 'CaSe')}`
+        )
       case 'array': {
-        const arrayObject = property.items
-
-        if (Array.isArray(arrayObject)) {
-          throw `Tuple type is not supported on property '${propertyName}'`
-        }
-
-        return arrayToGraphQL({
-          context,
-          property: arrayObject,
+        return arrayToGraphQL(
+          types,
+          schema,
+          parentObject,
           parentName,
+          property.items,
           propertyName
-        })
+        )
       }
       case 'string':
         return GraphQLString
@@ -133,45 +174,96 @@ function propertyToType({
   throw new Error(`A JSON Schema attribute '${propertyName}' does not have a known GraphQL mapping`);
 }
 
-function anyOfToGraphQL({
-  // TODO Union type
-}) {
-
-}
-
-function arrayToGraphQL({
-  context,
-  property,
+/**
+ *
+ *
+ * @param {Map} types
+ * @param {Object} schema
+ * @param {Object} parentObject
+ * @param {string} parentName
+ * @param {string} propertyName
+ * @param {Array<Object>} anyOf
+ * @returns {GraphQLUnionType}
+ */
+function anyOfToGraphQL(
+  types,
+  schema,
+  parentObject,
   parentName,
-  propertyName
-}) {
-  return new GraphQLList(
-    // ? This could solve case when minLength: 1
-    // new GraphQLNonNull(
-      propertyToType({
-        context,
-        property,
-        parentName,
-        propertyName
+  propertyName,
+  anyOf
+) {
+  const name = `${parentName}${casex(propertyName, 'CaSe')}Union`
+
+  return fetchType(types, name, () => {
+    return new GraphQLUnionType({
+      name,
+      types: anyOf.map(item => {
+        return propertyToType(
+          types,
+          schema,
+          parentObject,
+          parentName,
+          item,
+          propertyName
+        )
       })
-    // )
-  )
+    })
+  })
 }
 
-function enumToType({
-  context,
+/**
+ * Wrap JSON Schema type into GraphQL List
+ *
+ * @param {Map} types
+ * @param {Object} schema
+ * @param {Object} parentObject
+ * @param {string} parentName
+ * @param {string} propertyName
+ * @param {Object|Array} arrayObject
+ * @returns {GraphQLList}
+ */
+function arrayToGraphQL(
+  types,
+  schema,
+  parentObject,
+  parentName,
+  arrayObject,
+  propertyName
+) {
+  if (Array.isArray(arrayObject)) {
+    console.warn(`GraphQL does not support tuple format in property '${propertyName}'. Converting to simple Array type by dropping tail of an array.`)
+    arrayObject = arrayObject[0]
+  }
+
+  // ? This could solve case when minLength: 1
+  // new GraphQLNonNull()
+  const arrayContentType = propertyToType(
+    types,
+    schema,
+    parentObject,
+    parentName,
+    arrayObject,
+    propertyName
+  )
+
+  return new GraphQLList(arrayContentType)
+}
+
+function enumToType(
+  types,
   type,
   parentName,
   propertyName,
   enumValues
-}) {
+) {
   if (type !== 'string') {
     throw new Error(`The attribute '${propertyName} not supported because only conversion of string based enumertions are implemented`);
   }
 
   const name = `${parentName}${casex(propertyName, 'CaSe')}Enum`
 
-  return fetchType(context, name, () => {
+  return fetchType(types, name, () => {
     const values = {}
 
     enumValues.forEach(enumValue => {

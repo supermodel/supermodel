@@ -33,15 +33,16 @@ function toSafeEnumKey (value) {
   }
 }
 
-function resolveRef(context, ref) {
-  const { id, schema, schema: { definitions } } = context
+function resolveRef(schema, currentObject, ref) {
+  const definitions = currentObject.definitions || schema.definitions
+  const id = currentObject.$id
 
   if (definitions && definitions[ref]) { 
     return definitions[ref]
   } else if (ref.startsWith('#/')) {
     const path = ref.split('/').slice(1)
 
-    let result = schema
+    let result = currentObject
 
     for (let i = 0; i < path.length; i++) {
       const directResult = result[path.slice(i).join('/')]
@@ -60,11 +61,15 @@ function resolveRef(context, ref) {
     }
 
     return result
-  } else {
+  } else if (id) {
     const url = new URL(id)
     url.pathname = path.resolve(url.pathname, '..', ref)
 
-    const definition = definitions[url.toString()]
+    let definition = definitions[url.toString()]
+
+    if (!definition && url.toString() === id) {
+      definition = currentObject
+    }
 
     if (!definition) {
       throw new Error(`Can't resolve $ref '${ref}'`)
@@ -72,31 +77,31 @@ function resolveRef(context, ref) {
 
     return definition
   }
+
+  throw new Error(`Can't resolve $ref '${ref}'`)
 }
 
-function makeContext(schema) {
-  return {
-    schema,
-    id: null,
-    name: null,
-    types: new Map()
+class GraphQLPendingType {
+  constructor(name) {
+    this.name = name
   }
 }
 
-function extendContext(context, id, name) {
-  return {
-    ...context,
-    id: id || context.id,
-    name: name || context.name
-  }
-}
+function fetchType(types, name, resolver) {
+  let type = types.get(name)
+  // const pendingName = `__pending${name}__`
 
-function fetchType(context, name, resolver) {
-  let type = context.types.get(name)
+  // if (types.get(pendingName)) {
+  //   const pendingType = new GraphQLPendingType(name)
+  //   return pendingType
+  // }
 
   if (!type) {
+    // types.set(pendingName, true)
     type = resolver()
-    context.types.set(name, type)
+    // types.delete(pendingName)
+
+    types.set(name, type)
   }
 
   return type
@@ -107,7 +112,5 @@ module.exports = {
   resolveRef,
   toSafeEnumKey,
 
-  makeContext,
-  extendContext,
   fetchType
 }
