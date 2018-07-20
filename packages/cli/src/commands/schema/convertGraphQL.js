@@ -1,11 +1,11 @@
 // const { newContext, convert } = require('./tmp/converter')
 const resolveSchema = require('../../lib/resolveSchema')
-const schemaToGrapQL = require('../../lib/schemaToGraphQL')
+const { convertToGraphQL } = require('superlib')
 
 function runConvertToGraphQL(yamlSchemaFile) {
   try {
     resolveSchema(yamlSchemaFile)
-      .then(schemaToGrapQL)
+      .then(convertToGraphQL)
       .then(graphQLSchema => {
         console.log(graphQLSchema)
         process.exit()
