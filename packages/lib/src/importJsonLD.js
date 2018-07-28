@@ -1,5 +1,6 @@
 const fetch = require('./utils/fetch')
 
+const REF = '$ref'
 const RDF = 'rdf'
 const RDFS = 'rdfs'
 const GS1 = 'gs1'
@@ -7,6 +8,13 @@ const RDFS_CLASS = `${RDFS}:Class`
 const RDF_PROPERTY = `${RDF}:Property`
 const VALID_NAMESPACES = [GS1, RDF, RDFS]
 const IGNORED_FROM_RESOLVING = [RDFS_CLASS, RDF_PROPERTY]
+
+const IMPLICIT_TYPES = {
+  'http://schema.org/Number': 'number',
+  'http://schema.org/Text': 'text',
+  'http://schema.org/Boolean': 'boolean',
+
+}
 
 function importJSONLD(jsonld) {
   const context = jsonld['@context']
@@ -97,7 +105,6 @@ function resolveEntry(schemas, context, entries, schemaId) {
 function resolveModel(schemas, context, entries, modelEntity) {
   const {
     id,
-    type,
     label,
     comment,
     subClassOf,
@@ -119,16 +126,11 @@ function resolveModel(schemas, context, entries, modelEntity) {
     $schema:      'http://json-schema.org/draft-07/schema#',
     '@id':        id,
     title:        label,
-    type:         'object',
+    type:         IMPLICIT_TYPES[id],
     description:  comment
   }
 
-  if (allOf.length) {
-    model.allOf = allOf
-  }
-
-  // Properties will be filled by each property itself
-  model.properties = {}
+  setListOrRef(model, 'allOf', allOf)
 
   return model
 }
@@ -136,7 +138,6 @@ function resolveModel(schemas, context, entries, modelEntity) {
 function resolveProperty(schemas, context, entries, propertyEntity) {
   const {
     id,
-    type,
     label,
     comment,
     subClassOf,
@@ -154,6 +155,12 @@ function resolveProperty(schemas, context, entries, propertyEntity) {
   // Add property to models
   domainIncludes.forEach(({'@id': modelId}) => {
     const model = resolveEntry(schemas, context, entries, modelId)
+
+    if (!model.properties) {
+      model.type = 'object'
+      model.properties = {}
+    }
+
     model.properties[label] = toRef(propertyId)
   })
 
@@ -167,25 +174,31 @@ function resolveProperty(schemas, context, entries, propertyEntity) {
     $schema:      'http://json-schema.org/draft-07/schema#',
     '@id':        id,
     title:        label,
-    type:         'object',
+    type:         IMPLICIT_TYPES[id],
     description:  comment,
   }
 
-  if (oneOf.length > 0) {
-    property.oneOf = oneOf
-  }
+  setListOrRef(property, 'oneOf', oneOf)
 
   return property
 }
 
 /* Helpers */
 
+function setListOrRef(object, property, list) {
+  if (list.length === 1) {
+    object[REF] = list[0][REF]
+  } else if (list.length > 1) {
+    object[property] = list
+  }
+}
+
 function isValidId(context, id) {
   const namespace = id.split(':', 1)[0]
   return VALID_NAMESPACES.includes(namespace) || namespace.startsWith('https') || !context[namespace]
 }
 
-function filterValid(context, refs) {
+function filterValidRefs(context, refs) {
   return refs.filter(({'@id': id}) => isValidId(context, id))
 }
 
@@ -200,17 +213,17 @@ function normalizeLDEntity(context, entity) {
   const id             = entity['@id']
   const label          = getTranslation(entity['rdfs:label'])
   const comment        = getTranslation(entity['rdfs:comment'])
-  const rangeIncludes  = filterValid(
+  const rangeIncludes  = filterValidRefs(
                            context,
                            ArrayWrap(entity['http://schema.org/rangeIncludes'] || entity['rdfs:range'])
                          )
 
-  const domainIncludes = filterValid(
+  const domainIncludes = filterValidRefs(
                            context,
                            ArrayWrap(entity['http://schema.org/domainIncludes'] || entity['rdfs:domain'])
                          )
 
-  const subClassOf     = filterValid(
+  const subClassOf     = filterValidRefs(
                            context,
                            ArrayWrap(entity['rdfs:subClassOf'])
                          )
@@ -329,7 +342,7 @@ function toRef(id) {
   }
 
   id = typeof id === 'string' ? id : id.$id
-  return { $ref: id }
+  return { [REF]: id }
 }
 
 module.exports = importJSONLD

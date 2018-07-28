@@ -30,10 +30,10 @@ function convertYAMLToJSON(yamlBuffer, indentation = 0) {
   return JSON.stringify(yamlBuffer, null, indentation)
 }
 
+
 function toYAML(object) {
   return yaml.safeDump(object, {
-    indent: 2,
-    schema: yaml.JSON_SCHEMA
+    skipInvalid: true // Ignore undefined (did not find better solution)
   })
 }
 
