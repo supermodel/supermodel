@@ -8,8 +8,9 @@ const {
   idToName,
   resolveRef,
   toSafeEnumKey,
-  fetchType
 } = require('./utils/graphql')
+
+const fetch = require('./utils/fetch')
 
 /**
  * Generates GraphQL schema for given JSON Schema
@@ -59,7 +60,7 @@ function objectToGrapQL(
     throw new Error(`Missing name`)
   }
 
-  return fetchType(types, name, () => {
+  return fetch(types, name, () => {
     return new GraphQLObjectType({
       name,
       fields: () => {
@@ -195,7 +196,7 @@ function anyOfToGraphQL(
 ) {
   const name = `${parentName}${casex(propertyName, 'CaSe')}Union`
 
-  return fetchType(types, name, () => {
+  return fetch(types, name, () => {
     return new GraphQLUnionType({
       name,
       types: anyOf.map(item => {
@@ -263,7 +264,7 @@ function enumToType(
 
   const name = `${parentName}${casex(propertyName, 'CaSe')}Enum`
 
-  return fetchType(types, name, () => {
+  return fetch(types, name, () => {
     const values = {}
 
     enumValues.forEach(enumValue => {

@@ -87,30 +87,8 @@ class GraphQLPendingType {
   }
 }
 
-function fetchType(types, name, resolver) {
-  let type = types.get(name)
-  // const pendingName = `__pending${name}__`
-
-  // if (types.get(pendingName)) {
-  //   const pendingType = new GraphQLPendingType(name)
-  //   return pendingType
-  // }
-
-  if (!type) {
-    // types.set(pendingName, true)
-    type = resolver()
-    // types.delete(pendingName)
-
-    types.set(name, type)
-  }
-
-  return type
-}
-
 module.exports = {
   idToName,
   resolveRef,
-  toSafeEnumKey,
-
-  fetchType
+  toSafeEnumKey
 }
