@@ -6,14 +6,15 @@ const RDFS = 'rdfs'
 const GS1 = 'gs1'
 const RDFS_CLASS = `${RDFS}:Class`
 const RDF_PROPERTY = `${RDF}:Property`
+const RDF_LANG_STRING = `${RDF}:langString`
 const VALID_NAMESPACES = [GS1, RDF, RDFS]
-const IGNORED_FROM_RESOLVING = [RDFS_CLASS, RDF_PROPERTY]
+const IGNORED_FROM_RESOLVING = [RDFS_CLASS, RDF_PROPERTY, RDF_LANG_STRING]
 
 const IMPLICIT_TYPES = {
   'http://schema.org/Number': 'number',
   'http://schema.org/Text': 'string',
   'http://schema.org/Boolean': 'boolean',
-
+  [RDF_LANG_STRING]: 'string'
 }
 
 function importJSONLD(jsonld, supermodelScope = 'http://supermodel.io/schemaorg') {
@@ -167,12 +168,22 @@ function resolveProperty(schemas, context, entries, propertyEntity, supermodelSc
     [...rangeIncludes, ...typeAncestors]
   )
 
+  let type = IMPLICIT_TYPES[id]
+
+  if (!type) {
+    const ref = rangeIncludes.find(({'@id': id}) => IMPLICIT_TYPES[id])
+
+    if (ref) {
+      type = IMPLICIT_TYPES[ref['@id']]
+    }
+  }
+
   const property = {
     $id:          propertyId,
     $schema:      'http://json-schema.org/draft-07/schema#',
     '@source':    id,
     title:        label,
-    type:         IMPLICIT_TYPES[id],
+    type:         type,
     description:  comment,
   }
 
