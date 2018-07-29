@@ -2,6 +2,7 @@ const camelize = require('./camelize')
 const convertToGraphQL = require('./convertToGraphQL')
 const convertToOAS2 = require('./convertToOAS2')
 const createModelSchema = require('./createModelSchema')
+const importJsonLD = require('./importJsonLD')
 const resolveSchema = require('./resolveSchema')
 const validateData = require('./validateData')
 const validateMetaSchema = require('./validateMetaSchema')
@@ -13,6 +14,7 @@ module.exports = {
   convertToGraphQL,
   convertToOAS2,
   createModelSchema,
+  importJsonLD,
   resolveSchema,
   validateData,
   validateMetaSchema,
