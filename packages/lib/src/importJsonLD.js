@@ -33,6 +33,8 @@ function buildEntries(context, graph) {
     // Process only valid entities
     if (isValidId(context, id)) {
       entries.set(id, entry)
+    } else {
+      console.warn(`warn: Skipping invalid or not processable @id '${id}'`)
     }
   })
 
@@ -84,7 +86,7 @@ function resolveEntry(schemas, context, entries, supermodelScope, schemaId) {
     const entry = entries.get(schemaId)
 
     if (!entry) {
-      console.error(`Cannot resolve entry with @id '${schemaId}'`)
+      console.error(`error: Cannot resolve entry with @id '${schemaId}'`)
       return
       // throw new Error(`missing entry with @id '${schemaId}'`)
     }
@@ -99,7 +101,7 @@ function resolveEntry(schemas, context, entries, supermodelScope, schemaId) {
       return resolveModel(schemas, context, entries, normalizedEntry, supermodelScope)
     }
 
-    throw new Error(`You shall not pass here. This is just to satisfy typescript :)`)
+    throw new Error(`error: You shall not pass here. This is just to satisfy typescript :)`)
   })
 }
 
@@ -213,8 +215,8 @@ function isValidId(context, id) {
     return id.startsWith('http://schema.org')
   }
 
-  const namespace = id.split(':', 1)[0]
-  return VALID_NAMESPACES.includes(namespace) || !context[namespace]
+  const [namespace, name] = id.split(':', 2)
+  return name && name.length && VALID_NAMESPACES.includes(namespace) || !context[namespace]
 }
 
 function filterValidRefs(context, refs) {
