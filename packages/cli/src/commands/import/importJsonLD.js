@@ -36,7 +36,6 @@ function importJsonLD(filePath, scope = null) {
       fs.writeSync(modelFileDescriptor, yamlModel.toYAML(entity))
       fs.closeSync(modelFileDescriptor)
     })
-
   } else {
     const message = `Unable to import jsonld graph. Not in the supermodel directory subtree.`
     throw new Error(message)
