@@ -11,7 +11,7 @@ const IGNORED_FROM_RESOLVING = [RDFS_CLASS, RDF_PROPERTY]
 
 const IMPLICIT_TYPES = {
   'http://schema.org/Number': 'number',
-  'http://schema.org/Text': 'text',
+  'http://schema.org/Text': 'string',
   'http://schema.org/Boolean': 'boolean',
 
 }
@@ -124,7 +124,7 @@ function resolveModel(schemas, context, entries, modelEntity) {
   const model = {
     $id:          SchemaorgIdToSupermodelId(context, id),
     $schema:      'http://json-schema.org/draft-07/schema#',
-    '@id':        id,
+    '@source':    id,
     title:        label,
     type:         IMPLICIT_TYPES[id],
     description:  comment
@@ -172,7 +172,7 @@ function resolveProperty(schemas, context, entries, propertyEntity) {
   const property = {
     $id:          propertyId,
     $schema:      'http://json-schema.org/draft-07/schema#',
-    '@id':        id,
+    '@source':    id,
     title:        label,
     type:         IMPLICIT_TYPES[id],
     description:  comment,
