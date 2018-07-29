@@ -203,7 +203,7 @@ function setListOrRef(object, property, list) {
 }
 
 function isValidId(context, id) {
-  if (id.startsWith('file')) {
+  if (id.startsWith('file:') || id.startsWith('_:')) {
     return false
   }
 
