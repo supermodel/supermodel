@@ -16,7 +16,7 @@ const IMPLICIT_TYPES = {
 
 }
 
-function importJSONLD(jsonld, supermodelScope = 'http://supermodel.io') {
+function importJSONLD(jsonld, supermodelScope = 'http://supermodel.io/schemaorg') {
   const context = jsonld['@context']
   const entries = buildEntries(context, jsonld['@graph'])
   const schemas = new Map()
@@ -87,7 +87,6 @@ function resolveEntry(schemas, context, entries, supermodelScope, schemaId) {
     }
 
     const normalizedEntry = normalizeLDEntity(context, entry)
-    // console.log(normalizedEntry)
 
     const type = normalizedEntry.type
 
@@ -193,8 +192,16 @@ function setListOrRef(object, property, list) {
 }
 
 function isValidId(context, id) {
+  if (id.startsWith('file')) {
+    return false
+  }
+
+  if (id.startsWith('http')) {
+    return id.startsWith('http://schema.org')
+  }
+
   const namespace = id.split(':', 1)[0]
-  return VALID_NAMESPACES.includes(namespace) || namespace.startsWith('https') || !context[namespace]
+  return VALID_NAMESPACES.includes(namespace) || !context[namespace]
 }
 
 function filterValidRefs(context, refs) {
@@ -239,9 +246,7 @@ function normalizeLDEntity(context, entity) {
     return isValidId(context, id)
   }).map(id => ({'@id': id}))
 
-  if (!type) {
-    throw new Error(`Entity '${id}' has unprocessable @type '${origType}'`)
-  }
+  type = type || RDFS_CLASS
 
   return {
     id: entity['@id'],
@@ -294,10 +299,10 @@ function SchemaorgIdToSupermodelId(context, id, prefix, suffix) {
   const [namespace, name] = id.split(':')
 
   if (context[namespace]) {
-    return joinLayers(prefix, 'schemaorg', suffix, name)
+    return joinLayers(prefix, suffix, name)
   } else if (id.startsWith(SCHEMA_ORG_URL)) {
     const pathname = id.slice(SCHEMA_ORG_URL.length)
-    return joinLayers(prefix, 'schemaorg', suffix, pathname)
+    return joinLayers(prefix, suffix, pathname)
   }
 
   throw new Error(`Can't convert @id '${id}' into supermodel id`)
