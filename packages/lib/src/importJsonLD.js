@@ -22,7 +22,7 @@ function importJSONLD(jsonld, supermodelScope = 'http://supermodel.io/schemaorg'
   const entries = buildEntries(context, jsonld['@graph'])
   const schemas = new Map()
   resolveEntries(schemas, context, entries, supermodelScope)
-  return Array.from(schemas.values())
+  return Array.from(schemas.values()).filter(entity => entity !== undefined)
 }
 
 function buildEntries(context, graph) {
@@ -76,15 +76,17 @@ function resolveRefs(schemas, context, entries, supermodelScope, refs) {
  * @returns {void|Object}
  */
 function resolveEntry(schemas, context, entries, supermodelScope, schemaId) {
-  if (IGNORED_FROM_RESOLVING.includes(schemaId)) {
-    return
-  }
-
   return fetch(schemas, schemaId, () => {
+    if (IGNORED_FROM_RESOLVING.includes(schemaId)) {
+      return
+    }
+
     const entry = entries.get(schemaId)
 
     if (!entry) {
-      throw new Error(`missing entry with @id '${schemaId}'`)
+      console.error(`Cannot resolve entry with @id '${schemaId}'`)
+      return
+      // throw new Error(`missing entry with @id '${schemaId}'`)
     }
 
     const normalizedEntry = normalizeLDEntity(context, entry)
