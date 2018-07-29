@@ -16,12 +16,11 @@ const IMPLICIT_TYPES = {
 
 }
 
-function importJSONLD(jsonld) {
+function importJSONLD(jsonld, supermodelScope = 'http://supermodel.io') {
   const context = jsonld['@context']
   const entries = buildEntries(context, jsonld['@graph'])
   const schemas = new Map()
-  resolveEntries(schemas, context, entries)
-
+  resolveEntries(schemas, context, entries, supermodelScope)
   return Array.from(schemas.values())
 }
 
@@ -47,8 +46,8 @@ function buildEntries(context, graph) {
  * @param {Map} entries
  * @returns {void}
  */
-function resolveEntries(schemas, context, entries) {
-  entries.forEach((_, id) => resolveEntry(schemas, context, entries, id))
+function resolveEntries(schemas, context, entries, supermodelScope) {
+  entries.forEach((_, id) => resolveEntry(schemas, context, entries, supermodelScope, id))
 }
 
 /**
@@ -60,9 +59,9 @@ function resolveEntries(schemas, context, entries) {
  * @param {Array<Object>} refs
  * @returns {Array<Object>}
  */
-function resolveRefs(schemas, context, entries, refs) {
+function resolveRefs(schemas, context, entries, supermodelScope, refs) {
   return refs.map(({'@id': id}) => (
-    toRef(resolveEntry(schemas, context, entries, id))
+    toRef(resolveEntry(schemas, context, entries, supermodelScope, id))
   )).filter(v => v !== undefined)
 }
 
@@ -75,7 +74,7 @@ function resolveRefs(schemas, context, entries, refs) {
  * @param {string} schemaId
  * @returns {void|Object}
  */
-function resolveEntry(schemas, context, entries, schemaId) {
+function resolveEntry(schemas, context, entries, supermodelScope, schemaId) {
   if (IGNORED_FROM_RESOLVING.includes(schemaId)) {
     return
   }
@@ -93,16 +92,16 @@ function resolveEntry(schemas, context, entries, schemaId) {
     const type = normalizedEntry.type
 
     if (type === RDF_PROPERTY) {
-      return resolveProperty(schemas, context, entries, normalizedEntry)
+      return resolveProperty(schemas, context, entries, normalizedEntry, supermodelScope)
     } else if (type === RDFS_CLASS) {
-      return resolveModel(schemas, context, entries, normalizedEntry)
+      return resolveModel(schemas, context, entries, normalizedEntry, supermodelScope)
     }
 
     throw new Error(`You shall not pass here. This is just to satisfy typescript :)`)
   })
 }
 
-function resolveModel(schemas, context, entries, modelEntity) {
+function resolveModel(schemas, context, entries, modelEntity, supermodelScope) {
   const {
     id,
     label,
@@ -117,12 +116,12 @@ function resolveModel(schemas, context, entries, modelEntity) {
   }
 
   const allOf = resolveRefs(
-    schemas, context, entries,
+    schemas, context, entries, supermodelScope,
     [...subClassOf, ...typeAncestors]
   )
 
   const model = {
-    $id:          SchemaorgIdToSupermodelId(context, id),
+    $id:          SchemaorgIdToSupermodelId(context, id, supermodelScope),
     $schema:      'http://json-schema.org/draft-07/schema#',
     '@source':    id,
     title:        label,
@@ -135,7 +134,7 @@ function resolveModel(schemas, context, entries, modelEntity) {
   return model
 }
 
-function resolveProperty(schemas, context, entries, propertyEntity) {
+function resolveProperty(schemas, context, entries, propertyEntity, supermodelScope) {
   const {
     id,
     label,
@@ -150,11 +149,11 @@ function resolveProperty(schemas, context, entries, propertyEntity) {
     throw new Error(`property ${id} has subClassOf ${subClassOf}`)
   }
 
-  const propertyId = SchemaorgIdToSupermodelId(context, id, 'property')
+  const propertyId = SchemaorgIdToSupermodelId(context, id, supermodelScope, 'property')
 
   // Add property to models
   domainIncludes.forEach(({'@id': modelId}) => {
-    const model = resolveEntry(schemas, context, entries, modelId)
+    const model = resolveEntry(schemas, context, entries, supermodelScope, modelId)
 
     if (!model.properties) {
       model.type = 'object'
@@ -165,7 +164,7 @@ function resolveProperty(schemas, context, entries, propertyEntity) {
   })
 
   const oneOf = resolveRefs(
-    schemas, context, entries,
+    schemas, context, entries, supermodelScope,
     [...rangeIncludes, ...typeAncestors]
   )
 
@@ -285,21 +284,31 @@ const SCHEMA_ORG_URL = 'http://schema.org/'
 /**
  * Convert schema.org id into supermodel.id
  *
+ * @param {Object} context
  * @param {string} id from schema.org
- * @param {string} [layer=null] optional scope in supermodel.io
+ * @param {?string} prefix
+ * @param {?string} [suffix] optional scope in supermodel.io
  * @returns {string} supermodel.io id
  */
-function SchemaorgIdToSupermodelId(context, id, layer = null) {
+function SchemaorgIdToSupermodelId(context, id, prefix, suffix) {
   const [namespace, name] = id.split(':')
 
   if (context[namespace]) {
-    return `http://supermodel.io/schemaorg/${layer ? layer + '/' : ''}${name}`
+    return joinLayers(prefix, 'schemaorg', suffix, name)
   } else if (id.startsWith(SCHEMA_ORG_URL)) {
     const pathname = id.slice(SCHEMA_ORG_URL.length)
-    return `http://supermodel.io/schemaorg/${layer ? layer + '/' : ''}${pathname}`
+    return joinLayers(prefix, 'schemaorg', suffix, pathname)
   }
 
   throw new Error(`Can't convert @id '${id}' into supermodel id`)
+}
+
+/**
+ * @param {Array<?string>} layers
+ * @returns {string}
+ */
+function joinLayers(...layers) {
+  return layers.filter(Boolean).join('/')
 }
 
 /**
