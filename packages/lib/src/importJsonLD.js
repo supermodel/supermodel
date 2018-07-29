@@ -153,7 +153,7 @@ function resolveProperty(schemas, context, entries, propertyEntity, supermodelSc
     throw new Error(`property ${id} has subClassOf ${subClassOf}`)
   }
 
-  const propertyId = SchemaorgIdToSupermodelId(context, id, supermodelScope, 'property')
+  const propertyId = SchemaorgIdToSupermodelId(context, id, supermodelScope, 'properties')
 
   // Add property to models
   domainIncludes.forEach(({'@id': modelId}) => {
