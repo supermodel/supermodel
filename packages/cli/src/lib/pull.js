@@ -119,7 +119,6 @@ function modelToFS(directory, model) {
   }
 
   fs.closeSync(modelFileDescriptor)
-
 }
 
 module.exports = pull

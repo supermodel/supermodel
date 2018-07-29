@@ -9,6 +9,7 @@ program.version(package.version)
 program
   .command('schema <command>', 'validate, compile or resolve JSON Schema YAML representation of a model')
   .command('model <command>', 'create, clone and manage a model')
+  .command('import <command>', 'import ...')
   .command('install [url]', 'install the models from supermodel.io')
   .command('pull', 'pull installed models from supermodel.io into current directory')
   .command('push', 'push models from current directory to supermodel.io')
