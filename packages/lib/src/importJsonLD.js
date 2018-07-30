@@ -127,7 +127,7 @@ function resolveModel(schemas, context, entries, modelEntity, supermodelScope) {
   const model = {
     $id:          SchemaorgIdToSupermodelId(context, id, supermodelScope),
     $schema:      'http://json-schema.org/draft-07/schema#',
-    '@source':    id,
+    '@source':    resolveId(context, id),
     title:        label,
     type:         IMPLICIT_TYPES[id],
     description:  comment
@@ -185,7 +185,7 @@ function resolveProperty(schemas, context, entries, propertyEntity, supermodelSc
   const property = {
     $id:          propertyId,
     $schema:      'http://json-schema.org/draft-07/schema#',
-    '@source':    id,
+    '@source':    resolveId(context, id),
     title:        label,
     type:         type,
     description:  comment,
@@ -197,6 +197,15 @@ function resolveProperty(schemas, context, entries, propertyEntity, supermodelSc
 }
 
 /* Helpers */
+
+function resolveId(context, id) {
+  const [namespace, name] = id.split(':')
+  if (context[namespace]) {
+    return context[namespace] + name
+  }
+
+  return id
+}
 
 function setListOrRef(object, property, list) {
   if (list.length === 1) {
