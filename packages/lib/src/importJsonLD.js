@@ -14,6 +14,9 @@ const IMPLICIT_TYPES = {
   'http://schema.org/Number': 'number',
   'http://schema.org/Text': 'string',
   'http://schema.org/Boolean': 'boolean',
+  'http://schema.org/Date': 'string',
+  'http://schema.org/Time': 'string',
+  'http://schema.org/DateTime': 'string',
   [RDF_LANG_STRING]: 'string'
 }
 
@@ -32,13 +35,67 @@ function buildEntries(context, graph) {
 
     // Process only valid entities
     if (isValidId(context, id)) {
-      entries.set(id, entry)
+      const normalizedEntry = normalizeLDEntry(context, entry)
+      entries.set(id, normalizedEntry)
     } else {
       console.warn(`warn: Skipping invalid or not processable @id '${id}'`)
     }
   })
 
   return entries
+}
+
+
+/**
+ * Normalize different formats of LD entities into one identical for import
+ *
+ * @param {Object} context
+ * @param {Object} entity from json-ld
+ * @returns {Object} normalized entity
+ */
+function normalizeLDEntry(context, entity) {
+  const id             = entity['@id']
+  const label          = getTranslation(entity['rdfs:label'])
+  const comment        = getTranslation(entity['rdfs:comment'])
+  const rangeIncludes  = filterValidRefs(
+                           context,
+                           ArrayWrap(entity['http://schema.org/rangeIncludes'] || entity['rdfs:range'])
+                         )
+
+  const domainIncludes = filterValidRefs(
+                           context,
+                           ArrayWrap(entity['http://schema.org/domainIncludes'] || entity['rdfs:domain'])
+                         )
+
+  const subClassOf     = filterValidRefs(
+                           context,
+                           ArrayWrap(entity['rdfs:subClassOf'])
+                         )
+
+  // Extract type
+  const origType = entity['@type']
+  let type
+
+  const typeAncestors = ArrayWrap(origType).filter(id => {
+    if (id === RDFS_CLASS || id === RDF_PROPERTY) {
+      type = id
+    }
+
+    return isValidId(context, id)
+  }).map(id => ({'@id': id}))
+
+  type = type || RDFS_CLASS
+
+  return {
+    id,
+    type,
+    label,
+    comment,
+    subClassOf,
+    rangeIncludes,
+    domainIncludes,
+    typeAncestors
+  }
 }
 
 /**
@@ -91,14 +148,12 @@ function resolveEntry(schemas, context, entries, supermodelScope, schemaId) {
       // throw new Error(`missing entry with @id '${schemaId}'`)
     }
 
-    const normalizedEntry = normalizeLDEntity(context, entry)
-
-    const type = normalizedEntry.type
+    const type = entry.type
 
     if (type === RDF_PROPERTY) {
-      return resolveProperty(schemas, context, entries, normalizedEntry, supermodelScope)
+      return resolveProperty(schemas, context, entries, entry, supermodelScope)
     } else if (type === RDFS_CLASS) {
-      return resolveModel(schemas, context, entries, normalizedEntry, supermodelScope)
+      return resolveModel(schemas, context, entries, entry, supermodelScope)
     }
 
     throw new Error(`error: You shall not pass here. This is just to satisfy typescript :)`)
@@ -230,58 +285,6 @@ function isValidId(context, id) {
 
 function filterValidRefs(context, refs) {
   return refs.filter(({'@id': id}) => isValidId(context, id))
-}
-
-/**
- * Normalize different formats of LD entities into one identical for import
- *
- * @param {Object} context
- * @param {Object} entity from json-ld
- * @returns {Object} normalized entity
- */
-function normalizeLDEntity(context, entity) {
-  const id             = entity['@id']
-  const label          = getTranslation(entity['rdfs:label'])
-  const comment        = getTranslation(entity['rdfs:comment'])
-  const rangeIncludes  = filterValidRefs(
-                           context,
-                           ArrayWrap(entity['http://schema.org/rangeIncludes'] || entity['rdfs:range'])
-                         )
-
-  const domainIncludes = filterValidRefs(
-                           context,
-                           ArrayWrap(entity['http://schema.org/domainIncludes'] || entity['rdfs:domain'])
-                         )
-
-  const subClassOf     = filterValidRefs(
-                           context,
-                           ArrayWrap(entity['rdfs:subClassOf'])
-                         )
-
-  // Extract type
-  const origType = entity['@type']
-  let type
-
-  const typeAncestors = ArrayWrap(origType).filter(id => {
-    if (id === RDFS_CLASS || id === RDF_PROPERTY) {
-      type = id
-    }
-
-    return isValidId(context, id)
-  }).map(id => ({'@id': id}))
-
-  type = type || RDFS_CLASS
-
-  return {
-    id: entity['@id'],
-    type,
-    label,
-    comment,
-    subClassOf,
-    rangeIncludes,
-    domainIncludes,
-    typeAncestors
-  }
 }
 
 const DEFAULT_LANGUAGE = 'en'

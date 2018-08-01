@@ -33,7 +33,7 @@ function convertYAMLToJSON(yamlBuffer, indentation = 0) {
 
 function toYAML(object, options = {}) {
   return yaml.safeDump(object, Object.assign({
-    lineWidth: 120,
+    // lineWidth: 120,
     skipInvalid: true // Ignore undefined (did not find better solution)
   }, options))
 }
