@@ -9,6 +9,7 @@ const RDF_PROPERTY = `${RDF}:Property`
 const RDF_LANG_STRING = `${RDF}:langString`
 const VALID_NAMESPACES = [GS1, RDF, RDFS]
 const IGNORED_FROM_RESOLVING = [RDFS_CLASS, RDF_PROPERTY, RDF_LANG_STRING]
+const ENUMERABLE_SUBCLASS_IDS = ['http://schema.org/Enumeration', 'gs1:TypeCode']
 
 const IMPLICIT_TYPES = {
   'http://schema.org/Number': 'number',
@@ -72,10 +73,8 @@ function normalizeLDEntry(context, entity) {
                            ArrayWrap(entity['rdfs:subClassOf'])
                          )
 
-  // Extract type
-  const origType = entity['@type']
   let type
-
+  const origType = entity['@type']
   const typeAncestors = ArrayWrap(origType).filter(id => {
     if (id === RDFS_CLASS || id === RDF_PROPERTY) {
       type = id
@@ -148,9 +147,12 @@ function resolveEntry(schemas, context, entries, supermodelScope, schemaId) {
       // throw new Error(`missing entry with @id '${schemaId}'`)
     }
 
-    const type = entry.type
+    const { type, subClassOf } = entry
+    const isEnum = subClassOf.find(({'@id': id}) => ENUMERABLE_SUBCLASS_IDS.includes(id))
 
-    if (type === RDF_PROPERTY) {
+    if (isEnum) {
+      return resolveEnum(schemas, context, entries, entry, supermodelScope)
+    } else if (type === RDF_PROPERTY) {
       return resolveProperty(schemas, context, entries, entry, supermodelScope)
     } else if (type === RDFS_CLASS) {
       return resolveModel(schemas, context, entries, entry, supermodelScope)
@@ -158,6 +160,26 @@ function resolveEntry(schemas, context, entries, supermodelScope, schemaId) {
 
     throw new Error(`error: You shall not pass here. This is just to satisfy typescript :)`)
   })
+}
+
+
+function resolveEnum(schemas, context, entries, modelEntity, supermodelScope) {
+  const {
+    id,
+    label,
+    comment,
+    subClassOf,
+  } = modelEntity
+
+  return {
+    $id:          SchemaorgIdToSupermodelId(context, id, supermodelScope),
+    $schema:      'http://json-schema.org/draft-07/schema#',
+    '@source':    resolveId(context, id),
+    title:        label,
+    type:         'string',
+    description:  comment,
+    enum:         []
+  }
 }
 
 function resolveModel(schemas, context, entries, modelEntity, supermodelScope) {
@@ -172,6 +194,16 @@ function resolveModel(schemas, context, entries, modelEntity, supermodelScope) {
 
   if (rangeIncludes.length > 0) {
     throw new Error(`model ${id} has rangeIncludes ${rangeIncludes}`)
+  }
+
+  if (typeAncestors.length === 1) {
+    const parent = resolveEntry(schemas, context, entries, supermodelScope, typeAncestors[0]['@id'])
+
+    if (parent && parent.enum) {
+      parent.enum.push(label)
+
+      return
+    }
   }
 
   const allOf = resolveRefs(
