@@ -1,0 +1,183 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`importJSONLD gs1 1`] = `
+"$id: 'http://supermodel.io/schemaorg/Product'
+$schema: 'http://json-schema.org/draft-07/schema#'
+$source: 'http://gs1.org/voc/Product'
+title: Product
+type: object
+description: >-
+  Any item (product or service) upon which there is a need to retrieve
+  pre-defined information and that may be priced, or ordered, or invoiced at any
+  point in any supply chain.
+properties:
+  Gross Weight:
+    $ref: 'http://supermodel.io/schemaorg/properties/grossWeight'
+  Allergen Specification Name:
+    $ref: 'http://supermodel.io/schemaorg/properties/allergenSpecificationName'
+
+$id: 'http://supermodel.io/schemaorg/QuantitativeValue'
+$schema: 'http://json-schema.org/draft-07/schema#'
+$source: 'http://gs1.org/voc/QuantitativeValue'
+title: Measurement Type
+description: >-
+  A point value or interval for product characteristics and other purposes. A
+  unit of measurement is also specified.
+
+$id: 'http://supermodel.io/schemaorg/properties/grossWeight'
+$schema: 'http://json-schema.org/draft-07/schema#'
+$source: 'http://gs1.org/voc/grossWeight'
+title: Gross Weight
+description: >-
+  Used to identify the gross weight of the product. The gross weight includes
+  all packaging materials of the product. At pallet level the productGrossWeight
+  includes the weight of the pallet itself. For example, 200 GRM, value - total
+  pounds, total grams, etc.
+$ref: 'http://supermodel.io/schemaorg/QuantitativeValue'
+
+$id: 'http://supermodel.io/schemaorg/properties/allergenSpecificationName'
+$schema: 'http://json-schema.org/draft-07/schema#'
+$source: 'http://gs1.org/voc/allergenSpecificationName'
+title: Allergen Specification Name
+type: string
+description: >-
+  Free text field containing the name and version of the regulation or standard
+  that defines the criteria of allergen containment.
+"
+`;
+
+exports[`importJSONLD gs1 enumeration 1`] = `
+"$id: 'http://supermodel.io/schemaorg/PackagingMarkedDietAllergenCode'
+$schema: 'http://json-schema.org/draft-07/schema#'
+$source: 'http://gs1.org/voc/PackagingMarkedDietAllergenCode'
+title: Packaging Marked Diet Allergen Code
+type: string
+enum:
+  - Calories Per Portion
+  - Vegetarian
+"
+`;
+
+exports[`importJSONLD gs1 xsd type 1`] = `
+"$id: 'http://supermodel.io/schemaorg/properties/organicPercentClaim'
+$schema: 'http://json-schema.org/draft-07/schema#'
+$source: 'http://gs1.org/voc/organicPercentClaim'
+title: Organic Percent Claim
+description: >-
+  The percent of actual organic materials per weight of the product. This is
+  usually claimed on the product.
+
+$id: 'http://supermodel.io/schemaorg/properties/filePixelHeight'
+$schema: 'http://json-schema.org/draft-07/schema#'
+$source: 'http://gs1.org/voc/filePixelHeight'
+title: File Pixel Height
+description: The number of pixels along the vertical axis of the image.
+
+$id: 'http://supermodel.io/schemaorg/properties/isOnlyAvailableThroughRetailer'
+$schema: 'http://json-schema.org/draft-07/schema#'
+$source: 'http://gs1.org/voc/isOnlyAvailableThroughRetailer'
+title: Only Available Through Retailer
+description: >-
+  If specified and set to true, the discount is only available through the
+  retailer making the offer.
+
+$id: 'http://supermodel.io/schemaorg/properties/referencedFileEffectiveEndDateTime'
+$schema: 'http://json-schema.org/draft-07/schema#'
+$source: 'http://gs1.org/voc/referencedFileEffectiveEndDateTime'
+title: Referenced File Effective End Date
+description: >-
+  The date upon which the target of this external link ceases to be effective
+  for use.
+"
+`;
+
+exports[`importJSONLD schema.org 1`] = `
+"$id: 'http://supermodel.io/schemaorg/Thing'
+$schema: 'http://json-schema.org/draft-07/schema#'
+$source: 'http://schema.org/Thing'
+title: Thing
+description: The most generic type of item.
+
+$id: 'http://supermodel.io/schemaorg/CreativeWork'
+$schema: 'http://json-schema.org/draft-07/schema#'
+$source: 'http://schema.org/CreativeWork'
+title: CreativeWork
+description: >-
+  The most generic kind of creative work, including books, movies, photographs,
+  software programs, etc.
+$ref: 'http://supermodel.io/schemaorg/Thing'
+
+$id: 'http://supermodel.io/schemaorg/SoftwareApplication'
+$schema: 'http://json-schema.org/draft-07/schema#'
+$source: 'http://schema.org/SoftwareApplication'
+title: SoftwareApplication
+type: object
+description: A software application.
+$ref: 'http://supermodel.io/schemaorg/CreativeWork'
+properties:
+  web:
+    $ref: 'http://supermodel.io/schemaorg/properties/web'
+  version:
+    $ref: 'http://supermodel.io/schemaorg/properties/version'
+
+$id: 'http://supermodel.io/schemaorg/DataType'
+$schema: 'http://json-schema.org/draft-07/schema#'
+$source: 'http://schema.org/DataType'
+title: DataType
+description: 'The basic data types such as Integers, Strings, etc.'
+
+$id: 'http://supermodel.io/schemaorg/Text'
+$schema: 'http://json-schema.org/draft-07/schema#'
+$source: 'http://schema.org/Text'
+title: Text
+type: string
+description: 'Data type: Text.'
+$ref: 'http://supermodel.io/schemaorg/DataType'
+
+$id: 'http://supermodel.io/schemaorg/URL'
+$schema: 'http://json-schema.org/draft-07/schema#'
+$source: 'http://schema.org/URL'
+title: URL
+description: 'Data type: URL.'
+$ref: 'http://supermodel.io/schemaorg/Text'
+
+$id: 'http://supermodel.io/schemaorg/properties/web'
+$schema: 'http://json-schema.org/draft-07/schema#'
+$source: 'http://schema.org/web'
+title: web
+description: Web page of application
+$ref: 'http://supermodel.io/schemaorg/URL'
+
+$id: 'http://supermodel.io/schemaorg/Number'
+$schema: 'http://json-schema.org/draft-07/schema#'
+$source: 'http://schema.org/Number'
+title: Number
+type: number
+description: 'Data type: Number.'
+$ref: 'http://supermodel.io/schemaorg/DataType'
+
+$id: 'http://supermodel.io/schemaorg/properties/version'
+$schema: 'http://json-schema.org/draft-07/schema#'
+$source: 'http://schema.org/version'
+title: version
+type: string
+description: Version of application
+oneOf:
+  - $ref: 'http://supermodel.io/schemaorg/Text'
+  - $ref: 'http://supermodel.io/schemaorg/Number'
+"
+`;
+
+exports[`importJSONLD schema.org enumeration 1`] = `
+"$id: 'http://supermodel.io/schemaorg/OrderStatus'
+$schema: 'http://json-schema.org/draft-07/schema#'
+$source: 'http://schema.org/OrderStatus'
+title: OrderStatus
+type: string
+description: Enumerated status values for Order.
+enum:
+  - OrderReturned
+  - OrderPaymentDue
+  - OrderProcessing
+"
+`;

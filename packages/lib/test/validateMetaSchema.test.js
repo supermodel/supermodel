@@ -1,5 +1,5 @@
 const { readYAMLFile } = require('superfile')
-const validateMetaSchema = require('../../src/validateMetaSchema');
+const validateMetaSchema = require('../src/validateMetaSchema');
 
 test('validate correct meta schema', () => {
   const schema = readYAMLFile('./fixtures/basic/SimpleSchema.yaml')

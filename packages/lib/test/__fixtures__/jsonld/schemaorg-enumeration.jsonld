@@ -1,0 +1,36 @@
+{
+  "@context": {
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "http://schema.org/OrderReturned",
+      "@type": "http://schema.org/OrderStatus",
+      "rdfs:comment": "OrderStatus representing that an order has been returned.",
+      "rdfs:label": "OrderReturned"
+    },
+    {
+      "@id": "http://schema.org/OrderPaymentDue",
+      "@type": "http://schema.org/OrderStatus",
+      "rdfs:comment": "OrderStatus representing that payment is due on an order.",
+      "rdfs:label": "OrderPaymentDue"
+    },
+    {
+      "@id": "http://schema.org/OrderProcessing",
+      "@type": "http://schema.org/OrderStatus",
+      "rdfs:comment": "OrderStatus representing that an order is being processed.",
+      "rdfs:label": "OrderProcessing"
+    },
+    {
+      "@id": "http://schema.org/OrderStatus",
+      "@type": "rdfs:Class",
+      "rdfs:comment": "Enumerated status values for Order.",
+      "rdfs:label": "OrderStatus",
+      "rdfs:subClassOf": {
+        "@id": "http://schema.org/Enumeration"
+      }
+    }
+  ]
+}

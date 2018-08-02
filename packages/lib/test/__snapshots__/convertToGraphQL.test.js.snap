@@ -1,0 +1,250 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`schemaToGraphQL complex schema 1`] = `
+"type DavidAdidasProductArticle {
+  articleNumber: String
+  modelNumber: String
+  articleDescription: String
+  gender: DavidAdidasProductUtilsCodeDescription
+  brand: DavidAdidasProductUtilsCodeDescription
+  productType: DavidAdidasProductUtilsCodeDescription
+  ageGroup: DavidAdidasProductUtilsCodeDescription
+  colorway: DavidAdidasProductArticleColorway
+  colors: [DavidAdidasProductColor]
+  seasons: [DavidAdidasProductArticleSeason]
+  skus: [DavidAdidasProduct]
+  assets: [DavidAdidasProductAsset]
+  catalog: DavidAdidasProductCatalog
+  related: [DavidAdidasProductArticle]
+}
+
+type DavidAdidasProductUtilsCodeDescription {
+  code: String
+  description: String
+}
+
+type DavidAdidasProductArticleColorway {
+  name: String
+  description: String
+}
+
+type DavidAdidasProductColor {
+  color1: DavidAdidasProductUtilsCodeDescription
+  color2: DavidAdidasProductUtilsCodeDescription
+  color3: DavidAdidasProductUtilsCodeDescription
+  color4: DavidAdidasProductUtilsCodeDescription
+}
+
+type DavidAdidasProductArticleSeason {
+  seasonName: String
+  carryOver: Boolean
+  retailIntroDate: String
+  retailExitDate: String
+}
+
+type DavidAdidasProduct {
+  EAN: String
+  UPC: String
+  srcSizeCD3: String
+  srcSizeScale: String
+  srcSizeDescription: String
+  conversionIDs: [DavidAdidasProductConversionDs]
+}
+
+type DavidAdidasProductAsset {
+  assetType: DavidAdidasProductAssetAssetTypeEnum!
+  viewGroup: String!
+  view: String!
+  assetCategory: String!
+  usageTerms: [String]!
+  assetHref: String!
+  image: DavidAdidasProductAssetImage
+  video: DavidAdidasProductAssetVideo
+  model: DavidAdidasProductAssetModel
+}
+
+type DavidAdidasProductCatalog {
+  catalogueCopy: DavidAdidasProductCatalogCatalogCopy
+  featureAndBenefits: [DavidAdidasProductCatalogFeatureAndBenefit]
+}
+
+type DavidAdidasProductConversionDs {
+  localSize: String
+  saleSizeConvID: String
+  saleSizeScale: String
+  saleSizeAbbr: String
+  saleSizeDesc: String
+}
+
+enum DavidAdidasProductAssetAssetTypeEnum {
+  image
+  video
+  other
+}
+
+type DavidAdidasProductAssetImage {
+  style: String
+  width: Int
+  height: Int
+  bgColor: String
+  representation: String
+}
+
+type DavidAdidasProductAssetVideo {
+  fileSize: Int
+}
+
+type DavidAdidasProductAssetModel {
+  waist: String
+  chest: String
+  height: String
+  productSize: String
+}
+
+type DavidAdidasProductCatalogCatalogCopy {
+  acsModelName: String
+  b2cCopy: String
+  b2cCopyShort: String
+  b2bCopy: String
+  b2bCopyShort: String
+  materialComposition: String
+  materialConstruction: String
+  bullets1: String
+  bullets2: String
+  bullets3: String
+  bullets4: String
+  bullets5: String
+  bullets6: String
+  bulletMaterial: String
+}
+
+type DavidAdidasProductCatalogFeatureAndBenefit {
+  featureAndBenefitCode: String
+  businessCode: String
+  shoePart: String
+  featureName: String
+  featureDescription: String
+  logoName: String
+  logoHref: String
+}"
+`;
+
+exports[`schemaToGraphQL converts enum 1`] = `
+"type SupermodelFactoryPartsEngine {
+  volume: Float
+  power: Int
+  fuel: SupermodelFactoryPartsEngineFuelEnum
+}
+
+enum SupermodelFactoryPartsEngineFuelEnum {
+  gasoline
+  diesel
+  lpg
+  cng
+}"
+`;
+
+exports[`schemaToGraphQL converts inline object in property 1`] = `
+"type SupermodelFactoryCar {
+  manufacturer: String
+  type: String
+  weight: Int
+  length: Float
+  available: Boolean
+  engine: SupermodelFactoryCarEngine
+}
+
+type SupermodelFactoryCarEngine {
+  volume: Float
+  power: Int
+}"
+`;
+
+exports[`schemaToGraphQL converts required property 1`] = `
+"type SupermodelFactoryCar {
+  manufacturer: String!
+  type: String
+  weight: Int
+  length: Float!
+  available: Boolean
+}"
+`;
+
+exports[`schemaToGraphQL converts simple object 1`] = `
+"type SupermodelFactoryCar {
+  manufacturer: String
+  type: String
+  weight: Int
+  length: Float
+  available: Boolean
+}"
+`;
+
+exports[`schemaToGraphQL resolves refs by #/ 1`] = `
+"type SupermodelFactoryCar {
+  manufacturer: String
+  type: String
+  weight: Int
+  length: Float
+  available: Boolean
+  engine: SupermodelFactoryPartsEngine
+}
+
+type SupermodelFactoryPartsEngine {
+  volume: Float
+  power: Int
+}"
+`;
+
+exports[`schemaToGraphQL resolves refs by id 1`] = `
+"type SupermodelFactoryCar {
+  manufacturer: String
+  type: String
+  weight: Int
+  length: Float
+  available: Boolean
+  engine: SupermodelFactoryPartsEngine
+}
+
+type SupermodelFactoryPartsEngine {
+  volume: Float
+  power: Int
+}"
+`;
+
+exports[`schemaToGraphQL resolves refs by relative path 1`] = `
+"type SupermodelFactoryCar {
+  manufacturer: String
+  type: String
+  weight: Int
+  length: Float
+  available: Boolean
+  engine: SupermodelFactoryPartsEngine
+}
+
+type SupermodelFactoryPartsEngine {
+  volume: Float
+  power: Int
+}"
+`;
+
+exports[`schemaToGraphQL resolves refs works with nested ref objects 1`] = `
+"type SupermodelFactoryCar {
+  manufacturer: SupermodelFactoryManufacturer
+  type: String
+  weight: Int
+  length: Float
+  available: Boolean
+  engine: SupermodelFactoryPartsEngine
+}
+
+type SupermodelFactoryManufacturer {
+  name: String
+}
+
+type SupermodelFactoryPartsEngine {
+  volume: Float
+  power: Int
+  manufacturer: SupermodelFactoryManufacturer
+}"
+`;

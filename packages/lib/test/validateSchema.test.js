@@ -1,6 +1,6 @@
 const { fileSchemaLoader, readYAMLFile } = require('superfile')
-const validateSchema = require('../../src/validateSchema')
-const validateMetaSchema = require('../../src/validateMetaSchema');
+const validateSchema = require('../src/validateSchema')
+const validateMetaSchema = require('../src/validateMetaSchema');
 
 test('validate valid schema', () => {
   const schema = readYAMLFile('./fixtures/references/AValidB.yaml')

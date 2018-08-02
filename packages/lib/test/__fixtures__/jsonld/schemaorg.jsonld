@@ -1,0 +1,101 @@
+{
+  "@context": {
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "http://schema.org/Thing",
+      "@type": "rdfs:Class",
+      "rdfs:comment": "The most generic type of item.",
+      "rdfs:label": "Thing"
+    },
+    {
+      "@id": "http://schema.org/CreativeWork",
+      "@type": "rdfs:Class",
+      "http://purl.org/dc/terms/source": {
+        "@id": "http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_rNews"
+      },
+      "rdfs:comment": "The most generic kind of creative work, including books, movies, photographs, software programs, etc.",
+      "rdfs:label": "CreativeWork",
+      "rdfs:subClassOf": {
+        "@id": "http://schema.org/Thing"
+      }
+    },
+    {
+      "@id": "http://schema.org/SoftwareApplication",
+      "@type": "rdfs:Class",
+      "rdfs:comment": "A software application.",
+      "rdfs:label": "SoftwareApplication",
+      "rdfs:subClassOf": {
+        "@id": "http://schema.org/CreativeWork"
+      }
+    },
+    {
+      "@id": "http://schema.org/web",
+      "@type": "rdf:Property",
+      "http://schema.org/domainIncludes": {
+        "@id": "http://schema.org/SoftwareApplication"
+      },
+      "http://schema.org/rangeIncludes": {
+        "@id": "http://schema.org/URL"
+      },
+      "rdfs:comment": "Web page of application",
+      "rdfs:label": "web"
+    },
+    {
+      "@id": "http://schema.org/version",
+      "@type": "rdf:Property",
+      "http://schema.org/domainIncludes": {
+        "@id": "http://schema.org/SoftwareApplication"
+      },
+      "http://schema.org/rangeIncludes": [
+        {
+          "@id": "http://schema.org/Text"
+        },
+        {
+          "@id": "http://schema.org/Number"
+        }
+      ],
+      "rdfs:comment": "Version of application",
+      "rdfs:label": "version"
+    },
+    {
+      "@id": "http://schema.org/URL",
+      "@type": "rdfs:Class",
+      "rdfs:comment": "Data type: URL.",
+      "rdfs:label": "URL",
+      "rdfs:subClassOf": {
+        "@id": "http://schema.org/Text"
+      }
+    },
+    {
+      "@id": "http://schema.org/Text",
+      "@type": [
+        "rdfs:Class",
+        "http://schema.org/DataType"
+      ],
+      "rdfs:comment": "Data type: Text.",
+      "rdfs:label": "Text"
+    },
+    {
+      "@id": "http://schema.org/Number",
+      "@type": [
+        "http://schema.org/DataType",
+        "rdfs:Class"
+      ],
+      "rdfs:comment": "Data type: Number.",
+      "rdfs:label": "Number"
+    },
+    {
+      "@id": "http://schema.org/DataType",
+      "@type": "rdfs:Class",
+      "rdfs:comment": "The basic data types such as Integers, Strings, etc.",
+      "rdfs:label": "DataType",
+      "rdfs:subClassOf": {
+        "@id": "rdfs:Class"
+      }
+    }
+  ]
+}
