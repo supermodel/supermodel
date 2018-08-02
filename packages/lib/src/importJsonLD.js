@@ -4,22 +4,39 @@ const REF = '$ref'
 const RDF = 'rdf'
 const RDFS = 'rdfs'
 const GS1 = 'gs1'
+const XSD = 'xsd'
 const RDFS_CLASS = `${RDFS}:Class`
 const RDF_PROPERTY = `${RDF}:Property`
+const ENUMERATION = `Enumeration`
 const RDF_LANG_STRING = `${RDF}:langString`
 const VALID_NAMESPACES = [GS1, RDF, RDFS]
-const IGNORED_FROM_RESOLVING = [RDFS_CLASS, RDF_PROPERTY, RDF_LANG_STRING]
 const ENUMERABLE_SUBCLASS_IDS = ['http://schema.org/Enumeration', 'gs1:TypeCode']
-
-const IMPLICIT_TYPES = {
+const SCHEMA_ORG_ID_TYPES = {
   'http://schema.org/Number': 'number',
   'http://schema.org/Text': 'string',
   'http://schema.org/Boolean': 'boolean',
   'http://schema.org/Date': 'string',
   'http://schema.org/Time': 'string',
-  'http://schema.org/DateTime': 'string',
+  'http://schema.org/DateTime': 'string'
+}
+
+const IMPLICIT_TYPES = {
+  'xsd:string': 'string',
+  'xsd:boolean': 'boolean',
+  // Time
+  'xsd:time': 'string',
+  'xsd:date': 'string',
+  'xsd:dateTime': 'string',
+  'xsd:duration': 'string',
+  // Number
+  'xsd:decimal': 'number',
+  'xsd:float': 'number',
+  'xsd:integer': 'number',
+  // Other
   [RDF_LANG_STRING]: 'string'
 }
+
+const IGNORED_FROM_RESOLVING = [RDFS_CLASS, RDF_PROPERTY, RDF_LANG_STRING, ...Object.keys(IMPLICIT_TYPES)]
 
 function importJSONLD(jsonld, supermodelScope = 'http://supermodel.io/schemaorg') {
   const context = jsonld['@context']
@@ -56,44 +73,38 @@ function buildEntries(context, graph) {
  */
 function normalizeLDEntry(context, entity) {
   const id             = entity['@id']
+  const typeAncestors  = ArrayWrap(entity['@type']).map(id => ({ '@id': id }))
   const label          = getTranslation(entity['rdfs:label'])
   const comment        = getTranslation(entity['rdfs:comment'])
-  const rangeIncludes  = filterValidRefs(
-                           context,
-                           ArrayWrap(entity['http://schema.org/rangeIncludes'] || entity['rdfs:range'])
-                         )
+  const rangeIncludes  = ArrayWrap(entity['http://schema.org/rangeIncludes'] || entity['rdfs:range'])
+  const domainIncludes = ArrayWrap(entity['http://schema.org/domainIncludes'] || entity['rdfs:domain'])
+  const subClassOf     = ArrayWrap(entity['rdfs:subClassOf'])
 
-  const domainIncludes = filterValidRefs(
-                           context,
-                           ArrayWrap(entity['http://schema.org/domainIncludes'] || entity['rdfs:domain'])
-                         )
+  // Detect if entity is Enumeration
+  let kind = subClassOf.find(({'@id': id}) => ENUMERABLE_SUBCLASS_IDS.includes(id)) && ENUMERATION
 
-  const subClassOf     = filterValidRefs(
-                           context,
-                           ArrayWrap(entity['rdfs:subClassOf'])
-                         )
+  // Detect if entity is Property
+  if (!kind ) {
+    kind = typeAncestors.find(({ '@id': id }) => id === RDF_PROPERTY) && RDF_PROPERTY
+  }
 
-  let type
-  const origType = entity['@type']
-  const typeAncestors = ArrayWrap(origType).filter(id => {
-    if (id === RDFS_CLASS || id === RDF_PROPERTY) {
-      type = id
-    }
+  // Otherwise it is Class
+  if (!kind) {
+    kind = RDFS_CLASS
+  }
 
-    return isValidId(context, id)
-  }).map(id => ({'@id': id}))
-
-  type = type || RDFS_CLASS
+  const type = SCHEMA_ORG_ID_TYPES[id] || findMatch(rangeIncludes, ({'@id': id}) => IMPLICIT_TYPES[id])
 
   return {
+    kind,
     id,
     type,
     label,
     comment,
-    subClassOf,
-    rangeIncludes,
-    domainIncludes,
-    typeAncestors
+    subClassOf: filterValidRefs(context, subClassOf),
+    rangeIncludes: filterValidRefs(context, rangeIncludes),
+    domainIncludes: filterValidRefs(context, domainIncludes),
+    typeAncestors: filterValidRefs(context, typeAncestors)
   }
 }
 
@@ -147,15 +158,14 @@ function resolveEntry(schemas, context, entries, supermodelScope, schemaId) {
       // throw new Error(`missing entry with @id '${schemaId}'`)
     }
 
-    const { type, subClassOf } = entry
-    const isEnum = subClassOf.find(({'@id': id}) => ENUMERABLE_SUBCLASS_IDS.includes(id))
+    const { kind } = entry
 
-    if (isEnum) {
+    if (kind === ENUMERATION) {
       return resolveEnum(schemas, context, entries, entry, supermodelScope)
-    } else if (type === RDF_PROPERTY) {
-      return resolveProperty(schemas, context, entries, entry, supermodelScope)
-    } else if (type === RDFS_CLASS) {
+    } else if (kind === RDFS_CLASS) {
       return resolveModel(schemas, context, entries, entry, supermodelScope)
+    } else if (kind === RDF_PROPERTY) {
+      return resolveProperty(schemas, context, entries, entry, supermodelScope)
     }
 
     throw new Error(`error: You shall not pass here. This is just to satisfy typescript :)`)
@@ -185,6 +195,7 @@ function resolveEnum(schemas, context, entries, modelEntity, supermodelScope) {
 function resolveModel(schemas, context, entries, modelEntity, supermodelScope) {
   const {
     id,
+    type,
     label,
     comment,
     subClassOf,
@@ -206,21 +217,19 @@ function resolveModel(schemas, context, entries, modelEntity, supermodelScope) {
     }
   }
 
-  const allOf = resolveRefs(
-    schemas, context, entries, supermodelScope,
-    [...subClassOf, ...typeAncestors]
-  )
-
   const model = {
     $id:          SchemaorgIdToSupermodelId(context, id, supermodelScope),
     $schema:      'http://json-schema.org/draft-07/schema#',
     $source:      resolveId(context, id),
     title:        label,
-    type:         IMPLICIT_TYPES[id],
+    type:         type,
     description:  comment
   }
 
-  setListOrRef(model, 'allOf', allOf)
+  setListOrRef(model, 'allOf', resolveRefs(
+    schemas, context, entries, supermodelScope,
+    [...subClassOf, ...typeAncestors]
+  ))
 
   return model
 }
@@ -228,6 +237,7 @@ function resolveModel(schemas, context, entries, modelEntity, supermodelScope) {
 function resolveProperty(schemas, context, entries, propertyEntity, supermodelScope) {
   const {
     id,
+    type,
     label,
     comment,
     subClassOf,
@@ -251,23 +261,9 @@ function resolveProperty(schemas, context, entries, propertyEntity, supermodelSc
       model.properties = {}
     }
 
-    model.properties[label] = toRef(propertyId)
+    const split = propertyId.split('/')
+    model.properties[split[split.length - 1]] = toRef(propertyId)
   })
-
-  const oneOf = resolveRefs(
-    schemas, context, entries, supermodelScope,
-    [...rangeIncludes, ...typeAncestors]
-  )
-
-  let type = IMPLICIT_TYPES[id]
-
-  if (!type) {
-    const ref = rangeIncludes.find(({'@id': id}) => IMPLICIT_TYPES[id])
-
-    if (ref) {
-      type = IMPLICIT_TYPES[ref['@id']]
-    }
-  }
 
   const property = {
     $id:          propertyId,
@@ -278,7 +274,10 @@ function resolveProperty(schemas, context, entries, propertyEntity, supermodelSc
     description:  comment,
   }
 
-  setListOrRef(property, 'oneOf', oneOf)
+  setListOrRef(property, 'oneOf', resolveRefs(
+    schemas, context, entries, supermodelScope,
+    [...rangeIncludes, ...typeAncestors]
+  ))
 
   return property
 }
@@ -416,6 +415,22 @@ function toRef(id) {
 
   id = typeof id === 'string' ? id : id.$id
   return { [REF]: id }
+}
+
+
+function findMatch(array, callback) {
+  const len = array.length
+  let match
+
+  for (let i = 0; i < len; i++) {
+    match = callback(array[i], i)
+
+    if (match !== undefined) {
+      break
+    }
+  }
+
+  return match
 }
 
 module.exports = importJSONLD

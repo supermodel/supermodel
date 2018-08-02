@@ -11,9 +11,9 @@ description: >-
   pre-defined information and that may be priced, or ordered, or invoiced at any
   point in any supply chain.
 properties:
-  Gross Weight:
+  grossWeight:
     $ref: 'http://supermodel.io/schemaorg/properties/grossWeight'
-  Allergen Specification Name:
+  allergenSpecificationName:
     $ref: 'http://supermodel.io/schemaorg/properties/allergenSpecificationName'
 
 $id: 'http://supermodel.io/schemaorg/QuantitativeValue'
@@ -63,6 +63,7 @@ exports[`importJSONLD gs1 xsd type 1`] = `
 $schema: 'http://json-schema.org/draft-07/schema#'
 $source: 'http://gs1.org/voc/organicPercentClaim'
 title: Organic Percent Claim
+type: number
 description: >-
   The percent of actual organic materials per weight of the product. This is
   usually claimed on the product.
@@ -71,12 +72,14 @@ $id: 'http://supermodel.io/schemaorg/properties/filePixelHeight'
 $schema: 'http://json-schema.org/draft-07/schema#'
 $source: 'http://gs1.org/voc/filePixelHeight'
 title: File Pixel Height
+type: number
 description: The number of pixels along the vertical axis of the image.
 
 $id: 'http://supermodel.io/schemaorg/properties/isOnlyAvailableThroughRetailer'
 $schema: 'http://json-schema.org/draft-07/schema#'
 $source: 'http://gs1.org/voc/isOnlyAvailableThroughRetailer'
 title: Only Available Through Retailer
+type: boolean
 description: >-
   If specified and set to true, the discount is only available through the
   retailer making the offer.
@@ -85,6 +88,7 @@ $id: 'http://supermodel.io/schemaorg/properties/referencedFileEffectiveEndDateTi
 $schema: 'http://json-schema.org/draft-07/schema#'
 $source: 'http://gs1.org/voc/referencedFileEffectiveEndDateTime'
 title: Referenced File Effective End Date
+type: string
 description: >-
   The date upon which the target of this external link ceases to be effective
   for use.
@@ -160,7 +164,6 @@ $id: 'http://supermodel.io/schemaorg/properties/version'
 $schema: 'http://json-schema.org/draft-07/schema#'
 $source: 'http://schema.org/version'
 title: version
-type: string
 description: Version of application
 oneOf:
   - $ref: 'http://supermodel.io/schemaorg/Text'
