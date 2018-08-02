@@ -174,7 +174,7 @@ function resolveEnum(schemas, context, entries, modelEntity, supermodelScope) {
   return {
     $id:          SchemaorgIdToSupermodelId(context, id, supermodelScope),
     $schema:      'http://json-schema.org/draft-07/schema#',
-    '@source':    resolveId(context, id),
+    $source:      resolveId(context, id),
     title:        label,
     type:         'string',
     description:  comment,
@@ -214,7 +214,7 @@ function resolveModel(schemas, context, entries, modelEntity, supermodelScope) {
   const model = {
     $id:          SchemaorgIdToSupermodelId(context, id, supermodelScope),
     $schema:      'http://json-schema.org/draft-07/schema#',
-    '@source':    resolveId(context, id),
+    $source:      resolveId(context, id),
     title:        label,
     type:         IMPLICIT_TYPES[id],
     description:  comment
@@ -272,7 +272,7 @@ function resolveProperty(schemas, context, entries, propertyEntity, supermodelSc
   const property = {
     $id:          propertyId,
     $schema:      'http://json-schema.org/draft-07/schema#',
-    '@source':    resolveId(context, id),
+    $source:      resolveId(context, id),
     title:        label,
     type:         type,
     description:  comment,
