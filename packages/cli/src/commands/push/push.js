@@ -45,7 +45,24 @@ async function push() {
     }
 
     const layerPath = currentDirectory.substr(supermodelDirectory.length + 1)
-    const layerData = FSLayerToEntity(currentDirectory)
+    const errors = new Map()
+    const layerData = FSLayerToEntity(currentDirectory, errors)
+
+    if (errors.size > 0) {
+      errors.forEach((messages, file) => {
+        console.error(`${file}:`)
+
+        messages.forEach(message => {
+          console.error(`  - ${message}`)
+        })
+
+        console.error()
+      })
+
+      console.error('Push interrupted due to schema errors above.')
+      process.exit(1)
+    }
+
     return updateLayer(layerPath, layerData)
   } else {
     throw new Error(`Directory '${currentDirectory}' is not within supermodel scope.`)
@@ -93,9 +110,10 @@ async function updateLayer (layerPath, layerData) {
  * Get current layer (directory), collect its metadata and nested entities
  *
  * @param {string} layerDirectory
+ * @param {Map} errors
  * @returns {Object} layerData
  */
-function FSLayerToEntity(layerDirectory) {
+function FSLayerToEntity(layerDirectory, errors) {
   const layerDataFile = fsUtils.resolveYamlFile(layerDirectory, '$index.yaml')
   let layerData
 
@@ -110,12 +128,12 @@ function FSLayerToEntity(layerDirectory) {
     const entityPath = path.join(layerDirectory, itemName)
 
     if (fsUtils.isDirectory(entityPath)) {
-      return FSLayerToEntity(entityPath)
+      return FSLayerToEntity(entityPath, errors)
     }
 
     const extname = path.extname(entityPath)
     if ((extname === '.yaml' || extname === '.yml') && entityPath !== layerDataFile) {
-      return FSModelToEntity(entityPath)
+      return FSModelToEntity(entityPath, errors)
     }
   })
 
@@ -127,13 +145,29 @@ function FSLayerToEntity(layerDirectory) {
   }
 }
 
+function addErrorMessage(errors, file, message) {
+  let messages
+
+  if (!errors.has(file)) {
+    messages = []
+    errors.set(file, messages)
+} else {
+    messages = errors.get(file)
+  }
+
+  messages.push(message)
+}
+
+const validSchema = 'http://json-schema.org/draft-07/schema'
+
 /**
  * Convert model schema (file) json data structure
  *
  * @param {string} modelFile
+ * @param {Map} errors
  * @returns {Object} modelData
  */
-function FSModelToEntity(modelFile) {
+function FSModelToEntity(modelFile, errors) {
   let schemaRaw
   let schema
 
@@ -141,25 +175,42 @@ function FSModelToEntity(modelFile) {
     schemaRaw = fs.readFileSync(modelFile, 'utf-8')
     schema = yaml.load(schemaRaw)
   } catch(error) {
-    throw new Error(`Cannot read or parse model file '${modelFile}', error: ${error}`)
+    addErrorMessage(errors, modelFile, `cannot read or parse model schema. Error: ${error}`)
+    return
   }
 
   const supermodelDirectory = supermodelConfig.findSupermodelDir(modelFile)
   const filePath = modelFile.substr(supermodelDirectory.length + 1)
 
-  if (schema && schema.$id) {
-    const modelPath = filePath.replace(/\.(ya?ml)/, '')
-    const url = new URL(schema.$id)
-    let idPath = url.pathname.substr(1)
+  if (schema) {
+    if (schema.$id) {
+      if (!schema.$id.startsWith(process.env['SCHEMA_ORIGIN'])) {
+        addErrorMessage(errors, modelFile, `model $id origin is invalid. Valid: ${process.env['SCHEMA_ORIGIN']}`)
+      }
 
-    try {
-      idPath = decodeURI(idPath)
-    } catch(er) {}
-    if (idPath != modelPath) {
-      throw new Error(`Model '${filePath}' file path does not match its $id '${idPath}'`)
+      const modelPath = filePath.replace(/\.(ya?ml)/, '')
+      const url = new URL(schema.$id)
+      let idPath = url.pathname.substr(1)
+
+      try {
+        idPath = decodeURI(idPath)
+      } catch(er) {}
+      if (idPath != modelPath) {
+        addErrorMessage(errors, modelFile, `model file path does not match its $id '${idPath}'`)
+      }
+    } else {
+      addErrorMessage(errors, modelFile, `model is missing '$id' property`)
+    }
+
+    if (schema.$schema) {
+      if (!schema.$schema.startsWith(validSchema)) {
+        addErrorMessage(errors, modelFile, `model has invalid '$schema'. Valid: ${validSchema}`)
+      }
+    } else {
+      addErrorMessage(errors, modelFile, `model is missing '$schema' property`)
     }
   } else {
-    throw new Error(`Model '${filePath}' is missing schema or its '$id'`)
+    addErrorMessage(errors, modelFile, `model has empty schema`)
   }
 
 
