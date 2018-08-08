@@ -14,12 +14,12 @@ function importJsonLD(filePath, scope = null) {
     }
 
     const config = supermodelConfig.getSupermodelConfig()
-    const host = config.host || process.env['SUPERMODEL_URL']
+    const host = process.env['SCHEMA_ORIGIN']
 
     let importScope = cwd.slice(supermodelDirectory.length + 1)
 
-    const supermodelRoot = path.join(host, importScope)
-    const supermodelScope = scope ? path.join(supermodelRoot, scope) : supermodelRoot
+    const supermodelRoot = `${host}/${importScope}`
+    const supermodelScope = scope ? `${supermodelRoot}/${scope}` : supermodelRoot
 
     const content = fs.readFileSync(filePath)
     const jsonld = JSON.parse(content.toString())
