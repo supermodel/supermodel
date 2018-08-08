@@ -181,4 +181,4 @@ After cloning this repository you can either:
 
 ## A Good API Project
 
-Supermodel and Supermodel CLI are Good API (<http://goodapi.co>) non-profit projects, aimed and promoting and improving modern, reusable, and sustainable data modeling.
+supermodel.io (http://supermodel.io), and supermodel CLI (https://github.com/supermodel/supermodel-cli) are Good API (http://goodapi.co) non-profit projects, aimed at promoting modern, reusable, and sustainable data modeling.
