@@ -50,10 +50,10 @@ async function push() {
 
     if (errors.size > 0) {
       errors.forEach((messages, file) => {
-        console.error(`${file}:`)
+        console.error(`--> Failed ${file}:`)
 
         messages.forEach(message => {
-          console.error(`  - ${message}`)
+          console.error(`  ${message}`)
         })
 
         console.error()
