@@ -1,6 +1,6 @@
 const fetch = require('node-fetch')
 
-function fetchRemoteSchema(uri) {
+async function fetchRemoteSchema(uri) {
   return new Promise((resolve, reject) => {
     const response = await fetch(uri.toString(), {
       headers: {
