@@ -8,7 +8,6 @@ const validateData = require('./validateData')
 const validateMetaSchema = require('./validateMetaSchema')
 const validateSchema = require('./validateSchema')
 const yamlModel = require('./yamlModel')
-const remoteSchemaLoader = require('./remoteSchemaLoader')
 
 module.exports = {
   camelize,
@@ -20,6 +19,5 @@ module.exports = {
   validateData,
   validateMetaSchema,
   validateSchema,
-  yamlModel,
-  remoteSchemaLoader
+  yamlModel
 }
