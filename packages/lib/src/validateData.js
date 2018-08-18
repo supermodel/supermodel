@@ -5,10 +5,11 @@ const { createSchemaProcessor} = require('./utils/schemaProcessor')
 //
 // @param {object} data - JSON Data object
 // @param {object} schema - JSON Schema object
-// @returns {true}
+// @param {function(uri: string): Promise} schemaLoader - Loader function for remote schemas
+// @returns {boolean}
 // @throws {Error} - Throws Error object when validation fails
-function validateData(data, schema) {
-  const ajv = createSchemaProcessor()
+function validateData(data, schema, schemaLoader) {
+  const ajv = createSchemaProcessor(schemaLoader)
   const result = ajv.validate(schema, data)
 
   if (!result) {
