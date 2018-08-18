@@ -12,7 +12,7 @@ function createSchemaProcessor(schemaLoader) {
     jsonPointers: true,
     loadSchema: schemaLoader,
     validateSchema: false,
-    extendRefs: "fail"
+    extendRefs: "ignore"  // should be "fail" once existing models are fixed to hard report any $ref alongside other props
   })
 }
 
