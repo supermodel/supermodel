@@ -1,7 +1,9 @@
 const path = require('path')
 const fs = require('fs')
 const { URL } = require('url')
-const { readYAMLFile } = require ('./yamlFile')
+
+const { readYAMLFile } = require('./yamlFile')
+const fetchRemoteSchema = require('./fetchRemoteSchema')
 
 /**
  * Create a schema loader that attempts to load referenced schemas from a local filesystem
@@ -14,7 +16,7 @@ const { readYAMLFile } = require ('./yamlFile')
 function createFileSchemaLoader(rootSchemaURI, rootSchemaDirectory, validateMetaSchema) {
   return (uri) => {
     return new Promise((resolve, reject) => {
-      let loadedSchema, errorMessage, filePath
+      let loadedSchema, fileErrorMessage, filePath
       try {
         const targetPathName = new URL(uri).pathname
         let targetFile = path.basename(targetPathName) + '.yaml'
@@ -53,16 +55,23 @@ function createFileSchemaLoader(rootSchemaURI, rootSchemaDirectory, validateMeta
         // console.info(`loaded '${uri}' from '${filePath}'`)
       }
       catch (e) {
-        errorMessage = `\nError: unable to load '${filePath}' as '${uri}'`
-        if (e.message) errorMessage += `\n${e.message}`
+        fileErrorMessage = `\nError: unable to load '${filePath}' as '${uri}'`
+        if (e.message) fileErrorMessage += `\n${e.message}`
       }
 
-      if (!errorMessage && loadedSchema) {
+      if (!fileErrorMessage && loadedSchema) {
         resolve(loadedSchema)
       }
       else {
         // TODO: use fetch() and resolve schema from web
-        reject(`unable to resolve the schema '${uri}'` + errorMessage)
+        console.log(`huaaaaaa\n\n`)
+        fetchRemoteSchema(uri)
+        .then((resolvedSchema) => {
+
+        })
+        .catch((error) => {
+          reject(`unable to resolve the schema '${uri}'` + fileErrorMessage)
+        })
       }
     })
   }

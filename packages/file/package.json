@@ -1,6 +1,6 @@
 {
   "name": "superfile",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "File Schema Loader for Supermodel",
   "main": "index.js",
   "scripts": {
@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/supermodel/file#readme",
   "dependencies": {
-    "js-yaml": "^3.11.0"
+    "js-yaml": "^3.11.0",
+    "node-fetch": "^2.2.0"
   }
 }
