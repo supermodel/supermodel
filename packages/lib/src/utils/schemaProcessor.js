@@ -11,7 +11,8 @@ function createSchemaProcessor(schemaLoader) {
     missingRefs: true,
     jsonPointers: true,
     loadSchema: schemaLoader,
-    validateSchema: false
+    validateSchema: false,
+    extendRefs: true 
   })
 }
 
