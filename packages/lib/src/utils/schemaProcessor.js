@@ -12,7 +12,7 @@ function createSchemaProcessor(schemaLoader) {
     jsonPointers: true,
     loadSchema: schemaLoader,
     validateSchema: false,
-    extendRefs: true 
+    extendRefs: "fail"
   })
 }
 
