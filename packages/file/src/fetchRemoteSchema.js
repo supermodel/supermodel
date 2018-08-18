@@ -1,20 +1,22 @@
 const fetch = require('node-fetch')
 
-async function fetchRemoteSchema(uri) {
+function fetchRemoteSchema(uri) {
   return new Promise((resolve, reject) => {
-    const response = await fetch(uri.toString(), {
+
+    fetch(uri.toString(), {
       headers: {
         'Accept': 'application/schema+json, application/json'
       }
     })
-
-    if (!response.ok) {
-      reject(`failed to fetch ${uri}: ${response.text} (${response.status})`)
-    }
-
-    const data = await response.json()
-    console.log(`loaded:\n${JSON.stringify(data, null, 2)}`)
-    resolve(data)
+    .then((response) => {
+      response.json()
+      .then((data) => {
+        console.log(`loaded:\n${JSON.stringify(data, null, 2)}`)
+        resolve(data)
+      })
+      .catch((error) => reject(`failed to fetch ${uri}: ${error}`))
+    })
+    .catch((error) => reject(`failed to fetch ${uri}: ${error}`))
   })
 }
 
