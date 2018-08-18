@@ -6,6 +6,35 @@ const { readYAMLFile } = require('./yamlFile')
 const fetchRemoteSchema = require('./fetchRemoteSchema')
 
 /**
+ * Validates schema
+ * 
+ * @param {object} loadedSchema The schema to check
+ * @param {string} expectedSchemaId Expected URI of the schema
+ * @param {function} validateMetaSchema Optional function to validate metaschem
+ * @returns {string, null} Null on success, error message on failure
+ */
+function checkLoadedSchema(loadedSchema, expectedSchemaId, validateMetaSchema) {
+  try {
+    // Validate the remote meta schema
+    if (validateMetaSchema) {
+      validateMetaSchema(loadedSchema)
+    }
+
+    // Sanity check, check the requested URI is equal to loaded schema $id
+    const id = loadedSchema['$id']
+    if (id && expectedSchemaId !== id) {
+      throw new Error(`$id mismatch, expected '${uri}' got '${id}'`)
+    }
+  }
+  catch(error) {
+    return error.message
+  }
+
+  // All is good
+  return null
+}
+
+/**
  * Create a schema loader that attempts to load referenced schemas from a local filesystem
  *
  * @param {string} rootSchemaURI URI / $id of the root schema
@@ -39,16 +68,9 @@ function createFileSchemaLoader(rootSchemaURI, rootSchemaDirectory, validateMeta
         // Read the remote schema from file
         loadedSchema = readYAMLFile(filePath)
 
-        // Validate the remote meta schema
-        if (validateMetaSchema) {
-          validateMetaSchema(loadedSchema)
-        }
-        // validateMetaSchema(loadedSchema)
-
-        // Sanity check, check the requested URI is equal to loaded schema $id
-        const id = loadedSchema['$id']
-        if (id && uri !== id) {
-          throw new Error(`$id mismatch, expected '${uri}' got '${id}'`)
+        const schemaCheckResult = checkLoadedSchema(resolvedSchema, uri, validateMetaSchema)
+        if (schemaCheckResult) {
+          throw new Error(schemaCheckResult)
         }
 
         // Logging
@@ -63,14 +85,17 @@ function createFileSchemaLoader(rootSchemaURI, rootSchemaDirectory, validateMeta
         resolve(loadedSchema)
       }
       else {
-        // TODO: use fetch() and resolve schema from web
-        console.log(`huaaaaaa\n\n`)
+        // Attempt to resolve the resolve schema from web
         fetchRemoteSchema(uri)
         .then((resolvedSchema) => {
-
+          const schemaCheckResult = checkLoadedSchema(resolvedSchema, uri, validateMetaSchema)
+          if (schemaCheckResult) {
+            reject(schemaCheckResult)
+          }          
+          resolve(resolvedSchema)
         })
         .catch((error) => {
-          reject(`unable to resolve the schema '${uri}'` + fileErrorMessage)
+          reject(`unable to resolve the schema '${uri}':\n${error}\n\n${fileErrorMessage}` )
         })
       }
     })
