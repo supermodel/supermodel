@@ -1,8 +1,12 @@
-const fs = require('fs')
 const { URL } = require('url')
-const { validateData, validateMetaSchema } = require('superlib')
+const { validateData, validateMetaSchema, resolveSchema } = require('superlib')
 const fetch = require('node-fetch')
 const readData = require('../../lib/readData')
+const remoteSchemaLoader = require('../../lib/remoteSchemaLoader')
+
+// For file operations
+// const fs = require('fs')
+// const { createFileSchemaLoader } = require('superfile')
 
 /**
  * Validates data file against supermodel model
@@ -13,7 +17,7 @@ const readData = require('../../lib/readData')
 async function runValidate (dataFile, modelSchema) {
   const data = await loadData(dataFile)
   const schema = await loadSchema(modelSchema)
-
+  
   try {
     validateData(data, schema)
     console.log(`--> Passed ${dataFile}`)
@@ -60,12 +64,23 @@ async function loadSchema(modelSchema) {
   try {
     validateMetaSchema(schema)
   } catch(e) {
-    console.error(`--> Schema ${`modelSchema`} is not valid:`)
+    console.error(`--> Schema ${modelSchema} is not valid:`)
     console.error(e.message)
     process.exit(1)
   }
+  // console.log(`loaded schema: ${JSON.stringify(schema, null, 2)}`)
+  
+  // Resolve referenced schemas
+  const resolvedSchema = await resolve(schema)
+  return resolvedSchema
+}
 
-  return schema
+async function resolve(schemaObject) {
+  // const loader = fileSchemaLoader(schemaObject['$id'], '/', validateMetaSchema)
+  const loader = remoteSchemaLoader
+  const resolvedSchema = await resolveSchema(schemaObject, loader)
+  //  console.log(`resolved schema: ${JSON.stringify(resolvedSchema, null, 2)}`)
+  return resolvedSchema
 }
 
 module.exports = runValidate
