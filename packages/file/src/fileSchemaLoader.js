@@ -77,7 +77,7 @@ function createFileSchemaLoader(rootSchemaURI, rootSchemaDirectory, validateMeta
         // console.info(`loaded '${uri}' from '${filePath}'`)
       }
       catch (e) {
-        fileErrorMessage = `\nError: unable to load '${filePath}' as '${uri}'`
+        fileErrorMessage = `unable to load '${filePath}' as '${uri}'`
         if (e.message) fileErrorMessage += `\n${e.message}`
       }
 
@@ -94,8 +94,8 @@ function createFileSchemaLoader(rootSchemaURI, rootSchemaDirectory, validateMeta
           }          
           resolve(resolvedSchema)
         })
-        .catch((error) => {
-          reject(`unable to resolve the schema '${uri}':\n${error}\n\n${fileErrorMessage}` )
+        .catch((remoteErrorMessage) => {
+          reject(`unable to resolve the schema '${uri}':\n1. ${remoteErrorMessage}\n2. ${fileErrorMessage}` )
         })
       }
     })
