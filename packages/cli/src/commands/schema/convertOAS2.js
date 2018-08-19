@@ -13,11 +13,11 @@ const GENERATED_BY_SUPERMODEL = `
 # https://github.com/supermodel/supermodel-cli
 `
 // TODO: Break down the spaghetti
-function runConvertToOAS2(inputPath, oas2Path) {
+async function runConvertToOAS2(inputPath, oas2Path) {
   try {
     let schemaObject
     if (fsUtils.isDirectory(inputPath)) {
-      schemaObject = compileSchema(inputPath)
+      schemaObject = await compileSchema(inputPath)
     }
     else {
       schemaObject = readYAMLFile(inputPath)

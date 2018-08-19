@@ -17,7 +17,7 @@ program
 
 program
   .command('compile <dir>')
-  .description('compile all models in the given directory into one, recursive')
+  .description('compile all models in the given directory into one, recursive, resolving remote references')
   .action((dir) => runCompileSchema(dir))
 
 program

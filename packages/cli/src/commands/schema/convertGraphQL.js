@@ -1,5 +1,5 @@
 // const { newContext, convert } = require('./tmp/converter')
-const resolveSchema = require('../../lib/resolveSchema')
+const { resolveSchema } = require('../../lib/resolveSchema')
 const { convertToGraphQL } = require('superlib')
 
 function runConvertToGraphQL(yamlSchemaFile) {

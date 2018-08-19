@@ -1,5 +1,5 @@
 const jsYaml = require('js-yaml')
-const resolveSchema = require('../../lib/resolveSchema')
+const { resolveSchema } = require('../../lib/resolveSchema')
 
 function runResolveSchema(yamlSchemaFile) {
   try {
