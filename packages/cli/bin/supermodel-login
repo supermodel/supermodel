@@ -1,4 +1,2 @@
 #!/usr/bin/env node
-const runLogin = require('../src/commands/login')
-
-runLogin()
+require('../src/commands/login/cli')

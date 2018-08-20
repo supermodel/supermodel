@@ -1,8 +1,8 @@
 const inquirer = require('inquirer')
 const fetch = require('isomorphic-fetch')
-const auth0 = require('../lib/auth0/authClient')
-const cache = require('../cache')
-const supermodelAuthenticate = require('../lib/supermodelAuthenticate')
+const auth0 = require('../../lib/auth0/authClient')
+const cache = require('../../cache')
+const supermodelAuthenticate = require('../../lib/supermodelAuthenticate')
 
 const required = label => value =>
   value === '' ? `${label} can't be empty` : true
@@ -55,17 +55,10 @@ function auth0Login({ email, password }) {
   })
 }
 
-/**
- * Runs login command. Authenticate and store data into home folder
- */
-function login() {
-  inquirer
-    .prompt(makePromptQuestions(cache.get('loginWith')))
-    .then(credentials => {
-      cache.update('loginWith', credentials.email)
-      return credentials
-    })
-    .then(auth0Login)
+function processCredentials(credentials) {
+  cache.update('loginWith', credentials.email)
+
+  auth0Login(credentials)
     .then(({ idToken }) => {
       return supermodelAuthenticate(idToken)
         .then(({ user, auth_token: authToken}) => {
@@ -90,6 +83,26 @@ function login() {
 
       process.exit(1)
     })
+}
+
+function loginWizard(email) {
+  inquirer
+    .prompt(makePromptQuestions(email || cache.get('loginWith')))
+    .then(processCredentials)
+}
+
+/**
+ * Runs login command. Authenticate and store data into home folder
+ */
+function login(email, password) {
+  if (email && password) {
+    processCredentials({
+      email,
+      password
+    })
+  } else {
+    loginWizard(email)
+  }
 }
 
 module.exports = login
