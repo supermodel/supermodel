@@ -1,9 +1,10 @@
 const jsYaml = require('js-yaml')
 const fs = require('fs')
 const superlib = require('superlib')
-const { readYAMLFile } = require('superfile')
+// const { readYAMLFile } = require('superfile')
 const fsUtils = require('../../lib/fsUtils')
 const compileSchema = require('../../lib/compileSchema')
+const { resolveSchema } = require('../../lib/resolveSchema')
 
 const GENERATED_BY_SUPERMODEL = `
 # DO NOT EDIT
@@ -20,7 +21,7 @@ async function runConvertToOAS2(inputPath, oas2Path) {
       schemaObject = await compileSchema(inputPath)
     }
     else {
-      schemaObject = readYAMLFile(inputPath)
+      schemaObject = await resolveSchema(inputPath)
     }
     
     const oas2SchemaObject = superlib.convertToOAS2(schemaObject)
