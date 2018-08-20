@@ -294,9 +294,7 @@ function resolveId(context, id) {
 }
 
 function setListOrRef(object, property, list) {
-  if (list.length === 1) {
-    object[REF] = list[0][REF]
-  } else if (list.length > 1) {
+  if (list.length > 0) {
     object[property] = list
   }
 }
