@@ -7,7 +7,7 @@ const cache = require('../cache')
  *
  * @param {string} layerPath Optional path to the layer to be created
  */
-function runInit(layerPath) {
+function runInit(layerPath = '') {
   try {
     // Verify the user is logged in
     const user = cache.get('user')
