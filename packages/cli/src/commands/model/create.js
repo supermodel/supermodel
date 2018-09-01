@@ -6,8 +6,6 @@ const fsUtils = require('../../lib/fsUtils')
 const supermodelConfig = require('../../lib/supermodelConfig')
 const cache = require('../../cache')
 
-const SUPERMODEL_BASE_ID = process.env.SUPERMODEL_URL
-
 function runCreate(modelPath, verbose = true) {
   // Find if we are in a supermodel directory or one of its descendants
   const currentDir = process.cwd()
@@ -60,10 +58,10 @@ function runCreate(modelPath, verbose = true) {
   // Build Model's id
   let modelId
   if (relative.length) {
-    modelId = `${SUPERMODEL_BASE_ID}/${relative}/${idBasename}`
+    modelId = `${process.env.SCHEMA_ORIGIN}/${relative}/${idBasename}`
   }
   else {
-    modelId = `${SUPERMODEL_BASE_ID}/${idBasename}`
+    modelId = `${process.env.SCHEMA_ORIGIN}/${idBasename}`
   }
 
   const modelData = superlib.createModelSchema(basename, modelId)
