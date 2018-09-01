@@ -47,6 +47,15 @@ description: >-
 "
 `;
 
+exports[`importJSONLD gs1 empty enumeration 1`] = `
+"$id: 'http://supermodel.io/schemaorg/PackagingMarkedDietAllergenCode'
+$schema: 'http://json-schema.org/draft-07/schema#'
+$source: 'http://gs1.org/voc/PackagingMarkedDietAllergenCode'
+title: Packaging Marked Diet Allergen Code
+type: string
+"
+`;
+
 exports[`importJSONLD gs1 enumeration 1`] = `
 "$id: 'http://supermodel.io/schemaorg/PackagingMarkedDietAllergenCode'
 $schema: 'http://json-schema.org/draft-07/schema#'

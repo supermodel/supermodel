@@ -188,7 +188,7 @@ function resolveEnum(schemas, context, entries, modelEntity, supermodelScope) {
     title:        label,
     type:         'string',
     description:  comment,
-    enum:         []
+    enum:         undefined
   }
 }
 
@@ -210,7 +210,11 @@ function resolveModel(schemas, context, entries, modelEntity, supermodelScope) {
   if (typeAncestors.length === 1) {
     const parent = resolveEntry(schemas, context, entries, supermodelScope, typeAncestors[0]['@id'])
 
-    if (parent && parent.enum) {
+    if (parent) {
+      if (!parent.enum) {
+        parent.enum = []
+      }
+
       parent.enum.push(label)
 
       return

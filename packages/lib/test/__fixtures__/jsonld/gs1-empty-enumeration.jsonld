@@ -1,0 +1,51 @@
+{
+  "@context": {
+    "cc": "http://creativecommons.org/ns#",
+    "cert": "http://www.w3.org/ns/auth/cert#",
+    "dbp": "http://dbpedia.org/property/",
+    "dc": "http://purl.org/dc/elements/1.1/",
+    "dc1": "http://purl.org/dc/terms/",
+    "dc11": "http://purl.org/dc/elements/1.1/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "doap": "http://usefulinc.com/ns/doap#",
+    "exif": "http://www.w3.org/2003/12/exif/ns#",
+    "fn": "http://www.w3.org/2005/xpath-functions#",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "geo": "http://www.w3.org/2003/01/geo/wgs84_pos#",
+    "geonames": "http://www.geonames.org/ontology#",
+    "gr": "http://purl.org/goodrelations/v1#",
+    "gs1": "http://gs1.org/voc/",
+    "log": "http://www.w3.org/2000/10/swap/log#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "rei": "http://www.w3.org/2004/06/rei#",
+    "rsa": "http://www.w3.org/ns/auth/rsa#",
+    "rss": "http://purl.org/rss/1.0/",
+    "schema": "http://schema.org/",
+    "sfn": "http://www.w3.org/ns/sparql#",
+    "sioc": "http://rdfs.org/sioc/ns#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "swrc": "http://swrc.ontoware.org/ontology#",
+    "types": "http://rdfs.org/sioc/types#",
+    "vcard": "http://www.w3.org/2006/vcard/ns#",
+    "wot": "http://xmlns.com/wot/0.1/",
+    "xhtml": "http://www.w3.org/1999/xhtml#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "gs1:PackagingMarkedDietAllergenCode",
+      "rdfs:isDefinedBy": {
+        "@id": "http://apps.gs1.org/GDD/bms/Version2_8/Pages/clDetails.aspx?semanticURN=urn:gs1:gdd:cl:PackageMarksDietAllergenCodeList&release=1"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Packaging Marked Diet Allergen Code"
+      },
+      "rdfs:subClassOf": {
+        "@id": "gs1:TypeCode"
+      }
+    }
+  ]
+}

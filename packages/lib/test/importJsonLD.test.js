@@ -30,6 +30,11 @@ describe('importJSONLD', () => {
     matchSchema(jsonld)
   })
 
+  test('gs1 empty enumeration', () => {
+    const jsonld = loadJsonLD('gs1-empty-enumeration.jsonld')
+    matchSchema(jsonld)
+  })
+
   test('schema.org enumeration', () => {
     const jsonld = loadJsonLD('schemaorg-enumeration.jsonld')
     matchSchema(jsonld)
