@@ -1,7 +1,7 @@
 const casex = require('casex')
 const {
   GraphQLObjectType, GraphQLList, GraphQLUnionType, GraphQLNonNull, GraphQLEnumType,
-  GraphQLString, GraphQLInt, GraphQLFloat, GraphQLBoolean,
+  GraphQLString, GraphQLInt, GraphQLFloat, GraphQLBoolean, GraphQLScalarType,
   printType
 } = require('graphql');
 const {
@@ -24,12 +24,8 @@ function convertToGraphQL(schema) {
   objectToGrapQL(types, schema)
 
   const stringifiedTypes = []
+  types.forEach(type => stringifiedTypes.push(printType(type)))
 
-  types.forEach(type => {
-    // console.log(type)
-    // console.log(type.getFields())
-    stringifiedTypes.push(printType(type))
-  })
   return stringifiedTypes.join("\n\n")
 }
 
@@ -50,14 +46,14 @@ function objectToGrapQL(
 ) {
   const { type, $id, properties, required } = object
 
-  if (type !== 'object') {
-    throw new Error(`A JSON schema type '${type}' can't convert into GraphQL object`)
-  }
-
   if ($id) {
     name = idToName($id)
   } else if (!name) {
     throw new Error(`Missing name`)
+  }
+
+  if (type !== 'object') {
+    return objectToScalarGraphQL(types, name)
   }
 
   return fetch(types, name, () => {
@@ -91,6 +87,26 @@ function objectToGrapQL(
       }
     });
   })
+}
+
+/**
+ * Reoslve JSON Schema object into Scalar GraphQL type
+ *
+ * @param {Map} types are cached graphql types
+ * @param {string} [name] type name generated in context above
+ * @returns {GraphQLObjectType}
+ */
+function objectToScalarGraphQL(
+  types,
+  // schema,
+  // object = schema,
+  name) {
+    return fetch(types, name, () => {
+      return new GraphQLScalarType({
+        name,
+        serialize: () => {} // Required by typescript
+      })
+    })
 }
 
 /**

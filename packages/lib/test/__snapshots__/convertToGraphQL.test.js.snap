@@ -248,3 +248,9 @@ type SupermodelFactoryPartsEngine {
   manufacturer: SupermodelFactoryManufacturer
 }"
 `;
+
+exports[`schemaToGraphQL simple type 1`] = `
+"type SupermodelDavidOrder {
+  timestamp: undefined
+}"
+`;
