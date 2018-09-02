@@ -1,7 +1,7 @@
 const { URL } = require('url') // TODO: verify this works on browser
 
 const supportedKeys = ['title', 'multipleOf', 'maximum', 'exclusiveMaximum', 'minimum', 'exclusiveMinimum', 'maxLength', 'minLength', 'pattern', 'maxItems', 'minItems', 'uniqueItems', 'maxProperties', 'minProperties', 'required', 'enum', 'description', 'format', 'default']
-const schemaObjectArrayKeys = ['allOf' /*, 'anyOf', 'oneOf'*/]
+const schemaObjectArrayKeys = ['allOf', 'anyOf', 'oneOf']
 const schemaObjectKeys = [/*'not'*/, 'additionalProperties']
 const schemaObjectDictionaryKeys = ['properties', 'definitions']
 
@@ -108,6 +108,12 @@ function convertSchemaObjectProperty(key, value, rootId, currentId, definitions)
     value.forEach((element) => {
       itemsArray.push(convertSchemaObject(element, rootId, currentId, definitions))
     })
+
+    // Warn about converting anyOf and oneOf as all Of
+    if (key === 'anyOf' || key === 'oneOf') {
+      console.warn(`Warning: '${key}' converted as 'allOf'`)
+    }
+
     return { key, value: itemsArray }
   }
 
