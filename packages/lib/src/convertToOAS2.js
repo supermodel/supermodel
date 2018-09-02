@@ -114,7 +114,7 @@ function convertSchemaObjectProperty(key, value, rootId, currentId, definitions)
       console.warn(`Warning: '${key}' converted as 'allOf'`)
     }
 
-    return { key, value: itemsArray }
+    return { key: 'allOf', value: itemsArray }  // Force allOf
   }
 
   // Single schema object
