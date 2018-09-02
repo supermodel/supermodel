@@ -1,9 +1,17 @@
 const { URL } = require('url')
 const initLayer = require('../../lib/initLayer')
 const pull = require('../../lib/pull')
+const supermodelConfig = require('../../lib/supermodelConfig')
 
 async function runInstall(domainUrl) {
   try {
+    const supermodelDirectory = supermodelConfig.findSupermodelDir(process.cwd())
+
+    if (supermodelDirectory) {
+      console.error(`Can't run install command within supermodel directory`)
+      process.exit(1)
+    }
+
     const url = new URL(domainUrl)
     const { origin: host, pathname: domain } = url
     const config = { host }
