@@ -65,6 +65,11 @@ function resolveRef(schema, currentObject, ref) {
     const url = new URL(id)
     url.pathname = path.resolve(url.pathname, '..', ref)
 
+    // Referencing to itself
+    if (url.toString() === id) {
+      return currentObject
+    }
+
     let definition = definitions[url.toString()]
 
     if (!definition && url.toString() === id) {

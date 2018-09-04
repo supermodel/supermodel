@@ -31,7 +31,7 @@ function convertToGraphQL(schema) {
     objectToGrapQL(types, schema)
   } else {
     // Case of resolved folder
-    Object.keys(definitions).forEach(id => objectToGrapQL(types, definitions[id]))
+    Object.keys(definitions).forEach(id => objectToGrapQL(types, schema, definitions[id]))
   }
 
   const stringifiedTypes = []

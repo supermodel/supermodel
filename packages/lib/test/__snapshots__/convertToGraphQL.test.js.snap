@@ -180,6 +180,37 @@ exports[`schemaToGraphQL converts simple object 1`] = `
 }"
 `;
 
+exports[`schemaToGraphQL multiple definitions in root #2 1`] = `
+"type SupermodelSupermodelAppCoreLayer {
+  name: String
+  description: String
+  parent: SupermodelSupermodelAppCoreLayer
+  layers: [SupermodelSupermodelAppCoreLayer]
+  models: [SupermodelSupermodelAppCoreModel]
+  owner: SupermodelSupermodelAppCoreLayerOwnerUnion
+  collaborators: [SupermodelSupermodelAppCoreLayerCollaboratorsUnion]
+}
+
+type SupermodelSupermodelAppCoreModel {
+  id: String
+  name: String
+  description: String
+  schema: String
+}
+
+type SupermodelSupermodelAppCollaborationUser {
+  teams: [SupermodelSupermodelAppCollaborationTeam]
+}
+
+type SupermodelSupermodelAppCollaborationTeam {
+  members: [SupermodelSupermodelAppCollaborationUser]
+}
+
+union SupermodelSupermodelAppCoreLayerOwnerUnion = SupermodelSupermodelAppCollaborationUser | SupermodelSupermodelAppCollaborationTeam
+
+union SupermodelSupermodelAppCoreLayerCollaboratorsUnion = SupermodelSupermodelAppCollaborationUser | SupermodelSupermodelAppCollaborationTeam"
+`;
+
 exports[`schemaToGraphQL multiple definitions in root 1`] = `
 "type SupermodelFactoryCar {
   manufacturer: String

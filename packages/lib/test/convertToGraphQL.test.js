@@ -230,4 +230,123 @@ describe('schemaToGraphQL', () => {
   test('multiple definitions in root', () => {
     matchSchema(multipleRootDefinitions)
   })
+
+  const realRootDefinitionsExample = {
+    "definitions": {
+      "http://supermodel.io/supermodel/App/core/Layer": {
+        "$id": "http://supermodel.io/supermodel/App/core/Layer",
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "title": "Layer",
+        "type": "object",
+        "description": "Supermodel layer, also known as context or domain. It represents a group of other layers and models.",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the layer"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the layer (Markdown)"
+          },
+          "parent": {
+            "$ref": "Layer"
+          },
+          "layers": {
+            "type": "array",
+            "description": "Layers nested in under this layer",
+            "items": {
+              "$ref": "Layer"
+            }
+          },
+          "models": {
+            "type": "array",
+            "description": "Models in this layer",
+            "items": {
+              "$ref": "Model"
+            }
+          },
+          "owner": {
+            "anyOf": [
+              {
+                "$ref": "http://supermodel.io/supermodel/App/collaboration/User"
+              },
+              {
+                "$ref": "http://supermodel.io/supermodel/App/collaboration/Team"
+              }
+            ]
+          },
+          "collaborators": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "http://supermodel.io/supermodel/App/collaboration/User"
+                },
+                {
+                  "$ref": "http://supermodel.io/supermodel/App/collaboration/Team"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "http://supermodel.io/supermodel/App/core/Model": {
+        "$id": "http://supermodel.io/supermodel/App/core/Model",
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "title": "Model",
+        "type": "object",
+        "description": "Model in Supermodel. It usualy comprises of one schema without additional definitons.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Id ($id) of the model, also serves as the slug"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the model"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the model (Markdown)"
+          },
+          "schema": {
+            "type": "string",
+            "description": "Text buffer containing the source JSON Schema representation always in the YAML format"
+          }
+        }
+      },
+      "http://supermodel.io/supermodel/App/collaboration/User": {
+        "$id": "http://supermodel.io/supermodel/App/collaboration/User",
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "title": "User",
+        "type": "object",
+        "properties": {
+          "teams": {
+            "type": "array",
+            "items": {
+              "$ref": "Team"
+            }
+          }
+        }
+      },
+      "http://supermodel.io/supermodel/App/collaboration/Team": {
+        "$id": "http://supermodel.io/supermodel/App/collaboration/Team",
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "title": "Team",
+        "type": "object",
+        "properties": {
+          "members": {
+            "type": "array",
+            "items": {
+              "$ref": "User"
+            }
+          }
+        }
+      }
+    }
+  }
+
+  test('multiple definitions in root #2', () => {
+    matchSchema(realRootDefinitionsExample)
+  })
 })
