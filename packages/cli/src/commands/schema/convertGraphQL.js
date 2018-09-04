@@ -1,10 +1,20 @@
 // const { newContext, convert } = require('./tmp/converter')
 const { resolveSchema } = require('../../lib/resolveSchema')
+const compileSchema = require('../../lib/compileSchema')
+const { isDirectory } = require('../../lib/fsUtils')
 const { convertToGraphQL } = require('superlib')
 
-function runConvertToGraphQL(yamlSchemaFile) {
+function runConvertToGraphQL(schemaPath) {
+  let resolver
+
+  if (isDirectory(schemaPath)) {
+    resolver = compileSchema(schemaPath)
+  } else {
+    resolver = resolveSchema(schemaPath)
+  }
+
   try {
-    resolveSchema(yamlSchemaFile)
+    resolver
       .then(convertToGraphQL)
       .then(graphQLSchema => {
         console.log(graphQLSchema)

@@ -10,11 +10,11 @@ async function compileSchema(dirPath) {
 
   const inputFiles = fsUtils.readDirectory(dirPath)
   const compiledSchema = { definitions: {} } // Desired output
-  
+
   // Temporary schema for resolving remote references, after resolveSchemaObject() call
   // the definitions of this schema should be appened to the compiled schema's definitions
   const schemaForResolving = { anyOf: [] }
-  
+
   for (const filePath of inputFiles) {
     try {
       // console.info(`--> processing ${filePath}`)
@@ -36,7 +36,7 @@ async function compileSchema(dirPath) {
     }
   }
 
-  // Resolve remote references (outside of the dirpath) 
+  // Resolve remote references (outside of the dirpath)
   //  can be also under a CLI flag so resolving is not done all the time
   const resolvedSchema = await resolveSchemaObject(schemaForResolving, dirPath)
   // console.log(`>>> resolvedSchema:\n${JSON.stringify(resolvedSchema, null, 2)}\n\n`)
