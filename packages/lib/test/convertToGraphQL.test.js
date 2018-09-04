@@ -219,4 +219,15 @@ describe('schemaToGraphQL', () => {
   test('simple type', () => {
     matchSchema(simpleType)
   })
+
+  const multipleRootDefinitions = {
+    "definitions": {
+      [CarSchema.$id]: CarSchema,
+      [EngineSchema.$id]: EngineSchema,
+    }
+  }
+
+  test('multiple definitions in root', () => {
+    matchSchema(multipleRootDefinitions)
+  })
 })

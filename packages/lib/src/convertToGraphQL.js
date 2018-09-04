@@ -21,7 +21,18 @@ const fetch = require('./utils/fetch')
 function convertToGraphQL(schema) {
   const types = new Map()
 
-  objectToGrapQL(types, schema)
+  const { $id, definitions } = schema
+  if (!$id && (!definitions || Object.keys(definitions).length === 0)) {
+    throw new Error(`A JSON Schema without $id and definitions properties`)
+  }
+
+  if ($id) {
+    // Case of resolved file
+    objectToGrapQL(types, schema)
+  } else {
+    // Case of resolved folder
+    Object.keys(definitions).forEach(id => objectToGrapQL(types, definitions[id]))
+  }
 
   const stringifiedTypes = []
   types.forEach(type => stringifiedTypes.push(printType(type)))
