@@ -10,7 +10,7 @@ const fetchRemoteSchema = require('./fetchRemoteSchema')
  * 
  * @param {object} loadedSchema The schema to check
  * @param {string} expectedSchemaId Expected URI of the schema
- * @param {function} validateMetaSchema Optional function to validate metaschem
+ * @param {function} validateMetaSchema Optional function to validate metaschema
  * @returns {string, null} Null on success, error message on failure
  */
 function checkLoadedSchema(loadedSchema, expectedSchemaId, validateMetaSchema) {
@@ -23,7 +23,7 @@ function checkLoadedSchema(loadedSchema, expectedSchemaId, validateMetaSchema) {
     // Sanity check, check the requested URI is equal to loaded schema $id
     const id = loadedSchema['$id']
     if (id && expectedSchemaId !== id) {
-      throw new Error(`$id mismatch, expected '${uri}' got '${id}'`)
+      throw new Error(`$id mismatch, expected '${expectedSchemaId}' got '${id}'`)
     }
   }
   catch(error) {
@@ -68,13 +68,13 @@ function createFileSchemaLoader(rootSchemaURI, rootSchemaDirectory, validateMeta
         // Read the remote schema from file
         loadedSchema = readYAMLFile(filePath)
 
-        const schemaCheckResult = checkLoadedSchema(resolvedSchema, uri, validateMetaSchema)
+        const schemaCheckResult = checkLoadedSchema(loadedSchema, uri, validateMetaSchema)
         if (schemaCheckResult) {
           throw new Error(schemaCheckResult)
         }
 
         // Logging
-        // console.info(`loaded '${uri}' from '${filePath}'`)
+        // console.info(`  --> Loaded '${uri}' from '${filePath}'`)
       }
       catch (e) {
         fileErrorMessage = `unable to load '${filePath}' as '${uri}'`
@@ -86,6 +86,7 @@ function createFileSchemaLoader(rootSchemaURI, rootSchemaDirectory, validateMeta
       }
       else {
         // Attempt to resolve the resolve schema from web
+        // console.info(`  --> Fetching '${uri}' from the web`)
         fetchRemoteSchema(uri)
         .then((resolvedSchema) => {
           const schemaCheckResult = checkLoadedSchema(resolvedSchema, uri, validateMetaSchema)
