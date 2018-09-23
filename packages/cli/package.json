@@ -4,7 +4,6 @@
   "description": "Supermodel command tool",
   "main": "index.js",
   "scripts": {
-    "postinstall": "npm install github:supermodel/superlib",
     "jest": "jest",
     "test": "npm run jest",
     "test:watch": "npm run jest -- --watch"
@@ -27,6 +26,7 @@
   },
   "homepage": "https://github.com/supermodel/supermodel-cli#readme",
   "dependencies": {
+    "@supermodel/lib": "0.3.4",
     "ajv": "^6.1.1",
     "auth0-js": "9.4.2",
     "casex": "0.0.5",
@@ -38,8 +38,7 @@
     "js-yaml": "^3.10.0",
     "node-fetch": "2.1.2",
     "rimraf": "2.6.2",
-    "superfile": "github:supermodel/superfile",
-    "superlib": "github:supermodel/superlib"
+    "superfile": "github:supermodel/superfile"
   },
   "devDependencies": {
     "jest": "23.4.0"

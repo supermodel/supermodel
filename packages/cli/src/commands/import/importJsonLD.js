@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-const { importJsonLD: performImportJsonLD, yamlModel } = require('superlib')
+const { importJsonLD: performImportJsonLD, yamlModel } = require('@supermodel/lib')
 const supermodelConfig = require('../../lib/supermodelConfig')
 const fsUtils = require('../../lib/fsUtils')
 

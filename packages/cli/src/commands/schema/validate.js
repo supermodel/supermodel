@@ -1,5 +1,5 @@
 const path = require('path')
-const superlib = require('superlib')
+const superlib = require('@supermodel/lib')
 const { readYAMLFile, fileSchemaLoader } = require('superfile')
 const fsUtils = require('../../lib/fsUtils')
 

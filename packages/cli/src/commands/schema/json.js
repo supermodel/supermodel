@@ -1,4 +1,4 @@
-const superlib = require('superlib')
+const superlib = require('@supermodel/lib')
 
 function runConvertToJSON(yamlSchemaFile) {
 

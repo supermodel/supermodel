@@ -1,5 +1,5 @@
 const { URL } = require('url')
-const { validateData, validateMetaSchema, resolveSchema } = require('superlib')
+const { validateData, validateMetaSchema, resolveSchema } = require('@supermodel/lib')
 const fetch = require('node-fetch')
 const readData = require('../../lib/readData')
 const remoteSchemaLoader = require('../../lib/remoteSchemaLoader')
@@ -17,7 +17,7 @@ const remoteSchemaLoader = require('../../lib/remoteSchemaLoader')
 async function runValidate (dataFile, modelSchema) {
   const data = await loadData(dataFile)
   const schema = await loadSchema(modelSchema)
-  
+
   try {
     validateData(data, schema)
     console.log(`--> Passed ${dataFile}`)
@@ -69,7 +69,7 @@ async function loadSchema(modelSchema) {
     process.exit(1)
   }
   // console.log(`loaded schema: ${JSON.stringify(schema, null, 2)}`)
-  
+
   // Resolve referenced schemas
   const resolvedSchema = await resolve(schema)
   return resolvedSchema

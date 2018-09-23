@@ -1,11 +1,11 @@
 const path = require('path')
-const superlib = require('superlib')
+const superlib = require('@supermodel/lib')
 const { readYAMLFile, fileSchemaLoader } = require('superfile')
 
 /**
  * Resolve remote references in model file
- * 
- * @param {string} yamlSchemaFile 
+ *
+ * @param {string} yamlSchemaFile
  * @returns {Promise}
  */
 function resolveSchema(yamlSchemaFile) {
@@ -17,8 +17,8 @@ function resolveSchema(yamlSchemaFile) {
 
 /**
  * Resolve remote references in a JSON Schema object
- * 
- * @param {object} schemaObject JSON Schema object 
+ *
+ * @param {object} schemaObject JSON Schema object
  * @returns {Promise}
  */
 function resolveSchemaObject(schemaObject, currentDirectory) {
@@ -28,7 +28,7 @@ function resolveSchemaObject(schemaObject, currentDirectory) {
 }
 
 
-module.exports = { 
+module.exports = {
   resolveSchema,
   resolveSchemaObject
 }

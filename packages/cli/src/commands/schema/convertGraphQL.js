@@ -2,7 +2,7 @@
 const { resolveSchema } = require('../../lib/resolveSchema')
 const compileSchema = require('../../lib/compileSchema')
 const { isDirectory } = require('../../lib/fsUtils')
-const { convertToGraphQL } = require('superlib')
+const { convertToGraphQL } = require('@supermodel/lib')
 
 function runConvertToGraphQL(schemaPath) {
   let resolver
