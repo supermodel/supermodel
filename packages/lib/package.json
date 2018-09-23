@@ -14,11 +14,7 @@
     "type": "git",
     "url": "git+https://github.com/supermodel/superlib.git"
   },
-  "author": {
-    "name": "Zdenek Nemec",
-    "email": "z@goodapi.co",
-    "url": "http://goodapi.co"
-  },
+  "author": "Zdenek Nemec <z@goodapi.co> (http://goodapi.co)",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/supermodel/superlib/issues"
@@ -35,5 +31,9 @@
     "casex": "0.0.5",
     "graphql": "0.13.2",
     "js-yaml": "^3.11.0"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "test"
   }
 }
