@@ -1,0 +1,6 @@
+/src
+/test
+/fixtures
+/.vscode
+/.circleci
+/jest.config.js

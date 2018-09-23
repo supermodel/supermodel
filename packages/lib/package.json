@@ -1,11 +1,11 @@
 {
-  "name": "superlib",
+  "name": "@supermodel/lib",
   "version": "0.3.2",
   "description": "Supermodel.io core functionality library",
   "main": "lib/index.js",
   "scripts": {
     "compile": "npx babel --presets es2015 -d lib/ src/",
-    "postinstall": "npm run compile",
+    "prepublish": "npm run compile",
     "jest": "jest",
     "test": "npm run jest --",
     "test:watch": "npm run jest -- --watch"
