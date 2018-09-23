@@ -7,6 +7,5 @@ test('resolve valid schema', () => {
   const schema = readYAMLFile('./fixtures/references/AValidB.yaml')
   const loader = fileSchemaLoader(schema['$id'], './fixtures/references/');
 
-  expect.assertions(1)
   return expect(resolveSchema(schema, loader)).resolves.toHaveProperty('definitions', RESOLVED_SCHEMA_DEFINITIONS)
 })
