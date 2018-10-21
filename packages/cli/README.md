@@ -18,7 +18,7 @@ The Supermodel CLI then facilitates the creation of these models as well as work
 
 ## Installation
 
-```
+```bash
 $ npm i -g supermodel-cli
 ```
 
@@ -64,6 +64,7 @@ You can open `MyModel.yaml` in an editor and edit it as necessary. When you are 
 Refer to [Supermodel JSON Schema Model](#supermodel-json-schema-model) for more details about the Supermodel Model or learn about some [usage examples](#usage-examples)
 
 ## JSON Schema Functionality
+
 This CLI tool currently supports the following JSON schema operations:
 
 - **YAML to JSON Conversion**
@@ -117,6 +118,7 @@ This CLI tool currently supports the following JSON schema operations:
 ## Usage Examples
 
 ### Validate Data Models in CI/CD Pipeline
+
 Supermodel CLI is a CI/CD compliant CLI tool, that is it's `schema validate` command can be used as a part of CI testing, to validate the data models against its meta schema
 
 ```
@@ -126,6 +128,7 @@ $ echo $?
 ```
 
 ### Convert Data Models into Self-contained OpenAPI Spec 2.0
+
 Converts a model or set of models (via `supermodel schema compile`) if `<path>` is a directory into OAS2 definitions. If the `-o` parameter is provided it replaces the definitions section in the existing OAS2 document.
 
 ```
@@ -133,6 +136,7 @@ $ supermodel schema oas2 <pathToModel(s)> -o <pathToOAS2>
 ```
 
 ## Supermodel JSON Schema Model
+
 A Supermodel model (hereafter just "model") is a plain [JSON Schema (draft 7)](http://json-schema.org/specification.html) schema file in YAML format. It is customary that Supermodel model contains a top-level type definition, its title and it starts with the model (`$id`).
 
 At minimum a Supermodel model file looks like:
@@ -174,10 +178,17 @@ properties:
 See [JSON Schema specification](http://json-schema.org/specification.html) for more about JSON Schema references and JSON pointer.
 
 ## Developing Supermodel CLI
+
 After cloning this repository you can either:
 
 1. copy .env.development into .env `cp ./.env.development ./.env` and change variables for your needs
 2. symlink `ln ./.env.development ./.env`
+
+## Npm publish
+
+```shell
+> npm publish --access public
+```
 
 ## A Good API Project
 
