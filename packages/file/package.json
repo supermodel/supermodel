@@ -1,6 +1,6 @@
 {
   "name": "@supermodel/file",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "File Schema Loader for Supermodel",
   "main": "index.js",
   "scripts": {
