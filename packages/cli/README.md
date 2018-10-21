@@ -19,7 +19,13 @@ The Supermodel CLI then facilitates the creation of these models as well as work
 ## Installation
 
 ```bash
-$ npm i -g supermodel-cli
+> npm i -g @supermodel/cli
+```
+
+or
+
+```bash
+> yarn global add @supermodel/cli
 ```
 
 ## Getting Started
