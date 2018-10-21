@@ -1,10 +1,10 @@
 {
-  "name": "superfile",
+  "name": "@supermodel/file",
   "version": "0.4.0",
   "description": "File Schema Loader for Supermodel",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 0"
   },
   "repository": {
     "type": "git",
