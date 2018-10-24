@@ -88,6 +88,8 @@ function resolveYamlFile (...pathParts) {
   if (fs.existsSync(filePath)) {
     return filePath
   }
+
+  return null
 }
 
 module.exports = {

@@ -6,6 +6,7 @@ const yaml = require('js-yaml')
 const rmrf = require('rimraf')
 const supermodelConfig = require('./supermodelConfig')
 const fsUtils = require('./fsUtils')
+const glob = require('glob')
 
 /**
  * Sync entity from supermodel app.
@@ -24,13 +25,42 @@ async function pull(entity = process.cwd()) {
     const config = supermodelConfig.getSupermodelConfig(supermodelDirectory)
 
     const entityData = await fetchEntity(entityPath, config)
+
+    removeCurrentModels(entity)
+
     entityToFS(path.join(entity, '..'), entityData)
+
+    cleanupEmptyDirectories(entity)
   } else {
     const message = `Unable to pull '${entity}'. Not in the supermodel directory subtree.`
     throw new Error(message)
   }
 }
 
+/**
+ * Remove all model files from current entity
+ *
+ * @param {string} entity
+ */
+function removeCurrentModels(entity) {
+  const yamlFiles = glob.sync(`${entity}/**/*.y?(a)ml`)
+  yamlFiles.forEach(fs.unlinkSync)
+}
+
+/**
+ * Remove empty diretories from current entity
+ *
+ * @param {string} entity
+ */
+function cleanupEmptyDirectories(entity) {
+  const matches = glob.sync(`${entity}/**`)
+
+  matches.forEach(match => {
+    if (match !== entity && fs.lstatSync(match).isDirectory() && fs.readdirSync(match).length === 0) {
+      rmrf.sync(match)
+    }
+  })
+}
 /**
  * Download entity data from supermodel app.
  *
@@ -89,11 +119,10 @@ function layerToFS(directory, layer) {
   const layerPath = path.join(directory, layer.slug)
 
   // Empty directory or create new one
-  if (fs.existsSync(layerPath)) {
-    fsUtils.emptyDirectory(layerPath)
-  } else {
+  if (!fs.existsSync(layerPath)) {
     fs.mkdirSync(layerPath)
   }
+
   // Iterate nested entities and write them too
   layer.nested_entities.forEach(entity => entityToFS(layerPath, entity))
 }
