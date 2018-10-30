@@ -1,5 +1,5 @@
 const fs = require('fs')
-const { readYAMLFile } = require('superfile')
+const { readYAMLFile } = require('@supermodel/file')
 const runCreate = require('./create')
 
 function formatProperty(propertyName, baseId) {

@@ -1,6 +1,6 @@
 const path = require('path')
 const superlib = require('@supermodel/lib')
-const { readYAMLFile, fileSchemaLoader } = require('superfile')
+const { readYAMLFile, fileSchemaLoader } = require('@supermodel/file')
 
 /**
  * Resolve remote references in model file

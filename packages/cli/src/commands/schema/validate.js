@@ -1,6 +1,6 @@
 const path = require('path')
 const superlib = require('@supermodel/lib')
-const { readYAMLFile, fileSchemaLoader } = require('superfile')
+const { readYAMLFile, fileSchemaLoader } = require('@supermodel/file')
 const fsUtils = require('../../lib/fsUtils')
 
 function runValidateSchema(inputPath) {

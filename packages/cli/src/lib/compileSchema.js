@@ -1,4 +1,4 @@
-const { readYAMLFile } = require('superfile')
+const { readYAMLFile } = require('@supermodel/file')
 const { resolveSchemaObject } = require('./resolveSchema')
 const fsUtils = require('./fsUtils')
 
