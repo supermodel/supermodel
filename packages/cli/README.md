@@ -19,19 +19,19 @@ The Supermodel CLI then facilitates the creation of these models as well as work
 ## Installation
 
 ```bash
-> npm i -g @supermodel/cli
+$ npm i -g @supermodel/cli
 ```
 
 or
 
 ```bash
-> yarn global add @supermodel/cli
+$ yarn global add @supermodel/cli
 ```
 
 ## Getting Started
 After the installation, login into the [Supermodel.io](http://supermodel.io):
 
-```
+```bash
 $ supermodel login
 --> Logged as 'username'
 ```
@@ -41,7 +41,7 @@ Your account is need for two reasons. First, to make your model identifiers glob
 
 When you are logged in, initialize the current directory and create your first model:
 
-```
+```bash
 $ supermodel init MyApp
 --> Created ./supermodel/<username>/MyApp
 ```
@@ -50,18 +50,18 @@ The first parameter (`MyApp`) of the `init` command should represent your applic
 
 After you have initialized the supermodel directory, step into it:
 
-```
+```bash
 $ cd ./supermodel/<username>/MyApp
 ```
 
 And go ahead and create your first model:
 
-```
+```bash
 $ supermodel model create MyModel
 --> Created model 'MyModel' as MyModel.yaml
 ```
 
-```
+```bash
 $ open MyModel.yaml
 ```
 
@@ -77,7 +77,7 @@ This CLI tool currently supports the following JSON schema operations:
 
     Converts JSON Schema in YAML format to JSON format
 
-    ```
+    ```bash
     $ supermodel schema json <modelPath>
     ```
 
@@ -85,7 +85,7 @@ This CLI tool currently supports the following JSON schema operations:
 
     Validates JSON Schema meta schema (read: validates that your JSON Schema is valid)
 
-    ```
+    ```bash
     $ supermodel schema validate <path>
     ```
 
@@ -93,7 +93,7 @@ This CLI tool currently supports the following JSON schema operations:
 
     Compiles multiple Supermodel JSON Schema model files into one
 
-    ```
+    ```bash
     $ supermodel schema compile <dir>
     ```
 
@@ -101,7 +101,7 @@ This CLI tool currently supports the following JSON schema operations:
 
     Resolves all remote `$ref`s in a Supermodel JSON Schema model file, transcluding the referenced definitions in the output schema file
 
-    ```
+    ```bash
     $ supermodel schema resolve <modelPath>
     ```
 
@@ -109,7 +109,7 @@ This CLI tool currently supports the following JSON schema operations:
 
     Converts Supermodel JSON Schema model to [OpenAPI Specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) definitions object
 
-    ```
+    ```bash
     $ supermodel schema oas2 <modelPath>
     ```
 
@@ -117,7 +117,7 @@ This CLI tool currently supports the following JSON schema operations:
 
     Converts Supermodel JSON Schema model to [GraphQL](https://graphql.org/) schema
 
-    ```
+    ```bash
     $ supermodel schema graphql <modelPath>
     ```
 
@@ -127,7 +127,7 @@ This CLI tool currently supports the following JSON schema operations:
 
 Supermodel CLI is a CI/CD compliant CLI tool, that is it's `schema validate` command can be used as a part of CI testing, to validate the data models against its meta schema
 
-```
+```bash
 $ supermodel schema validate <path>
 $ echo $?
 0
@@ -137,7 +137,7 @@ $ echo $?
 
 Converts a model or set of models (via `supermodel schema compile`) if `<path>` is a directory into OAS2 definitions. If the `-o` parameter is provided it replaces the definitions section in the existing OAS2 document.
 
-```
+```bash
 $ supermodel schema oas2 <pathToModel(s)> -o <pathToOAS2>
 ```
 
@@ -192,8 +192,8 @@ After cloning this repository you can either:
 
 ## Npm publish
 
-```shell
-> npm publish --access public
+```bash
+$ npm publish --access public
 ```
 
 ## A Good API Project
