@@ -17,15 +17,16 @@ const GENERATED_BY_SUPERMODEL = `
 async function runConvertToOAS2(inputPath, oas2Path) {
   try {
     let schemaObject
+
     if (fsUtils.isDirectory(inputPath)) {
       schemaObject = await compileSchema(inputPath)
-    }
-    else {
+    } else {
       schemaObject = await resolveSchema(inputPath)
     }
 
     const oas2SchemaObject = superlib.convertToOAS2(schemaObject)
     const oas2definitions = `${GENERATED_BY_SUPERMODEL}${jsYaml.safeDump(oas2SchemaObject)}`
+
     if (oas2Path) {
       if (!fs.existsSync(oas2Path)) {
         throw new Error(`Output OAS2 file doesn't exists (${oas2Path})`)

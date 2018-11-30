@@ -1,0 +1,8 @@
+$id: 'http://supermodel.io/schemaorg/AutomatedTeller'
+$schema: 'http://json-schema.org/draft-07/schema#'
+
+title: AutomatedTeller
+description: ATM/cash machine.
+
+allOf:
+  - $ref: FinancialService¨
