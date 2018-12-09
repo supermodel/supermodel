@@ -7,6 +7,8 @@ const cache = require('../../cache')
 const fsUtils = require('../../lib/fsUtils')
 const supermodelConfig = require('../../lib/supermodelConfig')
 
+const isWin = process.platform === "win32";
+
 async function runPush() {
   try {
     await push()
@@ -195,6 +197,11 @@ function FSModelToEntity(modelFile, errors) {
       try {
         idPath = decodeURI(idPath)
       } catch(er) {}
+
+      if (isWin) {
+        idPath = idPath.replace(/\//g, '\\')
+      }
+
       if (idPath != modelPath) {
         addErrorMessage(errors, modelFile, `model file path does not match its $id '${idPath}'`)
       }
