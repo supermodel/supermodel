@@ -6,9 +6,10 @@ const {
 } = require('graphql');
 const {
   idToName,
-  resolveRef,
   toSafeEnumKey,
 } = require('./utils/graphql')
+
+const resolveRef  = require('./utils/resolveRef')
 
 const fetch = require('./utils/fetch')
 
