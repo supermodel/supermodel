@@ -60,3 +60,5 @@ typings/
 oas2.yaml
 
 /lib
+
+.cache

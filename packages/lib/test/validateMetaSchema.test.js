@@ -1,4 +1,4 @@
-const { readYAMLFile } = require('superfile')
+const { readYAMLFile } = require('@supermodel/file')
 const validateMetaSchema = require('../src/validateMetaSchema');
 
 test('validate correct meta schema', () => {

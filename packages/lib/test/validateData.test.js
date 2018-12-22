@@ -1,5 +1,5 @@
 const fs = require('fs')
-const { readYAMLFile } = require('superfile')
+const { readYAMLFile } = require('@supermodel/file')
 const validateData = require('../src/validateData')
 const schema = readYAMLFile('./fixtures/data/schema.yaml')
 

@@ -1,7 +1,7 @@
-const { URL } = require('url')
-const casex = require('casex')
+import { URL } from 'url'
+import * as casex from 'casex'
 
-function idToName(id) {
+function idToName(id: string): string {
   const url = new URL(id)
   const { hostname, pathname } = url
 
@@ -17,7 +17,7 @@ function idToName(id) {
   ].map(part => casex(part, 'CaSe')).join('')
 }
 
-function toSafeEnumKey (value) {
+function toSafeEnumKey (value: string): string {
   if (/^[0-9]/.test(value)) {
     value = 'VALUE_' + value;
   }
@@ -33,12 +33,15 @@ function toSafeEnumKey (value) {
 }
 
 class GraphQLPendingType {
-  constructor(name) {
+  name: string
+
+  constructor(name: string) {
     this.name = name
   }
 }
 
-module.exports = {
+export {
   idToName,
-  toSafeEnumKey
+  toSafeEnumKey,
+  GraphQLPendingType
 }
