@@ -5,6 +5,11 @@ module.exports = {
   collectCoverageFrom: [
     "src/**/*.{js,ts}"
   ],
+  globals: {
+    "ts-jest": {
+      diagnostics: false
+    }
+  },
   moduleFileExtensions: ["ts", "js", "json"],
   notify: !process.env.DISABALE_JEST_NOTIFY,
   notifyMode: 'success-change',

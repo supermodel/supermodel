@@ -1,60 +1,13 @@
-const path = require('path')
-const fs = require('fs')
-const convertToGraphQL = require('../src/convertToGraphQL')
+import * as path from 'path'
+import * as fs from 'fs'
+import { CarSchema, EngineSchema, ManufacturerSchema } from "./__fixtures__/CarSchema";
+import convertToGraphQL = require('../../src/convert/GraphQL')
 
 function matchSchema(schema) {
   expect(convertToGraphQL(schema)).toMatchSnapshot();
 }
 
 describe('schemaToGraphQL', () => {
-  const CarSchema = {
-    "$id": "http://supermodel.io/factory/Car",
-    "title": "Article",
-    "type": "object",
-    "properties": {
-      "manufacturer": {
-        "type": "string"
-      },
-      "type": {
-        "type": "string"
-      },
-      "weight": {
-        "type": "integer"
-      },
-      "length": {
-        "type": "number"
-      },
-      "available": {
-        "type": "boolean"
-      }
-    }
-  }
-
-  const EngineSchema = {
-    "$id": "http://supermodel.io/factory/parts/Engine",
-    "title": "Engine",
-    "type": "object",
-    "properties": {
-      "volume": {
-        "type": "number"
-      },
-      "power": {
-        "type": "integer"
-      }
-    }
-  }
-
-  const ManufacturerSchema = {
-    "$id": "http://supermodel.io/factory/Manufacturer",
-    "title": "Manufacturer",
-    "type": "object",
-    "properties": {
-      "name": {
-        "type": "string"
-      }
-    }
-  }
-
   test('converts simple object', () => {
     matchSchema(CarSchema)
   })

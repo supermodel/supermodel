@@ -1,6 +1,7 @@
 const path = require('path')
 const { URL } = require('url')
 
+// TODO: naive finding of definitions inside resolved schema
 function resolveRef(schema, currentObject, ref) {
   const definitions = currentObject.definitions || schema.definitions
   const id = currentObject.$id

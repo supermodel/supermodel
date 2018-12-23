@@ -1,0 +1,459 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`convertToAvro complex schema 1`] = `
+Object {
+  "doc": undefined,
+  "fields": Array [
+    Object {
+      "doc": "",
+      "name": "articleNumber",
+      "type": "string",
+    },
+    Object {
+      "doc": "",
+      "name": "modelNumber",
+      "type": "string",
+    },
+    Object {
+      "doc": "",
+      "name": "articleDescription",
+      "type": "string",
+    },
+    Object {
+      "doc": "",
+      "name": "gender",
+      "type": undefined,
+    },
+    Object {
+      "doc": "",
+      "name": "brand",
+      "type": undefined,
+    },
+    Object {
+      "doc": "",
+      "name": "productType",
+      "type": undefined,
+    },
+    Object {
+      "doc": "",
+      "name": "ageGroup",
+      "type": undefined,
+    },
+    Object {
+      "doc": "",
+      "name": "colorway",
+      "type": Object {
+        "fields": Array [
+          Object {
+            "doc": "",
+            "name": "name",
+            "type": "string",
+          },
+          Object {
+            "doc": "",
+            "name": "description",
+            "type": "string",
+          },
+        ],
+        "name": "colorway_record",
+        "type": "record",
+      },
+    },
+    Object {
+      "doc": "",
+      "name": "colors",
+      "type": Object {
+        "items": Object {
+          "doc": "",
+          "name": "colors",
+          "type": undefined,
+        },
+        "type": "array",
+      },
+    },
+    Object {
+      "doc": "",
+      "name": "seasons",
+      "type": Object {
+        "items": Object {
+          "doc": "",
+          "name": "seasons",
+          "type": undefined,
+        },
+        "type": "array",
+      },
+    },
+    Object {
+      "doc": "",
+      "name": "skus",
+      "type": Object {
+        "items": Object {
+          "doc": "",
+          "name": "skus",
+          "type": undefined,
+        },
+        "type": "array",
+      },
+    },
+    Object {
+      "doc": "",
+      "name": "assets",
+      "type": Object {
+        "items": Object {
+          "doc": "",
+          "name": "assets",
+          "type": undefined,
+        },
+        "type": "array",
+      },
+    },
+    Object {
+      "doc": "",
+      "name": "catalog",
+      "type": undefined,
+    },
+    Object {
+      "doc": "",
+      "name": "related",
+      "type": Object {
+        "items": Object {
+          "doc": "",
+          "name": "related",
+          "type": undefined,
+        },
+        "type": "array",
+      },
+    },
+  ],
+  "name": "main",
+  "namespace": undefined,
+  "type": "record",
+}
+`;
+
+exports[`convertToAvro converts enum 1`] = `
+Object {
+  "doc": undefined,
+  "fields": Array [
+    Object {
+      "doc": "",
+      "name": "volume",
+      "type": "float",
+    },
+    Object {
+      "doc": "",
+      "name": "power",
+      "type": "int",
+    },
+    Object {
+      "doc": "",
+      "name": "fuel",
+      "type": Object {
+        "name": "fuel_enum",
+        "symbols": Array [
+          "gasoline",
+          "diesel",
+          "lpg",
+          "cng",
+        ],
+        "type": "enum",
+      },
+    },
+  ],
+  "name": "main",
+  "namespace": undefined,
+  "type": "record",
+}
+`;
+
+exports[`convertToAvro converts inline object in property 1`] = `
+Object {
+  "doc": undefined,
+  "fields": Array [
+    Object {
+      "doc": "",
+      "name": "manufacturer",
+      "type": "string",
+    },
+    Object {
+      "doc": "",
+      "name": "type",
+      "type": "string",
+    },
+    Object {
+      "doc": "",
+      "name": "weight",
+      "type": "int",
+    },
+    Object {
+      "doc": "",
+      "name": "length",
+      "type": "float",
+    },
+    Object {
+      "doc": "",
+      "name": "available",
+      "type": "boolean",
+    },
+    Object {
+      "doc": "",
+      "name": "engine",
+      "type": Object {
+        "fields": Array [
+          Object {
+            "doc": "",
+            "name": "volume",
+            "type": "float",
+          },
+          Object {
+            "doc": "",
+            "name": "power",
+            "type": "int",
+          },
+        ],
+        "name": "engine_record",
+        "type": "record",
+      },
+    },
+  ],
+  "name": "main",
+  "namespace": undefined,
+  "type": "record",
+}
+`;
+
+exports[`convertToAvro converts required property 1`] = `
+Object {
+  "doc": undefined,
+  "fields": Array [
+    Object {
+      "doc": "",
+      "name": "manufacturer",
+      "type": "string",
+    },
+    Object {
+      "doc": "",
+      "name": "type",
+      "type": "string",
+    },
+    Object {
+      "doc": "",
+      "name": "weight",
+      "type": "int",
+    },
+    Object {
+      "doc": "",
+      "name": "length",
+      "type": "float",
+    },
+    Object {
+      "doc": "",
+      "name": "available",
+      "type": "boolean",
+    },
+  ],
+  "name": "main",
+  "namespace": undefined,
+  "type": "record",
+}
+`;
+
+exports[`convertToAvro multiple definitions in root #2 1`] = `
+Object {
+  "doc": undefined,
+  "fields": Array [],
+  "name": "main",
+  "namespace": undefined,
+  "type": "record",
+}
+`;
+
+exports[`convertToAvro multiple definitions in root 1`] = `
+Object {
+  "doc": undefined,
+  "fields": Array [],
+  "name": "main",
+  "namespace": undefined,
+  "type": "record",
+}
+`;
+
+exports[`convertToAvro resolves refs by #/ 1`] = `
+Object {
+  "doc": undefined,
+  "fields": Array [
+    Object {
+      "doc": "",
+      "name": "manufacturer",
+      "type": "string",
+    },
+    Object {
+      "doc": "",
+      "name": "type",
+      "type": "string",
+    },
+    Object {
+      "doc": "",
+      "name": "weight",
+      "type": "int",
+    },
+    Object {
+      "doc": "",
+      "name": "length",
+      "type": "float",
+    },
+    Object {
+      "doc": "",
+      "name": "available",
+      "type": "boolean",
+    },
+    Object {
+      "doc": "",
+      "name": "engine",
+      "type": undefined,
+    },
+  ],
+  "name": "main",
+  "namespace": undefined,
+  "type": "record",
+}
+`;
+
+exports[`convertToAvro resolves refs by id 1`] = `
+Object {
+  "doc": undefined,
+  "fields": Array [
+    Object {
+      "doc": "",
+      "name": "manufacturer",
+      "type": "string",
+    },
+    Object {
+      "doc": "",
+      "name": "type",
+      "type": "string",
+    },
+    Object {
+      "doc": "",
+      "name": "weight",
+      "type": "int",
+    },
+    Object {
+      "doc": "",
+      "name": "length",
+      "type": "float",
+    },
+    Object {
+      "doc": "",
+      "name": "available",
+      "type": "boolean",
+    },
+    Object {
+      "doc": "",
+      "name": "engine",
+      "type": undefined,
+    },
+  ],
+  "name": "main",
+  "namespace": undefined,
+  "type": "record",
+}
+`;
+
+exports[`convertToAvro resolves refs by relative path 1`] = `
+Object {
+  "doc": undefined,
+  "fields": Array [
+    Object {
+      "doc": "",
+      "name": "manufacturer",
+      "type": "string",
+    },
+    Object {
+      "doc": "",
+      "name": "type",
+      "type": "string",
+    },
+    Object {
+      "doc": "",
+      "name": "weight",
+      "type": "int",
+    },
+    Object {
+      "doc": "",
+      "name": "length",
+      "type": "float",
+    },
+    Object {
+      "doc": "",
+      "name": "available",
+      "type": "boolean",
+    },
+    Object {
+      "doc": "",
+      "name": "engine",
+      "type": undefined,
+    },
+  ],
+  "name": "main",
+  "namespace": undefined,
+  "type": "record",
+}
+`;
+
+exports[`convertToAvro resolves refs works with nested ref objects 1`] = `
+Object {
+  "doc": undefined,
+  "fields": Array [
+    Object {
+      "doc": "",
+      "name": "manufacturer",
+      "type": undefined,
+    },
+    Object {
+      "doc": "",
+      "name": "type",
+      "type": "string",
+    },
+    Object {
+      "doc": "",
+      "name": "weight",
+      "type": "int",
+    },
+    Object {
+      "doc": "",
+      "name": "length",
+      "type": "float",
+    },
+    Object {
+      "doc": "",
+      "name": "available",
+      "type": "boolean",
+    },
+    Object {
+      "doc": "",
+      "name": "engine",
+      "type": undefined,
+    },
+  ],
+  "name": "main",
+  "namespace": undefined,
+  "type": "record",
+}
+`;
+
+exports[`convertToAvro simple type 1`] = `
+Object {
+  "doc": "Order model description",
+  "fields": Array [
+    Object {
+      "doc": "",
+      "name": "timestamp",
+      "type": undefined,
+    },
+  ],
+  "name": "main",
+  "namespace": undefined,
+  "type": "record",
+}
+`;
