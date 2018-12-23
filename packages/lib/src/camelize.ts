@@ -1,7 +1,7 @@
-import * as casex from 'casex'
+import * as casex from 'casex';
 
 function camelize(str: string) {
-  return casex(str, 'caSe')
+  return casex(str, 'caSe');
 }
 
-export default camelize
+export default camelize;

@@ -1,20 +1,39 @@
-const { URL } = require('url') // TODO: verify this works on browser
+const { URL } = require('url'); // TODO: verify this works on browser
 
-const supportedKeys = ['title', 'multipleOf', 'maximum', 'exclusiveMaximum', 'minimum', 'exclusiveMinimum', 'maxLength', 'minLength', 'pattern', 'maxItems', 'minItems', 'uniqueItems', 'maxProperties', 'minProperties', 'required', 'enum', 'description', 'format', 'default']
-const schemaObjectArrayKeys = ['allOf', 'anyOf', 'oneOf']
-const schemaObjectKeys = [/*'not'*/, 'additionalProperties']
-const schemaObjectDictionaryKeys = ['properties', 'definitions']
+const supportedKeys = [
+  'title',
+  'multipleOf',
+  'maximum',
+  'exclusiveMaximum',
+  'minimum',
+  'exclusiveMinimum',
+  'maxLength',
+  'minLength',
+  'pattern',
+  'maxItems',
+  'minItems',
+  'uniqueItems',
+  'maxProperties',
+  'minProperties',
+  'required',
+  'enum',
+  'description',
+  'format',
+  'default',
+];
+const schemaObjectArrayKeys = ['allOf', 'anyOf', 'oneOf'];
+const schemaObjectKeys = [, /*'not'*/ 'additionalProperties'];
+const schemaObjectDictionaryKeys = ['properties', 'definitions'];
 
 // Helper function to check whether a string is URL
 // @param {string} subject - the subject to be checked
 // @return {boolean} - true if subject is a valid URL
 function isURL(subject) {
   try {
-    new URL(subject)
-    return true
-  }
-  catch (e) {
-    return false
+    new URL(subject);
+    return true;
+  } catch (e) {
+    return false;
   }
 }
 
@@ -25,39 +44,41 @@ function isURL(subject) {
 // @param {string} uri - URI to be converted
 // @return {string} - Converted id
 function convertURItoStringId(uri) {
-  const inputURI = new URL(uri)
-  let source = `${inputURI.hostname}${inputURI.pathname}`
+  const inputURI = new URL(uri);
+  let source = `${inputURI.hostname}${inputURI.pathname}`;
 
   // If hash fragment is anything else but #/definitions don't convert it but append
   //  for example:
   //  http://supermodel.io/fragments/A#/definitions/a - needs to be converted including the hash
   //  http://supermodel.io/fragments/A#/properties/a - the hash needs to be preserved as '/properties/a'
   // one has to love OpenAPI Spec
-  const hash = inputURI.hash
-  let appendHash
+  const hash = inputURI.hash;
+  let appendHash;
   if (hash) {
     if (!hash.startsWith('#/definitions')) {
-      appendHash = hash
-    }
-    else {
-      source += hash
+      appendHash = hash;
+    } else {
+      source += hash;
     }
   }
 
   // snakeCase path segments
-  let target = source.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function (match, index) {
-    if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
+  let target = source.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(
+    match,
+    index,
+  ) {
+    if (+match === 0) return ''; // or if (/\s+/.test(match)) for white spaces
     return index == 0 ? match.toLowerCase() : match.toUpperCase();
   });
 
   // remove '/', '#' and '.' from the URI
-  target = target.replace(/\/|\.|#/g, '')
+  target = target.replace(/\/|\.|#/g, '');
 
   // Append hash, that has not been converted
   if (appendHash) {
-    target += appendHash.slice(1) // skip the leading '#' ie. in #/properties/a
+    target += appendHash.slice(1); // skip the leading '#' ie. in #/properties/a
   }
-  return target
+  return target;
 }
 
 // Helper function to convert a JSON Schema object to OAS2 Schema object
@@ -70,20 +91,26 @@ function convertURItoStringId(uri) {
 function convertSchemaObject(schema, rootId, currentId, definitions) {
   // Override current model id, if available
   if (schema['$id']) {
-    currentId = schema['$id']
+    currentId = schema['$id'];
   }
 
   // Enumerate object properties
-  const result = {}
+  const result = {};
   for (const key of Object.keys(schema)) {
     const value = schema[key];
-    const property = convertSchemaObjectProperty(key, value, rootId, currentId, definitions)
+    const property = convertSchemaObjectProperty(
+      key,
+      value,
+      rootId,
+      currentId,
+      definitions,
+    );
     if (property) {
-      result[property.key] = property.value
+      result[property.key] = property.value;
     }
   }
 
-  return result
+  return result;
 }
 
 // Helper function that converts a property into OAS2 property
@@ -94,59 +121,74 @@ function convertSchemaObject(schema, rootId, currentId, definitions) {
 // @param {object} currentId - id of the model being processed, used to resolve remote schema references
 // @param {object} definitions - a dictionary to place nested definitions into
 // @return { key, value } - converted property tuple or undefined if conversion failed
-function convertSchemaObjectProperty(key, value, rootId, currentId, definitions) {
-  const valueType = typeof value
+function convertSchemaObjectProperty(
+  key,
+  value,
+  rootId,
+  currentId,
+  definitions,
+) {
+  const valueType = typeof value;
 
   // Directly supported properties, no further processing needed
   if (supportedKeys.includes(key)) {
-    return { key, value }
+    return { key, value };
   }
 
   // Arrays of schema objects
   if (schemaObjectArrayKeys.includes(key)) {
-    let itemsArray = []
-    value.forEach((element) => {
-      itemsArray.push(convertSchemaObject(element, rootId, currentId, definitions))
-    })
+    let itemsArray = [];
+    value.forEach(element => {
+      itemsArray.push(
+        convertSchemaObject(element, rootId, currentId, definitions),
+      );
+    });
 
     // Warn about converting anyOf and oneOf as all Of
     if (key === 'anyOf' || key === 'oneOf') {
-      console.warn(`Warning: '${key}' converted as 'allOf'`)
+      console.warn(`Warning: '${key}' converted as 'allOf'`);
     }
 
-    return { key: 'allOf', value: itemsArray }  // Force allOf
+    return { key: 'allOf', value: itemsArray }; // Force allOf
   }
 
   // Single schema object
   if (schemaObjectKeys.includes(key)) {
-    return { key, value: convertSchemaObject(value, rootId, currentId, definitions) }
+    return {
+      key,
+      value: convertSchemaObject(value, rootId, currentId, definitions),
+    };
   }
 
   // Dictionary of schema objects
   if (schemaObjectDictionaryKeys.includes(key)) {
-    const resultDictionary = {}
+    const resultDictionary = {};
     for (const dictKey of Object.keys(value)) {
       const dictValue = value[dictKey];
-      const resultSchemaObject = convertSchemaObject(dictValue, rootId, currentId, definitions)
+      const resultSchemaObject = convertSchemaObject(
+        dictValue,
+        rootId,
+        currentId,
+        definitions,
+      );
 
       if (key !== 'definitions') {
-        resultDictionary[dictKey] = resultSchemaObject
-      }
-      else {
+        resultDictionary[dictKey] = resultSchemaObject;
+      } else {
         // Handle definitions differently, see below for details
-        let fullURI = dictKey
+        let fullURI = dictKey;
         if (!isURL(fullURI)) {
-          fullURI = `${currentId}#/definitions/${dictKey}`
+          fullURI = `${currentId}#/definitions/${dictKey}`;
         }
-        resultDictionary[convertURItoStringId(fullURI)] = resultSchemaObject
+        resultDictionary[convertURItoStringId(fullURI)] = resultSchemaObject;
       }
     }
 
     // Handle definitions differently than other schemaObjectDictionaryKeys:
-    //  Store the content of nested definitions property in a flat dictionary 
+    //  Store the content of nested definitions property in a flat dictionary
     //  since OAS2 doesn't support nested definitions
     if (key !== 'definitions') {
-      return { key, value: resultDictionary }
+      return { key, value: resultDictionary };
     }
 
     Object.assign(definitions, resultDictionary);
@@ -156,9 +198,9 @@ function convertSchemaObjectProperty(key, value, rootId, currentId, definitions)
   // Value MUST be a string, in OAS2, multiple types via an array are not supported
   if (key === 'type') {
     if (valueType === 'string') {
-      return { key, value }
+      return { key, value };
     }
-    console.warn(`Warning: type must be a string`)
+    console.warn(`Warning: type must be a string`);
   }
 
   // items property
@@ -166,21 +208,25 @@ function convertSchemaObjectProperty(key, value, rootId, currentId, definitions)
   if (key === 'items') {
     if (valueType === 'object') {
       if (Array.isArray(value)) {
-        let itemsArray = []
-        value.forEach((element) => {
-          itemsArray.push(convertSchemaObject(element, rootId, currentId, definitions))
-        })
+        let itemsArray = [];
+        value.forEach(element => {
+          itemsArray.push(
+            convertSchemaObject(element, rootId, currentId, definitions),
+          );
+        });
         // Converting all items is not supported in OAS2
         // return { key, value: itemsArray }
 
         // Return only first of the items...
         if (itemsArray.length > 1) {
-          console.warn(`Warning: dropping additional array items`)
+          console.warn(`Warning: dropping additional array items`);
         }
-        return { key, value: itemsArray[0] }
-      }
-      else {
-        return { key, value: convertSchemaObject(value, rootId, currentId, definitions) }
+        return { key, value: itemsArray[0] };
+      } else {
+        return {
+          key,
+          value: convertSchemaObject(value, rootId, currentId, definitions),
+        };
       }
     }
   }
@@ -189,71 +235,71 @@ function convertSchemaObjectProperty(key, value, rootId, currentId, definitions)
   // based on the option convert refs to local flat definition dictionary or
   // fully qualify any remote schema references
   if (key === '$ref') {
-    if (value.startsWith('#/definitions')) {  // Local reference
-      // We need to add "namespace" to the local reference to prevent clash in 
-      // OAS2 flat definitions 
-      const refValue = value.replace('#/definitions/', '')
-      const fullURI = `${currentId}#/definitions/${refValue}`
-      // TODO: add options to use remote ref       
-      return { key, value: `#/definitions/${convertURItoStringId(fullURI)}` }
-    }
-    else if (isURL(value)) {  // Remote schema reference
+    if (value.startsWith('#/definitions')) {
+      // Local reference
+      // We need to add "namespace" to the local reference to prevent clash in
+      // OAS2 flat definitions
+      const refValue = value.replace('#/definitions/', '');
+      const fullURI = `${currentId}#/definitions/${refValue}`;
+      // TODO: add options to use remote ref
+      return { key, value: `#/definitions/${convertURItoStringId(fullURI)}` };
+    } else if (isURL(value)) {
+      // Remote schema reference
       // Convert to local reference
-      // TODO: add options to use remote ref 
-      return { key, value: `#/definitions/${convertURItoStringId(value)}` }
-    }
-    else if (value === '#/') {  // Self reference
-      // TODO: add options to use remote ref 
-      return { key, value: `#/definitions/${convertURItoStringId(currentId)}` }
+      // TODO: add options to use remote ref
+      return { key, value: `#/definitions/${convertURItoStringId(value)}` };
+    } else if (value === '#/') {
+      // Self reference
+      // TODO: add options to use remote ref
+      return { key, value: `#/definitions/${convertURItoStringId(currentId)}` };
     }
 
-    // Remote schema reference (e.g. $ref: Layer) 
+    // Remote schema reference (e.g. $ref: Layer)
     // OAS2 work-around is to always use full path qualification
-    // TODO: add options to use remote ref 
-    const base = currentId.substr(0, currentId.lastIndexOf('/') + 1)
-    const fullURI = `${base}${value}`
-    return { key, value: `#/definitions/${convertURItoStringId(fullURI)}` }
+    // TODO: add options to use remote ref
+    const base = currentId.substr(0, currentId.lastIndexOf('/') + 1);
+    const fullURI = `${base}${value}`;
+    return { key, value: `#/definitions/${convertURItoStringId(fullURI)}` };
   }
 
   // examples property
   // Take the first example, if any, throw everything else
   if (key === 'examples') {
-    let example
+    let example;
     if (Array.isArray(value) && value.length) {
-      example = value[0]
+      example = value[0];
     }
-    return { key: 'example', value: example }
+    return { key: 'example', value: example };
   }
 
   // Drop everything else
   // NOTE: dropping 'definitions' is OK since we will re-add them later
   if (key != 'definitions') {
-    console.warn(`Warning: dropping '${key}' property`)
+    console.warn(`Warning: dropping '${key}' property`);
   }
 
-  return undefined
+  return undefined;
 }
 
 // Converts schema into OAS2 schema
 // @param {object} schema - JSON Schema object
 // @return {object} - OAS2 Schema object
 function convertToOAS2(schema) {
-  const id = schema['$id']
-  let definitions = {}
+  const id = schema['$id'];
+  let definitions = {};
 
-  const oas2Schema = convertSchemaObject(schema, id, id, definitions)
+  const oas2Schema = convertSchemaObject(schema, id, id, definitions);
   let result = {
-    definitions: definitions
-  }
+    definitions: definitions,
+  };
 
   if (id) {
-    result.definitions[convertURItoStringId(id)] = oas2Schema
-  }
-  else {
-    console.warn(`Warning: no id in the root document found`)
+    result.definitions[convertURItoStringId(id)] = oas2Schema;
+  } else {
+    console.warn(`Warning: no id in the root document found`);
   }
 
-  return result
+  return result;
 }
 
-module.exports = convertToOAS2
+module.exports = convertToOAS2;

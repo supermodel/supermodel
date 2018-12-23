@@ -95,18 +95,10 @@
         "name": "FTWR WHITE/BLACK",
         "description": "BLABAS/GRAFIT/BLABAS"
       },
-      "colors": [
-        {}
-      ],
-      "seasons": [
-        {}
-      ],
-      "skus": [
-        {}
-      ],
-      "assets": [
-        {}
-      ],
+      "colors": [{}],
+      "seasons": [{}],
+      "skus": [{}],
+      "assets": [{}],
       "catalog": {}
     }
   ],
@@ -270,11 +262,7 @@
       "properties": {
         "assetType": {
           "type": "string",
-          "enum": [
-            "image",
-            "video",
-            "other"
-          ]
+          "enum": ["image", "video", "other"]
         },
         "viewGroup": {
           "type": "string"

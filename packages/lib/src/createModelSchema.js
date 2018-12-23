@@ -14,7 +14,7 @@ type: object  # Change to the desired model type (http://json-schema.org/latest/
 #
 #   anotherProperty:
 #     $ref: AnotherModel  # Reference to another model in the same directory
-`
+`;
 }
 
-module.exports = createModelSchema
+module.exports = createModelSchema;

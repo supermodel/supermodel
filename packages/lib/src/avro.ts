@@ -1,64 +1,66 @@
-type AvroSchemaDefinition = AvroRecord
+type AvroSchemaDefinition = IAvroRecord;
 
 type AvroType =
   | AvroPrimitiveType
-  | AvroRecord
-  | AvroEnum
-  | AvroArray
-  | AvroMap
-  | AvroFixed
+  | IAvroRecord
+  | IAvroEnum
+  | IAvroArray
+  | IAvroMap
+  | IAvroFixed;
 
-  type AvroPrimitiveType =
+type AvroPrimitiveType =
   | 'null'
   | 'boolean'
-  | 'int' | 'long'
-  | 'float' | 'double'
-  | 'bytes'
-  | 'string'
+  | 'int'
+  | 'long'
+  | 'float'
+  | 'double'
+  | 'bytes'
+  | 'string';
 
-interface AvroRecord {
-  type: 'record',
-  namespace?: string,
-  name?: string,
-  doc?: string,
-  aliases?: Array<string>,
-  fields: Array<AvroField>
+interface IAvroRecord {
+  type: 'record';
+  namespace?: string;
+  name?: string;
+  doc?: string;
+  aliases?: Array<string>;
+  fields: Array<IAvroField>;
 }
 
-interface AvroEnum {
-  type: 'enum',
-  namespace?: string
-  name?: string,
-  symbols: Array<string>,
-  doc?: string,
-  aliases?: Array<string>
+interface IAvroEnum {
+  type: 'enum';
+  namespace?: string;
+  name?: string;
+  symbols: Array<string>;
+  doc?: string;
+  aliases?: Array<string>;
 }
 
-interface AvroArray {
-  type: 'array',
-  items: AvroType
+interface IAvroArray {
+  type: 'array';
+  items: AvroType;
 }
 
-interface AvroMap {
-  type: 'map',
-  values: AvroType
+interface IAvroMap {
+  type: 'map';
+  values: AvroType;
 }
 
-interface AvroFixed {
-  type: 'fixed',
-  namespace?: string,
-  name?: string,
-  aliases: Array<string>,
-  size: number
+interface IAvroFixed {
+  type: 'fixed';
+  namespace?: string;
+  name?: string;
+  aliases: Array<string>;
+  size: number;
 }
 
-interface AvroField {
-  name: string,
-  type: AvroType,
-  doc?: string,
-  default?: any,
-  order?: 'ascending' | 'descending' | 'ignore',
-  aliases?: Array<string>
+interface IAvroField {
+  name: string;
+  type: AvroType;
+  doc?: string;
+  default?: any;
+  order?: 'ascending' | 'descending' | 'ignore';
+  aliases?: Array<string>;
 }
 
-export { AvroSchemaDefinition }
+export { AvroSchemaDefinition };

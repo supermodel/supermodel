@@ -1,24 +1,27 @@
-const fetch = require('./utils/fetch')
+const fetch = require('./utils/fetch');
 
-const REF = '$ref'
-const RDF = 'rdf'
-const RDFS = 'rdfs'
-const GS1 = 'gs1'
-const XSD = 'xsd'
-const RDFS_CLASS = `${RDFS}:Class`
-const RDF_PROPERTY = `${RDF}:Property`
-const ENUMERATION = `Enumeration`
-const RDF_LANG_STRING = `${RDF}:langString`
-const VALID_NAMESPACES = [GS1, RDF, RDFS]
-const ENUMERABLE_SUBCLASS_IDS = ['http://schema.org/Enumeration', 'gs1:TypeCode']
+const REF = '$ref';
+const RDF = 'rdf';
+const RDFS = 'rdfs';
+const GS1 = 'gs1';
+const XSD = 'xsd';
+const RDFS_CLASS = `${RDFS}:Class`;
+const RDF_PROPERTY = `${RDF}:Property`;
+const ENUMERATION = `Enumeration`;
+const RDF_LANG_STRING = `${RDF}:langString`;
+const VALID_NAMESPACES = [GS1, RDF, RDFS];
+const ENUMERABLE_SUBCLASS_IDS = [
+  'http://schema.org/Enumeration',
+  'gs1:TypeCode',
+];
 const SCHEMA_ORG_ID_TYPES = {
   'http://schema.org/Number': 'number',
   'http://schema.org/Text': 'string',
   'http://schema.org/Boolean': 'boolean',
   'http://schema.org/Date': 'string',
   'http://schema.org/Time': 'string',
-  'http://schema.org/DateTime': 'string'
-}
+  'http://schema.org/DateTime': 'string',
+};
 
 const IMPLICIT_TYPES = {
   'xsd:string': 'string',
@@ -33,36 +36,43 @@ const IMPLICIT_TYPES = {
   'xsd:float': 'number',
   'xsd:integer': 'number',
   // Other
-  [RDF_LANG_STRING]: 'string'
-}
+  [RDF_LANG_STRING]: 'string',
+};
 
-const IGNORED_FROM_RESOLVING = [RDFS_CLASS, RDF_PROPERTY, RDF_LANG_STRING, ...Object.keys(IMPLICIT_TYPES)]
+const IGNORED_FROM_RESOLVING = [
+  RDFS_CLASS,
+  RDF_PROPERTY,
+  RDF_LANG_STRING,
+  ...Object.keys(IMPLICIT_TYPES),
+];
 
-function importJSONLD(jsonld, supermodelScope = 'http://supermodel.io/schemaorg') {
-  const context = jsonld['@context']
-  const entries = buildEntries(context, jsonld['@graph'])
-  const schemas = new Map()
-  resolveEntries(schemas, context, entries, supermodelScope)
-  return Array.from(schemas.values()).filter(entity => entity !== undefined)
+function importJSONLD(
+  jsonld,
+  supermodelScope = 'http://supermodel.io/schemaorg',
+) {
+  const context = jsonld['@context'];
+  const entries = buildEntries(context, jsonld['@graph']);
+  const schemas = new Map();
+  resolveEntries(schemas, context, entries, supermodelScope);
+  return Array.from(schemas.values()).filter(entity => entity !== undefined);
 }
 
 function buildEntries(context, graph) {
-  const entries = new Map()
+  const entries = new Map();
   graph.forEach(entry => {
-    const id = entry['@id']
+    const id = entry['@id'];
 
     // Process only valid entities
     if (isValidId(context, id)) {
-      const normalizedEntry = normalizeLDEntry(context, entry)
-      entries.set(id, normalizedEntry)
+      const normalizedEntry = normalizeLDEntry(context, entry);
+      entries.set(id, normalizedEntry);
     } else {
-      console.warn(`warn: Skipping invalid or not processable @id '${id}'`)
+      console.warn(`warn: Skipping invalid or not processable @id '${id}'`);
     }
-  })
+  });
 
-  return entries
+  return entries;
 }
-
 
 /**
  * Normalize different formats of LD entities into one identical for import
@@ -72,28 +82,38 @@ function buildEntries(context, graph) {
  * @returns {Object} normalized entity
  */
 function normalizeLDEntry(context, entity) {
-  const id             = entity['@id']
-  const typeAncestors  = ArrayWrap(entity['@type']).map(id => ({ '@id': id }))
-  const label          = getTranslation(entity['rdfs:label'])
-  const comment        = getTranslation(entity['rdfs:comment'])
-  const rangeIncludes  = ArrayWrap(entity['http://schema.org/rangeIncludes'] || entity['rdfs:range'])
-  const domainIncludes = ArrayWrap(entity['http://schema.org/domainIncludes'] || entity['rdfs:domain'])
-  const subClassOf     = ArrayWrap(entity['rdfs:subClassOf'])
+  const id = entity['@id'];
+  const typeAncestors = ArrayWrap(entity['@type']).map(id => ({ '@id': id }));
+  const label = getTranslation(entity['rdfs:label']);
+  const comment = getTranslation(entity['rdfs:comment']);
+  const rangeIncludes = ArrayWrap(
+    entity['http://schema.org/rangeIncludes'] || entity['rdfs:range'],
+  );
+  const domainIncludes = ArrayWrap(
+    entity['http://schema.org/domainIncludes'] || entity['rdfs:domain'],
+  );
+  const subClassOf = ArrayWrap(entity['rdfs:subClassOf']);
 
   // Detect if entity is Enumeration
-  let kind = subClassOf.find(({'@id': id}) => ENUMERABLE_SUBCLASS_IDS.includes(id)) && ENUMERATION
+  let kind =
+    subClassOf.find(({ '@id': id }) => ENUMERABLE_SUBCLASS_IDS.includes(id)) &&
+    ENUMERATION;
 
   // Detect if entity is Property
-  if (!kind ) {
-    kind = typeAncestors.find(({ '@id': id }) => id === RDF_PROPERTY) && RDF_PROPERTY
+  if (!kind) {
+    kind =
+      typeAncestors.find(({ '@id': id }) => id === RDF_PROPERTY) &&
+      RDF_PROPERTY;
   }
 
   // Otherwise it is Class
   if (!kind) {
-    kind = RDFS_CLASS
+    kind = RDFS_CLASS;
   }
 
-  const type = SCHEMA_ORG_ID_TYPES[id] || findMatch(rangeIncludes, ({'@id': id}) => IMPLICIT_TYPES[id])
+  const type =
+    SCHEMA_ORG_ID_TYPES[id] ||
+    findMatch(rangeIncludes, ({ '@id': id }) => IMPLICIT_TYPES[id]);
 
   return {
     kind,
@@ -104,8 +124,8 @@ function normalizeLDEntry(context, entity) {
     subClassOf: filterValidRefs(context, subClassOf),
     rangeIncludes: filterValidRefs(context, rangeIncludes),
     domainIncludes: filterValidRefs(context, domainIncludes),
-    typeAncestors: filterValidRefs(context, typeAncestors)
-  }
+    typeAncestors: filterValidRefs(context, typeAncestors),
+  };
 }
 
 /**
@@ -117,7 +137,9 @@ function normalizeLDEntry(context, entity) {
  * @returns {void}
  */
 function resolveEntries(schemas, context, entries, supermodelScope) {
-  entries.forEach((_, id) => resolveEntry(schemas, context, entries, supermodelScope, id))
+  entries.forEach((_, id) =>
+    resolveEntry(schemas, context, entries, supermodelScope, id),
+  );
 }
 
 /**
@@ -130,9 +152,11 @@ function resolveEntries(schemas, context, entries, supermodelScope) {
  * @returns {Array<Object>}
  */
 function resolveRefs(schemas, context, entries, supermodelScope, refs) {
-  return refs.map(({'@id': id}) => (
-    toRef(resolveEntry(schemas, context, entries, supermodelScope, id))
-  )).filter(v => v !== undefined)
+  return refs
+    .map(({ '@id': id }) =>
+      toRef(resolveEntry(schemas, context, entries, supermodelScope, id)),
+    )
+    .filter(v => v !== undefined);
 }
 
 /**
@@ -147,49 +171,45 @@ function resolveRefs(schemas, context, entries, supermodelScope, refs) {
 function resolveEntry(schemas, context, entries, supermodelScope, schemaId) {
   return fetch(schemas, schemaId, () => {
     if (IGNORED_FROM_RESOLVING.includes(schemaId)) {
-      return
+      return;
     }
 
-    const entry = entries.get(schemaId)
+    const entry = entries.get(schemaId);
 
     if (!entry) {
-      console.error(`error: Cannot resolve entry with @id '${schemaId}'`)
-      return
+      console.error(`error: Cannot resolve entry with @id '${schemaId}'`);
+      return;
       // throw new Error(`missing entry with @id '${schemaId}'`)
     }
 
-    const { kind } = entry
+    const { kind } = entry;
 
     if (kind === ENUMERATION) {
-      return resolveEnum(schemas, context, entries, entry, supermodelScope)
+      return resolveEnum(schemas, context, entries, entry, supermodelScope);
     } else if (kind === RDFS_CLASS) {
-      return resolveModel(schemas, context, entries, entry, supermodelScope)
+      return resolveModel(schemas, context, entries, entry, supermodelScope);
     } else if (kind === RDF_PROPERTY) {
-      return resolveProperty(schemas, context, entries, entry, supermodelScope)
+      return resolveProperty(schemas, context, entries, entry, supermodelScope);
     }
 
-    throw new Error(`error: You shall not pass here. This is just to satisfy typescript :)`)
-  })
+    throw new Error(
+      `error: You shall not pass here. This is just to satisfy typescript :)`,
+    );
+  });
 }
 
-
 function resolveEnum(schemas, context, entries, modelEntity, supermodelScope) {
-  const {
-    id,
-    label,
-    comment,
-    subClassOf,
-  } = modelEntity
+  const { id, label, comment, subClassOf } = modelEntity;
 
   return {
-    $id:          SchemaorgIdToSupermodelId(context, id, supermodelScope),
-    $schema:      'http://json-schema.org/draft-07/schema#',
-    $source:      resolveId(context, id),
-    title:        label,
-    type:         'string',
-    description:  comment,
-    enum:         undefined
-  }
+    $id: SchemaorgIdToSupermodelId(context, id, supermodelScope),
+    $schema: 'http://json-schema.org/draft-07/schema#',
+    $source: resolveId(context, id),
+    title: label,
+    type: 'string',
+    description: comment,
+    enum: undefined,
+  };
 }
 
 function resolveModel(schemas, context, entries, modelEntity, supermodelScope) {
@@ -200,45 +220,61 @@ function resolveModel(schemas, context, entries, modelEntity, supermodelScope) {
     comment,
     subClassOf,
     rangeIncludes,
-    typeAncestors
-  } = modelEntity
+    typeAncestors,
+  } = modelEntity;
 
   if (rangeIncludes.length > 0) {
-    throw new Error(`model ${id} has rangeIncludes ${rangeIncludes}`)
+    throw new Error(`model ${id} has rangeIncludes ${rangeIncludes}`);
   }
 
   if (typeAncestors.length === 1) {
-    const parent = resolveEntry(schemas, context, entries, supermodelScope, typeAncestors[0]['@id'])
+    const parent = resolveEntry(
+      schemas,
+      context,
+      entries,
+      supermodelScope,
+      typeAncestors[0]['@id'],
+    );
 
     if (parent) {
       if (!parent.enum) {
-        parent.enum = []
+        parent.enum = [];
       }
 
-      parent.enum.push(label)
+      parent.enum.push(label);
 
-      return
+      return;
     }
   }
 
   const model = {
-    $id:          SchemaorgIdToSupermodelId(context, id, supermodelScope),
-    $schema:      'http://json-schema.org/draft-07/schema#',
-    $source:      resolveId(context, id),
-    title:        label,
-    type:         type,
-    description:  comment
-  }
+    $id: SchemaorgIdToSupermodelId(context, id, supermodelScope),
+    $schema: 'http://json-schema.org/draft-07/schema#',
+    $source: resolveId(context, id),
+    title: label,
+    type: type,
+    description: comment,
+  };
 
-  setListOrRef(model, 'allOf', resolveRefs(
-    schemas, context, entries, supermodelScope,
-    [...subClassOf, ...typeAncestors]
-  ))
+  setListOrRef(
+    model,
+    'allOf',
+    resolveRefs(schemas, context, entries, supermodelScope, [
+      ...subClassOf,
+      ...typeAncestors,
+    ]),
+  );
 
-  return model
+  return model;
 }
 
-function resolveProperty(schemas, context, entries, propertyEntity, supermodelScope) {
+function resolveProperty(
+  schemas,
+  context,
+  entries,
+  propertyEntity,
+  supermodelScope,
+) {
   const {
     id,
     type,
@@ -247,80 +283,98 @@ function resolveProperty(schemas, context, entries, propertyEntity, supermodelSc
     subClassOf,
     rangeIncludes,
     domainIncludes,
-    typeAncestors
-  } = propertyEntity
+    typeAncestors,
+  } = propertyEntity;
 
   if (subClassOf.length > 0) {
-    throw new Error(`property ${id} has subClassOf ${subClassOf}`)
+    throw new Error(`property ${id} has subClassOf ${subClassOf}`);
   }
 
-  const propertyId = SchemaorgIdToSupermodelId(context, id, supermodelScope, 'properties')
+  const propertyId = SchemaorgIdToSupermodelId(
+    context,
+    id,
+    supermodelScope,
+    'properties',
+  );
 
   // Add property to models
-  domainIncludes.forEach(({'@id': modelId}) => {
-    const model = resolveEntry(schemas, context, entries, supermodelScope, modelId)
+  domainIncludes.forEach(({ '@id': modelId }) => {
+    const model = resolveEntry(
+      schemas,
+      context,
+      entries,
+      supermodelScope,
+      modelId,
+    );
 
     if (!model.properties) {
-      model.type = 'object'
-      model.properties = {}
+      model.type = 'object';
+      model.properties = {};
     }
 
-    const split = propertyId.split('/')
-    model.properties[split[split.length - 1]] = toRef(propertyId)
-  })
+    const split = propertyId.split('/');
+    model.properties[split[split.length - 1]] = toRef(propertyId);
+  });
 
   const property = {
-    $id:          propertyId,
-    $schema:      'http://json-schema.org/draft-07/schema#',
-    $source:      resolveId(context, id),
-    title:        label,
-    type:         type,
-    description:  comment,
-  }
+    $id: propertyId,
+    $schema: 'http://json-schema.org/draft-07/schema#',
+    $source: resolveId(context, id),
+    title: label,
+    type: type,
+    description: comment,
+  };
 
-  setListOrRef(property, 'oneOf', resolveRefs(
-    schemas, context, entries, supermodelScope,
-    [...rangeIncludes, ...typeAncestors]
-  ))
+  setListOrRef(
+    property,
+    'oneOf',
+    resolveRefs(schemas, context, entries, supermodelScope, [
+      ...rangeIncludes,
+      ...typeAncestors,
+    ]),
+  );
 
-  return property
+  return property;
 }
 
 /* Helpers */
 
 function resolveId(context, id) {
-  const [namespace, name] = id.split(':')
+  const [namespace, name] = id.split(':');
   if (context[namespace]) {
-    return context[namespace] + name
+    return context[namespace] + name;
   }
 
-  return id
+  return id;
 }
 
 function setListOrRef(object, property, list) {
   if (list.length > 0) {
-    object[property] = list
+    object[property] = list;
   }
 }
 
 function isValidId(context, id) {
   if (id.startsWith('file:') || id.startsWith('_:')) {
-    return false
+    return false;
   }
 
   if (id.startsWith('http')) {
-    return id.startsWith('http://schema.org')
+    return id.startsWith('http://schema.org');
   }
 
-  const [namespace, name] = id.split(':', 2)
-  return name && name.length && VALID_NAMESPACES.includes(namespace) || !context[namespace]
+  const [namespace, name] = id.split(':', 2);
+  return (
+    (name && name.length && VALID_NAMESPACES.includes(namespace)) ||
+    !context[namespace]
+  );
 }
 
 function filterValidRefs(context, refs) {
-  return refs.filter(({'@id': id}) => isValidId(context, id))
+  return refs.filter(({ '@id': id }) => isValidId(context, id));
 }
 
-const DEFAULT_LANGUAGE = 'en'
+const DEFAULT_LANGUAGE = 'en';
 
 /**
  * Extract correct translation from dictionary
@@ -331,20 +385,22 @@ const DEFAULT_LANGUAGE = 'en'
  */
 function getTranslation(value, language = DEFAULT_LANGUAGE) {
   if (typeof value !== 'object') {
-    return value
+    return value;
   }
 
-  const values = ArrayWrap(value)
-  const translation = values.find(val => val['@language'] === language)
+  const values = ArrayWrap(value);
+  const translation = values.find(val => val['@language'] === language);
 
-  if(!translation) {
-    throw new Error(`Missing '${language}' translation in ${JSON.stringify(value)}`)
+  if (!translation) {
+    throw new Error(
+      `Missing '${language}' translation in ${JSON.stringify(value)}`,
+    );
   }
 
-  return translation['@value']
+  return translation['@value'];
 }
 
-const SCHEMA_ORG_URL = 'http://schema.org/'
+const SCHEMA_ORG_URL = 'http://schema.org/';
 
 /**
  * Convert schema.org id into supermodel.id
@@ -356,16 +412,16 @@ const SCHEMA_ORG_URL = 'http://schema.org/'
  * @returns {string} supermodel.io id
  */
 function SchemaorgIdToSupermodelId(context, id, prefix, suffix) {
-  const [namespace, name] = id.split(':')
+  const [namespace, name] = id.split(':');
 
   if (context[namespace]) {
-    return joinLayers(prefix, suffix, name)
+    return joinLayers(prefix, suffix, name);
   } else if (id.startsWith(SCHEMA_ORG_URL)) {
-    const pathname = id.slice(SCHEMA_ORG_URL.length)
-    return joinLayers(prefix, suffix, pathname)
+    const pathname = id.slice(SCHEMA_ORG_URL.length);
+    return joinLayers(prefix, suffix, pathname);
   }
 
-  throw new Error(`Can't convert @id '${id}' into supermodel id`)
+  throw new Error(`Can't convert @id '${id}' into supermodel id`);
 }
 
 /**
@@ -373,7 +429,7 @@ function SchemaorgIdToSupermodelId(context, id, prefix, suffix) {
  * @returns {string}
  */
 function joinLayers(...layers) {
-  return layers.filter(Boolean).join('/')
+  return layers.filter(Boolean).join('/');
 }
 
 /**
@@ -384,10 +440,10 @@ function joinLayers(...layers) {
  */
 function ArrayWrap(value) {
   if (value === undefined) {
-    return []
+    return [];
   }
 
-  return Array.isArray(value) ? value : [ value ]
+  return Array.isArray(value) ? value : [value];
 }
 
 /**
@@ -398,10 +454,10 @@ function ArrayWrap(value) {
  */
 function ArrayWrapOrVoid(value) {
   if (value === undefined) {
-    return undefined
+    return undefined;
   }
 
-  return ArrayWrap(value)
+  return ArrayWrap(value);
 }
 
 /**
@@ -412,27 +468,26 @@ function ArrayWrapOrVoid(value) {
  */
 function toRef(id) {
   if (!id) {
-    return
+    return;
   }
 
-  id = typeof id === 'string' ? id : id.$id
-  return { [REF]: id }
+  id = typeof id === 'string' ? id : id.$id;
+  return { [REF]: id };
 }
 
-
 function findMatch(array, callback) {
-  const len = array.length
-  let match
+  const len = array.length;
+  let match;
 
   for (let i = 0; i < len; i++) {
-    match = callback(array[i], i)
+    match = callback(array[i], i);
 
     if (match !== undefined) {
-      break
+      break;
     }
   }
 
-  return match
+  return match;
 }
 
-module.exports = importJSONLD
+module.exports = importJSONLD;

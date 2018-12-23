@@ -1,4 +1,4 @@
-const { createSchemaProcessor} = require('./utils/schemaProcessor')
+const { createSchemaProcessor } = require('./utils/schemaProcessor');
 
 // Validate data against schema
 //  throws error if data are not valid against schema
@@ -9,16 +9,18 @@ const { createSchemaProcessor} = require('./utils/schemaProcessor')
 // @returns {boolean}
 // @throws {Error} - Throws Error object when validation fails
 function validateData(data, schema, schemaLoader) {
-  const ajv = createSchemaProcessor(schemaLoader)
-  const result = ajv.validate(schema, data)
+  const ajv = createSchemaProcessor(schemaLoader);
+  const result = ajv.validate(schema, data);
 
   if (!result) {
-    throw new Error(ajv.errorsText(ajv.errors, {
-      separator: '\n'
-    }))
+    throw new Error(
+      ajv.errorsText(ajv.errors, {
+        separator: '\n',
+      }),
+    );
   }
 
-  return result
+  return result;
 }
 
-module.exports = validateData
+module.exports = validateData;

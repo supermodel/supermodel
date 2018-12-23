@@ -1,14 +1,14 @@
 function fetch(values, name, resolver) {
-  let value
+  let value;
 
   if (!values.has(name)) {
-    value = resolver()
-    values.set(name, value)
+    value = resolver();
+    values.set(name, value);
   } else {
-    value = values.get(name)
+    value = values.get(name);
   }
 
-  return value
+  return value;
 }
 
-module.exports = fetch
+module.exports = fetch;
