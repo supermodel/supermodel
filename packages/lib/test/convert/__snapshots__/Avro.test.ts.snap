@@ -126,7 +126,7 @@ Object {
     },
   ],
   "name": "main",
-  "namespace": undefined,
+  "namespace": "http.localhost.3000.david.adidas.product.Article",
   "type": "record",
 }
 `;
@@ -161,7 +161,7 @@ Object {
     },
   ],
   "name": "main",
-  "namespace": undefined,
+  "namespace": "http.supermodel.io.factory.parts.Engine",
   "type": "record",
 }
 `;
@@ -217,7 +217,7 @@ Object {
     },
   ],
   "name": "main",
-  "namespace": undefined,
+  "namespace": "http.supermodel.io.factory.Car",
   "type": "record",
 }
 `;
@@ -253,7 +253,7 @@ Object {
     },
   ],
   "name": "main",
-  "namespace": undefined,
+  "namespace": "http.supermodel.io.factory.Car",
   "type": "record",
 }
 `;
@@ -314,7 +314,7 @@ Object {
     },
   ],
   "name": "main",
-  "namespace": undefined,
+  "namespace": "http.supermodel.io.factory.Car",
   "type": "record",
 }
 `;
@@ -355,7 +355,7 @@ Object {
     },
   ],
   "name": "main",
-  "namespace": undefined,
+  "namespace": "http.supermodel.io.factory.Car",
   "type": "record",
 }
 `;
@@ -396,7 +396,7 @@ Object {
     },
   ],
   "name": "main",
-  "namespace": undefined,
+  "namespace": "http.supermodel.io.factory.Car",
   "type": "record",
 }
 `;
@@ -437,7 +437,7 @@ Object {
     },
   ],
   "name": "main",
-  "namespace": undefined,
+  "namespace": "http.supermodel.io.factory.Car",
   "type": "record",
 }
 `;
@@ -453,7 +453,7 @@ Object {
     },
   ],
   "name": "main",
-  "namespace": undefined,
+  "namespace": "http.supermodel.io.david.Order",
   "type": "record",
 }
 `;

@@ -1,4 +1,4 @@
-import { convert } from 'jsonschema-avro';
+import { convert } from './originalAvro';
 import { JSONSchema7 } from 'json-schema';
 import { AvroSchemaDefinition } from '../avro';
 

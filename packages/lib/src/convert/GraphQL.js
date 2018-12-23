@@ -96,7 +96,7 @@ function objectToGrapQL(types, schema, object = schema, name = null) {
 
         return fields;
       },
-      name
+      name,
     });
   });
 }
@@ -117,7 +117,9 @@ function objectToScalarGraphQL(
   return fetch(types, name, () => {
     return new GraphQLScalarType({
       name,
-      serialize: () => {/* noop */}, // Required by typescript
+      serialize: () => {
+        /* noop */
+      }, // Required by typescript
     });
   });
 }

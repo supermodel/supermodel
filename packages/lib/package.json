@@ -46,8 +46,7 @@
     "ajv": "^6.4.0",
     "casex": "0.0.5",
     "graphql": "0.13.2",
-    "js-yaml": "^3.11.0",
-    "jsonschema-avro": "1.4.0"
+    "js-yaml": "^3.11.0"
   },
   "directories": {
     "lib": "lib",
