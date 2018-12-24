@@ -3,9 +3,9 @@ const fetch = require('node-fetch')
 
 /**
  * Creates promise that fetches remote schema
- * 
- * @param {string} uri 
- * @param {function(object)} validateMetaSchema 
+ *
+ * @param {string} uri
+ * @param {function(object)} validateMetaSchema
  * @returns {Promise} Promise object to be used to fetch remote schema
  */
 function remoteSchemaLoader(uri, validateMetaSchema) {
@@ -20,11 +20,11 @@ function remoteSchemaLoader(uri, validateMetaSchema) {
       .then((data) => {
         // Validate meta schema
         if (validateMetaSchema) {
-          try { 
+          try {
             validateMetaSchema(data)
           } catch(e) {
             reject(e.message)
-          }          
+          }
         }
 
         // All good

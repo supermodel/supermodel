@@ -17,8 +17,15 @@ describe('convertOAS2', () => {
     process.exit = originalExit
   })
 
-  test('works', async () => {
-    const brokenSchema = path.resolve(__dirname, './fixtures/broken.yaml')
+  test.only('works with dir', async () => {
+    const brokenSchema = path.resolve(__dirname, './__fixtures__')
+    await convertOAS2(brokenSchema)
+
+    expect(mockExit).toBeCalledWith(1)
+  })
+
+  test('works with file', async () => {
+    const brokenSchema = path.resolve(__dirname, './__fixtures__/broken.yaml')
     await convertOAS2(brokenSchema)
 
     expect(mockExit).toBeCalledWith(1)

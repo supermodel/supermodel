@@ -1,7 +1,7 @@
 const jsYaml = require('js-yaml')
 const fs = require('fs')
 const superlib = require('@supermodel/lib')
-// const { readYAMLFile } = require('superfile')
+// const { readYAMLFile } = require('@supermodel/file')
 const fsUtils = require('../../lib/fsUtils')
 const compileSchema = require('../../lib/compileSchema')
 const { resolveSchema } = require('../../lib/resolveSchema')

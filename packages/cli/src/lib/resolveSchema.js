@@ -27,7 +27,6 @@ function resolveSchemaObject(schemaObject, currentDirectory) {
   return superlib.resolveSchema(schemaObject, loader)
 }
 
-
 module.exports = {
   resolveSchema,
   resolveSchemaObject

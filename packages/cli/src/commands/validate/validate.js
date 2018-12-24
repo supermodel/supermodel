@@ -9,7 +9,7 @@ const remoteSchemaLoader = require('../../lib/remoteSchemaLoader')
 
 // For file operations
 // const fs = require('fs')
-// const { createFileSchemaLoader } = require('superfile')
+// const { createFileSchemaLoader } = require('@supermodel/file')
 
 /**
  * Validates data file against supermodel model
