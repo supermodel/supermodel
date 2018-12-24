@@ -5,36 +5,43 @@ Object {
   "doc": undefined,
   "fields": Array [
     Object {
+      "default": undefined,
       "doc": "",
       "name": "articleNumber",
       "type": "string",
     },
     Object {
+      "default": undefined,
       "doc": "",
       "name": "modelNumber",
       "type": "string",
     },
     Object {
+      "default": undefined,
       "doc": "",
       "name": "articleDescription",
       "type": "string",
     },
     Object {
+      "default": undefined,
       "doc": "",
       "name": "gender",
       "type": undefined,
     },
     Object {
+      "default": undefined,
       "doc": "",
       "name": "brand",
       "type": undefined,
     },
     Object {
+      "default": undefined,
       "doc": "",
       "name": "productType",
       "type": undefined,
     },
     Object {
+      "default": undefined,
       "doc": "",
       "name": "ageGroup",
       "type": undefined,
@@ -45,11 +52,13 @@ Object {
       "type": Object {
         "fields": Array [
           Object {
+            "default": undefined,
             "doc": "",
             "name": "name",
             "type": "string",
           },
           Object {
+            "default": undefined,
             "doc": "",
             "name": "description",
             "type": "string",
@@ -64,6 +73,7 @@ Object {
       "name": "colors",
       "type": Object {
         "items": Object {
+          "default": undefined,
           "doc": "",
           "name": "colors",
           "type": undefined,
@@ -76,6 +86,7 @@ Object {
       "name": "seasons",
       "type": Object {
         "items": Object {
+          "default": undefined,
           "doc": "",
           "name": "seasons",
           "type": undefined,
@@ -88,6 +99,7 @@ Object {
       "name": "skus",
       "type": Object {
         "items": Object {
+          "default": undefined,
           "doc": "",
           "name": "skus",
           "type": undefined,
@@ -100,6 +112,7 @@ Object {
       "name": "assets",
       "type": Object {
         "items": Object {
+          "default": undefined,
           "doc": "",
           "name": "assets",
           "type": undefined,
@@ -108,6 +121,7 @@ Object {
       },
     },
     Object {
+      "default": undefined,
       "doc": "",
       "name": "catalog",
       "type": undefined,
@@ -117,6 +131,7 @@ Object {
       "name": "related",
       "type": Object {
         "items": Object {
+          "default": undefined,
           "doc": "",
           "name": "related",
           "type": undefined,
@@ -136,11 +151,13 @@ Object {
   "doc": undefined,
   "fields": Array [
     Object {
+      "default": undefined,
       "doc": "",
       "name": "volume",
       "type": "float",
     },
     Object {
+      "default": undefined,
       "doc": "",
       "name": "power",
       "type": "int",
@@ -171,26 +188,31 @@ Object {
   "doc": undefined,
   "fields": Array [
     Object {
+      "default": undefined,
       "doc": "",
       "name": "manufacturer",
       "type": "string",
     },
     Object {
+      "default": undefined,
       "doc": "",
       "name": "type",
       "type": "string",
     },
     Object {
+      "default": undefined,
       "doc": "",
       "name": "weight",
       "type": "int",
     },
     Object {
+      "default": undefined,
       "doc": "",
       "name": "length",
       "type": "float",
     },
     Object {
+      "default": undefined,
       "doc": "",
       "name": "available",
       "type": "boolean",
@@ -201,11 +223,13 @@ Object {
       "type": Object {
         "fields": Array [
           Object {
+            "default": undefined,
             "doc": "",
             "name": "volume",
             "type": "float",
           },
           Object {
+            "default": undefined,
             "doc": "",
             "name": "power",
             "type": "int",
@@ -227,26 +251,31 @@ Object {
   "doc": undefined,
   "fields": Array [
     Object {
+      "default": undefined,
       "doc": "",
       "name": "manufacturer",
       "type": "string",
     },
     Object {
+      "default": undefined,
       "doc": "",
       "name": "type",
       "type": "string",
     },
     Object {
+      "default": undefined,
       "doc": "",
       "name": "weight",
       "type": "int",
     },
     Object {
+      "default": undefined,
       "doc": "",
       "name": "length",
       "type": "float",
     },
     Object {
+      "default": undefined,
       "doc": "",
       "name": "available",
       "type": "boolean",
@@ -283,31 +312,37 @@ Object {
   "doc": undefined,
   "fields": Array [
     Object {
+      "default": undefined,
       "doc": "",
       "name": "manufacturer",
       "type": "string",
     },
     Object {
+      "default": undefined,
       "doc": "",
       "name": "type",
       "type": "string",
     },
     Object {
+      "default": undefined,
       "doc": "",
       "name": "weight",
       "type": "int",
     },
     Object {
+      "default": undefined,
       "doc": "",
       "name": "length",
       "type": "float",
     },
     Object {
+      "default": undefined,
       "doc": "",
       "name": "available",
       "type": "boolean",
     },
     Object {
+      "default": undefined,
       "doc": "",
       "name": "engine",
       "type": undefined,
@@ -324,31 +359,37 @@ Object {
   "doc": undefined,
   "fields": Array [
     Object {
+      "default": undefined,
       "doc": "",
       "name": "manufacturer",
       "type": "string",
     },
     Object {
+      "default": undefined,
       "doc": "",
       "name": "type",
       "type": "string",
     },
     Object {
+      "default": undefined,
       "doc": "",
       "name": "weight",
       "type": "int",
     },
     Object {
+      "default": undefined,
       "doc": "",
       "name": "length",
       "type": "float",
     },
     Object {
+      "default": undefined,
       "doc": "",
       "name": "available",
       "type": "boolean",
     },
     Object {
+      "default": undefined,
       "doc": "",
       "name": "engine",
       "type": undefined,
@@ -365,31 +406,37 @@ Object {
   "doc": undefined,
   "fields": Array [
     Object {
+      "default": undefined,
       "doc": "",
       "name": "manufacturer",
       "type": "string",
     },
     Object {
+      "default": undefined,
       "doc": "",
       "name": "type",
       "type": "string",
     },
     Object {
+      "default": undefined,
       "doc": "",
       "name": "weight",
       "type": "int",
     },
     Object {
+      "default": undefined,
       "doc": "",
       "name": "length",
       "type": "float",
     },
     Object {
+      "default": undefined,
       "doc": "",
       "name": "available",
       "type": "boolean",
     },
     Object {
+      "default": undefined,
       "doc": "",
       "name": "engine",
       "type": undefined,
@@ -406,31 +453,37 @@ Object {
   "doc": undefined,
   "fields": Array [
     Object {
+      "default": undefined,
       "doc": "",
       "name": "manufacturer",
       "type": undefined,
     },
     Object {
+      "default": undefined,
       "doc": "",
       "name": "type",
       "type": "string",
     },
     Object {
+      "default": undefined,
       "doc": "",
       "name": "weight",
       "type": "int",
     },
     Object {
+      "default": undefined,
       "doc": "",
       "name": "length",
       "type": "float",
     },
     Object {
+      "default": undefined,
       "doc": "",
       "name": "available",
       "type": "boolean",
     },
     Object {
+      "default": undefined,
       "doc": "",
       "name": "engine",
       "type": undefined,
@@ -447,6 +500,7 @@ Object {
   "doc": "Order model description",
   "fields": Array [
     Object {
+      "default": undefined,
       "doc": "",
       "name": "timestamp",
       "type": undefined,
