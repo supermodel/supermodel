@@ -12,7 +12,7 @@ const yamlModel = require('./yamlModel');
 
 module.exports = {
   camelize,
-  convertToAvro,
+  convertToAvro: convertToAvro.default,
   convertToGraphQL,
   convertToOAS2,
   createModelSchema,
