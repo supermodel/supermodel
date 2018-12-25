@@ -4,6 +4,7 @@ const runValidateSchema = require('./validate')
 const runResolveSchema = require('./resolve')
 const runCompileSchema = require('./compile')
 const runConvertToOAS2 = require('./convertOAS2')
+const runConvertToAvro = require('./convertAvro')
 const runConvertToGraphQL = require('./convertGraphQL')
 const package = require('../../../package.json')
 
@@ -49,6 +50,11 @@ program
   .command('graphql <modelPath>')
   .description('convert given model to GraphQL Schema')
   .action((modelPath) => { runConvertToGraphQL(modelPath) })
+
+program
+  .command('avro <modelPath>')
+  .description('convert given model to Avro schema')
+  .action((modelPath) => { runConvertToAvro(modelPath) })
 
 program
   .parse(process.argv)
