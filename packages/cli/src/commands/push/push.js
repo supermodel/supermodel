@@ -82,10 +82,12 @@ async function updateLayer (layerPath, layerData) {
   url.pathname = layerPath
   url.searchParams.set('subtree', true)
 
+  const token = process.env['SUPERMODEL_TOKEN'] || cache.get('authToken')
+
   const response = await fetch(url.toString(), {
     method: 'PUT',
     headers: {
-      'Authorization': `Bearer ${cache.get('authToken')}`,
+      'Authorization': `Bearer ${token}`,
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
