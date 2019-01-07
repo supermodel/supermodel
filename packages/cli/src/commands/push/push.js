@@ -27,8 +27,8 @@ async function runPush() {
  */
 async function push() {
   const user = cache.get('user')
-  if (!user || ! user.username ) {
-    throw new Error(`Please login first using 'supermodel login'.`)
+  if (!process.env['SUPERMODEL_TOKEN'] && (!user || ! user.username)) {
+    throw new Error(`Please login first using 'supermodel login or use token via SUPERMODEL_TOKEN'.`)
   }
 
   // NOTE: temporary solution. You can pull from
