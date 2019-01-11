@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "lint": "tslint --format stylish --project ./",
-    "prepublishOnly": "npm run build",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run test",
     "pretest": "npm run ts && npm run lint",
     "test": "npm run unit",
     "test:watch": "jest --watch",
@@ -46,7 +47,8 @@
     "ajv": "^6.4.0",
     "casex": "0.0.5",
     "graphql": "0.13.2",
-    "js-yaml": "^3.11.0"
+    "js-yaml": "^3.11.0",
+    "url": "0.11.0"
   },
   "directories": {
     "lib": "lib",

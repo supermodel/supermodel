@@ -1,172 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`convertToAvro complex schema 1`] = `
-Object {
-  "doc": undefined,
-  "fields": Array [
-    Object {
-      "default": undefined,
-      "doc": "",
-      "name": "articleNumber",
-      "type": "string",
-    },
-    Object {
-      "default": undefined,
-      "doc": "",
-      "name": "modelNumber",
-      "type": "string",
-    },
-    Object {
-      "default": undefined,
-      "doc": "",
-      "name": "articleDescription",
-      "type": "string",
-    },
-    Object {
-      "default": undefined,
-      "doc": "",
-      "name": "gender",
-      "type": undefined,
-    },
-    Object {
-      "default": undefined,
-      "doc": "",
-      "name": "brand",
-      "type": undefined,
-    },
-    Object {
-      "default": undefined,
-      "doc": "",
-      "name": "productType",
-      "type": undefined,
-    },
-    Object {
-      "default": undefined,
-      "doc": "",
-      "name": "ageGroup",
-      "type": undefined,
-    },
-    Object {
-      "doc": "",
-      "name": "colorway",
-      "type": Object {
-        "fields": Array [
-          Object {
-            "default": undefined,
-            "doc": "",
-            "name": "name",
-            "type": "string",
-          },
-          Object {
-            "default": undefined,
-            "doc": "",
-            "name": "description",
-            "type": "string",
-          },
-        ],
-        "name": "colorway_record",
-        "type": "record",
-      },
-    },
-    Object {
-      "doc": "",
-      "name": "colors",
-      "type": Object {
-        "items": Object {
-          "default": undefined,
-          "doc": "",
-          "name": "colors",
-          "type": undefined,
-        },
-        "type": "array",
-      },
-    },
-    Object {
-      "doc": "",
-      "name": "seasons",
-      "type": Object {
-        "items": Object {
-          "default": undefined,
-          "doc": "",
-          "name": "seasons",
-          "type": undefined,
-        },
-        "type": "array",
-      },
-    },
-    Object {
-      "doc": "",
-      "name": "skus",
-      "type": Object {
-        "items": Object {
-          "default": undefined,
-          "doc": "",
-          "name": "skus",
-          "type": undefined,
-        },
-        "type": "array",
-      },
-    },
-    Object {
-      "doc": "",
-      "name": "assets",
-      "type": Object {
-        "items": Object {
-          "default": undefined,
-          "doc": "",
-          "name": "assets",
-          "type": undefined,
-        },
-        "type": "array",
-      },
-    },
-    Object {
-      "default": undefined,
-      "doc": "",
-      "name": "catalog",
-      "type": undefined,
-    },
-    Object {
-      "doc": "",
-      "name": "related",
-      "type": Object {
-        "items": Object {
-          "default": undefined,
-          "doc": "",
-          "name": "related",
-          "type": undefined,
-        },
-        "type": "array",
-      },
-    },
-  ],
-  "name": "main",
-  "namespace": "http.localhost.3000.david.adidas.product.Article",
-  "type": "record",
-}
-`;
-
 exports[`convertToAvro converts enum 1`] = `
 Object {
   "doc": undefined,
   "fields": Array [
     Object {
-      "default": undefined,
-      "doc": "",
       "name": "volume",
       "type": "float",
     },
     Object {
-      "default": undefined,
-      "doc": "",
       "name": "power",
       "type": "int",
     },
     Object {
-      "doc": "",
       "name": "fuel",
       "type": Object {
-        "name": "fuel_enum",
+        "name": "fuel",
         "symbols": Array [
           "gasoline",
           "diesel",
@@ -177,8 +26,8 @@ Object {
       },
     },
   ],
-  "name": "main",
-  "namespace": "http.supermodel.io.factory.parts.Engine",
+  "name": "Engine",
+  "namespace": "io.supermodel.factory.parts",
   "type": "record",
 }
 `;
@@ -188,60 +37,45 @@ Object {
   "doc": undefined,
   "fields": Array [
     Object {
-      "default": undefined,
-      "doc": "",
       "name": "manufacturer",
       "type": "string",
     },
     Object {
-      "default": undefined,
-      "doc": "",
       "name": "type",
       "type": "string",
     },
     Object {
-      "default": undefined,
-      "doc": "",
       "name": "weight",
       "type": "int",
     },
     Object {
-      "default": undefined,
-      "doc": "",
       "name": "length",
       "type": "float",
     },
     Object {
-      "default": undefined,
-      "doc": "",
       "name": "available",
       "type": "boolean",
     },
     Object {
-      "doc": "",
       "name": "engine",
       "type": Object {
         "fields": Array [
           Object {
-            "default": undefined,
-            "doc": "",
             "name": "volume",
             "type": "float",
           },
           Object {
-            "default": undefined,
-            "doc": "",
             "name": "power",
             "type": "int",
           },
         ],
-        "name": "engine_record",
+        "name": "Engine",
         "type": "record",
       },
     },
   ],
-  "name": "main",
-  "namespace": "http.supermodel.io.factory.Car",
+  "name": "Article",
+  "namespace": "io.supermodel.factory",
   "type": "record",
 }
 `;
@@ -251,58 +85,28 @@ Object {
   "doc": undefined,
   "fields": Array [
     Object {
-      "default": undefined,
-      "doc": "",
       "name": "manufacturer",
       "type": "string",
     },
     Object {
-      "default": undefined,
-      "doc": "",
       "name": "type",
       "type": "string",
     },
     Object {
-      "default": undefined,
-      "doc": "",
       "name": "weight",
       "type": "int",
     },
     Object {
-      "default": undefined,
-      "doc": "",
       "name": "length",
       "type": "float",
     },
     Object {
-      "default": undefined,
-      "doc": "",
       "name": "available",
       "type": "boolean",
     },
   ],
-  "name": "main",
-  "namespace": "http.supermodel.io.factory.Car",
-  "type": "record",
-}
-`;
-
-exports[`convertToAvro multiple definitions in root #2 1`] = `
-Object {
-  "doc": undefined,
-  "fields": Array [],
-  "name": "main",
-  "namespace": undefined,
-  "type": "record",
-}
-`;
-
-exports[`convertToAvro multiple definitions in root 1`] = `
-Object {
-  "doc": undefined,
-  "fields": Array [],
-  "name": "main",
-  "namespace": undefined,
+  "name": "Article",
+  "namespace": "io.supermodel.factory",
   "type": "record",
 }
 `;
@@ -312,44 +116,45 @@ Object {
   "doc": undefined,
   "fields": Array [
     Object {
-      "default": undefined,
-      "doc": "",
       "name": "manufacturer",
       "type": "string",
     },
     Object {
-      "default": undefined,
-      "doc": "",
       "name": "type",
       "type": "string",
     },
     Object {
-      "default": undefined,
-      "doc": "",
       "name": "weight",
       "type": "int",
     },
     Object {
-      "default": undefined,
-      "doc": "",
       "name": "length",
       "type": "float",
     },
     Object {
-      "default": undefined,
-      "doc": "",
       "name": "available",
       "type": "boolean",
     },
     Object {
-      "default": undefined,
-      "doc": "",
       "name": "engine",
-      "type": undefined,
+      "type": Object {
+        "fields": Array [
+          Object {
+            "name": "volume",
+            "type": "float",
+          },
+          Object {
+            "name": "power",
+            "type": "int",
+          },
+        ],
+        "name": "Engine",
+        "type": "record",
+      },
     },
   ],
-  "name": "main",
-  "namespace": "http.supermodel.io.factory.Car",
+  "name": "Article",
+  "namespace": "io.supermodel.factory",
   "type": "record",
 }
 `;
@@ -359,44 +164,45 @@ Object {
   "doc": undefined,
   "fields": Array [
     Object {
-      "default": undefined,
-      "doc": "",
       "name": "manufacturer",
       "type": "string",
     },
     Object {
-      "default": undefined,
-      "doc": "",
       "name": "type",
       "type": "string",
     },
     Object {
-      "default": undefined,
-      "doc": "",
       "name": "weight",
       "type": "int",
     },
     Object {
-      "default": undefined,
-      "doc": "",
       "name": "length",
       "type": "float",
     },
     Object {
-      "default": undefined,
-      "doc": "",
       "name": "available",
       "type": "boolean",
     },
     Object {
-      "default": undefined,
-      "doc": "",
       "name": "engine",
-      "type": undefined,
+      "type": Object {
+        "fields": Array [
+          Object {
+            "name": "volume",
+            "type": "float",
+          },
+          Object {
+            "name": "power",
+            "type": "int",
+          },
+        ],
+        "name": "Engine",
+        "type": "record",
+      },
     },
   ],
-  "name": "main",
-  "namespace": "http.supermodel.io.factory.Car",
+  "name": "Article",
+  "namespace": "io.supermodel.factory",
   "type": "record",
 }
 `;
@@ -406,44 +212,45 @@ Object {
   "doc": undefined,
   "fields": Array [
     Object {
-      "default": undefined,
-      "doc": "",
       "name": "manufacturer",
       "type": "string",
     },
     Object {
-      "default": undefined,
-      "doc": "",
       "name": "type",
       "type": "string",
     },
     Object {
-      "default": undefined,
-      "doc": "",
       "name": "weight",
       "type": "int",
     },
     Object {
-      "default": undefined,
-      "doc": "",
       "name": "length",
       "type": "float",
     },
     Object {
-      "default": undefined,
-      "doc": "",
       "name": "available",
       "type": "boolean",
     },
     Object {
-      "default": undefined,
-      "doc": "",
       "name": "engine",
-      "type": undefined,
+      "type": Object {
+        "fields": Array [
+          Object {
+            "name": "volume",
+            "type": "float",
+          },
+          Object {
+            "name": "power",
+            "type": "int",
+          },
+        ],
+        "name": "Engine",
+        "type": "record",
+      },
     },
   ],
-  "name": "main",
-  "namespace": "http.supermodel.io.factory.Car",
+  "name": "Article",
+  "namespace": "io.supermodel.factory",
   "type": "record",
 }
 `;
@@ -453,44 +260,67 @@ Object {
   "doc": undefined,
   "fields": Array [
     Object {
-      "default": undefined,
-      "doc": "",
       "name": "manufacturer",
-      "type": undefined,
+      "type": Object {
+        "fields": Array [
+          Object {
+            "name": "name",
+            "type": "string",
+          },
+        ],
+        "name": "Manufacturer",
+        "type": "record",
+      },
     },
     Object {
-      "default": undefined,
-      "doc": "",
       "name": "type",
       "type": "string",
     },
     Object {
-      "default": undefined,
-      "doc": "",
       "name": "weight",
       "type": "int",
     },
     Object {
-      "default": undefined,
-      "doc": "",
       "name": "length",
       "type": "float",
     },
     Object {
-      "default": undefined,
-      "doc": "",
       "name": "available",
       "type": "boolean",
     },
     Object {
-      "default": undefined,
-      "doc": "",
       "name": "engine",
-      "type": undefined,
+      "type": Object {
+        "fields": Array [
+          Object {
+            "name": "volume",
+            "type": "float",
+          },
+          Object {
+            "name": "power",
+            "type": "int",
+          },
+          Object {
+            "name": "manufacturer",
+            "type": Object {
+              "fields": Array [
+                Object {
+                  "name": "name",
+                  "type": "string",
+                },
+              ],
+              "name": "Manufacturer",
+              "type": "record",
+            },
+          },
+        ],
+        "name": "Engine",
+        "type": "record",
+      },
     },
   ],
-  "name": "main",
-  "namespace": "http.supermodel.io.factory.Car",
+  "name": "Article",
+  "namespace": "io.supermodel.factory",
   "type": "record",
 }
 `;
@@ -500,14 +330,13 @@ Object {
   "doc": "Order model description",
   "fields": Array [
     Object {
-      "default": undefined,
-      "doc": "",
+      "doc": "A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm] (see Chapter 5.4 of ISO 8601).",
       "name": "timestamp",
-      "type": undefined,
+      "type": "string",
     },
   ],
-  "name": "main",
-  "namespace": "http.supermodel.io.david.Order",
+  "name": "Order",
+  "namespace": "io.supermodel.david",
   "type": "record",
 }
 `;

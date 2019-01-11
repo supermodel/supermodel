@@ -1,14 +1,8 @@
-type AvroSchemaDefinition = AvroRecord;
+export type AvroSchemaDefinition = AvroRecord;
 
-type AvroType =
-  | AvroPrimitiveType
-  | AvroRecord
-  | AvroEnum
-  | AvroArray
-  | AvroMap
-  | AvroFixed;
+export type AvroType = AvroPrimitiveType | AvroComplexType;
 
-type AvroPrimitiveType =
+export type AvroPrimitiveType =
   | 'null'
   | 'boolean'
   | 'int'
@@ -18,7 +12,14 @@ type AvroPrimitiveType =
   | 'bytes'
   | 'string';
 
-type AvroRecord = {
+export type AvroComplexType =
+  | AvroRecord
+  | AvroEnum
+  | AvroArray
+  | AvroMap
+  | AvroFixed;
+
+export type AvroRecord = {
   type: 'record';
   namespace?: string;
   name?: string;
@@ -27,7 +28,7 @@ type AvroRecord = {
   fields: Array<AvroField>;
 };
 
-type AvroEnum = {
+export type AvroEnum = {
   type: 'enum';
   namespace?: string;
   name?: string;
@@ -36,17 +37,18 @@ type AvroEnum = {
   aliases?: Array<string>;
 };
 
-type AvroArray = {
+export type AvroArray = {
+  name?: string;
   type: 'array';
   items: AvroType;
 };
 
-type AvroMap = {
+export type AvroMap = {
   type: 'map';
   values: AvroType;
 };
 
-type AvroFixed = {
+export type AvroFixed = {
   type: 'fixed';
   namespace?: string;
   name?: string;
@@ -54,22 +56,11 @@ type AvroFixed = {
   size: number;
 };
 
-type AvroField = {
+export type AvroField = {
   name: string;
   type: AvroType;
   doc?: string;
   default?: any;
   order?: 'ascending' | 'descending' | 'ignore';
   aliases?: Array<string>;
-};
-
-export {
-  AvroField,
-  AvroPrimitiveType,
-  AvroRecord,
-  AvroEnum,
-  AvroArray,
-  AvroMap,
-  AvroFixed,
-  AvroSchemaDefinition,
 };

@@ -4,7 +4,6 @@ const { URL } = require('url');
 // TODO: naive finding of definitions inside resolved schema
 function resolveRef(schema, currentObject, ref) {
   const definitions = currentObject.definitions || schema.definitions;
-  const id = currentObject.$id;
 
   if (definitions && definitions[ref]) {
     return definitions[ref];
@@ -30,7 +29,11 @@ function resolveRef(schema, currentObject, ref) {
     }
 
     return result;
-  } else if (id) {
+  }
+
+  const id = currentObject.$id;
+
+  if (id) {
     const url = new URL(id);
     url.pathname = path.resolve(url.pathname, '..', ref);
 

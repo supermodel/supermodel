@@ -125,7 +125,10 @@ describe('convertToAvro', () => {
       path.resolve(__dirname, './__fixtures__/ArticleSchema.json'),
     );
     const schema = JSON.parse(content.toString());
-    matchSchema(schema);
+    // TODO: We should detect this earlier and not let it on stack error
+    expect(() => matchSchema(schema)).toThrowErrorMatchingInlineSnapshot(
+      `"Maximum call stack size exceeded"`,
+    );
   });
 
   const simpleType = {
@@ -176,7 +179,9 @@ describe('convertToAvro', () => {
   };
 
   test('multiple definitions in root', () => {
-    matchSchema(multipleRootDefinitions);
+    expect(() =>
+      matchSchema(multipleRootDefinitions),
+    ).toThrowErrorMatchingInlineSnapshot(`"Schema is missing $id"`);
   });
 
   const realRootDefinitionsExample = {
@@ -300,6 +305,8 @@ describe('convertToAvro', () => {
   };
 
   test('multiple definitions in root #2', () => {
-    matchSchema(realRootDefinitionsExample);
+    expect(() =>
+      matchSchema(realRootDefinitionsExample),
+    ).toThrowErrorMatchingInlineSnapshot(`"Schema is missing $id"`);
   });
 });

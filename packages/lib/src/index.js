@@ -1,5 +1,5 @@
 const camelize = require('./camelize');
-const convertToAvro = require('./convert/Avro');
+const { default: convertToAvro } = require('./convert/Avro');
 const convertToGraphQL = require('./convert/GraphQL');
 const convertToOAS2 = require('./convertToOAS2');
 const createModelSchema = require('./createModelSchema');
@@ -12,7 +12,7 @@ const yamlModel = require('./yamlModel');
 
 module.exports = {
   camelize,
-  convertToAvro: convertToAvro.default,
+  convertToAvro,
   convertToGraphQL,
   convertToOAS2,
   createModelSchema,
