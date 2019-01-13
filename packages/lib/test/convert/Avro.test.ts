@@ -4,6 +4,7 @@ import {
   CarSchema,
   EngineSchema,
   ManufacturerSchema,
+  TransmissionSchema,
 } from './__fixtures__/CarSchema';
 import convertToAvro from '../../src/convert/Avro';
 
@@ -40,6 +41,17 @@ describe('convertToAvro', () => {
       properties: {
         ...CarSchema.properties,
         engine: EngineSchemaWithoutId,
+      },
+    });
+  });
+
+  test('converts oneOf into union', () => {
+    matchSchema({
+      ...CarSchema,
+      properties: {
+        engine: {
+          oneOf: [EngineSchema, TransmissionSchema],
+        },
       },
     });
   });

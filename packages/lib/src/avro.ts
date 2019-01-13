@@ -1,6 +1,6 @@
 export type AvroSchemaDefinition = AvroRecord;
 
-export type AvroType = AvroPrimitiveType | AvroComplexType;
+export type AvroType = AvroPrimitiveType | AvroComplexType | AvroUnion;
 
 export type AvroPrimitiveType =
   | 'null'
@@ -18,6 +18,8 @@ export type AvroComplexType =
   | AvroArray
   | AvroMap
   | AvroFixed;
+
+export type AvroUnion = Array<AvroPrimitiveType | AvroComplexType>;
 
 export type AvroRecord = {
   type: 'record';

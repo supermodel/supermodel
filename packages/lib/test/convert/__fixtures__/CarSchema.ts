@@ -1,4 +1,4 @@
-const CarSchema = {
+export const CarSchema = {
   $id: 'http://supermodel.io/factory/Car',
   title: 'Article',
   type: 'object',
@@ -21,7 +21,7 @@ const CarSchema = {
   },
 };
 
-const EngineSchema = {
+export const EngineSchema = {
   $id: 'http://supermodel.io/factory/parts/Engine',
   title: 'Engine',
   type: 'object',
@@ -35,7 +35,18 @@ const EngineSchema = {
   },
 };
 
-const ManufacturerSchema = {
+export const TransmissionSchema = {
+  $id: 'http://supermodel.io/factory/parts/Transmission',
+  title: 'Transmission',
+  type: 'object',
+  properties: {
+    gears: {
+      type: 'number',
+    },
+  },
+};
+
+export const ManufacturerSchema = {
   $id: 'http://supermodel.io/factory/Manufacturer',
   title: 'Manufacturer',
   type: 'object',
@@ -45,5 +56,3 @@ const ManufacturerSchema = {
     },
   },
 };
-
-export { CarSchema, EngineSchema, ManufacturerSchema };

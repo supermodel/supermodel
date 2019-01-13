@@ -80,6 +80,46 @@ Object {
 }
 `;
 
+exports[`convertToAvro converts oneOf into union 1`] = `
+Object {
+  "doc": undefined,
+  "fields": Array [
+    Object {
+      "name": "engine",
+      "type": Array [
+        Object {
+          "fields": Array [
+            Object {
+              "name": "volume",
+              "type": "float",
+            },
+            Object {
+              "name": "power",
+              "type": "int",
+            },
+          ],
+          "name": "Engine",
+          "type": "record",
+        },
+        Object {
+          "fields": Array [
+            Object {
+              "name": "gears",
+              "type": "float",
+            },
+          ],
+          "name": "Transmission",
+          "type": "record",
+        },
+      ],
+    },
+  ],
+  "name": "Article",
+  "namespace": "io.supermodel.factory",
+  "type": "record",
+}
+`;
+
 exports[`convertToAvro converts required property 1`] = `
 Object {
   "doc": undefined,

@@ -7,6 +7,9 @@ import {
   AvroType,
   AvroEnum,
   AvroArray,
+  AvroUnion,
+  AvroPrimitiveType,
+  AvroComplexType,
 } from '../avro';
 import resolveRef = require('../utils/resolveRef');
 import {
@@ -86,7 +89,17 @@ function propertyToType(
   }
 
   // TODO: isMap(...)
-  if (hasEnum(schema)) {
+  if (schema.oneOf) {
+    return toAvroField(
+      propertyName,
+      toAvroUnion(
+        rootSchema,
+        parentSchema,
+        schema.oneOf as Array<JSONSchema7>,
+        propertyName,
+      ),
+    );
+  } else if (hasEnum(schema)) {
     return toAvroField(
       propertyName,
       enumToAvro(parentSchema, schema, propertyName),
@@ -112,6 +125,18 @@ function toAvroField(propertyName: string, avroType: AvroType): AvroField {
     name: propertyName,
     type: avroType,
   };
+}
+
+function toAvroUnion(
+  rootSchema: JSONSchema7,
+  parentSchema: JSONSchema7,
+  oneOf: Array<JSONSchema7>,
+  propertyName: string,
+): AvroUnion {
+  return oneOf.map(
+    schema =>
+      propertyToType(rootSchema, parentSchema, schema, propertyName).type,
+  ) as Array<AvroPrimitiveType | AvroComplexType>;
 }
 
 function objectToAvro(
@@ -156,6 +181,7 @@ function arrayToAvro(
 
   return {
     type: 'array',
+    // TODO: Improve extraction of type from field. We should not make field type and then take type from that. There should be function to make just type for object, array, enum, etc...
     items: propertyToType(rootSchema, parentSchema, items, propertyName).type,
   };
 }
