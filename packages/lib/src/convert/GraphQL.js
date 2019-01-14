@@ -12,8 +12,13 @@ const {
   GraphQLScalarType,
   printType,
 } = require('graphql');
-const { idToName, toSafeEnumKey } = require('../utils/graphql');
-const resolveRef = require('../utils/resolveRef');
+const {
+  idToName,
+  toSafeEnumKey
+} = require('../utils/graphql');
+const {
+  ensureRef
+} = require('../utils/resolveRef');
 const fetch = require('../utils/fetch');
 
 /**
@@ -25,7 +30,10 @@ const fetch = require('../utils/fetch');
 function convertToGraphQL(schema) {
   const types = new Map();
 
-  const { $id, definitions } = schema;
+  const {
+    $id,
+    definitions
+  } = schema;
   if (!$id && (!definitions || Object.keys(definitions).length === 0)) {
     throw new Error(`A JSON Schema without $id and definitions properties`);
   }
@@ -56,7 +64,12 @@ function convertToGraphQL(schema) {
  * @returns {GraphQLObjectType}
  */
 function objectToGrapQL(types, schema, object = schema, name = null) {
-  const { type, $id, properties, required } = object;
+  const {
+    type,
+    $id,
+    properties,
+    required
+  } = object;
 
   if ($id) {
     name = idToName($id);
@@ -143,13 +156,18 @@ function propertyToType(
   property,
   propertyName,
 ) {
-  const { anyOf, enum: enumValues, $ref, type } = property;
+  const {
+    anyOf,
+    enum: enumValues,
+    $ref,
+    type
+  } = property;
 
   if ($ref !== undefined) {
-    const resolved = resolveRef(schema, parentObject, $ref);
-    const name = resolved.$id
-      ? undefined
-      : `${parentName}${casex(resolved.title, 'CaSe')}`;
+    const resolved = ensureRef($ref, parentObject, schema);
+    const name = resolved.$id ?
+      undefined :
+      `${parentName}${casex(resolved.title, 'CaSe')}`;
 
     return objectToGrapQL(types, schema, resolved, name);
   } else if (enumValues !== undefined) {
@@ -172,16 +190,17 @@ function propertyToType(
           property,
           `${parentName}${casex(propertyName, 'CaSe')}`,
         );
-      case 'array': {
-        return arrayToGraphQL(
-          types,
-          schema,
-          parentObject,
-          parentName,
-          property.items,
-          propertyName,
-        );
-      }
+      case 'array':
+        {
+          return arrayToGraphQL(
+            types,
+            schema,
+            parentObject,
+            parentName,
+            property.items,
+            propertyName,
+          );
+        }
       case 'string':
         return GraphQLString;
       case 'integer':
@@ -293,7 +312,9 @@ function enumToType(types, type, parentName, propertyName, enumValues) {
     const values = {};
 
     enumValues.forEach(enumValue => {
-      values[toSafeEnumKey(enumValue)] = { value: enumValue };
+      values[toSafeEnumKey(enumValue)] = {
+        value: enumValue
+      };
     });
 
     return new GraphQLEnumType({

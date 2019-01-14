@@ -85,7 +85,7 @@ describe('schemaToGraphQL', () => {
         properties: {
           ...CarSchema.properties,
           engine: {
-            $ref: '#/definitions/parts/Engine',
+            $ref: '#/definitions/parts~1Engine',
           },
         },
         definitions: {

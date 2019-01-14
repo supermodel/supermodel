@@ -11,7 +11,6 @@ import {
   AvroPrimitiveType,
   AvroComplexType,
 } from '../avro';
-import resolveRef = require('../utils/resolveRef');
 import {
   isObject,
   isArray,
@@ -21,6 +20,7 @@ import {
   convertPrimitiveType,
 } from './Avro/utils';
 import * as casex from 'casex';
+import { ensureRef } from '../utils/resolveRef';
 
 type JSONSchema7Properties = {
   [key: string]: JSONSchema7;
@@ -70,7 +70,7 @@ function propertyToType(
   const { $ref } = schema;
 
   if ($ref !== undefined) {
-    schema = resolveRef(rootSchema, parentSchema, $ref);
+    schema = ensureRef($ref, parentSchema, rootSchema);
   }
 
   // Fill missing title

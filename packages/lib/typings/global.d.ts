@@ -10,3 +10,7 @@ type Maybe<T> = T | null;
 type Optional<T> = T | undefined;
 type Keys<T> = keyof T;
 type Values<T> = T[keyof T];
+
+type TIterableObject = {
+  [key: string]: TIterableObject;
+};

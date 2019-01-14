@@ -1,0 +1,775 @@
+{
+  "$id": "http://supermodel.io/adidas/product/ecom/Article",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "eCom Article",
+  "type": "object",
+  "properties": {
+    "athlete": {
+      "type": "string"
+    },
+    "clearance": {
+      "type": "boolean"
+    },
+    "comingSoonSignup": {
+      "type": "number"
+    },
+    "customizable": {
+      "type": "boolean"
+    },
+    "age": {
+      "type": "string",
+      "examples": [
+        "Infant &amp; Toddler"
+      ]
+    },
+    "brand": {
+      "type": "string",
+      "examples": [
+        "Performance"
+      ]
+    },
+    "campaign": {
+      "type": "string",
+      "examples": [
+        "Black Friday;Cyber Monday;After Christmas Sale;End of Season Sale;Friends Family;Presidents Day Sale;MLK Jr Day Sale"
+      ]
+    },
+    "color": {
+      "type": "string",
+      "examples": [
+        "White"
+      ]
+    },
+    "defaultColor": {
+      "type": "string",
+      "examples": [
+        "Copper Metalic / White Chalk / Cardboard"
+      ]
+    },
+    "gender": {
+      "type": "string",
+      "examples": [
+        "K"
+      ]
+    },
+    "genderSub": {
+      "type": "string",
+      "examples": [
+        "KB"
+      ]
+    },
+    "hastag": {
+      "type": "string"
+    },
+    "maxQuantity": {
+      "type": "string"
+    },
+    "productDivision": {
+      "type": "string",
+      "examples": [
+        "Accessories"
+      ]
+    },
+    "productLine": {
+      "type": "string",
+      "examples": [
+        "Tiro"
+      ]
+    },
+    "productType": {
+      "type": "string"
+    },
+    "price": {
+      "$ref": "Price"
+    },
+    "sport": {
+      "type": "string",
+      "examples": [
+        "Running"
+      ]
+    },
+    "fitbarPosition": {
+      "type": "string"
+    },
+    "care": {
+      "$ref": "Care"
+    },
+    "onlineFrom": {
+      "type": "string",
+      "description": "ISO 8601 Date",
+      "examples": [
+        "2017-06-21T14:07:17Z"
+      ]
+    },
+    "onlineTo": {
+      "type": "string",
+      "description": "ISO 8601 Date",
+      "examples": [
+        "2017-06-21T14:07:17Z"
+      ]
+    },
+    "previewTo": {
+      "type": "string",
+      "description": "ISO 8601 Date",
+      "examples": [
+        "2017-06-21T14:07:17Z"
+      ]
+    },
+    "pdp": {
+      "$ref": "PDP"
+    },
+    "flashProduct": {
+      "type": "boolean"
+    },
+    "hypeProduct": {
+      "type": "boolean"
+    },
+    "personalizable": {
+      "type": "boolean"
+    },
+    "preorder": {
+      "type": "boolean"
+    },
+    "soldout": {
+      "type": "boolean"
+    },
+    "productFamily": {
+      "type": "string"
+    },
+    "productFilter": {
+      "type": "string"
+    },
+    "prodcutLine": {
+      "type": "string"
+    },
+    "sizeChart": {
+      "type": "string"
+    },
+    "teams": {
+      "type": "string"
+    },
+    "template": {
+      "type": "string",
+      "description": "The 'Template' is used to identify if the inline or miadidas PDP template should be applied in the ecommerce frontend."
+    },
+    "articleNumber": {
+      "$ref": "http://supermodel.io/adidas/product/Article#/properties/articleNumber"
+    },
+    "modelNumber": {
+      "$ref": "http://supermodel.io/adidas/product/Article#/properties/modelNumber"
+    },
+    "articleDescription": {
+      "$ref": "http://supermodel.io/adidas/product/Article#/properties/articleDescription"
+    },
+    "name": {
+      "type": "string",
+      "examples": [
+        "Obuv F/22 Primeknit"
+      ]
+    },
+    "badge": {
+      "$ref": "Badge"
+    },
+    "assets": {
+      "type": "array",
+      "items": {
+        "$ref": "http://supermodel.io/adidas/product/Asset"
+      }
+    },
+    "colorVariants": {
+      "type": "array",
+      "items": [{
+        "$ref": "#"
+      }]
+    },
+    "miadidas": {
+      "type": "array",
+      "items": [{
+        "$ref": "#"
+      }]
+    },
+    "completeLook": {
+      "type": "array",
+      "items": [{
+        "$ref": "#"
+      }]
+    }
+  },
+  "definitions": {
+    "http://supermodel.io/adidas/product/ecom/Price": {
+      "$id": "http://supermodel.io/adidas/product/ecom/Price",
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Price",
+      "description": "Price model description",
+      "type": "object",
+      "properties": {
+        "standardPrice": {
+          "type": "number",
+          "examples": [
+            3799
+          ]
+        },
+        "standardPriceWithoutVAT": {
+          "type": "number",
+          "examples": [
+            3139.67
+          ]
+        },
+        "currentPrice": {
+          "type": "number",
+          "examples": [
+            3799
+          ]
+        },
+        "salesPrice": {
+          "type": "number"
+        }
+      }
+    },
+    "http://supermodel.io/adidas/product/ecom/Care": {
+      "$id": "http://supermodel.io/adidas/product/ecom/Care",
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Care",
+      "description": "Care model description",
+      "type": "object",
+      "properties": {
+        "bleachingInstruction": {
+          "type": "string"
+        },
+        "ironInstruction": {
+          "type": "string"
+        },
+        "dryCleanInstruction": {
+          "type": "string"
+        },
+        "dryInstruction": {
+          "type": "string"
+        },
+        "extraCareInstruction": {
+          "type": "string"
+        }
+      }
+    },
+    "http://supermodel.io/adidas/product/ecom/PDP": {
+      "$id": "http://supermodel.io/adidas/product/ecom/PDP",
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "PDP",
+      "description": "PDP model description",
+      "type": "object",
+      "properties": {
+        "callout": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        }
+      }
+    },
+    "http://supermodel.io/adidas/product/Article": {
+      "$id": "http://supermodel.io/adidas/product/Article",
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Article",
+      "type": "object",
+      "properties": {
+        "articleNumber": {
+          "type": "string"
+        },
+        "modelNumber": {
+          "type": "string"
+        },
+        "articleDescription": {
+          "type": "string"
+        },
+        "gender": {
+          "$ref": "utils/CodeDescription"
+        },
+        "brand": {
+          "$ref": "utils/CodeDescription"
+        },
+        "productType": {
+          "$ref": "utils/CodeDescription"
+        },
+        "ageGroup": {
+          "$ref": "utils/CodeDescription"
+        },
+        "colorway": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            }
+          }
+        },
+        "colors": {
+          "type": "array",
+          "items": {
+            "$ref": "Color"
+          }
+        },
+        "seasons": {
+          "type": "array",
+          "items": {
+            "$ref": "ArticleSeason"
+          }
+        },
+        "skus": {
+          "type": "array",
+          "items": {
+            "$ref": "SKU"
+          }
+        },
+        "assets": {
+          "type": "array",
+          "items": {
+            "$ref": "Asset"
+          }
+        },
+        "catalog": {
+          "$ref": "Catalog"
+        },
+        "related": {
+          "type": "array",
+          "items": {
+            "$ref": "Article"
+          }
+        }
+      },
+      "examples": [{
+        "articleNumber": "015110",
+        "modelNumber": "10034",
+        "articleDescription": "COPA MUNDIAL",
+        "gender": {
+          "code": "M",
+          "description": "MALE"
+        },
+        "brand": {
+          "code": "11",
+          "description": "ADIDAS"
+        },
+        "productType": {
+          "code": "104",
+          "description": "FOOTBALL SHOES (FIRM GROUND)"
+        },
+        "ageGroup": {
+          "code": "A",
+          "description": "ADULT"
+        },
+        "colorway": {
+          "name": "FTWR WHITE/BLACK",
+          "description": "BLABAS/GRAFIT/BLABAS"
+        },
+        "colors": [{}],
+        "seasons": [{}],
+        "skus": [{}],
+        "assets": [{}],
+        "catalog": {}
+      }]
+    },
+    "http://supermodel.io/adidas/product/utils/CodeDescription": {
+      "$id": "http://supermodel.io/adidas/product/utils/CodeDescription",
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Code Description Tuple",
+      "description": "Helper data structure to hold any code - description pair",
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "http://supermodel.io/adidas/product/Color": {
+      "$id": "http://supermodel.io/adidas/product/Color",
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Color",
+      "type": "object",
+      "description": "Color descriptions are language-dependent",
+      "properties": {
+        "color1": {
+          "$ref": "utils/CodeDescription"
+        },
+        "color2": {
+          "$ref": "utils/CodeDescription"
+        },
+        "color3": {
+          "$ref": "utils/CodeDescription"
+        },
+        "color4": {
+          "$ref": "utils/CodeDescription"
+        }
+      },
+      "examples": [{
+        "color1": {
+          "code": "A0QM",
+          "description": "core black"
+        },
+        "color2": {
+          "code": "A98B",
+          "description": "utility black"
+        },
+        "color3": {
+          "code": "A0QM",
+          "description": "core black"
+        },
+        "color4": {
+          "code": "01F7",
+          "description": "ftwr white"
+        }
+      }]
+    },
+    "http://supermodel.io/adidas/product/ArticleSeason": {
+      "$id": "http://supermodel.io/adidas/product/ArticleSeason",
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Article Season",
+      "description": "Seasonal information about article",
+      "type": "object",
+      "properties": {
+        "seasonName": {
+          "type": "string"
+        },
+        "carryOver": {
+          "type": "boolean"
+        },
+        "retailIntroDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "retailExitDate": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "examples": [{
+        "seasonName": "FW17",
+        "carryOver": false,
+        "retailIntroDate": "2017-06-01",
+        "retailExitDate": "2017-11-30"
+      }]
+    },
+    "http://supermodel.io/adidas/product/SKU": {
+      "$id": "http://supermodel.io/adidas/product/SKU",
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "SKU",
+      "type": "object",
+      "properties": {
+        "EAN": {
+          "type": "string"
+        },
+        "UPC": {
+          "type": "string"
+        },
+        "srcSizeCD3": {
+          "type": "string"
+        },
+        "srcSizeScale": {
+          "type": "string"
+        },
+        "srcSizeDescription": {
+          "type": "string"
+        },
+        "conversionIDs": {
+          "type": "array",
+          "items": [{
+            "type": "object",
+            "properties": {
+              "localSize": {
+                "type": "string"
+              },
+              "saleSizeConvID": {
+                "type": "string"
+              },
+              "saleSizeScale": {
+                "type": "string"
+              },
+              "saleSizeAbbr": {
+                "type": "string"
+              },
+              "saleSizeDesc": {
+                "type": "string"
+              }
+            }
+          }]
+        }
+      },
+      "examples": [{
+        "EAN": "4058026055128",
+        "UPC": "885591427616",
+        "srcSizeCD3": "380",
+        "srcSizeScale": "T4",
+        "conversionIDs": [{
+          "saleSizeConvID": "D",
+          "saleSizeScale": "8C",
+          "saleSizeAbbr": "27"
+        }]
+      }]
+    },
+    "http://supermodel.io/adidas/product/Asset": {
+      "$id": "http://supermodel.io/adidas/product/Asset",
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Asset",
+      "description": "Digital Asset",
+      "type": "object",
+      "properties": {
+        "assetType": {
+          "type": "string",
+          "enum": [
+            "image",
+            "video",
+            "other"
+          ]
+        },
+        "viewGroup": {
+          "type": "string"
+        },
+        "view": {
+          "type": "string"
+        },
+        "assetCategory": {
+          "type": "string"
+        },
+        "usageTerms": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "assetHref": {
+          "type": "string",
+          "format": "uri"
+        },
+        "image": {
+          "type": "object",
+          "properties": {
+            "style": {
+              "type": "string"
+            },
+            "width": {
+              "type": "integer"
+            },
+            "height": {
+              "type": "integer"
+            },
+            "bgColor": {
+              "type": "string"
+            },
+            "representation": {
+              "type": "string"
+            }
+          }
+        },
+        "video": {
+          "type": "object",
+          "properties": {
+            "fileSize": {
+              "type": "integer"
+            }
+          }
+        },
+        "model": {
+          "type": "object",
+          "properties": {
+            "waist": {
+              "type": "string"
+            },
+            "chest": {
+              "type": "string"
+            },
+            "height": {
+              "type": "string"
+            },
+            "productSize": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "required": [
+        "assetType",
+        "viewGroup",
+        "view",
+        "assetCategory",
+        "usageTerms",
+        "assetHref"
+      ],
+      "examples": [{
+        "assetType": "image",
+        "viewGroup": "3d",
+        "assetCategory": "Photography",
+        "usageTerms": "B2B Cataloguge",
+        "assetHref": "http://domain.com/image.jpeg",
+        "image": {
+          "style": "On Model",
+          "width": 2000,
+          "height": 2000,
+          "bgColor": "transparent"
+        },
+        "model": {
+          "waist": 58,
+          "chest": 97,
+          "height": 197,
+          "productSize": 540
+        }
+      }]
+    },
+    "http://supermodel.io/adidas/product/Catalog": {
+      "$id": "http://supermodel.io/adidas/product/Catalog",
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Catalog",
+      "type": "object",
+      "properties": {
+        "catalogueCopy": {
+          "$ref": "#/definitions/CatalogCopy"
+        },
+        "featureAndBenefits": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FeatureAndBenefit"
+          }
+        }
+      },
+      "examples": [{
+        "catalogueCopy": {},
+        "featureAndBenefits": [{}]
+      }],
+      "definitions": {
+        "CatalogCopy": {
+          "title": "Catalog Copy",
+          "type": "object",
+          "properties": {
+            "acsModelName": {
+              "type": "string"
+            },
+            "b2cCopy": {
+              "type": "string"
+            },
+            "b2cCopyShort": {
+              "type": "string"
+            },
+            "b2bCopy": {
+              "type": "string"
+            },
+            "b2bCopyShort": {
+              "type": "string"
+            },
+            "materialComposition": {
+              "type": "string"
+            },
+            "materialConstruction": {
+              "type": "string"
+            },
+            "bullets1": {
+              "type": "string"
+            },
+            "bullets2": {
+              "type": "string"
+            },
+            "bullets3": {
+              "type": "string"
+            },
+            "bullets4": {
+              "type": "string"
+            },
+            "bullets5": {
+              "type": "string"
+            },
+            "bullets6": {
+              "type": "string"
+            },
+            "bulletMaterial": {
+              "type": "string"
+            }
+          },
+          "examples": [{
+            "acsModelName": "COPA MUNDIAL",
+            "b2cCopy": "De populairste voetbalschoen ooit, en terecht. De adidas Copa Mundial heeft een bovenwerk van rijk leer en een loopzool met dubbele dichtheid die al decennia lang de toon zet voor comfort en prestaties op het veld.",
+            "b2cCopyShort": "Entraîne-toi comme les pros avec ce haut de l'équipe de Belgique de football.",
+            "b2bCopy": "Hurricanes Training Jersey as worn by the players when training with dynamic retro design inspired by the original Super Jersey.Captured with shock blue and black colors on climalite fabric with moisture wicking properties.",
+            "b2bCopyShort": "Hurricanes Training Jersey as worn by the players when training with dynamic retro design inspired by the orginal Super jersey.",
+            "materialComposition": "100% Organic Cotton",
+            "materialConstruction": "Single jersey",
+            "bullets1": "materiál Climalite odvádí pot a udrží tě vsuchu za všech okolností",
+            "bullets2": "Ribbet V-hals",
+            "bullets3": "Nackenband",
+            "bullets4": "Επένδυση προστασίας από τον άνεμο στο μπροστινό μέρος. Μανσέτες με ανοίγματα για τους αντίχειρες",
+            "bullets5": "Woven Belgium crest on chest",
+            "bullets6": "3 bandas en las mangas; logotipo de adidas serigrafiado a la derecha del pecho",
+            "bulletMaterial": "Maille double 100 % polyester."
+          }]
+        },
+        "FeatureAndBenefit": {
+          "title": "Feature and Benefit",
+          "type": "object",
+          "properties": {
+            "featureAndBenefitCode": {
+              "type": "string"
+            },
+            "businessCode": {
+              "type": "string"
+            },
+            "shoePart": {
+              "type": "string"
+            },
+            "featureName": {
+              "type": "string"
+            },
+            "featureDescription": {
+              "type": "string"
+            },
+            "logoName": {
+              "type": "string"
+            },
+            "logoHref": {
+              "type": "string",
+              "format": "uri"
+            }
+          },
+          "examples": [{
+            "featureAndBenefitCode": "68465468",
+            "businessCode": "BU Young Athlete",
+            "shoePart": "Upper",
+            "featureName": "Costura à maquina",
+            "featureDescription": "construction nylon/TPU pour un bon toucher de balle et une bonne résistance à l'usure.",
+            "logoName": "ECO_OrthoLiteLogo",
+            "logoHref": "http://domain.com/logo.jpeg"
+          }]
+        }
+      }
+    },
+    "http://supermodel.io/adidas/product/ecom/Badge": {
+      "$id": "http://supermodel.io/adidas/product/ecom/Badge",
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Badge",
+      "type": "object",
+      "properties": {
+        "style": {
+          "type": "string",
+          "enum": [
+            "new",
+            "preview",
+            "preorder",
+            "sales",
+            "customizable",
+            "soldout"
+          ],
+          "examples": [
+            "new"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "examples": [
+            "Nové"
+          ]
+        }
+      }
+    }
+  }
+}

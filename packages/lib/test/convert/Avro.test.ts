@@ -93,7 +93,7 @@ describe('convertToAvro', () => {
         properties: {
           ...CarSchema.properties,
           engine: {
-            $ref: '#/definitions/parts/Engine',
+            $ref: '#/definitions/parts~1Engine',
           },
         },
         definitions: {
@@ -135,6 +135,17 @@ describe('convertToAvro', () => {
   test('complex schema', () => {
     const content = fs.readFileSync(
       path.resolve(__dirname, './__fixtures__/ArticleSchema.json'),
+    );
+    const schema = JSON.parse(content.toString());
+    // TODO: We should detect this earlier and not let it on stack error
+    expect(() => matchSchema(schema)).toThrowErrorMatchingInlineSnapshot(
+      `"Maximum call stack size exceeded"`,
+    );
+  });
+
+  test('complex schema #2', () => {
+    const content = fs.readFileSync(
+      path.resolve(__dirname, './__fixtures__/ArticleSchema2.json'),
     );
     const schema = JSON.parse(content.toString());
     // TODO: We should detect this earlier and not let it on stack error

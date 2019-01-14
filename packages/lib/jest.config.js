@@ -11,8 +11,8 @@ module.exports = {
     }
   },
   moduleFileExtensions: ["ts", "js", "json"],
-  notify: !process.env.DISABALE_JEST_NOTIFY,
-  notifyMode: 'success-change',
+  notify: false,
+  // notifyMode: 'success-change',
   testEnvironment: "node",
   testMatch: ['**/*\\.test.(js|ts)'],
   transform: {
