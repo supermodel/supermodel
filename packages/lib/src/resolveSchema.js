@@ -22,15 +22,31 @@ function resolveSchema(schema, schemaLoader) {
   return validateSchema(schema, loader).then(() => {
     // Append definitions if not already available
     let compiledSchema = Object.assign({}, schema);
-    if (compiledSchema['definitions'] === undefined) {
-      compiledSchema['definitions'] = {};
+
+    if (compiledSchema.definitions === undefined) {
+      compiledSchema.definitions = {};
     }
-    // Concatenate all definitions into the result
-    compiledSchema.definitions = Object.assign(
-      {},
-      compiledSchema.definitions,
-      loadedRefs,
-    );
+
+    const definitions = compiledSchema.definitions
+
+    for (const refId in loadedRefs) {
+      if (loadedRefs.hasOwnProperty(refId)) {
+        const loadedRef = loadedRefs[refId]
+
+        definitions[refId] = loadedRef
+
+        if (loadedRef.definitions) {
+          for (const definitionKey in loadedRef.definitions) {
+            if (loadedRef.definitions.hasOwnProperty(definitionKey)) {
+              definitions[definitionKey] = loadedRef.definitions[definitionKey]
+            }
+          }
+        }
+
+        delete loadedRef.definitions
+      }
+    }
+
     return Promise.resolve(compiledSchema);
   });
 }

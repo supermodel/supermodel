@@ -1,0 +1,14 @@
+$id: http://supermodel.io/superlib/references/Nested2
+
+tilte: Nested 2
+type: object
+
+properties:
+  nested3:
+    $ref: Nested3
+  nestedDefinition:
+    $ref: '#/definitions/NestedDefinition2'
+
+definitions:
+  NestedDefinition2:
+    title: Nested Definition 2

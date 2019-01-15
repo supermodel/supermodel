@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`flatten nested definitions into root 1`] = `
+Object {
+  "$id": "http://supermodel.io/superlib/references/Nested1",
+  "definitions": Object {
+    "NestedDefinition2": Object {
+      "title": "Nested Definition 2",
+    },
+    "NestedDefinition3": Object {
+      "title": "Nested Definition 3",
+    },
+    "http://supermodel.io/superlib/references/Nested2": Object {
+      "$id": "http://supermodel.io/superlib/references/Nested2",
+      "properties": Object {
+        "nested3": Object {
+          "$ref": "Nested3",
+        },
+      },
+      "tilte": "Nested 2",
+      "type": "object",
+    },
+    "http://supermodel.io/superlib/references/Nested3": Object {
+      "$id": "http://supermodel.io/superlib/references/Nested3",
+      "properties": Object {
+        "value": Object {
+          "type": "string",
+        },
+      },
+      "tilte": "Nested 3",
+      "type": "object",
+    },
+  },
+  "properties": Object {
+    "nested2": Object {
+      "$ref": "Nested2",
+    },
+  },
+  "tilte": "Nested 1",
+  "type": "object",
+}
+`;
+
+exports[`resolve valid schema 1`] = `
+Object {
+  "$id": "http://supermodel.io/superlib/references/AValidB",
+  "definitions": Object {
+    "http://supermodel.io/superlib/references/ValidB": Object {
+      "$id": "http://supermodel.io/superlib/references/ValidB",
+      "title": "B",
+      "type": "object",
+    },
+  },
+  "properties": Object {
+    "b": Object {
+      "$ref": "ValidB",
+    },
+  },
+  "tilte": "A",
+  "type": "object",
+}
+`;

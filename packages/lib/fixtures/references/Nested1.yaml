@@ -1,0 +1,8 @@
+$id: http://supermodel.io/superlib/references/Nested1
+
+tilte: Nested 1
+type: object
+
+properties:
+  nested2:
+    $ref: Nested2
