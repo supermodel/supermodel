@@ -16,34 +16,7 @@ export default function resolveRef(ref: string, ...schemas: Args<JSONSchema7>) {
   const [refId, pointer] = ref.split('#');
 
   if (refId.length > 0) {
-    const schemaId =
-      matchSchema<JSONSchema7, string>(schemas, schema =>
-        resolveRelativeRefId(schema, refId),
-      ) || refId;
-
-    let match;
-
-    // Try to resolve schemas by its root $id
-    match = matchSchema<JSONSchema7>(schemas, schema =>
-      schema.$id === schemaId ? schema : undefined,
-    );
-
-    if (!match) {
-      // Try to match definitions by $id
-      match = matchSchema<JSONSchema7>(schemas, schema =>
-        findSchemaInDefinitions(schema.definitions as TDefinitions, schemaId),
-      );
-    }
-
-    if (!match) {
-      return;
-    }
-
-    if (pointer) {
-      return resolveJsonPointer(ref, pointer, match);
-    }
-
-    return match;
+    return resolveRefId(ref, refId, pointer, schemas);
   }
 
   if (pointer !== undefined) {
@@ -62,6 +35,42 @@ export function ensureRef(ref: string, ...schemas: Args<JSONSchema7>) {
   }
 
   return schema;
+}
+
+function resolveRefId(
+  ref: string,
+  refId: string,
+  pointer: Optional<string>,
+  schemas: Array<JSONSchema7>,
+) {
+  const schemaId =
+    matchSchema<JSONSchema7, string>(schemas, schema =>
+      resolveRelativeRefId(schema, refId),
+    ) || refId;
+
+  let match;
+
+  // Try to resolve schemas by its root $id
+  match = matchSchema<JSONSchema7>(schemas, schema =>
+    schema.$id === schemaId ? schema : undefined,
+  );
+
+  if (!match) {
+    // Try to match definitions by $id
+    match = matchSchema<JSONSchema7>(schemas, schema =>
+      findSchemaInDefinitions(schema.definitions as TDefinitions, schemaId),
+    );
+  }
+
+  if (!match) {
+    return;
+  }
+
+  if (pointer) {
+    return resolveJsonPointer(ref, pointer, match);
+  }
+
+  return match;
 }
 
 function matchSchema<I, R = I>(
