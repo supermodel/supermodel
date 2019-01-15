@@ -151,6 +151,35 @@ Object {
 }
 `;
 
+exports[`convertToAvro gender property problem 1`] = `
+Object {
+  "doc": undefined,
+  "fields": Array [
+    Object {
+      "name": "gender",
+      "type": Object {
+        "doc": "Helper data structure to hold any code - description pair",
+        "fields": Array [
+          Object {
+            "name": "code",
+            "type": "string",
+          },
+          Object {
+            "name": "description",
+            "type": "string",
+          },
+        ],
+        "name": "Code Description Tuple",
+        "type": "record",
+      },
+    },
+  ],
+  "name": "Article HAL Representation",
+  "namespace": "io.supermodel.adidas.product.api",
+  "type": "record",
+}
+`;
+
 exports[`convertToAvro resolves refs by #/ 1`] = `
 Object {
   "doc": undefined,

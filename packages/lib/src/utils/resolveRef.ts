@@ -9,7 +9,48 @@ type TDefinitions = {
   [key: string]: JSONSchema7;
 };
 
-export default function resolveRef(ref: string, ...schemas: Args<JSONSchema7>) {
+export default function resolveRef(
+  ref: string,
+  schema: JSONSchema7,
+  context?: Optional<JSONSchema7>,
+) {
+  let result;
+
+  do {
+    result = resolvePartialRef(ref, schema, context);
+
+    if (result) {
+      if (result.match.$ref) {
+        context = result.context;
+        ref = result.match.$ref;
+      } else {
+        return result.match;
+      }
+    }
+  } while (result);
+
+  return null;
+}
+
+export function ensureRef(
+  ref: string,
+  schema: JSONSchema7,
+  context?: Optional<JSONSchema7>,
+) {
+  const result = resolveRef(ref, schema, context);
+
+  if (!result) {
+    throw new Error(`Can't resolve schema from $ref '${ref}'`);
+  }
+
+  return result;
+}
+
+function resolvePartialRef(
+  ref: string,
+  schema: JSONSchema7,
+  context?: Optional<JSONSchema7>,
+) {
   if (!ref || ref.trim().length === 0) {
     throw new Error(`Missing $ref`);
   }
@@ -17,73 +58,78 @@ export default function resolveRef(ref: string, ...schemas: Args<JSONSchema7>) {
   const [refId, pointer] = ref.split('#');
 
   if (refId.length > 0) {
-    return resolveRefId(ref, refId, pointer, schemas);
+    return resolveRefId(ref, refId, pointer, schema, context);
   }
 
   if (pointer !== undefined) {
-    // TODO: temporary search across multiple schemas since our schema resolver has bug
-    return matchSchema<JSONSchema7>(schemas, schema =>
-      resolveJsonPointer(ref, pointer, schema),
-    );
+    const match = resolveJsonPointer(ref, pointer, schema);
+
+    if (match) {
+      return {
+        match,
+      };
+    }
   }
-}
-
-export function ensureRef(ref: string, ...schemas: Args<JSONSchema7>) {
-  const schema = resolveRef(ref, ...schemas);
-
-  if (!schema) {
-    throw new Error(`Can't resolve schema from $ref '${ref}'`);
-  }
-
-  return schema;
 }
 
 function resolveRefId(
   ref: string,
   refId: string,
   pointer: Optional<string>,
-  schemas: Array<JSONSchema7>,
+  schema: JSONSchema7,
+  parentContext: Optional<JSONSchema7>,
 ) {
-  const schemaId =
-    matchSchema<JSONSchema7, string>(schemas, schema =>
-      resolveRelativeRefId(schema, refId),
-    ) || refId;
+  // Resolve schemaId
+  let schemaId: Maybe<string> = null;
 
-  let match;
+  if (parentContext) {
+    schemaId = resolveRelativeRefId(parentContext, refId);
+  }
 
-  // Try to resolve schemas by its root $id
-  match = matchSchema<JSONSchema7>(schemas, schema =>
-    schema.$id === schemaId ? schema : undefined,
-  );
+  if (!schemaId) {
+    schemaId = resolveRelativeRefId(schema, refId);
+  }
 
-  if (!match) {
-    // Try to match definitions by $id
-    match = matchSchema<JSONSchema7>(schemas, schema =>
-      findSchemaInDefinitions(schema.definitions as TDefinitions, schemaId),
+  if (!schemaId) {
+    schemaId = refId;
+  }
+
+  // Resolve context
+  let context = null;
+
+  if (parentContext && parentContext.$id === schemaId) {
+    context = parentContext;
+  }
+
+  if (!context && schema.$id === schemaId) {
+    context = schema;
+  }
+
+  if (!context && schema.definitions) {
+    context = findSchemaInDefinitions(
+      schema.definitions as TDefinitions,
+      schemaId,
     );
   }
 
-  if (!match) {
-    return;
+  if (!context) {
+    return null;
   }
 
   if (pointer) {
-    return resolveJsonPointer(ref, pointer, match);
-  }
+    const match = resolveJsonPointer(ref, pointer, context);
 
-  return match;
-}
-
-function matchSchema<I, R = I>(
-  schemas: Array<I>,
-  match: (schema: I) => Optional<R>,
-) {
-  for (const schema of schemas) {
-    const result = match(schema);
-    if (result) {
-      return result;
+    if (match) {
+      return {
+        context,
+        match,
+      };
     }
   }
+
+  return {
+    match: context,
+  };
 }
 
 // Id
@@ -98,8 +144,12 @@ function resolveRelativeRefId(schema: JSONSchema7, refId: string) {
     const url = new URL(id);
     url.pathname = path.resolve(url.pathname, '..', refId);
 
+    // console.log('YYYY');
+    // console.log(url.toString());
     return url.toString();
   }
+
+  return null;
 }
 
 function isFullUrl(urlString: string) {
@@ -111,15 +161,17 @@ function findSchemaInDefinitions(
   schemaId: string,
 ) {
   if (!definitions) {
-    return;
+    return null;
   }
 
   if (definitions[schemaId]) {
     return definitions[schemaId];
   }
 
-  return Object.values(definitions).find(
-    schema => typeof schema === 'object' && schema.$id === schemaId,
+  return (
+    Object.values(definitions).find(
+      schema => typeof schema === 'object' && schema.$id === schemaId,
+    ) || null
   );
 }
 
@@ -138,4 +190,6 @@ function resolveJsonPointer(ref: string, pointer: string, schema: JSONSchema7) {
       throw new Error(`Invalid pointer in $ref '${ref}'`);
     }
   }
+
+  return null;
 }

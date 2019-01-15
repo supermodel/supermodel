@@ -164,7 +164,7 @@ function propertyToType(
   } = property;
 
   if ($ref !== undefined) {
-    const resolved = ensureRef($ref, parentObject, schema);
+    const resolved = ensureRef($ref, schema, parentObject);
     const name = resolved.$id ?
       undefined :
       `${parentName}${casex(resolved.title, 'CaSe')}`;

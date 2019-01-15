@@ -70,7 +70,7 @@ function propertyToType(
   const { $ref } = schema;
 
   if ($ref !== undefined) {
-    schema = ensureRef($ref, parentSchema, rootSchema);
+    schema = ensureRef($ref, rootSchema, parentSchema);
   }
 
   // Fill missing title

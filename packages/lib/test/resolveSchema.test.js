@@ -11,7 +11,7 @@ test('resolve valid schema', () => {
   return expect(resolveSchema(schema, loader)).resolves.toMatchSnapshot();
 });
 
-test.only('flatten nested definitions into root', () => {
+test('flatten nested definitions into root', () => {
   const schema = readYAMLFile('./fixtures/references/Nested1.yaml');
   const loader = fileSchemaLoader(schema['$id'], './fixtures/references/');
 

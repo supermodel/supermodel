@@ -154,6 +154,15 @@ describe('convertToAvro', () => {
     );
   });
 
+  test('gender property problem', () => {
+    const content = fs.readFileSync(
+      path.resolve(__dirname, './__fixtures__/GenderProblem.json'),
+    );
+    const schema = JSON.parse(content.toString());
+    // TODO: We should detect this earlier and not let it on stack error
+    matchSchema(schema);
+  });
+
   const simpleType = {
     $id: 'http://supermodel.io/david/Order',
     $schema: 'http://json-schema.org/draft-07/schema#',

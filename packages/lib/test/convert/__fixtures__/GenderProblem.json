@@ -1,0 +1,39 @@
+{
+  "$id": "http://supermodel.io/adidas/product/api/ArticleHAL",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Article HAL Representation",
+  "type": "object",
+  "properties": {
+    "gender": {
+      "$ref": "http://supermodel.io/adidas/product/Article#/properties/gender"
+    }
+  },
+  "definitions": {
+    "http://supermodel.io/adidas/product/Article": {
+      "$id": "http://supermodel.io/adidas/product/Article",
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Article",
+      "type": "object",
+      "properties": {
+        "gender": {
+          "$ref": "utils/CodeDescription"
+        }
+      }
+    },
+    "http://supermodel.io/adidas/product/utils/CodeDescription": {
+      "$id": "http://supermodel.io/adidas/product/utils/CodeDescription",
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Code Description Tuple",
+      "description": "Helper data structure to hold any code - description pair",
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

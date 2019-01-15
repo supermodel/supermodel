@@ -638,110 +638,7 @@
       "examples": [{
         "catalogueCopy": {},
         "featureAndBenefits": [{}]
-      }],
-      "definitions": {
-        "CatalogCopy": {
-          "title": "Catalog Copy",
-          "type": "object",
-          "properties": {
-            "acsModelName": {
-              "type": "string"
-            },
-            "b2cCopy": {
-              "type": "string"
-            },
-            "b2cCopyShort": {
-              "type": "string"
-            },
-            "b2bCopy": {
-              "type": "string"
-            },
-            "b2bCopyShort": {
-              "type": "string"
-            },
-            "materialComposition": {
-              "type": "string"
-            },
-            "materialConstruction": {
-              "type": "string"
-            },
-            "bullets1": {
-              "type": "string"
-            },
-            "bullets2": {
-              "type": "string"
-            },
-            "bullets3": {
-              "type": "string"
-            },
-            "bullets4": {
-              "type": "string"
-            },
-            "bullets5": {
-              "type": "string"
-            },
-            "bullets6": {
-              "type": "string"
-            },
-            "bulletMaterial": {
-              "type": "string"
-            }
-          },
-          "examples": [{
-            "acsModelName": "COPA MUNDIAL",
-            "b2cCopy": "De populairste voetbalschoen ooit, en terecht. De adidas Copa Mundial heeft een bovenwerk van rijk leer en een loopzool met dubbele dichtheid die al decennia lang de toon zet voor comfort en prestaties op het veld.",
-            "b2cCopyShort": "Entraîne-toi comme les pros avec ce haut de l'équipe de Belgique de football.",
-            "b2bCopy": "Hurricanes Training Jersey as worn by the players when training with dynamic retro design inspired by the original Super Jersey.Captured with shock blue and black colors on climalite fabric with moisture wicking properties.",
-            "b2bCopyShort": "Hurricanes Training Jersey as worn by the players when training with dynamic retro design inspired by the orginal Super jersey.",
-            "materialComposition": "100% Organic Cotton",
-            "materialConstruction": "Single jersey",
-            "bullets1": "materiál Climalite odvádí pot a udrží tě vsuchu za všech okolností",
-            "bullets2": "Ribbet V-hals",
-            "bullets3": "Nackenband",
-            "bullets4": "Επένδυση προστασίας από τον άνεμο στο μπροστινό μέρος. Μανσέτες με ανοίγματα για τους αντίχειρες",
-            "bullets5": "Woven Belgium crest on chest",
-            "bullets6": "3 bandas en las mangas; logotipo de adidas serigrafiado a la derecha del pecho",
-            "bulletMaterial": "Maille double 100 % polyester."
-          }]
-        },
-        "FeatureAndBenefit": {
-          "title": "Feature and Benefit",
-          "type": "object",
-          "properties": {
-            "featureAndBenefitCode": {
-              "type": "string"
-            },
-            "businessCode": {
-              "type": "string"
-            },
-            "shoePart": {
-              "type": "string"
-            },
-            "featureName": {
-              "type": "string"
-            },
-            "featureDescription": {
-              "type": "string"
-            },
-            "logoName": {
-              "type": "string"
-            },
-            "logoHref": {
-              "type": "string",
-              "format": "uri"
-            }
-          },
-          "examples": [{
-            "featureAndBenefitCode": "68465468",
-            "businessCode": "BU Young Athlete",
-            "shoePart": "Upper",
-            "featureName": "Costura à maquina",
-            "featureDescription": "construction nylon/TPU pour un bon toucher de balle et une bonne résistance à l'usure.",
-            "logoName": "ECO_OrthoLiteLogo",
-            "logoHref": "http://domain.com/logo.jpeg"
-          }]
-        }
-      }
+      }]
     },
     "http://supermodel.io/adidas/product/ecom/Badge": {
       "$id": "http://supermodel.io/adidas/product/ecom/Badge",
@@ -770,6 +667,107 @@
           ]
         }
       }
+    },
+    "CatalogCopy": {
+      "title": "Catalog Copy",
+      "type": "object",
+      "properties": {
+        "acsModelName": {
+          "type": "string"
+        },
+        "b2cCopy": {
+          "type": "string"
+        },
+        "b2cCopyShort": {
+          "type": "string"
+        },
+        "b2bCopy": {
+          "type": "string"
+        },
+        "b2bCopyShort": {
+          "type": "string"
+        },
+        "materialComposition": {
+          "type": "string"
+        },
+        "materialConstruction": {
+          "type": "string"
+        },
+        "bullets1": {
+          "type": "string"
+        },
+        "bullets2": {
+          "type": "string"
+        },
+        "bullets3": {
+          "type": "string"
+        },
+        "bullets4": {
+          "type": "string"
+        },
+        "bullets5": {
+          "type": "string"
+        },
+        "bullets6": {
+          "type": "string"
+        },
+        "bulletMaterial": {
+          "type": "string"
+        }
+      },
+      "examples": [{
+        "acsModelName": "COPA MUNDIAL",
+        "b2cCopy": "De populairste voetbalschoen ooit, en terecht. De adidas Copa Mundial heeft een bovenwerk van rijk leer en een loopzool met dubbele dichtheid die al decennia lang de toon zet voor comfort en prestaties op het veld.",
+        "b2cCopyShort": "Entraîne-toi comme les pros avec ce haut de l'équipe de Belgique de football.",
+        "b2bCopy": "Hurricanes Training Jersey as worn by the players when training with dynamic retro design inspired by the original Super Jersey.Captured with shock blue and black colors on climalite fabric with moisture wicking properties.",
+        "b2bCopyShort": "Hurricanes Training Jersey as worn by the players when training with dynamic retro design inspired by the orginal Super jersey.",
+        "materialComposition": "100% Organic Cotton",
+        "materialConstruction": "Single jersey",
+        "bullets1": "materiál Climalite odvádí pot a udrží tě vsuchu za všech okolností",
+        "bullets2": "Ribbet V-hals",
+        "bullets3": "Nackenband",
+        "bullets4": "Επένδυση προστασίας από τον άνεμο στο μπροστινό μέρος. Μανσέτες με ανοίγματα για τους αντίχειρες",
+        "bullets5": "Woven Belgium crest on chest",
+        "bullets6": "3 bandas en las mangas; logotipo de adidas serigrafiado a la derecha del pecho",
+        "bulletMaterial": "Maille double 100 % polyester."
+      }]
+    },
+    "FeatureAndBenefit": {
+      "title": "Feature and Benefit",
+      "type": "object",
+      "properties": {
+        "featureAndBenefitCode": {
+          "type": "string"
+        },
+        "businessCode": {
+          "type": "string"
+        },
+        "shoePart": {
+          "type": "string"
+        },
+        "featureName": {
+          "type": "string"
+        },
+        "featureDescription": {
+          "type": "string"
+        },
+        "logoName": {
+          "type": "string"
+        },
+        "logoHref": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "examples": [{
+        "featureAndBenefitCode": "68465468",
+        "businessCode": "BU Young Athlete",
+        "shoePart": "Upper",
+        "featureName": "Costura à maquina",
+        "featureDescription": "construction nylon/TPU pour un bon toucher de balle et une bonne résistance à l'usure.",
+        "logoName": "ECO_OrthoLiteLogo",
+        "logoHref": "http://domain.com/logo.jpeg"
+      }]
     }
   }
 }

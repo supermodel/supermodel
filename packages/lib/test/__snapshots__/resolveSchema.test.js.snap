@@ -16,6 +16,9 @@ Object {
         "nested3": Object {
           "$ref": "Nested3",
         },
+        "nestedDefinition": Object {
+          "$ref": "#/definitions/NestedDefinition2",
+        },
       },
       "tilte": "Nested 2",
       "type": "object",
@@ -23,6 +26,9 @@ Object {
     "http://supermodel.io/superlib/references/Nested3": Object {
       "$id": "http://supermodel.io/superlib/references/Nested3",
       "properties": Object {
+        "nestedDefinition": Object {
+          "$ref": "#/definitions/NestedDefinition3",
+        },
         "value": Object {
           "type": "string",
         },
