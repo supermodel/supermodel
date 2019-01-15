@@ -135,6 +135,27 @@ describe('resolveRef', () => {
         ),
       ).toBe(adminSchema);
     });
+
+    test('resolves #user', () => {
+      const localUserSchema = {
+        ...userSchema,
+        $id: '#user',
+      };
+
+      expect(
+        resolveRef('#user', {
+          $id: 'http://supermodel.io/Project/Root',
+          properties: {
+            user: {
+              $ref: '#user',
+            },
+          },
+          definitions: {
+            U: localUserSchema,
+          },
+        }),
+      ).toBe(localUserSchema);
+    });
   });
 
   describe('schema id with pointer', () => {

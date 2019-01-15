@@ -3,6 +3,7 @@ import * as path from 'path';
 import { parse, URL } from 'url';
 import * as jsonpointer from 'jsonpointer';
 import { JSONSchema7 } from 'json-schema';
+import findInObject from './findInObject';
 
 type TDefinitions = {
   [key: string]: JSONSchema7;
@@ -124,6 +125,12 @@ function findSchemaInDefinitions(
 
 // Pointer
 function resolveJsonPointer(ref: string, pointer: string, schema: JSONSchema7) {
+  // Branch when pointer is identify an $id with `ref: '#user'`
+  if (pointer && !pointer.startsWith('/')) {
+    const id = `#${pointer}`;
+    return findInObject(schema, obj => obj.$id === id);
+  }
+
   try {
     return jsonpointer.get<JSONSchema7>(schema, pointer);
   } catch (err) {
