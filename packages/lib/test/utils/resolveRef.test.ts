@@ -1,3 +1,5 @@
+import * as path from 'path';
+import * as fs from 'fs';
 import resolveRef, { ensureRef } from '../../src/utils/resolveRef';
 import { JSONSchema7 } from 'json-schema';
 
@@ -361,5 +363,24 @@ describe('resolveRef', () => {
         'http://supermodel.io/supermodel/App/core/Model'
       ],
     );
+  });
+
+  test('resolve complex schema', () => {
+    const content = fs.readFileSync(
+      path.resolve(
+        __dirname,
+        '../convert/__fixtures__/ResolveRefsProblem.json',
+      ),
+    );
+
+    const schema = JSON.parse(content.toString());
+    // TODO: add expectation 'gender', 'Color'
+    expect(
+      ensureRef(
+        'Color',
+        schema,
+        schema.definitions['http://supermodel.io/adidas/product/Article'],
+      ),
+    ).toBe(schema.definitions['http://supermodel.io/adidas/product/Color']);
   });
 });

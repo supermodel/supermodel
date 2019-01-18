@@ -1,8 +1,407 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`convertToAvro complex schema #2 1`] = `
+Object {
+  "fields": Array [
+    Object {
+      "name": "athlete",
+      "type": "string",
+    },
+    Object {
+      "name": "clearance",
+      "type": "boolean",
+    },
+    Object {
+      "name": "comingSoonSignup",
+      "type": "float",
+    },
+    Object {
+      "name": "customizable",
+      "type": "boolean",
+    },
+    Object {
+      "name": "age",
+      "type": "string",
+    },
+    Object {
+      "name": "brand",
+      "type": "string",
+    },
+    Object {
+      "name": "campaign",
+      "type": "string",
+    },
+    Object {
+      "name": "color",
+      "type": "string",
+    },
+    Object {
+      "name": "defaultColor",
+      "type": "string",
+    },
+    Object {
+      "name": "gender",
+      "type": "string",
+    },
+    Object {
+      "name": "genderSub",
+      "type": "string",
+    },
+    Object {
+      "name": "hastag",
+      "type": "string",
+    },
+    Object {
+      "name": "maxQuantity",
+      "type": "string",
+    },
+    Object {
+      "name": "productDivision",
+      "type": "string",
+    },
+    Object {
+      "name": "productLine",
+      "type": "string",
+    },
+    Object {
+      "name": "productType",
+      "type": "string",
+    },
+    Object {
+      "name": "price",
+      "type": Object {
+        "doc": "Price model description",
+        "fields": Array [
+          Object {
+            "name": "standardPrice",
+            "type": "float",
+          },
+          Object {
+            "name": "standardPriceWithoutVAT",
+            "type": "float",
+          },
+          Object {
+            "name": "currentPrice",
+            "type": "float",
+          },
+          Object {
+            "name": "salesPrice",
+            "type": "float",
+          },
+        ],
+        "name": "SupermodelIoAdidasProductEcomPrice",
+        "type": "record",
+      },
+    },
+    Object {
+      "name": "sport",
+      "type": "string",
+    },
+    Object {
+      "name": "fitbarPosition",
+      "type": "string",
+    },
+    Object {
+      "name": "care",
+      "type": Object {
+        "doc": "Care model description",
+        "fields": Array [
+          Object {
+            "name": "bleachingInstruction",
+            "type": "string",
+          },
+          Object {
+            "name": "ironInstruction",
+            "type": "string",
+          },
+          Object {
+            "name": "dryCleanInstruction",
+            "type": "string",
+          },
+          Object {
+            "name": "dryInstruction",
+            "type": "string",
+          },
+          Object {
+            "name": "extraCareInstruction",
+            "type": "string",
+          },
+        ],
+        "name": "SupermodelIoAdidasProductEcomCare",
+        "type": "record",
+      },
+    },
+    Object {
+      "doc": "ISO 8601 Date",
+      "name": "onlineFrom",
+      "type": "string",
+    },
+    Object {
+      "doc": "ISO 8601 Date",
+      "name": "onlineTo",
+      "type": "string",
+    },
+    Object {
+      "doc": "ISO 8601 Date",
+      "name": "previewTo",
+      "type": "string",
+    },
+    Object {
+      "name": "pdp",
+      "type": Object {
+        "doc": "PDP model description",
+        "fields": Array [
+          Object {
+            "name": "callout",
+            "type": "string",
+          },
+          Object {
+            "name": "content",
+            "type": "string",
+          },
+          Object {
+            "name": "model",
+            "type": "string",
+          },
+        ],
+        "name": "SupermodelIoAdidasProductEcom",
+        "type": "record",
+      },
+    },
+    Object {
+      "name": "flashProduct",
+      "type": "boolean",
+    },
+    Object {
+      "name": "hypeProduct",
+      "type": "boolean",
+    },
+    Object {
+      "name": "personalizable",
+      "type": "boolean",
+    },
+    Object {
+      "name": "preorder",
+      "type": "boolean",
+    },
+    Object {
+      "name": "soldout",
+      "type": "boolean",
+    },
+    Object {
+      "name": "productFamily",
+      "type": "string",
+    },
+    Object {
+      "name": "productFilter",
+      "type": "string",
+    },
+    Object {
+      "name": "prodcutLine",
+      "type": "string",
+    },
+    Object {
+      "name": "sizeChart",
+      "type": "string",
+    },
+    Object {
+      "name": "teams",
+      "type": "string",
+    },
+    Object {
+      "doc": "The 'Template' is used to identify if the inline or miadidas PDP template should be applied in the ecommerce frontend.",
+      "name": "template",
+      "type": "string",
+    },
+    Object {
+      "name": "articleNumber",
+      "type": "string",
+    },
+    Object {
+      "name": "modelNumber",
+      "type": "string",
+    },
+    Object {
+      "name": "articleDescription",
+      "type": "string",
+    },
+    Object {
+      "name": "name",
+      "type": "string",
+    },
+    Object {
+      "name": "badge",
+      "type": Object {
+        "fields": Array [
+          Object {
+            "name": "style",
+            "type": Object {
+              "name": undefined,
+              "symbols": Array [
+                "new",
+                "preview",
+                "preorder",
+                "sales",
+                "customizable",
+                "soldout",
+              ],
+              "type": "enum",
+            },
+          },
+          Object {
+            "name": "description",
+            "type": "string",
+          },
+        ],
+        "name": "SupermodelIoAdidasProductEcomBadge",
+        "type": "record",
+      },
+    },
+    Object {
+      "name": "assets",
+      "type": Object {
+        "items": Object {
+          "doc": "Digital Asset",
+          "fields": Array [
+            Object {
+              "name": "assetType",
+              "type": Object {
+                "name": undefined,
+                "symbols": Array [
+                  "image",
+                  "video",
+                  "other",
+                ],
+                "type": "enum",
+              },
+            },
+            Object {
+              "name": "viewGroup",
+              "type": "string",
+            },
+            Object {
+              "name": "view",
+              "type": "string",
+            },
+            Object {
+              "name": "assetCategory",
+              "type": "string",
+            },
+            Object {
+              "name": "usageTerms",
+              "type": Object {
+                "items": "string",
+                "type": "array",
+              },
+            },
+            Object {
+              "name": "assetHref",
+              "type": "string",
+            },
+            Object {
+              "name": "image",
+              "type": Object {
+                "fields": Array [
+                  Object {
+                    "name": "style",
+                    "type": "string",
+                  },
+                  Object {
+                    "name": "width",
+                    "type": "int",
+                  },
+                  Object {
+                    "name": "height",
+                    "type": "int",
+                  },
+                  Object {
+                    "name": "bgColor",
+                    "type": "string",
+                  },
+                  Object {
+                    "name": "representation",
+                    "type": "string",
+                  },
+                ],
+                "name": undefined,
+                "type": "record",
+              },
+            },
+            Object {
+              "name": "video",
+              "type": Object {
+                "fields": Array [
+                  Object {
+                    "name": "fileSize",
+                    "type": "int",
+                  },
+                ],
+                "name": undefined,
+                "type": "record",
+              },
+            },
+            Object {
+              "name": "model",
+              "type": Object {
+                "fields": Array [
+                  Object {
+                    "name": "waist",
+                    "type": "string",
+                  },
+                  Object {
+                    "name": "chest",
+                    "type": "string",
+                  },
+                  Object {
+                    "name": "height",
+                    "type": "string",
+                  },
+                  Object {
+                    "name": "productSize",
+                    "type": "string",
+                  },
+                ],
+                "name": undefined,
+                "type": "record",
+              },
+            },
+          ],
+          "name": "SupermodelIoAdidasProductAsset",
+          "type": "record",
+        },
+        "type": "array",
+      },
+    },
+    Object {
+      "name": "colorVariants",
+      "type": Object {
+        "items": "SupermodelIoAdidasProductEcomArticle",
+        "type": "array",
+      },
+    },
+    Object {
+      "name": "miadidas",
+      "type": Object {
+        "items": "SupermodelIoAdidasProductEcomArticle",
+        "type": "array",
+      },
+    },
+    Object {
+      "name": "completeLook",
+      "type": Object {
+        "items": "SupermodelIoAdidasProductEcomArticle",
+        "type": "array",
+      },
+    },
+  ],
+  "name": "SupermodelIoAdidasProductEcomArticle",
+  "namespace": "io.supermodel.adidas.product.ecom",
+  "type": "record",
+}
+`;
+
 exports[`convertToAvro converts enum 1`] = `
 Object {
-  "doc": undefined,
   "fields": Array [
     Object {
       "name": "volume",
@@ -15,7 +414,7 @@ Object {
     Object {
       "name": "fuel",
       "type": Object {
-        "name": "fuel",
+        "name": undefined,
         "symbols": Array [
           "gasoline",
           "diesel",
@@ -26,7 +425,7 @@ Object {
       },
     },
   ],
-  "name": "Engine",
+  "name": "SupermodelIoFactoryPartsEngine",
   "namespace": "io.supermodel.factory.parts",
   "type": "record",
 }
@@ -34,7 +433,6 @@ Object {
 
 exports[`convertToAvro converts inline object in property 1`] = `
 Object {
-  "doc": undefined,
   "fields": Array [
     Object {
       "name": "manufacturer",
@@ -74,7 +472,7 @@ Object {
       },
     },
   ],
-  "name": "Article",
+  "name": "SupermodelIoFactoryCar",
   "namespace": "io.supermodel.factory",
   "type": "record",
 }
@@ -82,7 +480,6 @@ Object {
 
 exports[`convertToAvro converts oneOf into union 1`] = `
 Object {
-  "doc": undefined,
   "fields": Array [
     Object {
       "name": "engine",
@@ -98,7 +495,7 @@ Object {
               "type": "int",
             },
           ],
-          "name": "Engine",
+          "name": "SupermodelIoFactoryPartsEngine",
           "type": "record",
         },
         Object {
@@ -108,13 +505,13 @@ Object {
               "type": "float",
             },
           ],
-          "name": "Transmission",
+          "name": "SupermodelIoFactoryPartsTransmission",
           "type": "record",
         },
       ],
     },
   ],
-  "name": "Article",
+  "name": "SupermodelIoFactoryCar",
   "namespace": "io.supermodel.factory",
   "type": "record",
 }
@@ -122,7 +519,6 @@ Object {
 
 exports[`convertToAvro converts required property 1`] = `
 Object {
-  "doc": undefined,
   "fields": Array [
     Object {
       "name": "manufacturer",
@@ -145,44 +541,14 @@ Object {
       "type": "boolean",
     },
   ],
-  "name": "Article",
+  "name": "SupermodelIoFactoryCar",
   "namespace": "io.supermodel.factory",
-  "type": "record",
-}
-`;
-
-exports[`convertToAvro gender property problem 1`] = `
-Object {
-  "doc": undefined,
-  "fields": Array [
-    Object {
-      "name": "gender",
-      "type": Object {
-        "doc": "Helper data structure to hold any code - description pair",
-        "fields": Array [
-          Object {
-            "name": "code",
-            "type": "string",
-          },
-          Object {
-            "name": "description",
-            "type": "string",
-          },
-        ],
-        "name": "Code Description Tuple",
-        "type": "record",
-      },
-    },
-  ],
-  "name": "Article HAL Representation",
-  "namespace": "io.supermodel.adidas.product.api",
   "type": "record",
 }
 `;
 
 exports[`convertToAvro resolves refs by #/ 1`] = `
 Object {
-  "doc": undefined,
   "fields": Array [
     Object {
       "name": "manufacturer",
@@ -217,12 +583,12 @@ Object {
             "type": "int",
           },
         ],
-        "name": "Engine",
+        "name": "SupermodelIoFactoryPartsEngine",
         "type": "record",
       },
     },
   ],
-  "name": "Article",
+  "name": "SupermodelIoFactoryCar",
   "namespace": "io.supermodel.factory",
   "type": "record",
 }
@@ -230,7 +596,6 @@ Object {
 
 exports[`convertToAvro resolves refs by id 1`] = `
 Object {
-  "doc": undefined,
   "fields": Array [
     Object {
       "name": "manufacturer",
@@ -265,12 +630,12 @@ Object {
             "type": "int",
           },
         ],
-        "name": "Engine",
+        "name": "SupermodelIoFactoryPartsEngine",
         "type": "record",
       },
     },
   ],
-  "name": "Article",
+  "name": "SupermodelIoFactoryCar",
   "namespace": "io.supermodel.factory",
   "type": "record",
 }
@@ -278,7 +643,6 @@ Object {
 
 exports[`convertToAvro resolves refs by relative path 1`] = `
 Object {
-  "doc": undefined,
   "fields": Array [
     Object {
       "name": "manufacturer",
@@ -313,12 +677,12 @@ Object {
             "type": "int",
           },
         ],
-        "name": "Engine",
+        "name": "SupermodelIoFactoryPartsEngine",
         "type": "record",
       },
     },
   ],
-  "name": "Article",
+  "name": "SupermodelIoFactoryCar",
   "namespace": "io.supermodel.factory",
   "type": "record",
 }
@@ -326,7 +690,6 @@ Object {
 
 exports[`convertToAvro resolves refs works with nested ref objects 1`] = `
 Object {
-  "doc": undefined,
   "fields": Array [
     Object {
       "name": "manufacturer",
@@ -337,7 +700,7 @@ Object {
             "type": "string",
           },
         ],
-        "name": "Manufacturer",
+        "name": "SupermodelIoFactoryManufacturer",
         "type": "record",
       },
     },
@@ -371,24 +734,15 @@ Object {
           },
           Object {
             "name": "manufacturer",
-            "type": Object {
-              "fields": Array [
-                Object {
-                  "name": "name",
-                  "type": "string",
-                },
-              ],
-              "name": "Manufacturer",
-              "type": "record",
-            },
+            "type": "SupermodelIoFactoryManufacturer",
           },
         ],
-        "name": "Engine",
+        "name": "SupermodelIoFactoryPartsEngine",
         "type": "record",
       },
     },
   ],
-  "name": "Article",
+  "name": "SupermodelIoFactoryCar",
   "namespace": "io.supermodel.factory",
   "type": "record",
 }
@@ -399,12 +753,11 @@ Object {
   "doc": "Order model description",
   "fields": Array [
     Object {
-      "doc": "A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm] (see Chapter 5.4 of ISO 8601).",
       "name": "timestamp",
       "type": "string",
     },
   ],
-  "name": "Order",
+  "name": "SupermodelIoDavidOrder",
   "namespace": "io.supermodel.david",
   "type": "record",
 }

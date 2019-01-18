@@ -18,7 +18,6 @@ export default function resolveRef(
 
   do {
     result = resolvePartialRef(ref, schema, context);
-
     if (result) {
       if (result.match.$ref) {
         context = result.context;

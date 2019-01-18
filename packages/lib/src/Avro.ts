@@ -1,16 +1,23 @@
 export type AvroSchemaDefinition = AvroRecord;
 
-export type AvroType = AvroPrimitiveType | AvroComplexType | AvroUnion;
+export type AvroType =
+  | AvroPrimitiveType
+  | AvroComplexType
+  | AvroUnion
+  | AvroName;
 
-export type AvroPrimitiveType =
-  | 'null'
-  | 'boolean'
-  | 'int'
-  | 'long'
-  | 'float'
-  | 'double'
-  | 'bytes'
-  | 'string';
+export type AvroName = string;
+
+export enum AvroPrimitiveType {
+  null = 'null',
+  boolean = 'boolean',
+  int = 'int',
+  long = 'long',
+  float = 'float',
+  double = 'double',
+  bytes = 'bytes',
+  string = 'string',
+}
 
 export type AvroComplexType =
   | AvroRecord
@@ -24,7 +31,7 @@ export type AvroUnion = Array<AvroPrimitiveType | AvroComplexType>;
 export type AvroRecord = {
   type: 'record';
   namespace?: string;
-  name?: string;
+  name?: AvroName;
   doc?: string;
   aliases?: Array<string>;
   fields: Array<AvroField>;
@@ -33,14 +40,14 @@ export type AvroRecord = {
 export type AvroEnum = {
   type: 'enum';
   namespace?: string;
-  name?: string;
+  name?: AvroName;
   symbols: Array<string>;
   doc?: string;
   aliases?: Array<string>;
 };
 
 export type AvroArray = {
-  name?: string;
+  name?: AvroName;
   type: 'array';
   items: AvroType;
 };
@@ -53,7 +60,7 @@ export type AvroMap = {
 export type AvroFixed = {
   type: 'fixed';
   namespace?: string;
-  name?: string;
+  name?: AvroName;
   aliases: Array<string>;
   size: number;
 };

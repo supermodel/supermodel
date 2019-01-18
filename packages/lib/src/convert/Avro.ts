@@ -10,6 +10,7 @@ import {
   AvroUnion,
   AvroPrimitiveType,
   AvroComplexType,
+  AvroName,
 } from '../avro';
 import {
   isObject,
@@ -19,11 +20,18 @@ import {
   getObjectName,
   convertPrimitiveType,
 } from './Avro/utils';
-import * as casex from 'casex';
 import { ensureRef } from '../utils/resolveRef';
+
+type LazyAvroRecord = () => AvroRecord | AvroName;
 
 type JSONSchema7Properties = {
   [key: string]: JSONSchema7;
+};
+
+// TODO: temporary solution for recursion.
+type Cache = {
+  lazy: Map<JSONSchema7, LazyAvroRecord>;
+  records: Map<JSONSchema7, AvroRecord>;
 };
 
 export default function convertToAvro(
@@ -41,78 +49,130 @@ export default function convertToAvro(
     throw new Error('Schema is not type of object');
   }
 
+  const cache = {
+    lazy: new Map(),
+    records: new Map(),
+  };
+
+  const lazyAvroRootRecord = objectToAvro(cache, schema, schema);
+
+  const avroRootRecord = lazyAvroRootRecord();
+
+  if (typeof avroRootRecord !== 'object') {
+    throw new Error('__TODO__');
+  }
+
   return {
     namespace: getNamespace(schema),
     name: getObjectName(schema),
-    type: 'record',
-    doc: schema.description,
-    fields: schema.properties ? convertProperties(schema, schema) : [],
+    ...resolveLazyRecords(avroRootRecord),
   };
 }
 
+function resolveLazyRecords(value: any): any {
+  if (typeof value === 'function') {
+    return resolveLazyRecords(value());
+  }
+
+  if (Array.isArray(value)) {
+    return value.map(resolveLazyRecords);
+  }
+
+  if (typeof value === 'object') {
+    for (const prop in value) {
+      if (value.hasOwnProperty(prop)) {
+        value[prop] = resolveLazyRecords(value[prop]);
+      }
+    }
+  }
+
+  return value;
+}
+
 function convertProperties(
+  cache: Cache,
   rootSchema: JSONSchema7,
   schema: JSONSchema7,
 ): Array<AvroField> {
   const properties = schema.properties as JSONSchema7Properties;
 
   return Object.keys(properties).map(propertyName =>
-    propertyToType(rootSchema, schema, properties[propertyName], propertyName),
+    propertyToField(
+      cache,
+      rootSchema,
+      schema,
+      properties[propertyName],
+      propertyName,
+    ),
   );
 }
 
-function propertyToType(
+function propertyToField(
+  cache: Cache,
   rootSchema: JSONSchema7,
   parentSchema: JSONSchema7,
   schema: JSONSchema7,
   propertyName: string,
 ): AvroField {
+  const type = propertyToType(
+    cache,
+    rootSchema,
+    parentSchema,
+    schema,
+    propertyName,
+  );
+
+  if (type in AvroPrimitiveType) {
+    let defaultValue;
+
+    if (schema.hasOwnProperty('default')) {
+      defaultValue = schema.default;
+    }
+
+    return {
+      name: propertyName,
+      type: typeof type === 'function' ? type() : type,
+      ...(schema.description ? { doc: schema.description } : null),
+      ...(defaultValue ? { default: defaultValue } : null),
+    };
+  } else {
+    return {
+      name: propertyName,
+      type: typeof type === 'function' ? type() : type,
+    };
+  }
+}
+
+function propertyToType(
+  cache: Cache,
+  rootSchema: JSONSchema7,
+  parentSchema: JSONSchema7,
+  schema: JSONSchema7,
+  propertyName: string,
+): AvroType | LazyAvroRecord {
   const { $ref } = schema;
 
   if ($ref !== undefined) {
     schema = ensureRef($ref, rootSchema, parentSchema);
   }
 
-  // Fill missing title
-  if (!schema.title) {
-    if (schema.$id) {
-      const splits = schema.$id.split('/');
-      schema.title = splits[splits.length - 1];
-    }
-
-    schema.title = propertyName;
-  }
-
-  // Fill missing $id
-  if (!schema.$id) {
-    schema.$id = `${parentSchema.$id}/${casex(schema.title, 'CaSe')}`;
-  }
-
-  // TODO: isMap(...)
+  // TODO: isMap(...) with additionalProperties
   if (schema.oneOf) {
-    return toAvroField(
+    return toAvroUnion(
+      cache,
+      rootSchema,
+      parentSchema,
+      schema.oneOf as Array<JSONSchema7>,
       propertyName,
-      toAvroUnion(
-        rootSchema,
-        parentSchema,
-        schema.oneOf as Array<JSONSchema7>,
-        propertyName,
-      ),
     );
   } else if (hasEnum(schema)) {
-    return toAvroField(
-      propertyName,
-      enumToAvro(parentSchema, schema, propertyName),
-    );
+    return enumToAvro(parentSchema, schema, propertyName);
   } else if (isObject(schema)) {
-    return toAvroField(propertyName, objectToAvro(rootSchema, schema));
+    return objectToAvro(cache, rootSchema, schema);
   } else if (isArray(schema)) {
-    return toAvroField(
-      propertyName,
-      arrayToAvro(rootSchema, parentSchema, schema, propertyName),
-    );
+    return arrayToAvro(cache, rootSchema, parentSchema, schema, propertyName);
   } else if (schema.type) {
-    return propertyToAvroField(parentSchema, schema, propertyName);
+    return propertyToAvroPrimitive(parentSchema, schema, propertyName);
   }
 
   throw new Error(
@@ -120,38 +180,60 @@ function propertyToType(
   );
 }
 
-function toAvroField(propertyName: string, avroType: AvroType): AvroField {
-  return {
-    name: propertyName,
-    type: avroType,
-  };
-}
-
 function toAvroUnion(
+  cache: Cache,
   rootSchema: JSONSchema7,
   parentSchema: JSONSchema7,
   oneOf: Array<JSONSchema7>,
   propertyName: string,
 ): AvroUnion {
-  return oneOf.map(
-    schema =>
-      propertyToType(rootSchema, parentSchema, schema, propertyName).type,
+  return oneOf.map(schema =>
+    propertyToType(cache, rootSchema, parentSchema, schema, propertyName),
   ) as Array<AvroPrimitiveType | AvroComplexType>;
 }
 
 function objectToAvro(
+  cache: Cache,
   rootSchema: JSONSchema7,
   schema: JSONSchema7,
-): AvroRecord {
-  return {
-    name: getObjectName(schema),
-    ...(schema.description ? { doc: schema.description } : null),
-    type: 'record',
-    fields: convertProperties(rootSchema, schema),
-  };
+): LazyAvroRecord {
+  const currentLazyAvroRecord = cache.lazy.get(schema);
+
+  if (!currentLazyAvroRecord) {
+    const lazyAvroRecord = () => {
+      let avroRecord = cache.records.get(schema);
+
+      if (!avroRecord) {
+        avroRecord = {
+          name: getObjectName(schema),
+          ...(schema.description ? { doc: schema.description } : null),
+          type: 'record',
+          fields: convertProperties(cache, rootSchema, schema),
+        };
+
+        cache.records.set(schema, avroRecord);
+
+        return avroRecord;
+      }
+
+      if (avroRecord.name) {
+        return avroRecord.name;
+      }
+
+      // throw 'missing name';
+      return avroRecord;
+    };
+
+    cache.lazy.set(schema, lazyAvroRecord);
+
+    return lazyAvroRecord;
+  }
+
+  return currentLazyAvroRecord;
 }
 
 function arrayToAvro(
+  cache: Cache,
   rootSchema: JSONSchema7,
   parentSchema: JSONSchema7,
   schema: JSONSchema7,
@@ -167,6 +249,16 @@ function arrayToAvro(
     );
   }
 
+  // TODO: multiple array items via avro union?
+  // {
+  //   type: 'array',
+  //   items: [
+  //     'string',
+  //     {
+  //       type: 'record'
+  //     }
+  //   ]
+  // }
   if (Array.isArray(items)) {
     if (items.length !== 1) {
       throw new Error(
@@ -181,8 +273,13 @@ function arrayToAvro(
 
   return {
     type: 'array',
-    // TODO: Improve extraction of type from field. We should not make field type and then take type from that. There should be function to make just type for object, array, enum, etc...
-    items: propertyToType(rootSchema, parentSchema, items, propertyName).type,
+    items: propertyToType(
+      cache,
+      rootSchema,
+      parentSchema,
+      items,
+      propertyName,
+    ) as AvroType,
   };
 }
 
@@ -229,17 +326,11 @@ function enumToAvro(
   };
 }
 
-function propertyToAvroField(
+function propertyToAvroPrimitive(
   parentSchema: JSONSchema7,
   schema: JSONSchema7,
   propertyName: string,
-): AvroField {
-  let defaultValue;
-
-  if (schema.hasOwnProperty('default')) {
-    defaultValue = schema.default;
-  }
-
+): AvroPrimitiveType {
   const schemaType = schema.type;
 
   if (typeof schemaType !== 'string') {
@@ -260,10 +351,5 @@ function propertyToAvroField(
     );
   }
 
-  return {
-    name: propertyName,
-    type,
-    ...(schema.description ? { doc: schema.description } : null),
-    ...(defaultValue ? { default: defaultValue } : null),
-  };
+  return type;
 }

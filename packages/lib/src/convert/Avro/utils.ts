@@ -1,14 +1,15 @@
 import { JSONSchema7 } from 'json-schema';
 import { URL } from 'url';
 import { AvroPrimitiveType } from '../../avro';
+import * as casex from 'casex';
 
 // Json schema on the left, avro on the right
 const typeMapping: { [key: string]: AvroPrimitiveType } = {
-  string: 'string',
-  null: 'null',
-  boolean: 'boolean',
-  integer: 'int',
-  number: 'float',
+  string: AvroPrimitiveType.string,
+  null: AvroPrimitiveType.null,
+  boolean: AvroPrimitiveType.boolean,
+  integer: AvroPrimitiveType.int,
+  number: AvroPrimitiveType.float,
 };
 
 export function convertPrimitiveType(
@@ -46,10 +47,17 @@ export const getNamespace = (schema: JSONSchema7): Optional<string> => {
   ].join('.');
 };
 
-export function getObjectName(schema: JSONSchema7): string {
+export function getObjectName(schema: JSONSchema7): Optional<string> {
+  if (schema.$id) {
+    return casex(
+      schema.$id
+        .replace(/^[a-z]+:\/\//i, '')
+        .replace(/[\.\/\:](.)?/, () => `_${RegExp.lastMatch}`),
+      'CaSe',
+    );
+  }
+
   if (schema.title) {
     return schema.title;
   }
-
-  throw new Error(`Can't generate Avro name`);
 }
