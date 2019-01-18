@@ -54,7 +54,13 @@ export default function convertToAvro(
     records: new Map(),
   };
 
-  const lazyAvroRootRecord = objectToAvro(cache, schema, schema);
+  const lazyAvroRootRecord = objectToAvro(
+    cache,
+    schema,
+    schema,
+    schema,
+    '__ROOT__',
+  );
 
   const avroRootRecord = lazyAvroRootRecord();
 
@@ -168,7 +174,7 @@ function propertyToType(
   } else if (hasEnum(schema)) {
     return enumToAvro(parentSchema, schema, propertyName);
   } else if (isObject(schema)) {
-    return objectToAvro(cache, rootSchema, schema);
+    return objectToAvro(cache, rootSchema, parentSchema, schema, propertyName);
   } else if (isArray(schema)) {
     return arrayToAvro(cache, rootSchema, parentSchema, schema, propertyName);
   } else if (schema.type) {
@@ -195,7 +201,9 @@ function toAvroUnion(
 function objectToAvro(
   cache: Cache,
   rootSchema: JSONSchema7,
+  parentSchema: JSONSchema7,
   schema: JSONSchema7,
+  propertyName: string,
 ): LazyAvroRecord {
   const currentLazyAvroRecord = cache.lazy.get(schema);
 
@@ -205,7 +213,7 @@ function objectToAvro(
 
       if (!avroRecord) {
         avroRecord = {
-          name: getObjectName(schema),
+          name: getObjectName(schema, parentSchema, propertyName),
           ...(schema.description ? { doc: schema.description } : null),
           type: 'record',
           fields: convertProperties(cache, rootSchema, schema),
@@ -319,7 +327,7 @@ function enumToAvro(
   }
 
   return {
-    name: getObjectName(schema),
+    name: getObjectName(schema, parentSchema, propertyName),
     ...(schema.description ? { doc: schema.description } : null),
     type: 'enum',
     symbols: enumValues as string[],

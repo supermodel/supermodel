@@ -236,7 +236,7 @@ Object {
           Object {
             "name": "style",
             "type": Object {
-              "name": undefined,
+              "name": "SupermodelIoAdidasProductEcomBadgeStyle",
               "symbols": Array [
                 "new",
                 "preview",
@@ -266,7 +266,7 @@ Object {
             Object {
               "name": "assetType",
               "type": Object {
-                "name": undefined,
+                "name": "SupermodelIoAdidasProductAssetAssetType",
                 "symbols": Array [
                   "image",
                   "video",
@@ -323,7 +323,7 @@ Object {
                     "type": "string",
                   },
                 ],
-                "name": undefined,
+                "name": "SupermodelIoAdidasProductAssetImage",
                 "type": "record",
               },
             },
@@ -336,7 +336,7 @@ Object {
                     "type": "int",
                   },
                 ],
-                "name": undefined,
+                "name": "SupermodelIoAdidasProductAssetVideo",
                 "type": "record",
               },
             },
@@ -361,7 +361,7 @@ Object {
                     "type": "string",
                   },
                 ],
-                "name": undefined,
+                "name": "SupermodelIoAdidasProductAssetModel",
                 "type": "record",
               },
             },
@@ -414,7 +414,7 @@ Object {
     Object {
       "name": "fuel",
       "type": Object {
-        "name": undefined,
+        "name": "SupermodelIoFactoryPartsEngineFuel",
         "symbols": Array [
           "gasoline",
           "diesel",
@@ -467,7 +467,7 @@ Object {
             "type": "int",
           },
         ],
-        "name": "Engine",
+        "name": "SupermodelIoFactoryCarEngine",
         "type": "record",
       },
     },

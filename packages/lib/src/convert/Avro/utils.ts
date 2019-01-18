@@ -47,14 +47,26 @@ export const getNamespace = (schema: JSONSchema7): Optional<string> => {
   ].join('.');
 };
 
-export function getObjectName(schema: JSONSchema7): Optional<string> {
+export function getObjectName(
+  schema: JSONSchema7,
+  parentSchema?: Optional<JSONSchema7>,
+  propertyName?: Optional<string>,
+): Optional<string> {
   if (schema.$id) {
     return casex(
       schema.$id
         .replace(/^[a-z]+:\/\//i, '')
-        .replace(/[\.\/\:](.)?/, () => `_${RegExp.lastMatch}`),
+        .replace(/[\.\/\:](.)?/, () => ` ${RegExp.lastMatch}`),
       'CaSe',
     );
+  }
+
+  if (parentSchema && propertyName) {
+    const parentName = getObjectName(parentSchema);
+
+    if (parentName) {
+      return `${parentName}${casex(propertyName, 'CaSe')}`;
+    }
   }
 
   if (schema.title) {
