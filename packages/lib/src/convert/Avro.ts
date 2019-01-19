@@ -11,7 +11,7 @@ import {
   AvroPrimitiveType,
   AvroComplexType,
   AvroName,
-} from '../avro';
+} from '../Avro';
 import {
   isObject,
   isArray,
