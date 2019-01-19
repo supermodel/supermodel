@@ -4,7 +4,7 @@
   "description": "Supermodel.io core functionality library",
   "main": "lib/index.js",
   "scripts": {
-    "build:clean": "rm -r ./lib",
+    "build:clean": "rm -rf ./lib",
     "build": "npm run build:clean && tsc",
     "lint": "tslint --format stylish --project ./",
     "prepare": "npm run build",
