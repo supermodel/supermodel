@@ -7,6 +7,8 @@ The Supermodel CLI is used to manage and work with JSON Schema YAML models from 
 For more information about Supermodel visit <https://supermodel.io>.
 
 ## Overview
+[![CircleCI](https://circleci.com/gh/supermodel/supermodel-cli.svg?style=svg)](https://circleci.com/gh/supermodel/supermodel-cli)
+
 Supermodel JSON Schema models are JSON schemas files written in YAML format. By convention on YAML file represents one model.
 It is also customary for all Supermodel models to include a model id (JSON Schema `$id` field). See [Supermodel JSON Schema Model](#supermodel-json-schema-model) for more details.
 
