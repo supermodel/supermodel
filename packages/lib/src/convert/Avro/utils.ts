@@ -1,6 +1,6 @@
 import { JSONSchema7 } from 'json-schema';
 import { URL } from 'url';
-import { AvroPrimitiveType } from '../../avro';
+import { AvroPrimitiveType } from '../../Avro';
 import * as casex from 'casex';
 
 // Json schema on the left, avro on the right
