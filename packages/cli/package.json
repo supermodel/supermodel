@@ -1,6 +1,6 @@
 {
   "name": "@supermodel/cli",
-  "version": "0.46.11",
+  "version": "0.46.12",
   "description": "Supermodel command tool",
   "main": "build",
   "scripts": {
