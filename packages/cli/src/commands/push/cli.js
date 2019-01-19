@@ -1,9 +1,9 @@
 const program = require('commander')
-const package = require('../../../package.json')
+const modulePackage = require('../../../package.json')
 const runPush = require('./push')
 
 program
-  .version(package.version)
+  .version(modulePackage.version)
 
 program
   .parse(process.argv)

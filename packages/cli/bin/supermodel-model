@@ -1,2 +1,3 @@
 #!/usr/bin/env node
-require('../src/commands/model/cli')
+
+require('../build/src/commands/model/cli')

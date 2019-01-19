@@ -1,9 +1,9 @@
 const program = require('commander')
 const runImportJsonLD = require('./importJsonLD')
-const package = require('../../../package.json')
+const modulePackage = require('../../../package.json')
 
 program
-  .version(package.version)
+  .version(modulePackage.version)
 
 program
   .command('jsonld <filePath> [scope]')

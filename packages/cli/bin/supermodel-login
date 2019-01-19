@@ -1,2 +1,3 @@
 #!/usr/bin/env node
-require('../src/commands/login/cli')
+
+require('../build/src/commands/login/cli')

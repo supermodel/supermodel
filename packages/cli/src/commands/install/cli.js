@@ -1,9 +1,9 @@
 const program = require('commander')
-const package = require('../../../package.json')
+const modulePackage = require('../../../package.json')
 const runInstall = require('./install')
 
 program
-  .version(package.version)
+  .version(modulePackage.version)
   .action(domainUrl => runInstall(domainUrl))
 
 program

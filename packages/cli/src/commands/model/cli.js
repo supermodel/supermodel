@@ -1,10 +1,10 @@
 const program = require('commander')
 const runCreate = require('./create')
 const runClone = require('./clone')
-const package = require('../../../package.json')
+const modulePackage = require('../../../package.json')
 
 program
-  .version(package.version)
+  .version(modulePackage.version)
 
 program
   .command('create <name>')

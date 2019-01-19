@@ -6,10 +6,10 @@ const runCompileSchema = require('./compile')
 const runConvertToOAS2 = require('./convertOAS2')
 const runConvertToAvro = require('./convertAvro')
 const runConvertToGraphQL = require('./convertGraphQL')
-const package = require('../../../package.json')
+const modulePackage = require('../../../package.json')
 
 program
-  .version(package.version)
+  .version(modulePackage.version)
 
 program
   .command('validate <path>')
@@ -44,17 +44,23 @@ program
 program
   .command('oas3 <modelPath>')
   .description('convert given model to OpenAPI Specification 3.0 definitions')
-  .action((modelPath) => { console.error('not implemented') })
+  .action((modelPath) => {
+    console.error('not implemented')
+  })
 
 program
   .command('graphql <modelPath>')
   .description('convert given model to GraphQL Schema')
-  .action((modelPath) => { runConvertToGraphQL(modelPath) })
+  .action((modelPath) => {
+    runConvertToGraphQL(modelPath)
+  })
 
 program
   .command('avro <modelPath>')
   .description('convert given model to Avro schema')
-  .action((modelPath) => { runConvertToAvro(modelPath) })
+  .action((modelPath) => {
+    runConvertToAvro(modelPath)
+  })
 
 program
   .parse(process.argv)
