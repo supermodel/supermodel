@@ -77,9 +77,10 @@ function objectToGrapQL(types, schema, object = schema, name = null) {
     throw new Error(`Missing name`);
   }
 
-  if (type !== 'object') {
-    return objectToScalarGraphQL(types, name);
-  }
+  // TODO: reason?
+  // if (type !== 'object') {
+  //   return objectToScalarGraphQL(types, name);
+  // }
 
   return fetch(types, name, () => {
     return new GraphQLObjectType({
@@ -119,7 +120,7 @@ function objectToGrapQL(types, schema, object = schema, name = null) {
  *
  * @param {Map} types are cached graphql types
  * @param {string} [name] type name generated in context above
- * @returns {GraphQLObjectType}
+ * @returns {GraphQLScalarType}
  */
 function objectToScalarGraphQL(
   types,
@@ -157,50 +158,42 @@ function propertyToType(
   propertyName,
 ) {
   const {
+    $ref
+  } = property
+
+  if ($ref !== undefined) {
+    property = ensureRef($ref, schema, parentObject);
+  }
+
+  const {
     anyOf,
+    allOf,
     enum: enumValues,
-    $ref,
     type
   } = property;
 
-  if ($ref !== undefined) {
-    const resolved = ensureRef($ref, schema, parentObject);
-    const name = resolved.$id ?
-      undefined :
-      `${parentName}${casex(resolved.title, 'CaSe')}`;
-
-    return objectToGrapQL(types, schema, resolved, name);
-  } else if (enumValues !== undefined) {
+  if (enumValues !== undefined) {
     return enumToType(types, type, parentName, propertyName, enumValues);
-  } else if (anyOf !== undefined) {
-    return anyOfToGraphQL(
-      types,
-      schema,
-      parentObject,
-      parentName,
-      propertyName,
-      anyOf,
-    );
-  } else if (type !== undefined) {
+  }
+
+  if (type !== undefined) {
     switch (type) {
       case 'object':
         return objectToGrapQL(
           types,
           schema,
           property,
-          `${parentName}${casex(propertyName, 'CaSe')}`,
+          `${parentName}${casex(property.title ? property.title : propertyName, 'CaSe')}`,
         );
       case 'array':
-        {
-          return arrayToGraphQL(
-            types,
-            schema,
-            parentObject,
-            parentName,
-            property.items,
-            propertyName,
-          );
-        }
+        return arrayToGraphQL(
+          types,
+          schema,
+          parentObject,
+          parentName,
+          property.items,
+          propertyName,
+        );
       case 'string':
         return GraphQLString;
       case 'integer':
@@ -214,6 +207,28 @@ function propertyToType(
           `A JSON Schema attribute type '${type}' on attribute '${propertyName}' does not have a known GraphQL mapping`,
         );
     }
+  }
+
+  if (anyOf !== undefined) {
+    return anyOfToGraphQL(
+      types,
+      schema,
+      parentObject,
+      parentName,
+      propertyName,
+      anyOf,
+    );
+  }
+
+  if (allOf !== undefined) {
+    return allOfToGraphQL(
+      types,
+      schema,
+      parentObject,
+      parentName,
+      propertyName,
+      allOf,
+    )
   }
 
   throw new Error(
@@ -257,6 +272,25 @@ function anyOfToGraphQL(
       }),
     });
   });
+}
+
+function allOfToGraphQL(
+  types,
+  schema,
+  parentObject,
+  parentName,
+  propertyName,
+  allOf,
+) {
+  if (allOf.length !== 1) {
+    throw new Error(
+      `Schema ${
+          parentObject.$id
+        } property ${propertyName} of type 'allOf' can't have zero or multiple items`,
+    );
+  }
+
+  return propertyToType(types, schema, parentObject, parentName, allOf[0], propertyName)
 }
 
 /**

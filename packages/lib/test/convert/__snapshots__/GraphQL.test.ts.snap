@@ -297,8 +297,6 @@ type SupermodelFactoryPartsEngine {
 
 exports[`schemaToGraphQL simple type 1`] = `
 "type SupermodelDavidOrder {
-  timestamp: SupermodelSchemaorgDateTime
-}
-
-scalar SupermodelSchemaorgDateTime"
+  timestamp: String
+}"
 `;

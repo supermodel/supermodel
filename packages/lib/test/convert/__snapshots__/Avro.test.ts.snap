@@ -1,5 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`convertToAvro allOf 1`] = `
+Object {
+  "doc": "Order model description",
+  "fields": Array [
+    Object {
+      "name": "item",
+      "type": Object {
+        "doc": "Order model description",
+        "fields": Array [
+          Object {
+            "name": "name",
+            "type": "string",
+          },
+        ],
+        "name": "SupermodelIoDavidOrder",
+        "type": "record",
+      },
+    },
+  ],
+  "name": "SupermodelIoDavidOrder",
+  "namespace": "io.supermodel.david",
+  "type": "record",
+}
+`;
+
 exports[`convertToAvro complex schema #2 1`] = `
 Object {
   "fields": Array [

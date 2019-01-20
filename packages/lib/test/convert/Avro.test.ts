@@ -158,44 +158,79 @@ describe('convertToAvro', () => {
   //   matchSchema(schema);
   // });
 
-  const simpleType = {
-    $id: 'http://supermodel.io/david/Order',
-    $schema: 'http://json-schema.org/draft-07/schema#',
-    title: 'Order',
-    description: 'Order model description',
-    type: 'object',
-    properties: {
-      timestamp: {
-        $ref: 'http://supermodel.io/schemaorg/DateTime',
-      },
-    },
-    definitions: {
-      'http://supermodel.io/schemaorg/DateTime': {
-        $id: 'http://supermodel.io/schemaorg/DateTime',
-        $schema: 'http://json-schema.org/draft-07/schema#',
-        $source: 'http://schema.org/DateTime',
-        title: 'DateTime',
-        type: 'string',
-        description:
-          'A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm] (see Chapter 5.4 of ISO 8601).',
-        allOf: [
-          {
-            $ref: 'http://supermodel.io/schemaorg/DataType',
-          },
-        ],
-      },
-      'http://supermodel.io/schemaorg/DataType': {
-        $id: 'http://supermodel.io/schemaorg/DataType',
-        $schema: 'http://json-schema.org/draft-07/schema#',
-        $source: 'http://schema.org/DataType',
-        title: 'DataType',
-        description: 'The basic data types such as Integers, Strings, etc.',
-      },
-    },
-  };
-
   test('simple type', () => {
+    const simpleType = {
+      $id: 'http://supermodel.io/david/Order',
+      $schema: 'http://json-schema.org/draft-07/schema#',
+      title: 'Order',
+      description: 'Order model description',
+      type: 'object',
+      properties: {
+        timestamp: {
+          $ref: 'http://supermodel.io/schemaorg/DateTime',
+        },
+      },
+      definitions: {
+        'http://supermodel.io/schemaorg/DateTime': {
+          $id: 'http://supermodel.io/schemaorg/DateTime',
+          $schema: 'http://json-schema.org/draft-07/schema#',
+          $source: 'http://schema.org/DateTime',
+          title: 'DateTime',
+          type: 'string',
+          description:
+            'A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm] (see Chapter 5.4 of ISO 8601).',
+          allOf: [
+            {
+              $ref: 'http://supermodel.io/schemaorg/DataType',
+            },
+          ],
+        },
+        'http://supermodel.io/schemaorg/DataType': {
+          $id: 'http://supermodel.io/schemaorg/DataType',
+          $schema: 'http://json-schema.org/draft-07/schema#',
+          $source: 'http://schema.org/DataType',
+          title: 'DataType',
+          description: 'The basic data types such as Integers, Strings, etc.',
+        },
+      },
+    };
+
     matchSchema(simpleType);
+  });
+
+  test('allOf', () => {
+    const orderSchema = {
+      $id: 'http://supermodel.io/david/Order',
+      $schema: 'http://json-schema.org/draft-07/schema#',
+      title: 'Order',
+      description: 'Order model description',
+      type: 'object',
+      properties: {
+        item: {
+          allOf: [
+            {
+              $ref: 'http://supermodel.io/david/Item',
+            },
+          ],
+        },
+      },
+      definitions: {
+        'http://supermodel.io/david/Item': {
+          $id: 'http://supermodel.io/david/Order',
+          $schema: 'http://json-schema.org/draft-07/schema#',
+          title: 'Item',
+          description: 'Order model description',
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+            },
+          },
+        },
+      },
+    };
+
+    matchSchema(orderSchema);
   });
 
   const multipleRootDefinitions = {

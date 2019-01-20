@@ -171,14 +171,32 @@ function propertyToType(
       schema.oneOf as Array<JSONSchema7>,
       propertyName,
     );
-  } else if (hasEnum(schema)) {
+  }
+
+  if (hasEnum(schema)) {
     return enumToAvro(parentSchema, schema, propertyName);
-  } else if (isObject(schema)) {
+  }
+
+  if (isObject(schema)) {
     return objectToAvro(cache, rootSchema, parentSchema, schema, propertyName);
-  } else if (isArray(schema)) {
+  }
+
+  if (isArray(schema)) {
     return arrayToAvro(cache, rootSchema, parentSchema, schema, propertyName);
-  } else if (schema.type) {
+  }
+
+  if (schema.type) {
     return propertyToAvroPrimitive(parentSchema, schema, propertyName);
+  }
+
+  if (schema.allOf) {
+    return allOfToAvro(
+      cache,
+      rootSchema,
+      parentSchema,
+      schema.allOf as Array<JSONSchema7>,
+      propertyName,
+    );
   }
 
   throw new Error(
@@ -196,6 +214,30 @@ function toAvroUnion(
   return oneOf.map(schema =>
     propertyToType(cache, rootSchema, parentSchema, schema, propertyName),
   ) as Array<AvroPrimitiveType | AvroComplexType>;
+}
+
+function allOfToAvro(
+  cache: Cache,
+  rootSchema: JSONSchema7,
+  parentSchema: JSONSchema7,
+  allOf: Array<JSONSchema7>,
+  propertyName: string,
+): AvroType | LazyAvroRecord {
+  if (allOf.length !== 1) {
+    throw new Error(
+      `Schema ${
+        parentSchema.$id
+      } property ${propertyName} of type 'allOf' can't have zero or multiple items`,
+    );
+  }
+
+  return propertyToType(
+    cache,
+    rootSchema,
+    parentSchema,
+    allOf[0],
+    propertyName,
+  );
 }
 
 function objectToAvro(
