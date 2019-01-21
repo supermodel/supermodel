@@ -1,7 +1,40 @@
 {
   "name": "root",
+  "description": "The framework for various tests / checks in the current environment",
+  "license": "ISC",
+  "author": "Zdenek Nemec <z@goodapi.co> (http://goodapi.co)",
   "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "clean": "# TODO: rm -rf packages/**/lib",
+    "bootstrap": "lerna bootstrap --hoist",
+    "build": "npm run clean && lerna run build",
+    "build:watch": "lerna run --parallel build:watch",
+    "lint": "tslint --format stylish --project packages/**",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch",
+    "_pretest": "#TODO: npm run ts && npm run lint",
+    "contributors:add": "all-contributors add",
+    "contributors:generate": "all-contributors generate"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "./scripts/prettify-staged.sh",
+      "post-commit": "git update-index -g"
+    }
+  },
   "devDependencies": {
-    "lerna": "^3.10.6"
+    "@types/jest": "23.3.13",
+    "@types/node": "10.12.18",
+    "husky": "1.3.1",
+    "jest": "23.6.0",
+    "lerna": "^3.10.6",
+    "prettier": "1.16.0",
+    "ts-jest": "23.10.5",
+    "tslint": "5.12.1",
+    "tslint-config-prettier": "1.17.0",
+    "typescript": "3.2.4"
   }
 }

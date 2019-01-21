@@ -3,10 +3,12 @@ const validateSchema = require('../src/validateSchema');
 const validateMetaSchema = require('../src/validateMetaSchema');
 
 test('validate valid schema', () => {
-  const schema = readYAMLFile('./fixtures/references/AValidB.yaml');
+  const schema = readYAMLFile(
+    __dirname + '/../fixtures/references/AValidB.yaml',
+  );
   const loader = fileSchemaLoader(
     schema['$id'],
-    './fixtures/references/',
+    '../fixtures/references/',
     validateMetaSchema,
   );
 
@@ -14,10 +16,12 @@ test('validate valid schema', () => {
 });
 
 test('validate valid schema referencing invalid schema', () => {
-  const schema = readYAMLFile('./fixtures/references/AInvalidB.yaml');
+  const schema = readYAMLFile(
+    __dirname + '/../fixtures/references/AInvalidB.yaml',
+  );
   const loader = fileSchemaLoader(
     schema['$id'],
-    './fixtures/references/',
+    '../fixtures/references/',
     validateMetaSchema,
   );
 
@@ -25,10 +29,12 @@ test('validate valid schema referencing invalid schema', () => {
 });
 
 test('validate invalid schema', () => {
-  const schema = readYAMLFile('./fixtures/references/InvalidB.yaml');
+  const schema = readYAMLFile(
+    __dirname + '/../fixtures/references/InvalidB.yaml',
+  );
   const loader = fileSchemaLoader(
     schema['$id'],
-    './fixtures/references/',
+    '../fixtures/references/',
     validateMetaSchema,
   );
 

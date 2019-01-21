@@ -4,22 +4,8 @@
   "description": "Supermodel.io core functionality library",
   "main": "lib/index.js",
   "scripts": {
-    "build:clean": "rm -rf ./lib",
-    "build": "npm run build:clean && tsc",
-    "lint": "tslint --format stylish --project ./",
-    "prepare": "npm run build",
-    "prepublishOnly": "npm run test",
-    "pretest": "npm run ts && npm run lint",
-    "test": "npm run unit",
-    "test:watch": "jest --watch",
-    "ts": "tsc --noEmit",
-    "unit": "jest --coverage"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "./scripts/prettify-staged.sh",
-      "post-commit": "git update-index -g"
-    }
+    "build": "tsc",
+    "build:watch": "tsc --watch --preserveWatchOutput"
   },
   "repository": {
     "type": "git",
@@ -31,19 +17,6 @@
     "url": "https://github.com/supermodel/superlib/issues"
   },
   "homepage": "https://github.com/supermodel/superlib#readme",
-  "devDependencies": {
-    "@supermodel/file": "0.5.0",
-    "@types/jest": "23.3.10",
-    "@types/json-schema": "7.0.1",
-    "@types/node": "10.12.18",
-    "husky": "1.2.1",
-    "jest": "^23.4.0",
-    "prettier": "1.15.3",
-    "ts-jest": "23.10.5",
-    "tslint": "^5.11.0",
-    "tslint-config-prettier": "1.17.0",
-    "typescript": "3.2.2"
-  },
   "dependencies": {
     "ajv": "^6.4.0",
     "casex": "0.0.5",
@@ -55,5 +28,9 @@
   "directories": {
     "lib": "lib",
     "test": "test"
+  },
+  "devDependencies": {
+    "@supermodel/file": "0.5.0",
+    "@types/json-schema": "7.0.1"
   }
 }

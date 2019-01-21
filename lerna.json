@@ -1,6 +1,13 @@
 {
+  "npmClient": "npm",
   "packages": [
     "packages/*"
   ],
+  "command": {
+    "publish": {
+      "ignoreChanges": ["ignored-file", "*.md"],
+      "message": "Publish"
+    }
+  },
   "version": "0.0.0"
 }

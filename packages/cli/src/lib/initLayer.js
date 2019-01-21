@@ -1,7 +1,7 @@
-const fs = require('fs')
-const path = require('path')
-const fsUtils = require('./fsUtils')
-const initSupermodel = require('./initSupermodel')
+const fs = require('fs');
+const path = require('path');
+const fsUtils = require('./fsUtils');
+const initSupermodel = require('./initSupermodel');
 
 /**
  * Crates and initializes the supermodel directory
@@ -12,13 +12,13 @@ const initSupermodel = require('./initSupermodel')
  * @returns {string} Path to the newly created directory
  * @throws {Error} In the case of failure an error is thrown
  */
- function init(layerPath, config = null) {
-  const supermodelDir = initSupermodel(config)
+function init(layerPath, config = null) {
+  const supermodelDir = initSupermodel(config);
 
-  let relativeDir = path.join(supermodelDir, layerPath)
-  fsUtils.mkdirpSync(relativeDir)
+  let relativeDir = path.join(supermodelDir, layerPath);
+  fsUtils.mkdirpSync(relativeDir);
 
-  return relativeDir
- }
+  return relativeDir;
+}
 
- module.exports = init
+module.exports = init;

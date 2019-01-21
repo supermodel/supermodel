@@ -1,9 +1,10 @@
 module.exports = {
+  roots: ["<rootDir>/packages"],
   cacheDirectory: '<rootDir>/.cache/jest',
   clearMocks: true,
   collectCoverage: false,
   collectCoverageFrom: [
-    "src/**/*.{js,ts}"
+    "packages/*/src/**/*.{js,ts}"
   ],
   globals: {
     "ts-jest": {

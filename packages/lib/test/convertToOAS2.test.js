@@ -11,7 +11,9 @@ const OAS2_SCHEMA = {
 };
 
 test('convert schema to OAS2 schema', () => {
-  const schema = readYAMLFile('./fixtures/basic/SimpleSchema.yaml');
+  const schema = readYAMLFile(
+    __dirname + '/../fixtures/basic/SimpleSchema.yaml',
+  );
 
   const oas2Schema = convertToOAS2(schema);
   expect(oas2Schema).toEqual(OAS2_SCHEMA);

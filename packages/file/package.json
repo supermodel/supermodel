@@ -4,7 +4,8 @@
   "description": "File Schema Loader for Supermodel",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 0"
+    "build": "tsc",
+    "build:watch": "tsc --watch --preserveWatchOutput"
   },
   "repository": {
     "type": "git",
