@@ -1,11 +1,11 @@
-const inquirer = require('inquirer')
-const fetch = require('isomorphic-fetch')
-const webAuth0 = require('../lib/auth0/webAuthClient')
-const cache = require('../cache')
-const supermodelAuthenticate = require('../lib/supermodelAuthenticate')
+const inquirer = require('inquirer');
+const fetch = require('isomorphic-fetch');
+const webAuth0 = require('../lib/auth0/webAuthClient');
+const cache = require('../cache');
+const supermodelAuthenticate = require('../lib/supermodelAuthenticate');
 
 const required = label => value =>
-  value === '' ? `${label} can't be empty` : true
+  value === '' ? `${label} can't be empty` : true;
 
 /**
  * Generates inquirer questions structure for signup prompt
@@ -19,21 +19,21 @@ function makePromptQuestions() {
       type: 'input',
       message: 'Username:',
       allow_empty: false,
-      validate: required('Username')
+      validate: required('Username'),
     },
     {
       name: 'email',
       type: 'input',
       message: 'Email:',
       allow_empty: false,
-      validate: required('Email')
+      validate: required('Email'),
     },
     {
       name: 'password',
       type: 'password',
       message: 'Password:',
       allow_empty: false,
-      validate: required('Password')
+      validate: required('Password'),
     },
     {
       name: 'password_confirmation',
@@ -41,20 +41,20 @@ function makePromptQuestions() {
       message: 'Password confirmation:',
       allow_empty: false,
       validate: (value, { password }) => {
-        const emptyErr = required('Password confirmation')(value)
+        const emptyErr = required('Password confirmation')(value);
 
         if (emptyErr !== true) {
-          return emptyErr
+          return emptyErr;
         }
 
         if (value !== password) {
-          return 'Confirmation does not match the password'
+          return 'Confirmation does not match the password';
         }
 
-        return true
-      }
-    }
-  ]
+        return true;
+      },
+    },
+  ];
 }
 
 /**
@@ -70,15 +70,16 @@ function makePromptQuestions() {
  */
 function auth0SignUp({ username, email, password }) {
   return new Promise((resolve, reject) => {
-    webAuth0.signupAndAuthorize({
-      connection: 'Username-Password-Authentication',
-      username,
-      email,
-      password
-    }, (error, response) =>
-      error ? reject(error) : resolve(response)
-    )
-  })
+    webAuth0.signupAndAuthorize(
+      {
+        connection: 'Username-Password-Authentication',
+        username,
+        email,
+        password,
+      },
+      (error, response) => (error ? reject(error) : resolve(response)),
+    );
+  });
 }
 
 /**
@@ -88,29 +89,32 @@ function signup() {
   inquirer
     .prompt(makePromptQuestions())
     .then(credentials => {
-      cache.update('loginWith', credentials.email)
-      return credentials
+      cache.update('loginWith', credentials.email);
+      return credentials;
     })
     .then(auth0SignUp)
     .then(({ idToken }) => {
-      return supermodelAuthenticate(idToken)
-        .then(({ user, auth_token: authToken}) => {
-          cache.update('user', user)
-          cache.update('authToken', authToken)
-        })
+      return supermodelAuthenticate(idToken).then(
+        ({ user, auth_token: authToken }) => {
+          cache.update('user', user);
+          cache.update('authToken', authToken);
+        },
+      );
     })
-    .then(() => console.log("--> Signup successful! You are logged in automatically."))
+    .then(() =>
+      console.log('--> Signup successful! You are logged in automatically.'),
+    )
     .catch(error => {
-      console.error(`Login failed:`)
-      const message = error.description || error.message || error
-      console.error(message)
+      console.error(`Login failed:`);
+      const message = error.description || error.message || error;
+      console.error(message);
 
-      if(process.env['NODE_ENV'] !== 'production') {
-        console.error(error)
+      if (process.env['NODE_ENV'] !== 'production') {
+        console.error(error);
       }
 
-      process.exit(1)
-    })
+      process.exit(1);
+    });
 }
 
-module.exports = signup
+module.exports = signup;

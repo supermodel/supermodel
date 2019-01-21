@@ -1,10 +1,9 @@
-const program = require('commander')
-const modulePackage = require('../../../package.json')
-const runValidate = require('./validate')
+const program = require('commander');
+const modulePackage = require('../../../package.json');
+const runValidate = require('./validate');
 
 program
   .version(modulePackage.version)
-  .action((dataFile, modelSchema) => runValidate(dataFile, modelSchema))
+  .action((dataFile, modelSchema) => runValidate(dataFile, modelSchema));
 
-program
-  .parse(process.argv)
+program.parse(process.argv);

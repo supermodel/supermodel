@@ -1,35 +1,36 @@
-const fs = require('fs')
-const path = require('path')
-const yaml = require('js-yaml')
+const fs = require('fs');
+const path = require('path');
+const yaml = require('js-yaml');
 
 async function readData(filePath) {
-  const ext = path.extname(filePath)
-  const content = fs.readFileSync(filePath, 'utf8')
+  const ext = path.extname(filePath);
+  const content = fs.readFileSync(filePath, 'utf8');
 
   if (ext === '.json') {
-    return JSON.parse(content)
+    return JSON.parse(content);
   } else if (ext === '.yml' || ext === '.yaml') {
-    return yaml.load(content)
+    return yaml.load(content);
   } else {
     try {
-      return JSON.parse(content)
-    } catch(e1) {
+      return JSON.parse(content);
+    } catch (e1) {
       if (e1 instanceof SyntaxError) {
         try {
-          return yaml.load(content)
-        } catch(e2) {
+          return yaml.load(content);
+        } catch (e2) {
           if (e2 instanceof yaml.YAMLException) {
-            throw new SyntaxError(`File '${filePath}' is not valid JSON or YAML`)
+            throw new SyntaxError(
+              `File '${filePath}' is not valid JSON or YAML`,
+            );
           }
 
-          throw(e2)
+          throw e2;
         }
       }
 
-      throw(e1)
+      throw e1;
     }
   }
 }
 
-
-module.exports = readData
+module.exports = readData;

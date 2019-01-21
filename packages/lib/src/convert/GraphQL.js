@@ -12,13 +12,8 @@ const {
   GraphQLScalarType,
   printType,
 } = require('graphql');
-const {
-  idToName,
-  toSafeEnumKey
-} = require('../utils/graphql');
-const {
-  ensureRef
-} = require('../utils/resolveRef');
+const { idToName, toSafeEnumKey } = require('../utils/graphql');
+const { ensureRef } = require('../utils/resolveRef');
 const fetch = require('../utils/fetch');
 
 /**
@@ -30,10 +25,7 @@ const fetch = require('../utils/fetch');
 function convertToGraphQL(schema) {
   const types = new Map();
 
-  const {
-    $id,
-    definitions
-  } = schema;
+  const { $id, definitions } = schema;
   if (!$id && (!definitions || Object.keys(definitions).length === 0)) {
     throw new Error(`A JSON Schema without $id and definitions properties`);
   }
@@ -64,12 +56,7 @@ function convertToGraphQL(schema) {
  * @returns {GraphQLObjectType}
  */
 function objectToGrapQL(types, schema, object = schema, name = null) {
-  const {
-    type,
-    $id,
-    properties,
-    required
-  } = object;
+  const { type, $id, properties, required } = object;
 
   if ($id) {
     name = idToName($id);
@@ -157,20 +144,13 @@ function propertyToType(
   property,
   propertyName,
 ) {
-  const {
-    $ref
-  } = property
+  const { $ref } = property;
 
   if ($ref !== undefined) {
     property = ensureRef($ref, schema, parentObject);
   }
 
-  const {
-    anyOf,
-    allOf,
-    enum: enumValues,
-    type
-  } = property;
+  const { anyOf, allOf, enum: enumValues, type } = property;
 
   if (enumValues !== undefined) {
     return enumToType(types, type, parentName, propertyName, enumValues);
@@ -183,7 +163,10 @@ function propertyToType(
           types,
           schema,
           property,
-          `${parentName}${casex(property.title ? property.title : propertyName, 'CaSe')}`,
+          `${parentName}${casex(
+            property.title ? property.title : propertyName,
+            'CaSe',
+          )}`,
         );
       case 'array':
         return arrayToGraphQL(
@@ -228,7 +211,7 @@ function propertyToType(
       parentName,
       propertyName,
       allOf,
-    )
+    );
   }
 
   throw new Error(
@@ -285,12 +268,19 @@ function allOfToGraphQL(
   if (allOf.length !== 1) {
     throw new Error(
       `Schema ${
-          parentObject.$id
-        } property ${propertyName} of type 'allOf' can't have zero or multiple items`,
+        parentObject.$id
+      } property ${propertyName} of type 'allOf' can't have zero or multiple items`,
     );
   }
 
-  return propertyToType(types, schema, parentObject, parentName, allOf[0], propertyName)
+  return propertyToType(
+    types,
+    schema,
+    parentObject,
+    parentName,
+    allOf[0],
+    propertyName,
+  );
 }
 
 /**
@@ -347,7 +337,7 @@ function enumToType(types, type, parentName, propertyName, enumValues) {
 
     enumValues.forEach(enumValue => {
       values[toSafeEnumKey(enumValue)] = {
-        value: enumValue
+        value: enumValue,
       };
     });
 

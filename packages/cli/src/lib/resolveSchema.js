@@ -1,6 +1,6 @@
-const path = require('path')
-const superlib = require('@supermodel/lib')
-const { readYAMLFile, fileSchemaLoader } = require('@supermodel/file')
+const path = require('path');
+const superlib = require('@supermodel/lib');
+const { readYAMLFile, fileSchemaLoader } = require('@supermodel/file');
 
 /**
  * Resolve remote references in model file
@@ -9,10 +9,10 @@ const { readYAMLFile, fileSchemaLoader } = require('@supermodel/file')
  * @returns {Promise}
  */
 function resolveSchema(yamlSchemaFile) {
-  const schemaObject = readYAMLFile(yamlSchemaFile)
-  const cd = path.dirname(yamlSchemaFile)
+  const schemaObject = readYAMLFile(yamlSchemaFile);
+  const cd = path.dirname(yamlSchemaFile);
 
-  return resolveSchemaObject(schemaObject, cd)
+  return resolveSchemaObject(schemaObject, cd);
 }
 
 /**
@@ -23,11 +23,15 @@ function resolveSchema(yamlSchemaFile) {
  */
 function resolveSchemaObject(schemaObject, currentDirectory) {
   // Validate schema including references
-  const loader = fileSchemaLoader(schemaObject['$id'], currentDirectory, superlib.validateMetaSchema)
-  return superlib.resolveSchema(schemaObject, loader)
+  const loader = fileSchemaLoader(
+    schemaObject['$id'],
+    currentDirectory,
+    superlib.validateMetaSchema,
+  );
+  return superlib.resolveSchema(schemaObject, loader);
 }
 
 module.exports = {
   resolveSchema,
-  resolveSchemaObject
-}
+  resolveSchemaObject,
+};

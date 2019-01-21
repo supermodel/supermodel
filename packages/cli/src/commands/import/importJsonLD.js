@@ -1,45 +1,50 @@
-const fs = require('fs')
-const path = require('path')
-const { importJsonLD: performImportJsonLD, yamlModel } = require('@supermodel/lib')
-const supermodelConfig = require('../../lib/supermodelConfig')
-const fsUtils = require('../../lib/fsUtils')
+const fs = require('fs');
+const path = require('path');
+const {
+  importJsonLD: performImportJsonLD,
+  yamlModel,
+} = require('@supermodel/lib');
+const supermodelConfig = require('../../lib/supermodelConfig');
+const fsUtils = require('../../lib/fsUtils');
 
 function importJsonLD(filePath, scope = null) {
-  const cwd = process.cwd()
-  const supermodelDirectory = supermodelConfig.findSupermodelDir(cwd)
+  const cwd = process.cwd();
+  const supermodelDirectory = supermodelConfig.findSupermodelDir(cwd);
 
   if (supermodelDirectory) {
     if (supermodelDirectory == cwd) {
-      throw new Error(`Can't import jsonld into root supermodel directory`)
+      throw new Error(`Can't import jsonld into root supermodel directory`);
     }
 
-    const config = supermodelConfig.getSupermodelConfig()
-    const host = process.env['SCHEMA_ORIGIN']
+    const config = supermodelConfig.getSupermodelConfig();
+    const host = process.env['SCHEMA_ORIGIN'];
 
-    let importScope = cwd.slice(supermodelDirectory.length + 1)
+    let importScope = cwd.slice(supermodelDirectory.length + 1);
 
-    const supermodelRoot = `${host}/${importScope}`
-    const supermodelScope = scope ? `${supermodelRoot}/${scope}` : supermodelRoot
+    const supermodelRoot = `${host}/${importScope}`;
+    const supermodelScope = scope
+      ? `${supermodelRoot}/${scope}`
+      : supermodelRoot;
 
-    const content = fs.readFileSync(filePath)
-    const jsonld = JSON.parse(content.toString())
+    const content = fs.readFileSync(filePath);
+    const jsonld = JSON.parse(content.toString());
 
-    const entities = performImportJsonLD(jsonld, supermodelScope)
+    const entities = performImportJsonLD(jsonld, supermodelScope);
 
     entities.forEach(entity => {
-      const id = entity.$id
-      const filePath = id.slice(supermodelRoot.length + 1)
-      fsUtils.mkdirpSync(path.dirname(filePath))
+      const id = entity.$id;
+      const filePath = id.slice(supermodelRoot.length + 1);
+      fsUtils.mkdirpSync(path.dirname(filePath));
 
-      const modelFile = `${filePath}.yaml`
-      const modelFileDescriptor = fs.openSync(modelFile, 'w')
-      fs.writeSync(modelFileDescriptor, yamlModel.toYAML(entity))
-      fs.closeSync(modelFileDescriptor)
-    })
+      const modelFile = `${filePath}.yaml`;
+      const modelFileDescriptor = fs.openSync(modelFile, 'w');
+      fs.writeSync(modelFileDescriptor, yamlModel.toYAML(entity));
+      fs.closeSync(modelFileDescriptor);
+    });
   } else {
-    const message = `Unable to import jsonld graph. Not in the supermodel directory subtree.`
-    throw new Error(message)
+    const message = `Unable to import jsonld graph. Not in the supermodel directory subtree.`;
+    throw new Error(message);
   }
 }
 
-module.exports = importJsonLD
+module.exports = importJsonLD;

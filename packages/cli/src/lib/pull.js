@@ -1,12 +1,12 @@
-const fs = require('fs')
-const path = require('path')
-const fetch = require('node-fetch')
-const { URL } = require('url')
-const yaml = require('js-yaml')
-const rmrf = require('rimraf')
-const supermodelConfig = require('./supermodelConfig')
-const fsUtils = require('./fsUtils')
-const glob = require('glob')
+const fs = require('fs');
+const path = require('path');
+const fetch = require('node-fetch');
+const { URL } = require('url');
+const yaml = require('js-yaml');
+const rmrf = require('rimraf');
+const supermodelConfig = require('./supermodelConfig');
+const fsUtils = require('./fsUtils');
+const glob = require('glob');
 
 /**
  * Sync entity from supermodel app.
@@ -14,26 +14,26 @@ const glob = require('glob')
  * @param {string} [entity=process.cwd()]
  */
 async function pull(entity = process.cwd()) {
-  const supermodelDirectory = supermodelConfig.findSupermodelDir(entity)
+  const supermodelDirectory = supermodelConfig.findSupermodelDir(entity);
 
   if (supermodelDirectory) {
     if (supermodelDirectory == entity) {
-      throw new Error(`Root supermodel directory '${entity}' cannot be pulled`)
+      throw new Error(`Root supermodel directory '${entity}' cannot be pulled`);
     }
 
-    const entityPath = entity.substr(supermodelDirectory.length + 1)
-    const config = supermodelConfig.getSupermodelConfig(supermodelDirectory)
+    const entityPath = entity.substr(supermodelDirectory.length + 1);
+    const config = supermodelConfig.getSupermodelConfig(supermodelDirectory);
 
-    const entityData = await fetchEntity(entityPath, config)
+    const entityData = await fetchEntity(entityPath, config);
 
-    removeCurrentModels(entity)
+    removeCurrentModels(entity);
 
-    entityToFS(path.join(entity, '..'), entityData)
+    entityToFS(path.join(entity, '..'), entityData);
 
-    cleanupEmptyDirectories(entity)
+    cleanupEmptyDirectories(entity);
   } else {
-    const message = `Unable to pull '${entity}'. Not in the supermodel directory subtree.`
-    throw new Error(message)
+    const message = `Unable to pull '${entity}'. Not in the supermodel directory subtree.`;
+    throw new Error(message);
   }
 }
 
@@ -43,8 +43,8 @@ async function pull(entity = process.cwd()) {
  * @param {string} entity
  */
 function removeCurrentModels(entity) {
-  const yamlFiles = glob.sync(`${entity}/**/*.y?(a)ml`)
-  yamlFiles.forEach(fs.unlinkSync)
+  const yamlFiles = glob.sync(`${entity}/**/*.y?(a)ml`);
+  yamlFiles.forEach(fs.unlinkSync);
 }
 
 /**
@@ -53,13 +53,17 @@ function removeCurrentModels(entity) {
  * @param {string} entity
  */
 function cleanupEmptyDirectories(entity) {
-  const matches = glob.sync(`${entity}/**`)
+  const matches = glob.sync(`${entity}/**`);
 
   matches.forEach(match => {
-    if (match !== entity && fs.lstatSync(match).isDirectory() && fs.readdirSync(match).length === 0) {
-      rmrf.sync(match)
+    if (
+      match !== entity &&
+      fs.lstatSync(match).isDirectory() &&
+      fs.readdirSync(match).length === 0
+    ) {
+      rmrf.sync(match);
     }
-  })
+  });
 }
 /**
  * Download entity data from supermodel app.
@@ -70,42 +74,44 @@ function cleanupEmptyDirectories(entity) {
  * @returns {Promise<Object,Error>}
  */
 async function fetchEntity(entityPath, config) {
-  let host
+  let host;
 
-  if (config && config.host) {
-    host = config.host
+  if (config && config.host) {
+    host = config.host;
   } else {
-    host = process.env['SUPERMODEL_URL']
+    host = process.env['SUPERMODEL_URL'];
   }
 
-  const url = new URL(host)
-  url.pathname = entityPath
-  url.searchParams.set('subtree', true)
+  const url = new URL(host);
+  url.pathname = entityPath;
+  url.searchParams.set('subtree', true);
 
   const response = await fetch(url.toString(), {
     headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    }
-  })
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  });
 
   if (!response.ok) {
     if (response.status === 404) {
-      throw new Error(`Model ${entityPath} does not exists`)
+      throw new Error(`Model ${entityPath} does not exists`);
     } else {
-      const data = await response.json()
-      throw new Error('Fetching model failed:\n${JSON.stringify(data, null, 2)}')
+      const data = await response.json();
+      throw new Error(
+        'Fetching model failed:\n${JSON.stringify(data, null, 2)}',
+      );
     }
   }
 
-  return response.json()
+  return response.json();
 }
 
 function entityToFS(directory, entity) {
   if (entity.type === 'Layer') {
-    layerToFS(directory, entity)
+    layerToFS(directory, entity);
   } else {
-    modelToFS(directory, entity)
+    modelToFS(directory, entity);
   }
 }
 
@@ -116,15 +122,15 @@ function entityToFS(directory, entity) {
  * @param {Object} layer
  */
 function layerToFS(directory, layer) {
-  const layerPath = path.join(directory, layer.slug)
+  const layerPath = path.join(directory, layer.slug);
 
   // Empty directory or create new one
   if (!fs.existsSync(layerPath)) {
-    fs.mkdirSync(layerPath)
+    fs.mkdirSync(layerPath);
   }
 
   // Iterate nested entities and write them too
-  layer.nested_entities.forEach(entity => entityToFS(layerPath, entity))
+  layer.nested_entities.forEach(entity => entityToFS(layerPath, entity));
 }
 
 /**
@@ -134,20 +140,20 @@ function layerToFS(directory, layer) {
  * @param {Object} model
  */
 function modelToFS(directory, model) {
-  const pathWithoutExt = path.join(directory, model.slug)
+  const pathWithoutExt = path.join(directory, model.slug);
 
   if (fsUtils.isDirectory(pathWithoutExt)) {
-    rmrf.sync(pathWithoutExt)
+    rmrf.sync(pathWithoutExt);
   }
 
-  const modelFile = `${pathWithoutExt}.yaml`
-  const modelFileDescriptor = fs.openSync(modelFile, 'w')
+  const modelFile = `${pathWithoutExt}.yaml`;
+  const modelFileDescriptor = fs.openSync(modelFile, 'w');
 
   if (model.schema !== null) {
-    fs.writeSync(modelFileDescriptor, model.schema)
+    fs.writeSync(modelFileDescriptor, model.schema);
   }
 
-  fs.closeSync(modelFileDescriptor)
+  fs.closeSync(modelFileDescriptor);
 }
 
-module.exports = pull
+module.exports = pull;

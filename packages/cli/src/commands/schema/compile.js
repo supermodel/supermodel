@@ -1,11 +1,10 @@
-const jsYaml = require('js-yaml')
-const compileSchema = require('../../lib/compileSchema')
+const jsYaml = require('js-yaml');
+const compileSchema = require('../../lib/compileSchema');
 
 function runCompileSchema(dir) {
-  compileSchema(dir)
-  .then((result) => {
-    console.log(jsYaml.safeDump(result))
-  })
+  compileSchema(dir).then(result => {
+    console.log(jsYaml.safeDump(result));
+  });
 }
 
-module.exports = runCompileSchema
+module.exports = runCompileSchema;

@@ -1,35 +1,34 @@
-const fs = require('fs')
-const path = require('path')
-const rmrf = require('rimraf')
+const fs = require('fs');
+const path = require('path');
+const rmrf = require('rimraf');
 
-const SEPARATOR = path.sep
+const SEPARATOR = path.sep;
 
 // Return true if path is a directory
 function isDirectory(path) {
   if (!fs.existsSync(path)) {
-    return false
+    return false;
   }
 
-  return fs.statSync(path).isDirectory()
+  return fs.statSync(path).isDirectory();
 }
 
 // Read a directory and returns all yaml files, recursing into sub directories
 function readDirectory(dir) {
-  const content = fs.readdirSync(dir)
-  let files = []
-  content.forEach((file) => {
-    const cur = path.join(dir, file)
+  const content = fs.readdirSync(dir);
+  let files = [];
+  content.forEach(file => {
+    const cur = path.join(dir, file);
     if (isDirectory(cur)) {
-      files = files.concat(readDirectory(cur))
-    }
-    else {
-      const ext = path.extname(file)
+      files = files.concat(readDirectory(cur));
+    } else {
+      const ext = path.extname(file);
       if (ext === '.yaml' || ext === '.yml') {
-        files.push(cur)
+        files.push(cur);
       }
     }
-  })
-  return files
+  });
+  return files;
 }
 
 /**
@@ -38,18 +37,18 @@ function readDirectory(dir) {
  * @param {string} targetDir
  * @returns {string} created directory
  */
-function mkdirpSync (targetDir) {
-  const initDir = path.isAbsolute(targetDir) ? SEPARATOR : ''
+function mkdirpSync(targetDir) {
+  const initDir = path.isAbsolute(targetDir) ? SEPARATOR : '';
 
   targetDir.split(SEPARATOR).reduce((parentDir, childDir) => {
-    const curDir = path.resolve(parentDir, childDir)
+    const curDir = path.resolve(parentDir, childDir);
 
     if (!fs.existsSync(curDir)) {
-      fs.mkdirSync(curDir)
+      fs.mkdirSync(curDir);
     }
 
-    return curDir
-  }, initDir)
+    return curDir;
+  }, initDir);
 }
 
 /**
@@ -57,9 +56,9 @@ function mkdirpSync (targetDir) {
  *
  * @param {string} dir
  */
-function emptyDirectory (dir) {
-  const items = fs.readdirSync(dir)
-  items.forEach(item => rmrf.sync(path.join(dir, item)))
+function emptyDirectory(dir) {
+  const items = fs.readdirSync(dir);
+  items.forEach(item => rmrf.sync(path.join(dir, item)));
 }
 
 /**
@@ -68,28 +67,28 @@ function emptyDirectory (dir) {
  * @param {Array<string>} ...pathParts
  * @returns {?string} path to yaml file
  */
-function resolveYamlFile (...pathParts) {
-  let filePath = path.join(...pathParts)
-  const ext = path.extname(filePath)
+function resolveYamlFile(...pathParts) {
+  let filePath = path.join(...pathParts);
+  const ext = path.extname(filePath);
 
   if (ext !== '.yaml' && ext !== '.yml') {
-    throw `Yaml file '${filePath}' must have extname 'yml' or 'yaml'`
+    throw `Yaml file '${filePath}' must have extname 'yml' or 'yaml'`;
   }
 
   if (fs.existsSync(filePath)) {
-    return filePath
+    return filePath;
   }
 
   filePath = filePath.replace(
     ext === '.yaml' ? '.yaml' : '.yml',
-    ext === '.yaml' ? '.yml' : '.yaml'
-  )
+    ext === '.yaml' ? '.yml' : '.yaml',
+  );
 
   if (fs.existsSync(filePath)) {
-    return filePath
+    return filePath;
   }
 
-  return null
+  return null;
 }
 
 module.exports = {
@@ -97,5 +96,5 @@ module.exports = {
   isDirectory,
   readDirectory,
   mkdirpSync,
-  resolveYamlFile
-}
+  resolveYamlFile,
+};

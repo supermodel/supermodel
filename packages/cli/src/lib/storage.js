@@ -1,9 +1,9 @@
-const os = require('os')
-const path = require('path')
-const fs = require('fs')
-const fsUtils = require('./fsUtils')
+const os = require('os');
+const path = require('path');
+const fs = require('fs');
+const fsUtils = require('./fsUtils');
 
-const APP_ROOT = path.join(os.homedir(), '.supermodel')
+const APP_ROOT = path.join(os.homedir(), '.supermodel');
 
 /**
  * Get full path
@@ -11,8 +11,8 @@ const APP_ROOT = path.join(os.homedir(), '.supermodel')
  * @param {string} path
  * @returns
  */
-function resolvePath (filePath) {
-  return path.join(APP_ROOT, filePath)
+function resolvePath(filePath) {
+  return path.join(APP_ROOT, filePath);
 }
 
 /**
@@ -21,10 +21,10 @@ function resolvePath (filePath) {
  * @param {string} filePath
  * @returns {string} path to file
  */
-function prepareFile (filePath) {
-  filePath = resolvePath(filePath)
-  fsUtils.mkdirpSync(path.dirname(filePath))
-  return filePath
+function prepareFile(filePath) {
+  filePath = resolvePath(filePath);
+  fsUtils.mkdirpSync(path.dirname(filePath));
+  return filePath;
 }
 
 /**
@@ -34,8 +34,8 @@ function prepareFile (filePath) {
  * @param {Object} [options]
  * @returns {string|Buffer}
  */
-function readFileSync (filePath, options) {
-  return fs.readFileSync(resolvePath(filePath), options)
+function readFileSync(filePath, options) {
+  return fs.readFileSync(resolvePath(filePath), options);
 }
 
 /**
@@ -49,8 +49,8 @@ function readFileSync (filePath, options) {
  * @param {string|Buffer|Uint8Array} data
  * @param {Object} [options]
  */
-function writeFileSync (filePath, data, options) {
-  return fs.writeFileSync(prepareFile(filePath), data, options)
+function writeFileSync(filePath, data, options) {
+  return fs.writeFileSync(prepareFile(filePath), data, options);
 }
 
 /**
@@ -60,8 +60,8 @@ function writeFileSync (filePath, data, options) {
  * @param {string} path
  * @returns
  */
-function unlinkSync (path) {
-  return fs.unlinkSync(resolvePath(path))
+function unlinkSync(path) {
+  return fs.unlinkSync(resolvePath(path));
 }
 
 module.exports = {
@@ -70,4 +70,4 @@ module.exports = {
   resolvePath,
   unlinkSync,
   writeFileSync,
-}
+};

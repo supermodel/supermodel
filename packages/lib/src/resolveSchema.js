@@ -27,23 +27,23 @@ function resolveSchema(schema, schemaLoader) {
       compiledSchema.definitions = {};
     }
 
-    const definitions = compiledSchema.definitions
+    const definitions = compiledSchema.definitions;
 
     for (const refId in loadedRefs) {
       if (loadedRefs.hasOwnProperty(refId)) {
-        const loadedRef = loadedRefs[refId]
+        const loadedRef = loadedRefs[refId];
 
-        definitions[refId] = loadedRef
+        definitions[refId] = loadedRef;
 
         if (loadedRef.definitions) {
           for (const definitionKey in loadedRef.definitions) {
             if (loadedRef.definitions.hasOwnProperty(definitionKey)) {
-              definitions[definitionKey] = loadedRef.definitions[definitionKey]
+              definitions[definitionKey] = loadedRef.definitions[definitionKey];
             }
           }
         }
 
-        delete loadedRef.definitions
+        delete loadedRef.definitions;
       }
     }
 

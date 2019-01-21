@@ -1,10 +1,9 @@
-const program = require('commander')
-const modulePackage = require('../../../package.json')
-const runInstall = require('./install')
+const program = require('commander');
+const modulePackage = require('../../../package.json');
+const runInstall = require('./install');
 
 program
   .version(modulePackage.version)
-  .action(domainUrl => runInstall(domainUrl))
+  .action(domainUrl => runInstall(domainUrl));
 
-program
-  .parse(process.argv)
+program.parse(process.argv);

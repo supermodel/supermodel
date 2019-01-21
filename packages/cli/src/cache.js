@@ -1,6 +1,6 @@
-const { readFileSync, writeFileSync } = require('./lib/storage')
-const CACHE_FILE = 'cache.json'
-const weakCache = new Map()
+const { readFileSync, writeFileSync } = require('./lib/storage');
+const CACHE_FILE = 'cache.json';
+const weakCache = new Map();
 
 /**
  * Get cache data from HOME/.supermodel/cache.json
@@ -9,20 +9,20 @@ const weakCache = new Map()
  * @returns {any}
  */
 function get(key = null) {
-  let cache = weakCache.get('content')
+  let cache = weakCache.get('content');
 
   if (!cache) {
     try {
-      const cacheContent = readFileSync(CACHE_FILE)
-      cache = JSON.parse(cacheContent)
+      const cacheContent = readFileSync(CACHE_FILE);
+      cache = JSON.parse(cacheContent);
     } catch (err) {
-      cache = {}
+      cache = {};
     }
 
-    weakCache.set('content', cache)
+    weakCache.set('content', cache);
   }
 
-  return key === null ? cache : cache[key]
+  return key === null ? cache : cache[key];
 }
 
 /**
@@ -31,8 +31,8 @@ function get(key = null) {
  * @param {any} cache
  */
 function set(cache) {
-  weakCache.set('content', cache)
-  return writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2))
+  weakCache.set('content', cache);
+  return writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2));
 }
 
 /**
@@ -42,16 +42,16 @@ function set(cache) {
  * @param {any} value
  */
 function update(key, value) {
-  const cache = get()
+  const cache = get();
 
   return set({
     ...cache,
-    [key]: value
-  })
+    [key]: value,
+  });
 }
 
 module.exports = {
   get,
   set,
-  update
-}
+  update,
+};
