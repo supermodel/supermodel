@@ -24,6 +24,10 @@ We are using [lerna](https://github.com/lerna/lerna) for managing all packages t
 
 1. `npm install` - install lerna and other global dev packages
 2. `npm run bootstrap` - resolves and install dependencies for packages
+3. ⚠️ When developing against local supermodel.io instance setup .env for CLI. Choose symlink or copy:
+
+    - symlink: `ln ./packages/cli/.env.development ./packages/cli/.env`
+    - copy: .env.development into .env `cp ./packages/cli/.env.development ./packages/cli/.env` and change variables for your needs
 
 ### Usage
 
