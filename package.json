@@ -13,8 +13,8 @@
     "build:clean": "rm -rf packages/{cli,lib,file}/lib",
     "build:watch": "lerna run --parallel build:watch",
     "lint": "tslint --format stylish --project ./",
-    "prepublish": "yarn build",
     "pretest": "yarn lint && yarn build",
+    "preversion": "yarn build",
     "test": "jest --coverage",
     "test:watch": "jest --watch"
   },

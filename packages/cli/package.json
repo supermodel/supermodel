@@ -40,6 +40,10 @@
     "rimraf": "2.6.2"
   },
   "files": [
-    "lib"
+    "bin",
+    "lib",
+    ".env.production",
+    "exampleDiagram.png",
+    "supermodel.svg"
   ]
 }
