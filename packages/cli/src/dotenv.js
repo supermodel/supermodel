@@ -9,8 +9,8 @@ function loadDotenv() {
   }
 }
 
-function tryConfig(path) {
-  const file = path.resolve(__dirname, '../.env');
+function tryConfig(envPath) {
+  const file = path.resolve(__dirname, envPath);
   const result = dotenv.config({
     path: file,
   });
