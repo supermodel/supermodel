@@ -55,5 +55,5 @@ The MIT License (MIT) 2019 Good API
 [supermodel-cli-package]: https://www.npmjs.com/package/@supermodel/cli
 [supermodel-lib-version]: https://img.shields.io/npm/v/@supermodel/lib.svg?style=flat-square
 [supermodel-lib-package]: https://www.npmjs.com/package/@supermodel/lib
-[supermodel-file-version]: https://img.shields.io/npm/v/@supermodel/file-config-essentials.svg?style=flat-square
-[supermodel-file-package]: https://www.npmjs.com/package/@supermodel/file-config-essentials
+[supermodel-file-version]: https://img.shields.io/npm/v/@supermodel/file.svg?style=flat-square
+[supermodel-file-package]: https://www.npmjs.com/package/@supermodel/file
