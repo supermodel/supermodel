@@ -4,15 +4,21 @@ Collection of npm packages supporting [supermodel.io](https://supermodel.io)
 
 ## Packages
 
-### @supermodel/cli [![Version][supermodel-cli-version]][supermodel-cli-package]
+### @supermodel/cli
+
+[README](https://github.com/supermodel/supermodel/tree/master/packages/cli#readme) [![Version][supermodel-cli-version]][supermodel-cli-package]
 
 Main package used for installing system wide binary `supermodel` for manipulating schemas
 
-### @supermodel/lib [![Version][supermodel-lib-version]][supermodel-lib-package]
+### @supermodel/lib
+
+[README](https://github.com/supermodel/supermodel/tree/master/packages/lib#readme) [![Version][supermodel-lib-version]][supermodel-lib-package]
 
 Collection of utils on top of json schema. Used in **@supermodel/cli** and on [supermodel.io](https://supermodel.io)
 
-### @supermodel/file [![Version][supermodel-file-version]][supermodel-file-package]
+### @supermodel/file
+
+[README](https://github.com/supermodel/supermodel/tree/master/packages/file#readme) [![Version][supermodel-file-version]][supermodel-file-package]
 
 Utils for manipulating json schema on file system
 
