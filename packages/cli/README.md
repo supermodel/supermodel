@@ -192,12 +192,6 @@ After cloning this repository you can either:
 1. copy .env.development into .env `cp ./.env.development ./.env` and change variables for your needs
 2. symlink `ln ./.env.development ./.env`
 
-## Npm publish
-
-```bash
-$ npm publish --access public
-```
-
 ## A Good API Project
 
 supermodel.io (http://supermodel.io), and supermodel CLI (https://github.com/supermodel/supermodel-cli) are Good API (http://goodapi.co) non-profit projects, aimed at promoting modern, reusable, and sustainable data modeling.

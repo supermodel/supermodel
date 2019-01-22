@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "clean": "# TODO: rm -rf packages/**/lib",
-    "bootstrap": "lerna bootstrap --hoist",
+    "bootstrap": "lerna bootstrap",
     "build": "npm run clean && lerna run build",
     "build:watch": "lerna run --parallel build:watch",
     "lint": "tslint --format stylish --project packages/**",
