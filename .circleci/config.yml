@@ -13,22 +13,35 @@ jobs:
     steps:
       - checkout
 
+      # TODO: cache packages dependencies too
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-root-dependencies-{{ checksum "package.json" }}
           # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+          - v1-root-dependencies-
 
-      - run: npm install
+      - run:
+          name: "Install lerna and dev dependencies"
+          command: npm install
 
-      - run: npm run bootstrap
+      - run:
+          name: "Install packages"
+          command: npm run bootstrap
 
       - save_cache:
           paths:
             - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+          key: v1-root-dependencies-{{ checksum "package.json" }}
 
-      - run: npm run test
+      - run:
+          name: "Run tests"
+          command: npm run test
 
-      - run: npm run build
+      - run:
+          name: "Run production build"
+          command: npm run build
+
+      - run:
+          name: "Test CLI bin file"
+          command: ./packages/cli/bin/supermodel --version
