@@ -3,4 +3,5 @@
 /fixtures
 /scripts
 /tsconfig.json
+/.env
 /.env.development
