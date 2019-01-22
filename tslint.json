@@ -13,7 +13,8 @@
   },
   "linterOptions": {
     "exclude": [
-        "src/**/*.js"
+        "**/*.js",
+        "**/*.test.ts"
     ]
   }
 }

@@ -8,17 +8,15 @@
     "packages/*"
   ],
   "scripts": {
-    "clean": "# TODO: rm -rf packages/**/lib",
     "bootstrap": "lerna bootstrap",
-    "build": "yarn clean && lerna run build",
+    "build": "yarn build:clean && lerna run build",
+    "build:clean": "rm -rf packages/{cli,lib,file}/lib",
     "build:watch": "lerna run --parallel build:watch",
+    "lint": "tslint --format stylish --project ./",
     "prepublish": "yarn build",
-    "lint": "tslint --format stylish --project packages/**",
+    "pretest": "yarn lint && yarn build",
     "test": "jest --coverage",
-    "test:watch": "jest --watch",
-    "_pretest": "#TODO: yarn ts && yarn lint",
-    "contributors:add": "all-contributors add",
-    "contributors:generate": "all-contributors generate"
+    "test:watch": "jest --watch"
   },
   "husky": {
     "hooks": {

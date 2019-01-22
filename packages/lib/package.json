@@ -32,5 +32,8 @@
   "devDependencies": {
     "@supermodel/file": "^0.5.1",
     "@types/json-schema": "7.0.1"
-  }
+  },
+  "files": [
+    "lib"
+  ]
 }

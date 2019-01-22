@@ -24,5 +24,8 @@
   "dependencies": {
     "js-yaml": "^3.11.0",
     "node-fetch": "^2.2.0"
-  }
+  },
+  "files": [
+    "lib"
+  ]
 }

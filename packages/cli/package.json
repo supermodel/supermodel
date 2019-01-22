@@ -39,8 +39,7 @@
     "node-fetch": "2.1.2",
     "rimraf": "2.6.2"
   },
-  "directories": {
-    "build": "build",
-    "test": "test"
-  }
+  "files": [
+    "lib"
+  ]
 }
