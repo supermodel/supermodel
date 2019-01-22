@@ -6,9 +6,9 @@ const runCompileSchema = require('./compile');
 const runConvertToOAS2 = require('./convertOAS2');
 const runConvertToAvro = require('./convertAvro');
 const runConvertToGraphQL = require('./convertGraphQL');
-const modulePackage = require('../../../package.json');
+const { version } = require('../../version');
 
-program.version(modulePackage.version);
+program.version(version);
 
 program
   .command('validate <path>')

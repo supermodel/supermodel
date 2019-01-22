@@ -1,8 +1,8 @@
 const program = require('commander');
-const modulePackage = require('../../../package.json');
 const runPull = require('./pull');
+const { version } = require('../../version');
 
-program.version(modulePackage.version);
+program.version(version);
 
 program.parse(process.argv);
 

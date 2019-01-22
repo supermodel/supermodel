@@ -1,36 +1,47 @@
 #!/usr/bin/env node
 
-require('../build/src/dotenv')
-const program = require('commander')
-const runInit = require('../build/src/commands/init')
-const modulePackage = require('../build/package.json')
+require('../lib/dotenv');
+const program = require('commander');
+const runInit = require('../lib/commands/init');
+const {
+  version
+} = require('../lib/version');
 
-program.version(modulePackage.version)
+program.version(version);
 
 program
-  .command('schema <command>', 'validate, compile or resolve JSON Schema YAML representation of a model')
+  .command(
+    'schema <command>',
+    'validate, compile or resolve JSON Schema YAML representation of a model',
+  )
   .command('model <command>', 'create, clone and manage a model')
   .command('import <command>', 'import ...')
   .command('install [url]', 'install the models from supermodel.io')
-  .command('pull', 'pull installed models from supermodel.io into current directory')
+  .command(
+    'pull',
+    'pull installed models from supermodel.io into current directory',
+  )
   .command('push', 'push models from current directory to supermodel.io')
-  .command('validate <file> <schema>', 'validate file against supermodel.io model (url or local file)')
+  .command(
+    'validate <file> <schema>',
+    'validate file against supermodel.io model (url or local file)',
+  )
   .command('login', 'login with supermodel.io credentials')
   .command('signup', 'signup for supermodel.io')
-  .command('whoami', 'show who you are')
+  .command('whoami', 'show who you are');
 
 program
   .command('init [layerPath]')
-  .description('initialize the supermodel directory, create directory structure to match the layerPath if provided')
-  .action((layerName) => {
+  .description(
+    'initialize the supermodel directory, create directory structure to match the layerPath if provided',
+  )
+  .action(layerName => {
     runInit(layerName);
-    process.exit(0)
-  })
+    process.exit(0);
+  });
 
-program
-  .command('help', 'display this help', {
-    isDefault: true
-  })
+program.command('help', 'display this help', {
+  isDefault: true,
+});
 
-program
-  .parse(process.argv)
+program.parse(process.argv);

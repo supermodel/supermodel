@@ -1,8 +1,8 @@
 const program = require('commander');
 const runImportJsonLD = require('./importJsonLD');
-const modulePackage = require('../../../package.json');
+const { version } = require('../../version');
 
-program.version(modulePackage.version);
+program.version(version);
 
 program
   .command('jsonld <filePath> [scope]')

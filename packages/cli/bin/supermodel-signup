@@ -1,5 +1,5 @@
 #!/usr/bin/env node
 
-const runSignUp = require('../build/src/commands/signUp')
+const runSignUp = require('../lib/commands/signUp');
 
-runSignUp()
+runSignUp();
