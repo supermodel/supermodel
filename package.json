@@ -10,12 +10,13 @@
   "scripts": {
     "clean": "# TODO: rm -rf packages/**/lib",
     "bootstrap": "lerna bootstrap",
-    "build": "npm run clean && lerna run build",
+    "build": "yarn clean && lerna run build",
     "build:watch": "lerna run --parallel build:watch",
+    "prepublish": "yarn build",
     "lint": "tslint --format stylish --project packages/**",
     "test": "jest --coverage",
     "test:watch": "jest --watch",
-    "_pretest": "#TODO: npm run ts && npm run lint",
+    "_pretest": "#TODO: yarn ts && yarn lint",
     "contributors:add": "all-contributors add",
     "contributors:generate": "all-contributors generate"
   },
