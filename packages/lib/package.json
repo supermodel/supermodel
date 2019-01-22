@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/supermodel/superlib.git"
+    "url": "git+https://github.com/supermodel/supermodel.git"
   },
   "author": "Zdenek Nemec <z@goodapi.co> (http://goodapi.co)",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/supermodel/superlib/issues"
+    "url": "https://github.com/supermodel/supermodel/issues"
   },
-  "homepage": "https://github.com/supermodel/superlib#readme",
+  "homepage": "https://github.com/supermodel/supermodel/tree/master/packages/lib#readme",
   "dependencies": {
     "ajv": "^6.4.0",
     "casex": "0.0.5",

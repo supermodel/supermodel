@@ -27,15 +27,17 @@ We are using [lerna](https://github.com/lerna/lerna) for managing all packages t
 3. ⚠️ When developing against local supermodel.io instance setup .env for CLI. Choose symlink or copy:
 
     - symlink: `ln ./packages/cli/.env.development ./packages/cli/.env`
-    - copy: .env.development into .env `cp ./packages/cli/.env.development ./packages/cli/.env` and change variables for your needs
+    - copy: `cp ./packages/cli/.env.development ./packages/cli/.env` and change variables for your needs
 
 ### Usage
 
-- `npm run test:watch` - **watch** tests in all packages at once
-- `npm run build:watch` - for testing ./packages/cli/bin/supermodel locally during development
+- `npm run build:watch`
+  - should be running whole time during development
+  - for jest tests, testing ./packages/cli/bin/supermodel etc.
+- `npm run test:watch` - **watch** tests in all packages at once (requires `npm run build[:watch]` before)
 
-- `npm run test` - runs tests in all packages at once
 - `npm run build` - make production builds
+- `npm run test` - runs tests in all packages at once (requires `npm run build` before)
 
 ### Publishing
 
@@ -43,7 +45,7 @@ TODO - `lerna publish` - useses [lerna publish](https://github.com/lerna/lerna/t
 
 ## A Good API Project
 
-supermodel.io http://supermodel.io, and supermodel CLI (https://github.com/supermodel/supermodel-cli) are Good API (http://goodapi.co) non-profit projects, aimed at promoting modern, reusable, and sustainable data modeling.
+[supermodel.io](http://supermodel.io), and [supermodel CLI](https://github.com/supermodel/supermodel/tree/master/packages/cli#readme) are [Good API](http://goodapi.co) non-profit projects, aimed at promoting modern, reusable, and sustainable data modeling.
 
 ## License
 

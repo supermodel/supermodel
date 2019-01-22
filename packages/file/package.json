@@ -2,14 +2,14 @@
   "name": "@supermodel/file",
   "version": "0.5.0",
   "description": "File Schema Loader for Supermodel",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc --watch --preserveWatchOutput"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/supermodel/file.git"
+    "url": "git+https://github.com/supermodel/supermodel.git"
   },
   "author": {
     "name": "Zdenek Nemec",
@@ -18,9 +18,9 @@
   },
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/supermodel/file/issues"
+    "url": "https://github.com/supermodel/supermodel/issues"
   },
-  "homepage": "https://github.com/supermodel/file#readme",
+  "homepage": "https://github.com/supermodel/supermodel/tree/master/packages/file#readme",
   "dependencies": {
     "js-yaml": "^3.11.0",
     "node-fetch": "^2.2.0"

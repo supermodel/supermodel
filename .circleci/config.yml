@@ -35,13 +35,24 @@ jobs:
           key: v1-root-dependencies-{{ checksum "package.json" }}
 
       - run:
-          name: "Run tests"
-          command: npm run test
-
-      - run:
           name: "Run production build"
           command: npm run build
 
       - run:
-          name: "Test CLI bin file"
-          command: ./packages/cli/bin/supermodel --version
+          name: "Run tests"
+          command: npm run test
+
+      - run:
+          name: "Test CLI bin files"
+          command: |
+            ./packages/cli/bin/supermodel --version
+            ./packages/cli/bin/supermodel import --version
+            ./packages/cli/bin/supermodel install --version
+            ./packages/cli/bin/supermodel login --version
+            ./packages/cli/bin/supermodel model --version
+            ./packages/cli/bin/supermodel pull --version
+            ./packages/cli/bin/supermodel push --version
+            ./packages/cli/bin/supermodel schema --version
+            ./packages/cli/bin/supermodel signup --version
+            ./packages/cli/bin/supermodel validate --version
+            ./packages/cli/bin/supermodel whoami --version

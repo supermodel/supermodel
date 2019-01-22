@@ -2,14 +2,13 @@
   "name": "@supermodel/cli",
   "version": "0.46.13",
   "description": "Supermodel command tool",
-  "main": "build",
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc --watch --preserveWatchOutput"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/supermodel/supermodel-cli.git"
+    "url": "git+https://github.com/supermodel/supermodel.git"
   },
   "author": {
     "name": "Zdenek Nemec",
@@ -18,12 +17,12 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/supermodel/supermodel-cli/issues"
+    "url": "https://github.com/supermodel/supermodel/issues"
   },
   "bin": {
     "supermodel": "./bin/supermodel"
   },
-  "homepage": "https://github.com/supermodel/supermodel-cli#readme",
+  "homepage": "https://github.com/supermodel/supermodel/tree/master/packages/cli#readme",
   "dependencies": {
     "@supermodel/file": "^0.5.0",
     "@supermodel/lib": "0.4.11",

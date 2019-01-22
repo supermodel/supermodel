@@ -1,0 +1,6 @@
+/src
+/test
+/fixtures
+/scripts
+/tsconfig.json
+/.env.development
