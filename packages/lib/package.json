@@ -1,6 +1,6 @@
 {
   "name": "@supermodel/lib",
-  "version": "0.4.13",
+  "version": "0.4.14",
   "description": "Supermodel.io core functionality library",
   "main": "lib/index.js",
   "repository": {
@@ -26,7 +26,7 @@
     "test": "test"
   },
   "devDependencies": {
-    "@supermodel/file": "^0.5.2",
+    "@supermodel/file": "^0.5.3",
     "@types/json-schema": "7.0.1"
   },
   "files": [

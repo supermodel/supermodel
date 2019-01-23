@@ -1,6 +1,6 @@
 {
   "name": "@supermodel/cli",
-  "version": "0.46.18",
+  "version": "0.46.19",
   "description": "Supermodel command tool",
   "repository": {
     "type": "git",
@@ -20,8 +20,8 @@
   },
   "homepage": "https://github.com/supermodel/supermodel/tree/master/packages/cli#readme",
   "dependencies": {
-    "@supermodel/file": "^0.5.2",
-    "@supermodel/lib": "^0.4.13",
+    "@supermodel/file": "^0.5.3",
+    "@supermodel/lib": "^0.4.14",
     "ajv": "^6.1.1",
     "auth0-js": "9.4.2",
     "casex": "0.0.5",
