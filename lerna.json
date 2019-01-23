@@ -1,13 +1,14 @@
 {
-  "npmClient": "yarn",
-  "packages": [
-    "packages/*"
-  ],
   "command": {
     "publish": {
       "ignoreChanges": ["ignored-file", "*.md"],
       "message": "Publish"
     }
   },
+  "npmClient": "yarn",
+  "packages": [
+    "packages/*"
+  ],
+  "useWorkspaces": true,
   "version": "independent"
 }

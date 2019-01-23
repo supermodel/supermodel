@@ -8,10 +8,11 @@
     "packages/*"
   ],
   "scripts": {
-    "bootstrap": "lerna bootstrap",
-    "build": "yarn build:clean && lerna run build",
+    "bootstrap": "./scripts/lerna bootstrap",
+    "build": "yarn build:clean && yarn build:tsc",
     "build:clean": "rm -rf packages/{cli,lib,file}/lib",
-    "build:watch": "lerna run --parallel build:watch",
+    "build:tsc": "tsc -b packages/*",
+    "build:watch": "yarn build:clean && yarn build:tsc --watch --preserveWatchOutput",
     "lint": "tslint --format stylish --project ./",
     "pretest": "yarn lint && yarn build",
     "preversion": "yarn test",

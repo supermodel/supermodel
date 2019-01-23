@@ -1,0 +1,9 @@
+#!/bin/sh
+
+if command -v lerna >/dev/null 2>&1; then
+  echo "Missing globally installed lerna. Installing..."
+  echo "$ npm install -g lerna@3.10"
+  npm install -g lerna@3.10
+fi
+
+lerna "$@"

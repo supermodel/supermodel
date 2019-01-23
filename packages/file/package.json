@@ -3,10 +3,6 @@
   "version": "0.5.2",
   "description": "File Schema Loader for Supermodel",
   "main": "lib/index.js",
-  "scripts": {
-    "build": "tsc",
-    "build:watch": "tsc --watch --preserveWatchOutput"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/supermodel/supermodel.git"

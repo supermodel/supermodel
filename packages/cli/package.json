@@ -2,10 +2,6 @@
   "name": "@supermodel/cli",
   "version": "0.46.18",
   "description": "Supermodel command tool",
-  "scripts": {
-    "build": "tsc",
-    "build:watch": "tsc --watch --preserveWatchOutput"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/supermodel/supermodel.git"

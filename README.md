@@ -28,9 +28,12 @@ We are using [lerna](https://github.com/lerna/lerna) for managing all packages t
 
 ### Installation
 
-1. `yarn` - install lerna and other global dev packages
-2. `yarn bootstrap` - resolves and install dependencies for packages
-3. ⚠️ When developing against local supermodel.io instance setup .env for CLI. Choose symlink or copy:
+1. `yarn bootstrap` - resolves and install root and packages dependencies
+
+    - ⚠️ use this instead of `yarn [install]`
+    - ensures presence of global installation of **lerna** and install it for you when missing
+
+2. 🤔 *optional* When developing against local supermodel.io instance setup .env for CLI. Choose symlink or copy:
 
     - symlink: `ln ./packages/cli/.env.development ./packages/cli/.env`
     - copy: `cp ./packages/cli/.env.development ./packages/cli/.env` and change variables for your needs
@@ -40,10 +43,10 @@ We are using [lerna](https://github.com/lerna/lerna) for managing all packages t
 - `yarn build:watch`
   - should be running whole time during development
   - for jest tests, testing ./packages/cli/bin/supermodel etc.
-- `yarn test:watch` - **watch** tests in all packages at once (requires `yarn build[:watch]` before)
+- `yarn test:watch` - **watch** tests in all packages at once (requires parallel running of `yarn build:watch`)
 
 - `yarn build` - make production builds
-- `yarn test` - runs tests in all packages at once (requires `yarn build` before)
+- `yarn test` - run lint, build packages and run tests in all packages at once
 
 ### Publishing
 

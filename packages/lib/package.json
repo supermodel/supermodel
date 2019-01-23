@@ -3,10 +3,6 @@
   "version": "0.4.13",
   "description": "Supermodel.io core functionality library",
   "main": "lib/index.js",
-  "scripts": {
-    "build": "tsc",
-    "build:watch": "tsc --watch --preserveWatchOutput"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/supermodel/supermodel.git"

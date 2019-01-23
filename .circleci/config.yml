@@ -22,12 +22,8 @@ jobs:
           - v1-root-dependencies-
 
       - run:
-          name: "Install lerna and dev dependencies"
-          command: yarn install
-
-      - run:
           name: "Install packages"
-          command: npm bootstrap
+          command: yarn bootstrap
 
       - save_cache:
           paths:
@@ -36,7 +32,7 @@ jobs:
 
       - run:
           name: "Run tests"
-          command: npm test
+          command: yarn test
 
       - run:
           name: "Test CLI bin files"
