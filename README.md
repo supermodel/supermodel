@@ -28,8 +28,8 @@ We are using [lerna](https://github.com/lerna/lerna) for managing all packages t
 
 ### Installation
 
-1. `npm install` - install lerna and other global dev packages
-2. `npm run bootstrap` - resolves and install dependencies for packages
+1. `yarn` - install lerna and other global dev packages
+2. `yarn bootstrap` - resolves and install dependencies for packages
 3. ⚠️ When developing against local supermodel.io instance setup .env for CLI. Choose symlink or copy:
 
     - symlink: `ln ./packages/cli/.env.development ./packages/cli/.env`
@@ -37,17 +37,20 @@ We are using [lerna](https://github.com/lerna/lerna) for managing all packages t
 
 ### Usage
 
-- `npm run build:watch`
+- `yarn build:watch`
   - should be running whole time during development
   - for jest tests, testing ./packages/cli/bin/supermodel etc.
-- `npm run test:watch` - **watch** tests in all packages at once (requires `npm run build[:watch]` before)
+- `yarn test:watch` - **watch** tests in all packages at once (requires `yarn build[:watch]` before)
 
-- `npm run build` - make production builds
-- `npm run test` - runs tests in all packages at once (requires `npm run build` before)
+- `yarn build` - make production builds
+- `yarn test` - runs tests in all packages at once (requires `yarn build` before)
 
 ### Publishing
 
-TODO - `lerna publish` - useses [lerna publish](https://github.com/lerna/lerna/tree/master/commands/publish#readme)
+`yarn publish`
+
+- useses [lerna publish](https://github.com/lerna/lerna/tree/master/commands/publish#readme)
+- It is most streightforward way to publish. It compile typescript with `yarn build` command, tag changed packages with new versions and publish it to npm
 
 ## A Good API Project
 

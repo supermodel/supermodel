@@ -23,11 +23,11 @@ jobs:
 
       - run:
           name: "Install lerna and dev dependencies"
-          command: npm install
+          command: yarn install
 
       - run:
           name: "Install packages"
-          command: npm run bootstrap
+          command: npm bootstrap
 
       - save_cache:
           paths:
@@ -35,12 +35,8 @@ jobs:
           key: v1-root-dependencies-{{ checksum "package.json" }}
 
       - run:
-          name: "Run production build"
-          command: npm run build
-
-      - run:
           name: "Run tests"
-          command: npm run test
+          command: npm test
 
       - run:
           name: "Test CLI bin files"
