@@ -15,7 +15,6 @@
     "lint": "tslint --format stylish --project ./",
     "pretest": "yarn lint && yarn build",
     "preversion": "yarn test",
-    "publish": "lerna publish",
     "test": "jest --coverage",
     "test:watch": "jest --watch"
   },

@@ -47,7 +47,7 @@ We are using [lerna](https://github.com/lerna/lerna) for managing all packages t
 
 ### Publishing
 
-`yarn publish`
+`lerna publish`
 
 - useses [lerna publish](https://github.com/lerna/lerna/tree/master/commands/publish#readme)
 - It is most streightforward way to publish. It compile typescript with `yarn build` command, tag changed packages with new versions and publish it to npm
