@@ -1,3 +1,4 @@
+const casex = require('casex');
 const validateSchema = require('./validateSchema');
 
 // Resolves "live" external references in a schema
@@ -21,13 +22,13 @@ function resolveSchema(schema, schemaLoader) {
   // the definition object
   return validateSchema(schema, loader).then(() => {
     // Append definitions if not already available
-    let compiledSchema = Object.assign({}, schema);
+    schema = Object.assign({}, schema);
 
-    if (compiledSchema.definitions === undefined) {
-      compiledSchema.definitions = {};
+    if (schema.definitions === undefined) {
+      schema.definitions = {};
     }
 
-    const definitions = compiledSchema.definitions;
+    const definitions = schema.definitions;
 
     for (const refId in loadedRefs) {
       if (loadedRefs.hasOwnProperty(refId)) {
@@ -38,7 +39,12 @@ function resolveSchema(schema, schemaLoader) {
         if (loadedRef.definitions) {
           for (const definitionKey in loadedRef.definitions) {
             if (loadedRef.definitions.hasOwnProperty(definitionKey)) {
-              definitions[definitionKey] = loadedRef.definitions[definitionKey];
+              const definitionSchema = ensureSchemaId(
+                loadedRef,
+                loadedRef.definitions[definitionKey],
+                definitionKey,
+              );
+              definitions[definitionKey] = definitionSchema;
             }
           }
         }
@@ -47,8 +53,18 @@ function resolveSchema(schema, schemaLoader) {
       }
     }
 
-    return Promise.resolve(compiledSchema);
+    return Promise.resolve(schema);
   });
+}
+
+function ensureSchemaId(parentSchema, schema, definitionName) {
+  if (!schema.$id && parentSchema.$id) {
+    const pathMatch = parentSchema.$id.match(/(.*\/).+?$/);
+    const nameMatch = definitionName.match(/([^/]+?)$/);
+    schema.$id = `${pathMatch[1]}${casex(nameMatch[1], 'CaSe')}`;
+  }
+
+  return schema;
 }
 
 module.exports = resolveSchema;

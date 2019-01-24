@@ -184,8 +184,14 @@ function convertSchemaObjectProperty(
         // Handle definitions differently, see below for details
         let fullURI = dictKey;
         if (!isURL(fullURI)) {
-          fullURI = `${currentId}#/definitions/${dictKey}`;
+          if (currentId) {
+            fullURI = `${currentId}#/definitions/${dictKey}`;
+          } else {
+            fullURI = `${dictValue.$id}#/definitions/${dictKey}`;
+          }
         }
+
+        console.log(value);
         resultDictionary[convertURItoStringId(fullURI)] = resultSchemaObject;
       }
     }
@@ -269,7 +275,7 @@ function convertSchemaObjectProperty(
         key,
         value: `#/definitions/${convertURItoStringId(value)}`,
       };
-    } else if (value === '#/') {
+    } else if (value === '#') {
       // Self reference
       // TODO: add options to use remote ref
       return {

@@ -5,9 +5,11 @@ Object {
   "$id": "http://supermodel.io/superlib/references/Nested1",
   "definitions": Object {
     "NestedDefinition2": Object {
+      "$id": "http://supermodel.io/superlib/references/NestedDefinition",
       "title": "Nested Definition 2",
     },
     "NestedDefinition3": Object {
+      "$id": "http://supermodel.io/superlib/references/NestedDefinition",
       "title": "Nested Definition 3",
     },
     "http://supermodel.io/superlib/references/Nested2": Object {
