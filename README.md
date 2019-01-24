@@ -35,7 +35,7 @@ We are using [lerna](https://github.com/lerna/lerna) for managing all packages t
 
 2. 🤔 *optional* When developing against local supermodel.io instance setup .env for CLI. Choose symlink or copy:
 
-    - symlink: `ln ./packages/cli/.env.development ./packages/cli/.env`
+    - symlink: `ln -s ./packages/cli/.env.development ./packages/cli/.env`
     - copy: `cp ./packages/cli/.env.development ./packages/cli/.env` and change variables for your needs
 
 ### Usage
