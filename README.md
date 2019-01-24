@@ -49,6 +49,14 @@ We are using [lerna](https://github.com/lerna/lerna) for managing all packages t
 - `yarn build` - make production builds
 - `yarn test` - run lint, build packages and run tests in all packages at once
 
+### Local linking
+
+To try @supermodel/cli locally with simple `supermodel` command we need to link all packages.
+There is shortcut to link all packages
+
+- `yarn local:install`
+- `yarn local:uninstall`
+
 ### Publishing
 
 `lerna publish`

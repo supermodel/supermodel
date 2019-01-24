@@ -14,6 +14,8 @@
     "build:tsc": "tsc -b packages/*",
     "build:watch": "yarn build:clean && yarn build:tsc --watch --preserveWatchOutput",
     "lint": "tslint --format stylish --project ./",
+    "local:install": "lerna exec yarn link",
+    "local:uninstall": "lerna exec yarn unlink",
     "pretest": "yarn lint && yarn build",
     "preversion": "yarn test",
     "test": "jest --coverage",
