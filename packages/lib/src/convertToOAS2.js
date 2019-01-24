@@ -132,7 +132,10 @@ function convertSchemaObjectProperty(
 
   // Directly supported properties, no further processing needed
   if (supportedKeys.includes(key)) {
-    return { key, value };
+    return {
+      key,
+      value,
+    };
   }
 
   // Arrays of schema objects
@@ -149,7 +152,10 @@ function convertSchemaObjectProperty(
       console.warn(`Warning: '${key}' converted as 'allOf'`);
     }
 
-    return { key: 'allOf', value: itemsArray }; // Force allOf
+    return {
+      key: 'allOf',
+      value: itemsArray,
+    }; // Force allOf
   }
 
   // Single schema object
@@ -188,7 +194,10 @@ function convertSchemaObjectProperty(
     //  Store the content of nested definitions property in a flat dictionary
     //  since OAS2 doesn't support nested definitions
     if (key !== 'definitions') {
-      return { key, value: resultDictionary };
+      return {
+        key,
+        value: resultDictionary,
+      };
     }
 
     Object.assign(definitions, resultDictionary);
@@ -198,7 +207,10 @@ function convertSchemaObjectProperty(
   // Value MUST be a string, in OAS2, multiple types via an array are not supported
   if (key === 'type') {
     if (valueType === 'string') {
-      return { key, value };
+      return {
+        key,
+        value,
+      };
     }
     console.warn(`Warning: type must be a string`);
   }
@@ -221,7 +233,10 @@ function convertSchemaObjectProperty(
         if (itemsArray.length > 1) {
           console.warn(`Warning: dropping additional array items`);
         }
-        return { key, value: itemsArray[0] };
+        return {
+          key,
+          value: itemsArray[0],
+        };
       } else {
         return {
           key,
@@ -242,16 +257,25 @@ function convertSchemaObjectProperty(
       const refValue = value.replace('#/definitions/', '');
       const fullURI = `${currentId}#/definitions/${refValue}`;
       // TODO: add options to use remote ref
-      return { key, value: `#/definitions/${convertURItoStringId(fullURI)}` };
+      return {
+        key,
+        value: `#/definitions/${convertURItoStringId(fullURI)}`,
+      };
     } else if (isURL(value)) {
       // Remote schema reference
       // Convert to local reference
       // TODO: add options to use remote ref
-      return { key, value: `#/definitions/${convertURItoStringId(value)}` };
+      return {
+        key,
+        value: `#/definitions/${convertURItoStringId(value)}`,
+      };
     } else if (value === '#/') {
       // Self reference
       // TODO: add options to use remote ref
-      return { key, value: `#/definitions/${convertURItoStringId(currentId)}` };
+      return {
+        key,
+        value: `#/definitions/${convertURItoStringId(currentId)}`,
+      };
     }
 
     // Remote schema reference (e.g. $ref: Layer)
@@ -259,7 +283,10 @@ function convertSchemaObjectProperty(
     // TODO: add options to use remote ref
     const base = currentId.substr(0, currentId.lastIndexOf('/') + 1);
     const fullURI = `${base}${value}`;
-    return { key, value: `#/definitions/${convertURItoStringId(fullURI)}` };
+    return {
+      key,
+      value: `#/definitions/${convertURItoStringId(fullURI)}`,
+    };
   }
 
   // examples property
@@ -269,7 +296,10 @@ function convertSchemaObjectProperty(
     if (Array.isArray(value) && value.length) {
       example = value[0];
     }
-    return { key: 'example', value: example };
+    return {
+      key: 'example',
+      value: example,
+    };
   }
 
   // Drop everything else
