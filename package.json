@@ -8,7 +8,7 @@
     "packages/*"
   ],
   "scripts": {
-    "bootstrap": "./scripts/lerna bootstrap",
+    "bootstrap": "lerna bootstrap",
     "build": "yarn build:clean && yarn build:tsc",
     "build:clean": "rm -rf packages/{cli,lib,file}/lib",
     "build:tsc": "tsc -b packages/*",

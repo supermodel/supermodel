@@ -28,12 +28,13 @@ We are using [lerna](https://github.com/lerna/lerna) for managing all packages t
 
 ### Installation
 
-1. `yarn bootstrap` - resolves and install root and packages dependencies
+1. `yarn global add lerna@3.10` (`npm i -g lerna@3.10`) - to install orchstrating tool lerna
+2. `yarn bootstrap` - resolves and install root and packages dependencies
 
     - ⚠️ use this instead of `yarn [install]`
     - ensures presence of global installation of **lerna** and install it for you when missing
 
-2. 🤔 *optional* When developing against local supermodel.io instance setup .env for CLI. Choose symlink or copy:
+3. 🤔 *optional* When developing against local supermodel.io instance setup .env for CLI. Choose symlink or copy:
 
     - symlink: `ln -s ./packages/cli/.env.development ./packages/cli/.env`
     - copy: `cp ./packages/cli/.env.development ./packages/cli/.env` and change variables for your needs

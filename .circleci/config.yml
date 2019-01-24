@@ -22,6 +22,10 @@ jobs:
           - v1-root-dependencies-
 
       - run:
+          name: "Install lerna"
+          command: sudo yarn global add lerna@3.10
+
+      - run:
           name: "Install packages"
           command: yarn bootstrap
 
