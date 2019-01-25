@@ -52,12 +52,13 @@ We are using [lerna](https://github.com/lerna/lerna) for managing all packages t
 ### Usage
 
 - `yarn build:watch`
-  - should be running whole time during development
-  - for jest tests, testing ./packages/cli/bin/supermodel etc.
-- `yarn test:watch` - **watch** tests in all packages at once (requires parallel running of `yarn build:watch`)
-
+  - should be running while you want to use `./packages/cli/bin/supermodel` or `supermodel` after `yarn local:install`
+- `yarn test:watch` - **watch** tests in all packages at once
 - `yarn build` - make production builds
-- `yarn test` - run lint, build packages and run tests in all packages at once
+- `yarn test` - run lint, type checks and run tests in all packages at once
+  - `yarn test:lint` - code linting
+  - `yarn test:types` - type checks
+  - `yarn test:unit` - unit tests
 
 ### Local linking
 

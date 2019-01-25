@@ -6,6 +6,7 @@ version: 2
 jobs:
   build:
     docker:
+      # Test this on older node
       - image: circleci/node:9.11.1-stretch
 
     working_directory: ~/repo
@@ -13,8 +14,6 @@ jobs:
     steps:
       - checkout
 
-      # TODO: cache packages dependencies too
-      # Download and cache dependencies
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "yarn.lock" }}
@@ -31,13 +30,25 @@ jobs:
           paths:
             - node_modules
             - packages/cli/node_modules
-            - packages/cli/file
-            - packages/cli/lib
+            - packages/file/node_modules
+            - packages/lib/node_modules
           key: v1-dependencies-{{ checksum "yarn.lock" }}
 
       - run:
+          name: "Run lint"
+          command: yarn test:lint
+
+      - run:
+          name: "Run types check"
+          command: yarn test:types
+
+      - run:
           name: "Run tests"
-          command: yarn test
+          command: yarn test:unit
+
+      - run:
+          name: "Run build"
+          command: yarn build
 
       - run:
           name: "Test CLI bin files"

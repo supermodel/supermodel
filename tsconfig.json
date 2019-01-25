@@ -13,9 +13,8 @@
     "skipLibCheck": true,
     "resolveJsonModule": true
   },
-  "exclude": [
-    "fixtures",
-    "node_modules",
-    "test"
+  "include": [
+    "packages/**/typings",
+    "packages/**/src"
   ]
 }
