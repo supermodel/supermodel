@@ -12,9 +12,5 @@
     "noUnusedParameters": true,
     "skipLibCheck": true,
     "resolveJsonModule": true
-  },
-  "include": [
-    "packages/**/typings",
-    "packages/**/src"
-  ]
+  }
 }
