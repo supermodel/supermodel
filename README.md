@@ -1,26 +1,36 @@
-# Supermodel npm packages
+# Supermodel npm packages [![CircleCI][supermodel-ci-badge]][supermodel-ci]
 
 Collection of npm packages supporting [supermodel.io](https://supermodel.io)
 
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Packages](#packages)
+- [Contributing](#contributing)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Local linking](#local-linking)
+- [Principles](#principles)
+- [Publishing](#publishing)
+- [License](#license)
+
+## Introduction
+
+*TODO*
+
 ## Packages
 
-### @supermodel/cli
-
-[README](https://github.com/supermodel/supermodel/tree/master/packages/cli#readme) [![Version][supermodel-cli-version]][supermodel-cli-package]
+**@supermodel/cli** [README](https://github.com/supermodel/supermodel/tree/master/packages/cli#readme) [![Version][supermodel-cli-version]][supermodel-cli-package]
 
 Main package used for installing system wide binary `supermodel` for manipulating schemas
 
-### @supermodel/lib
-
-[README](https://github.com/supermodel/supermodel/tree/master/packages/lib#readme) [![Version][supermodel-lib-version]][supermodel-lib-package]
+**@supermodel/lib** [README](https://github.com/supermodel/supermodel/tree/master/packages/lib#readme) [![Version][supermodel-lib-version]][supermodel-lib-package]
 
 Collection of utils on top of json schema. Used in **@supermodel/cli** and on [supermodel.io](https://supermodel.io)
 
-### @supermodel/file
+**@supermodel/file** [README](https://github.com/supermodel/supermodel/tree/master/packages/file#readme) [![Version][supermodel-file-version]][supermodel-file-package]
 
-[README](https://github.com/supermodel/supermodel/tree/master/packages/file#readme) [![Version][supermodel-file-version]][supermodel-file-package]
-
-Utils for manipulating json schema on file system
+Utils for manipulating json schema on file system. Used in **@supermodel/cli**
 
 ## Contributing
 
@@ -57,6 +67,12 @@ There is shortcut to link all packages
 - `yarn local:install`
 - `yarn local:uninstall`
 
+### Principes
+
+Every new module which manipulates with schemas (conversion, resolving, transforming etc.) or helps to work with schemas and environment around should be placed inside **@supermodel/lib**. Exposed modules for outside usage should return a value, or throw an error. Or promise analogy (resolve, reject) for async modules.
+
+*TODO*
+
 ### Publishing
 
 `lerna publish`
@@ -73,7 +89,8 @@ There is shortcut to link all packages
 The MIT License (MIT) 2019 Good API
 
 <!-- urls -->
-
+[supermodel-ci-badge]: https://circleci.com/gh/supermodel/supermodel.svg?style=svg
+[supermodel-ci]: https://circleci.com/gh/supermodel/supermodel
 [supermodel-cli-version]: https://img.shields.io/npm/v/@supermodel/cli.svg?style=flat-square
 [supermodel-cli-package]: https://www.npmjs.com/package/@supermodel/cli
 [supermodel-lib-version]: https://img.shields.io/npm/v/@supermodel/lib.svg?style=flat-square
