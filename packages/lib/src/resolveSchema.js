@@ -59,9 +59,7 @@ function resolveSchema(schema, schemaLoader) {
 
 function ensureSchemaId(parentSchema, schema, definitionName) {
   if (!schema.$id && parentSchema.$id) {
-    const pathMatch = parentSchema.$id.match(/(.*\/).+?$/);
-    const nameMatch = definitionName.match(/([^/]+?)$/);
-    schema.$id = `${pathMatch[1]}${casex(nameMatch[1], 'CaSe')}`;
+    schema.$id = `${parentSchema.$id}#/definitions/${definitionName}`;
   }
 
   return schema;

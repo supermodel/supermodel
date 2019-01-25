@@ -171,6 +171,7 @@ function convertSchemaObjectProperty(
     const resultDictionary = {};
     for (const dictKey of Object.keys(value)) {
       const dictValue = value[dictKey];
+
       const resultSchemaObject = convertSchemaObject(
         dictValue,
         rootId,
@@ -182,16 +183,12 @@ function convertSchemaObjectProperty(
         resultDictionary[dictKey] = resultSchemaObject;
       } else {
         // Handle definitions differently, see below for details
-        let fullURI = dictKey;
+        let fullURI = dictValue.$id || dictKey;
+
         if (!isURL(fullURI)) {
-          if (currentId) {
-            fullURI = `${currentId}#/definitions/${dictKey}`;
-          } else {
-            fullURI = `${dictValue.$id}#/definitions/${dictKey}`;
-          }
+          fullURI = `${currentId}#/definitions/${dictKey}`;
         }
 
-        console.log(value);
         resultDictionary[convertURItoStringId(fullURI)] = resultSchemaObject;
       }
     }
@@ -261,7 +258,10 @@ function convertSchemaObjectProperty(
       // We need to add "namespace" to the local reference to prevent clash in
       // OAS2 flat definitions
       const refValue = value.replace('#/definitions/', '');
-      const fullURI = `${currentId}#/definitions/${refValue}`;
+      const fullURI = `${currentId.replace(
+        /#\/definitions\/(.+)/,
+        '',
+      )}#/definitions/${refValue}`;
       // TODO: add options to use remote ref
       return {
         key,
