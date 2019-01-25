@@ -16,6 +16,7 @@ jobs:
 
       - restore_cache:
           keys:
+          - lerna-cache
           - v1-dependencies-{{ checksum "yarn.lock" }}
 
       - run:
@@ -25,14 +26,6 @@ jobs:
       - run:
           name: "Install packages"
           command: yarn bootstrap
-
-      - save_cache:
-          paths:
-            - node_modules
-            - packages/cli/node_modules
-            - packages/file/node_modules
-            - packages/lib/node_modules
-          key: v1-dependencies-{{ checksum "yarn.lock" }}
 
       - run:
           name: "Run lint"
@@ -64,3 +57,17 @@ jobs:
             ./packages/cli/bin/supermodel signup --version
             ./packages/cli/bin/supermodel validate --version
             ./packages/cli/bin/supermodel whoami --version
+
+      - save_cache:
+          paths:
+            - /usr/local/share/.config/yarn/global/node_modules/
+            - /usr/local/bin/lerna
+          key: lerna-cache
+
+      - save_cache:
+          paths:
+            - node_modules
+            - packages/cli/node_modules
+            - packages/file/node_modules
+            - packages/lib/node_modules
+          key: v1-dependencies-{{ checksum "yarn.lock" }}
