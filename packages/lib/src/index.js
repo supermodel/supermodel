@@ -1,4 +1,4 @@
-const camelize = require('./camelize');
+const { default: camelize } = require('./camelize');
 const { default: convertToAvro } = require('./convert/Avro');
 const convertToGraphQL = require('./convert/GraphQL');
 const convertToOAS2 = require('./convertToOAS2');
