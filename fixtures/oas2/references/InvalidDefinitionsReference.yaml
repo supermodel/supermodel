@@ -1,0 +1,13 @@
+$id: http://supermodel.io/supermodel/fixtures/InvalidDefinitionsReference
+$schema: http://json-schema.org/draft-07/schema#
+
+title: InvalidDefinitionsReference
+type: object
+
+properties:
+  propertyA:
+    $ref: '#/definitions/definitionA'
+
+definitions:
+  definitionA:
+    $ref: nonexistent # See https://trello.com/c/VkPEODi0/157-resolving-models-with-wrong-urls-in-refs-leads-to-confusing-errors
