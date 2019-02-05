@@ -14,6 +14,13 @@ jobs:
     steps:
       - checkout
 
+      - run:
+          name: create directory to load cached lerna
+          command: |
+            sudo chown -R circleci /usr/local/bin/ && \
+            sudo mkdir -p /usr/local/share/.config/yarn/global/node_modules/ && \
+            sudo chown -R circleci /usr/local/share/.config/yarn/global/node_modules/
+
       - restore_cache:
           keys:
           - lerna-cache
@@ -21,7 +28,8 @@ jobs:
 
       - run:
           name: "Install lerna"
-          command: sudo yarn global add lerna@3.10
+          command:
+            if [ ! -e /usr/local/bin/lerna ]; then sudo yarn global add lerna@3.10; else echo "lerna is cached"; fi;
 
       - run:
           name: "Install packages"
