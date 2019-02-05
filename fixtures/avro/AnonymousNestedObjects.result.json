@@ -1,0 +1,30 @@
+{
+  "namespace": "io.supermodel.supermodel.problem.avro.anonymousObject",
+  "name": "SupermodelIoSupermodelProblemAvroAnonymousObject",
+  "doc": "Model with anonymous object in properties. It is converted to 'record' in Avro.\nEach 'record' in Avro must have a name. We must generate this name  by appending\nproperty name to parent name.\n\nIn this case It will be 'SupermodelIoSupermodelProblemAvroAnonymousObjectSomeObjectData'",
+  "type": "record",
+  "fields": [
+    {
+      "name": "some_object",
+      "type": {
+        "name": "SupermodelIoSupermodelProblemAvroAnonymousObjectSomeObject",
+        "type": "record",
+        "fields": [
+          {
+            "name": "data",
+            "type": {
+              "name": "SupermodelIoSupermodelProblemAvroAnonymousObjectSomeObjectData",
+              "type": "record",
+              "fields": [
+                {
+                  "name": "name",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
