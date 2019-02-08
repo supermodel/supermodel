@@ -222,7 +222,7 @@ describe('resolveRef', () => {
     expect(
       resolveRef(
         'http://supermodel.io/adidas/product/Article#/properties/gender',
-        schema,
+        schema as JSONSchema7,
       ),
     ).toBe(
       schema.definitions[
@@ -353,10 +353,10 @@ describe('resolveRef', () => {
     expect(
       ensureRef(
         'Model',
-        multipleDefinitions,
+        multipleDefinitions as JSONSchema7,
         multipleDefinitions.definitions[
           'http://supermodel.io/supermodel/App/core/Layer'
-        ],
+        ] as JSONSchema7,
       ),
     ).toBe(
       multipleDefinitions.definitions[

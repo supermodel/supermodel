@@ -3,14 +3,12 @@ import { JSONSchema7 } from 'json-schema';
 import {
   AvroSchemaDefinition,
   AvroField,
-  AvroRecord,
   AvroType,
   AvroEnum,
   AvroArray,
   AvroUnion,
   AvroPrimitiveType,
   AvroComplexType,
-  AvroName,
 } from '../Avro';
 import {
   isObject,
@@ -19,20 +17,12 @@ import {
   getNamespace,
   getObjectName,
   convertPrimitiveType,
+  JSONSchema7Properties,
+  Cache,
+  LazyAvroRecord,
 } from './Avro/utils';
 import { ensureRef } from '../utils/resolveRef';
-
-type LazyAvroRecord = () => AvroRecord | AvroName;
-
-type JSONSchema7Properties = {
-  [key: string]: JSONSchema7;
-};
-
-// TODO: temporary solution for recursion.
-type Cache = {
-  lazy: Map<JSONSchema7, LazyAvroRecord>;
-  records: Map<JSONSchema7, AvroRecord>;
-};
+import fetch from '../utils/fetch';
 
 export default function convertToAvro(
   schema: JSONSchema7,
@@ -52,6 +42,7 @@ export default function convertToAvro(
   const cache = {
     lazy: new Map(),
     records: new Map(),
+    avroNames: new Map(),
   };
 
   const lazyAvroRootRecord = objectToAvro(
@@ -70,7 +61,7 @@ export default function convertToAvro(
 
   return {
     namespace: getNamespace(schema),
-    name: getObjectName(schema),
+    name: getObjectName(cache, schema),
     ...resolveLazyRecords(avroRootRecord),
   };
 }
@@ -174,7 +165,7 @@ function propertyToType(
   }
 
   if (hasEnum(schema)) {
-    return enumToAvro(parentSchema, schema, propertyName);
+    return enumToAvro(cache, parentSchema, schema, propertyName);
   }
 
   if (isObject(schema)) {
@@ -254,8 +245,12 @@ function objectToAvro(
       let avroRecord = cache.records.get(schema);
 
       if (!avroRecord) {
+        const name = fetch(cache.avroNames, schema, () =>
+          getObjectName(cache, schema, parentSchema, propertyName),
+        );
+
         avroRecord = {
-          name: getObjectName(schema, parentSchema, propertyName),
+          name,
           ...(schema.description ? { doc: schema.description } : null),
           type: 'record',
           fields: convertProperties(cache, rootSchema, schema),
@@ -336,6 +331,7 @@ function arrayToAvro(
 const reSymbol = /^[A-Za-z_][A-Za-z0-9_]*$/;
 
 function enumToAvro(
+  cache: Cache,
   parentSchema: JSONSchema7,
   schema: JSONSchema7,
   propertyName: string,
@@ -369,7 +365,7 @@ function enumToAvro(
   }
 
   return {
-    name: getObjectName(schema, parentSchema, propertyName),
+    name: getObjectName(cache, schema, parentSchema, propertyName),
     ...(schema.description ? { doc: schema.description } : null),
     type: 'enum',
     symbols: enumValues as string[],

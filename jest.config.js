@@ -9,15 +9,17 @@ module.exports = {
       diagnostics: false,
     },
   },
-  moduleFileExtensions: ['ts', 'js', 'json'],
+  moduleFileExtensions: ['js', 'json', 'ts', 'yaml', 'yml'],
   moduleNameMapper: {
     '^@supermodel/([^/]+)': '<rootDir>/packages/$1/src',
+    '^fixtures/(.+)': '<rootDir>/fixtures/$1',
   },
   notify: false,
-  // notifyMode: 'success-change',
+  notifyMode: 'success-change',
   testEnvironment: 'node',
   testMatch: ['**/*\\.test.(js|ts)'],
   transform: {
     '^.+\\.ts$': 'ts-jest',
+    '^.+\\.ya?ml$': './scripts/jest-yaml-transform',
   },
 };

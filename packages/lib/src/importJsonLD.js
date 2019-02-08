@@ -1,4 +1,4 @@
-const fetch = require('./utils/fetch');
+const { default: fetch } = require('./utils/fetch');
 
 const REF = '$ref';
 const RDF = 'rdf';
