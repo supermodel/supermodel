@@ -7,7 +7,7 @@ import {
 } from './__fixtures__/CarSchema';
 import convertToGraphQL = require('../../src/convert/GraphQL');
 
-function matchSchema(schema) {
+function matchSchema(schema: any) {
   expect(convertToGraphQL(schema)).toMatchSnapshot();
 }
 

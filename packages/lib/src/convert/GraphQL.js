@@ -14,7 +14,7 @@ const {
 } = require('graphql');
 const { idToName, toSafeEnumKey } = require('../utils/graphql');
 const { ensureRef } = require('../utils/resolveRef');
-const fetch = require('../utils/fetch');
+const { default: fetch } = require('../utils/fetch');
 
 /**
  * Generates GraphQL schema for given JSON Schema

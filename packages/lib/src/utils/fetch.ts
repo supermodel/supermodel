@@ -1,4 +1,4 @@
-function fetch(values, name, resolver) {
+export default function fetch<K, V>(values: Map<K, V>, name: K, resolver: () => V) {
   let value;
 
   if (!values.has(name)) {
@@ -10,5 +10,3 @@ function fetch(values, name, resolver) {
 
   return value;
 }
-
-module.exports = fetch;

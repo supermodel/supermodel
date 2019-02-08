@@ -9,7 +9,7 @@ import {
 import convertToAvro from '../../src/convert/Avro';
 
 describe('convertToAvro', () => {
-  function matchSchema(schema) {
+  function matchSchema(schema: any) {
     expect(convertToAvro(schema)).toMatchSnapshot();
   }
 
