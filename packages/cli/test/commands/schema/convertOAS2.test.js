@@ -17,7 +17,7 @@ describe('convertOAS2', () => {
     process.exit = originalExit;
   });
 
-  test.only('works with dir', async () => {
+  test('works with dir', async () => {
     const brokenSchema = path.resolve(__dirname, './__fixtures__');
     await convertOAS2(brokenSchema);
 

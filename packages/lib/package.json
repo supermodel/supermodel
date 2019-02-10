@@ -15,10 +15,14 @@
   "homepage": "https://github.com/supermodel/supermodel/tree/master/packages/lib#readme",
   "dependencies": {
     "ajv": "^6.4.0",
+    "array.prototype.flatmap": "1.2.1",
     "casex": "0.0.5",
+    "fast-glob": "2.2.6",
     "graphql": "14.1.1",
+    "isomorphic-fetch": "2.2.1",
     "js-yaml": "^3.11.0",
     "jsonpointer": "4.0.1",
+    "mime-types": "2.1.22",
     "url": "0.11.0"
   },
   "directories": {
@@ -27,7 +31,11 @@
   },
   "devDependencies": {
     "@supermodel/file": "^0.5.3",
-    "@types/json-schema": "7.0.1"
+    "@types/array.prototype.flatmap": "1.2.0",
+    "@types/json-schema": "7.0.1",
+    "@types/mime-types": "2.1.0",
+    "fetch-vcr": "3.0.0",
+    "jest-playback": "2.0.2"
   },
   "files": [
     "lib"
