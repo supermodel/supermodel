@@ -14,6 +14,17 @@ export default function resolveRef(
   schema: JSONSchema7,
   context?: Optional<JSONSchema7>,
 ) {
+  const result = resolveRefWithContext(ref, schema, context);
+  if (result) {
+    return result.match;
+  }
+}
+
+function resolveRefWithContext(
+  ref: string,
+  schema: JSONSchema7,
+  context?: Optional<JSONSchema7>,
+) {
   let result;
 
   do {
@@ -23,12 +34,26 @@ export default function resolveRef(
         context = result.context;
         ref = result.match.$ref;
       } else {
-        return result.match;
+        return result;
       }
     }
   } while (result);
 
   return null;
+}
+
+export function ensureRefWithParent(
+  ref: string,
+  schema: JSONSchema7,
+  context?: Optional<JSONSchema7>,
+) {
+  const result = resolveRefWithContext(ref, schema, context);
+
+  if (!result) {
+    throw new Error(`Can't resolve schema from $ref '${ref}'`);
+  }
+
+  return result;
 }
 
 export function ensureRef(

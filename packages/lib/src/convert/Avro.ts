@@ -17,11 +17,10 @@ import {
   getNamespace,
   getObjectName,
   convertPrimitiveType,
-  JSONSchema7Properties,
   Cache,
   LazyAvroRecord,
 } from './Avro/utils';
-import { ensureRef } from '../utils/resolveRef';
+import { ensureRefWithParent } from '../utils/resolveRef';
 import fetch from '../utils/fetch';
 
 export default function convertToAvro(
@@ -154,7 +153,12 @@ function propertyToType(
   const { $ref } = schema;
 
   if ($ref !== undefined) {
-    schema = ensureRef($ref, rootSchema, parentSchema);
+    const refMatch = ensureRefWithParent($ref, rootSchema, parentSchema);
+    schema = refMatch.match;
+
+    if (refMatch.context) {
+      parentSchema = refMatch.context;
+    }
   }
 
   // TODO: isMap(...) with additionalProperties

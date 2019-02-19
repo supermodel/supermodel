@@ -12,4 +12,10 @@ describe('fixtures', () => {
       require('fixtures/avro/EmptyModel.result.json'),
     );
   });
+
+  test('avro/NestedRefsAndArray', () => {
+    expect(
+      convertToAvro(require('fixtures/avro/NestedRefsAndArray.yaml')),
+    ).toEqual(require('fixtures/avro/NestedRefsAndArray.result.json'));
+  });
 });

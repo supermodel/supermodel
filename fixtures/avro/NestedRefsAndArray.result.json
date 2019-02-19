@@ -1,0 +1,19 @@
+{
+  "namespace": "io.supermodel.supermodel.test.resolver.nested",
+  "name": "SupermodelIoSupermodelTestResolverNestedC",
+  "type": "record",
+  "fields": [{
+    "name": "ba",
+    "type": {
+      "items": {
+        "fields": [{
+          "name": "a",
+          "type": "string"
+        }],
+        "name": "SupermodelIoSupermodelTestResolverA",
+        "type": "record"
+      },
+      "type": "array"
+    }
+  }]
+}

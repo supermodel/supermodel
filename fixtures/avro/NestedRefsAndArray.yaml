@@ -1,0 +1,27 @@
+---
+"$id": http://supermodel.io/supermodel/Test/Resolver/Nested/c
+"$schema": http://json-schema.org/draft-07/schema#
+title: C
+type: object
+properties:
+  ba:
+    "$ref": http://supermodel.io/supermodel/Test/Resolver/b#/properties/a
+definitions:
+  http://supermodel.io/supermodel/Test/Resolver/b:
+    "$id": http://supermodel.io/supermodel/Test/Resolver/b
+    "$schema": http://json-schema.org/draft-07/schema#
+    title: B
+    type: object
+    properties:
+      a:
+        type: array
+        items:
+          "$ref": a
+  http://supermodel.io/supermodel/Test/Resolver/a:
+    "$id": http://supermodel.io/supermodel/Test/Resolver/a
+    "$schema": http://json-schema.org/draft-07/schema#
+    title: A
+    type: object
+    properties:
+      a:
+        type: string
