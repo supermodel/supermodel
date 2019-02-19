@@ -1,0 +1,8 @@
+{
+  "namespace": "io.supermodel.test.resolver",
+  "name": "SupermodelIoTestResolverEmpty",
+  "doc": "empty model description",
+  "type": "record",
+  "fields": [
+  ]
+}

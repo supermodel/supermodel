@@ -91,14 +91,18 @@ function convertProperties(
   rootSchema: JSONSchema7,
   schema: JSONSchema7,
 ): Array<AvroField> {
-  const properties = schema.properties as JSONSchema7Properties;
+  const properties = schema.properties;
+
+  if (!properties) {
+    return [];
+  }
 
   return Object.keys(properties).map(propertyName =>
     propertyToField(
       cache,
       rootSchema,
       schema,
-      properties[propertyName],
+      properties[propertyName] as JSONSchema7,
       propertyName,
     ),
   );
