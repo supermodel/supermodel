@@ -1,0 +1,187 @@
+{
+  "scope": "http://supermodel.io:80",
+  "method": "GET",
+  "path": "/adidas/product/Asset",
+  "body": "",
+  "status": 200,
+  "response": {
+    "$id": "http://supermodel.io/adidas/product/Asset",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Asset",
+    "description": "Digital Asset",
+    "type": "object",
+    "properties": {
+      "viewGroup": {
+        "type": "string"
+      },
+      "view": {
+        "type": "string"
+      },
+      "image": {
+        "type": "object",
+        "properties": {
+          "width": {
+            "type": "integer"
+          },
+          "height": {
+            "type": "integer"
+          },
+          "bgColor": {
+            "type": "string"
+          },
+          "representation": {
+            "type": "string"
+          }
+        }
+      },
+      "assetCategory": {
+        "type": "string"
+      },
+      "imageStyle": {
+        "type": "string"
+      },
+      "model": {
+        "type": "object",
+        "properties": {
+          "waist": {
+            "type": "string"
+          },
+          "chest": {
+            "type": "string"
+          },
+          "height": {
+            "type": "string"
+          },
+          "productSize": {
+            "type": "string"
+          }
+        }
+      },
+      "pairedArticles": {
+        "type": "array",
+        "items": [
+          {
+            "value": null,
+            "type": "string"
+          }
+        ]
+      },
+      "video": {
+        "type": "object",
+        "properties": {
+          "fileSize": {
+            "type": "integer"
+          }
+        }
+      },
+      "publicId": {
+        "type": "string"
+      },
+      "defaultAlias": {
+        "type": "string"
+      },
+      "sortOrder": {
+        "type": "string"
+      },
+      "usage": {
+        "type": "array",
+        "items": [
+          {
+            "value": null,
+            "type": "string"
+          }
+        ]
+      },
+      "assetHref": {
+        "type": "string",
+        "format": "uri"
+      },
+      "usageTerms": {
+        "type": "array",
+        "items": [
+          {
+            "value": null,
+            "type": "string"
+          }
+        ]
+      },
+      "assetType": {
+        "type": "string",
+        "enum": [
+          "image",
+          "video",
+          "other"
+        ]
+      }
+    },
+    "required": [
+      "assetType",
+      "viewGroup",
+      "view",
+      "assetCategory",
+      "usageTerms",
+      "assetHref"
+    ],
+    "examples": [
+      {
+        "viewGroup": "3d",
+        "view": "Top",
+        "image": {
+          "width": 2000,
+          "height": 2000,
+          "bgColor": "transparent",
+          "representation": null
+        },
+        "assetCategory": "Photography",
+        "imageStyle": "Standard",
+        "model": {
+          "waist": 58,
+          "chest": 97,
+          "height": 197,
+          "productSize": 540
+        },
+        "pairedArticles": {
+          "value": "AB1234"
+        },
+        "video": {
+          "fileSize": 99
+        },
+        "publicID": "AZ1",
+        "defaultAlias": "alias",
+        "sortOrder": 6,
+        "usage": {
+          "value": "pdp"
+        },
+        "assetHref": "http://domain.com/image.jpeg",
+        "usageTerms": {
+          "value": "B2B Catalogue"
+        },
+        "assetType": "image"
+      }
+    ]
+  },
+  "rawHeaders": [
+    "Server",
+    "Cowboy",
+    "Date",
+    "Sun, 17 Feb 2019 23:14:08 GMT",
+    "Connection",
+    "close",
+    "Content-Type",
+    "application/schema+json; charset=utf-8",
+    "Etag",
+    "W/\"4e614ea429e7435a89ebe553cc96ffa0\"",
+    "Cache-Control",
+    "max-age=0, private, must-revalidate",
+    "X-Request-Id",
+    "2440741d-34c5-482d-94d7-ca656e3fd45d",
+    "X-Runtime",
+    "0.049907",
+    "Vary",
+    "Accept, Origin",
+    "Transfer-Encoding",
+    "chunked",
+    "Via",
+    "1.1 vegur"
+  ]
+}

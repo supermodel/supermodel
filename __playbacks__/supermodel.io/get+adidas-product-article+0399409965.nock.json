@@ -1,0 +1,210 @@
+{
+  "scope": "http://supermodel.io:80",
+  "method": "GET",
+  "path": "/adidas/product/Article",
+  "body": "",
+  "status": 200,
+  "response": {
+    "$id": "http://supermodel.io/adidas/product/Article",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Article",
+    "type": "object",
+    "properties": {
+      "articleNumber": {
+        "type": "string"
+      },
+      "modelNumber": {
+        "type": "string"
+      },
+      "articleDescription": {
+        "type": "string"
+      },
+      "materialWeight": {
+        "type": "string"
+      },
+      "colorwayName": {
+        "type": "string"
+      },
+      "colorwayDescription": {
+        "type": "string"
+      },
+      "imageLaunchDate": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "gender": {
+        "$ref": "utils/CodeDescription"
+      },
+      "ageGroup": {
+        "$ref": "utils/CodeDescription"
+      },
+      "brand": {
+        "$ref": "utils/CodeDescription"
+      },
+      "productType": {
+        "$ref": "utils/CodeDescription"
+      },
+      "color1": {
+        "$ref": "utils/CodeDescription"
+      },
+      "color2": {
+        "$ref": "utils/CodeDescription"
+      },
+      "color3": {
+        "$ref": "utils/CodeDescription"
+      },
+      "color4": {
+        "$ref": "utils/CodeDescription"
+      },
+      "businessSegment": {
+        "$ref": "utils/CodeDescription"
+      },
+      "subBrand": {
+        "$ref": "utils/CodeDescription"
+      },
+      "productDivision": {
+        "$ref": "utils/CodeDescription"
+      },
+      "sportsCategory": {
+        "$ref": "utils/CodeDescription"
+      },
+      "franchise": {
+        "$ref": "utils/CodeDescription"
+      },
+      "productFit": {
+        "$ref": "utils/CodeDescription"
+      },
+      "productGroup": {
+        "$ref": "utils/CodeDescription"
+      },
+      "lifecycleStatus": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "colors": {
+        "type": "array",
+        "items": {
+          "$ref": "Color"
+        }
+      },
+      "skus": {
+        "type": "array",
+        "items": {
+          "$ref": "SKU"
+        }
+      },
+      "seasons": {
+        "type": "array",
+        "items": {
+          "$ref": "ArticleSeason"
+        }
+      },
+      "assets": {
+        "type": "array",
+        "items": {
+          "$ref": "Asset"
+        }
+      },
+      "catalog": {
+        "$ref": "Catalog"
+      },
+      "related": {
+        "type": "array",
+        "items": {
+          "$ref": "Article"
+        }
+      }
+    },
+    "examples": [
+      {
+        "articleNumber": "015110",
+        "modelNumber": "10034",
+        "articleDescription": "COPA MUNDIAL",
+        "materialWeight": "weight",
+        "colorwayname": "FTWR WHITE/BLACK",
+        "colorwayDescription": "BLABAS/GRAFIT/BLABAS",
+        "imageLaunchDate": "launchDate",
+        "gender": {
+          "code": "M",
+          "description": "MALE"
+        },
+        "ageGroup": {
+          "code": "A",
+          "description": "ADULT"
+        },
+        "brand": {
+          "code": "11",
+          "description": "ADIDAS"
+        },
+        "productType": {
+          "code": "104",
+          "description": "FOOTBALL SHOES (FIRM GROUND)"
+        },
+        "color1": {
+          "code": "R1",
+          "description": "Red1"
+        },
+        "color2": {
+          "code": "R2",
+          "description": "Red2"
+        },
+        "color3": {
+          "code": "R3",
+          "description": "Red3"
+        },
+        "color4": {
+          "code": "R4",
+          "description": "Red4"
+        },
+        "colors": [
+          {}
+        ],
+        "seasons": [
+          {}
+        ],
+        "skus": [
+          {}
+        ],
+        "assets": [
+          {}
+        ],
+        "catalog": {}
+      }
+    ]
+  },
+  "rawHeaders": [
+    "Server",
+    "Cowboy",
+    "Date",
+    "Sun, 17 Feb 2019 23:14:08 GMT",
+    "Connection",
+    "close",
+    "Content-Type",
+    "application/schema+json; charset=utf-8",
+    "Etag",
+    "W/\"da70bba1a27f6d2c89576864c070a59f\"",
+    "Cache-Control",
+    "max-age=0, private, must-revalidate",
+    "X-Request-Id",
+    "a9db0627-32d2-403f-ad3e-31388e7beff5",
+    "X-Runtime",
+    "0.021953",
+    "Vary",
+    "Accept, Origin",
+    "Transfer-Encoding",
+    "chunked",
+    "Via",
+    "1.1 vegur"
+  ]
+}

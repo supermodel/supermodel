@@ -1,0 +1,94 @@
+{
+  "scope": "http://supermodel.io:80",
+  "method": "GET",
+  "path": "/adidas/product/SKU",
+  "body": "",
+  "status": 200,
+  "response": {
+    "$id": "http://supermodel.io/adidas/product/SKU",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "SKU",
+    "type": "object",
+    "properties": {
+      "EAN": {
+        "type": "string"
+      },
+      "UPC": {
+        "type": "string"
+      },
+      "srcSizeCD3": {
+        "type": "string"
+      },
+      "srcSizeScale": {
+        "type": "string"
+      },
+      "srcSizeDescription": {
+        "type": "string"
+      },
+      "conversionIDs": {
+        "type": "array",
+        "items": [
+          {
+            "type": "object",
+            "properties": {
+              "localSize": {
+                "type": "string"
+              },
+              "saleSizeConvID": {
+                "type": "string"
+              },
+              "saleSizeScale": {
+                "type": "string"
+              },
+              "saleSizeAbbr": {
+                "type": "string"
+              },
+              "saleSizeDesc": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "EAN": "4058026055128",
+        "UPC": "885591427616",
+        "srcSizeCD3": "380",
+        "srcSizeScale": "T4",
+        "conversionIDs": [
+          {
+            "saleSizeConvID": "D",
+            "saleSizeScale": "8C",
+            "saleSizeAbbr": "27"
+          }
+        ]
+      }
+    ]
+  },
+  "rawHeaders": [
+    "Server",
+    "Cowboy",
+    "Date",
+    "Sun, 17 Feb 2019 23:14:08 GMT",
+    "Connection",
+    "close",
+    "Content-Type",
+    "application/schema+json; charset=utf-8",
+    "Etag",
+    "W/\"2f15068e6b0bf318d047b2ae9bc4893c\"",
+    "Cache-Control",
+    "max-age=0, private, must-revalidate",
+    "X-Request-Id",
+    "fa2a0158-7a57-4c76-845f-35c694efde36",
+    "X-Runtime",
+    "0.014182",
+    "Vary",
+    "Accept, Origin",
+    "Transfer-Encoding",
+    "chunked",
+    "Via",
+    "1.1 vegur"
+  ]
+}

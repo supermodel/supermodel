@@ -1,0 +1,32 @@
+{
+  "scope": "https://supermodel.io:443",
+  "method": "GET",
+  "path": "/adidas/product/Article",
+  "body": "",
+  "status": 301,
+  "response": "<html><body>You are being <a href=\"http://supermodel.io/adidas/product/Article\">redirected</a>.</body></html>",
+  "rawHeaders": [
+    "Server",
+    "Cowboy",
+    "Date",
+    "Sun, 17 Feb 2019 23:14:07 GMT",
+    "Connection",
+    "close",
+    "Location",
+    "http://supermodel.io/adidas/product/Article",
+    "Content-Type",
+    "text/html; charset=utf-8",
+    "Cache-Control",
+    "no-cache",
+    "X-Request-Id",
+    "9c49f022-5c37-46bc-94e0-c1b78d08c799",
+    "X-Runtime",
+    "0.014153",
+    "Vary",
+    "Accept, Origin",
+    "Transfer-Encoding",
+    "chunked",
+    "Via",
+    "1.1 vegur"
+  ]
+}

@@ -18,16 +18,16 @@ const sortSchemas = (schemas: JSONSchema7[]) => {
 };
 
 describe('SchemaResolver', () => {
-  test('resolve valid schema via http', async () => {
-    const resolver = new SchemaResolver(
-      'https://supermodel.io/schemaorg/Action',
-      {
-        concurrency: 5,
-      },
-    );
-    const result = await resolver.resolve();
-    expect(sortSchemas(result)).toMatchSnapshot();
-  });
+  // test('resolve valid schema via http', async () => {
+  //   const resolver = new SchemaResolver(
+  //     'https://supermodel.io/schemaorg/Action',
+  //     {
+  //       concurrency: 5,
+  //     },
+  //   );
+  //   const result = await resolver.resolve();
+  //   expect(sortSchemas(result)).toMatchSnapshot();
+  // });
 
   test('resolve valid schema via http #2', async () => {
     const resolver = new SchemaResolver(

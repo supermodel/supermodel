@@ -1,0 +1,62 @@
+{
+  "scope": "http://supermodel.io:80",
+  "method": "GET",
+  "path": "/adidas/product/ArticleSeason",
+  "body": "",
+  "status": 200,
+  "response": {
+    "$id": "http://supermodel.io/adidas/product/ArticleSeason",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Article Season",
+    "description": "Seasonal information about article",
+    "type": "object",
+    "properties": {
+      "seasonName": {
+        "type": "string"
+      },
+      "carryOver": {
+        "type": "boolean"
+      },
+      "retailIntroDate": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "retailExitDate": {
+        "type": "string",
+        "format": "date-time"
+      }
+    },
+    "examples": [
+      {
+        "seasonName": "FW17",
+        "carryOver": false,
+        "retailIntroDate": "2017-06-01",
+        "retailExitDate": "2017-11-30"
+      }
+    ]
+  },
+  "rawHeaders": [
+    "Server",
+    "Cowboy",
+    "Date",
+    "Sun, 17 Feb 2019 23:14:07 GMT",
+    "Connection",
+    "close",
+    "Content-Type",
+    "application/schema+json; charset=utf-8",
+    "Etag",
+    "W/\"e195fa5599f43b846846ff71d04578bb\"",
+    "Cache-Control",
+    "max-age=0, private, must-revalidate",
+    "X-Request-Id",
+    "07289bc0-7b21-4f36-a38d-2214d28aa851",
+    "X-Runtime",
+    "0.055878",
+    "Vary",
+    "Accept, Origin",
+    "Transfer-Encoding",
+    "chunked",
+    "Via",
+    "1.1 vegur"
+  ]
+}
