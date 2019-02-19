@@ -1,3 +1,4 @@
+import { SchemaFileReader } from '@supermodel/file';
 import {
   SchemaSource,
   isNode,
@@ -8,12 +9,11 @@ import {
 } from './helpers';
 import { JSONSchema7 } from 'json-schema';
 import { schemaFetch } from './http';
-import { SchemaFile } from './file';
 import { PromisePool } from './promise-pool';
 
 type ResolverOptions = {
   cwd?: string;
-  file?: typeof SchemaFile;
+  file?: typeof SchemaFileReader;
   http?: boolean;
   concurrency?: number;
 };
@@ -22,12 +22,12 @@ type SchemasCache = Map<Url, Promise<JSONSchema7>>;
 
 type Queue = Array<string>;
 
-export class Resolver {
+export class SchemaResolver {
   options: ResolverOptions & { http: boolean; concurrency: number };
   schemas: { [key: string]: JSONSchema7 } = {};
 
   private local: boolean;
-  private schemaFileInstance?: SchemaFile;
+  private schemaFileInstance?: SchemaFileReader;
   private source: SchemaSource;
 
   constructor(source: SchemaSource, options: ResolverOptions = {}) {
@@ -50,7 +50,10 @@ export class Resolver {
     const resolvedSchemas: SchemasCache = new Map();
     const queue: Queue = [];
 
-    schemas.map(schema => this.resolveSchema(schema, resolvedSchemas, queue));
+    // TODO: temporary overwrite type beacuse of issue with loading @supermodel/file
+    schemas.map((schema: JSONSchema7) =>
+      this.resolveSchema(schema, resolvedSchemas, queue),
+    );
 
     await this.processQueue(queue, resolvedSchemas, this.options.concurrency);
 

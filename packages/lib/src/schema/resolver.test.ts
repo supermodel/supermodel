@@ -1,5 +1,5 @@
-import { Resolver } from './resolver';
-import { SchemaFile } from './file';
+import { SchemaFileReader } from '@supermodel/file';
+import { SchemaResolver } from './resolver';
 import { resolve } from 'path';
 import { JSONSchema7 } from 'json-schema';
 
@@ -17,17 +17,20 @@ const sortSchemas = (schemas: JSONSchema7[]) => {
   });
 };
 
-describe('Resolver', () => {
+describe('SchemaResolver', () => {
   test('resolve valid schema via http', async () => {
-    const resolver = new Resolver('https://supermodel.io/schemaorg/Action', {
-      concurrency: 5,
-    });
+    const resolver = new SchemaResolver(
+      'https://supermodel.io/schemaorg/Action',
+      {
+        concurrency: 5,
+      },
+    );
     const result = await resolver.resolve();
     expect(sortSchemas(result)).toMatchSnapshot();
   });
 
   test('resolve valid schema via http #2', async () => {
-    const resolver = new Resolver(
+    const resolver = new SchemaResolver(
       'https://supermodel.io/adidas/product/Article',
     );
     const result = await resolver.resolve();
@@ -39,7 +42,9 @@ describe('Resolver', () => {
       __dirname,
       '../../../../fixtures/schema/SchemaorgExample/Action.yaml',
     );
-    const resolver = new Resolver(ActionSchemaPath, { file: SchemaFile });
+    const resolver = new SchemaResolver(ActionSchemaPath, {
+      file: SchemaFileReader,
+    });
     const result = await resolver.resolve();
     expect(sortSchemas(result)).toMatchSnapshot();
   });

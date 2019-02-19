@@ -1,4 +1,4 @@
-import { buildSchemaIdToPath } from './file';
+import { buildSchemaIdToPath } from './utils';
 import { resolve } from 'path';
 
 jest.mock('fast-glob', () => {
