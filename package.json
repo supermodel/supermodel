@@ -8,11 +8,13 @@
     "packages/*"
   ],
   "scripts": {
+    "postinstall": "lerna link",
     "bootstrap": "lerna bootstrap",
-    "build": "yarn build:clean && yarn build:tsc",
-    "build:clean": "rm -rf packages/{cli,lib,file}/lib",
+    "build": "yarn build:tsc",
+    "build:clean": "rm -rf packages/*/lib",
     "build:tsc": "tsc --build packages/*",
     "build:watch": "yarn build:clean && yarn build:tsc --watch --preserveWatchOutput",
+    "clean": "yarn build:clean && rm -rf .cache node_modules && rm -rf packages/*/{node_modules}",
     "local:install": "lerna exec yarn link",
     "local:uninstall": "lerna exec yarn unlink",
     "preversion": "yarn test",
