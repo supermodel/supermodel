@@ -1,0 +1,4 @@
+$id: http://supermodel.io/superlib/basic/SimpleSchemaInvalid
+
+tilte: Simple Schema
+type: some-non-existent-type
