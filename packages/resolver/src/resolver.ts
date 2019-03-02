@@ -1,4 +1,6 @@
-import { SchemaFileReader } from '@supermodel/file';
+import { JSONSchema7 } from 'json-schema';
+import { SchemaFileReader } from '@supermodel/fs';
+import { schemaFetch } from '@supermodel/http';
 import {
   SchemaSource,
   isNode,
@@ -7,8 +9,6 @@ import {
   collectRefs,
   collectDefinitions,
 } from './helpers';
-import { JSONSchema7 } from 'json-schema';
-import { schemaFetch } from './http';
 import { PromisePool } from './promise-pool';
 
 type ResolverOptions = {
@@ -184,7 +184,7 @@ export class SchemaResolver {
         `);
       }
 
-      this.schemaFileInstance = new SchemaFileClass(this);
+      this.schemaFileInstance = new SchemaFileClass(this.options.cwd);
     }
 
     if (!this.schemaFileInstance) {

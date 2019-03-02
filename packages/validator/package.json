@@ -1,0 +1,30 @@
+{
+  "name": "@supermodel/validator",
+  "version": "0.0.1",
+  "description": "Supermodel.io validator utils",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/supermodel/supermodel.git"
+  },
+  "author": "Zdenek Nemec <z@goodapi.co> (http://goodapi.co)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/supermodel/supermodel/issues"
+  },
+  "homepage": "https://github.com/supermodel/supermodel/tree/master/packages/lib#readme",
+  "dependencies": {
+    "ajv": "^6.9.2"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "devDependencies": {
+    "@types/json-schema": "^7.0.3"
+  },
+  "files": [
+    "lib"
+  ]
+}

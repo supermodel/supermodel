@@ -12,5 +12,10 @@
     "noUnusedParameters": true,
     "skipLibCheck": true,
     "resolveJsonModule": true
-  }
+  },
+  "exclude": [
+    "./*/lib",
+    "./*/node_modules",
+    "./*/test"
+  ]
 }

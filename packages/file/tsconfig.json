@@ -1,1 +1,10 @@
-../../shared/tsconfig.json
+{
+  "extends": "../tsconfig.old.json",
+  "compilerOptions": {
+    "outDir": "./lib"
+  },
+  "include": [
+    "src",
+    "typings"
+  ]
+}

@@ -1,4 +1,3 @@
-import { SchemaResolver } from '@supermodel/lib/schema/resolver';
 import { resolve } from 'path';
 import { JSONSchema7 } from 'json-schema';
 import { schemaRead, buildSchemaIdToPath, extractUrl } from './utils';
@@ -7,8 +6,8 @@ export class SchemaFileReader {
   cwd: string;
   schemaIdToPath?: (schemaId: string) => Promise<string | undefined>;
 
-  constructor(resolver: SchemaResolver) {
-    this.cwd = resolver.options.cwd || process.cwd();
+  constructor(cwd?: string | null) {
+    this.cwd = cwd || process.cwd();
   }
 
   async read(schemaPath: string) {

@@ -1,0 +1,719 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SchemaResolver resolve valid schema via file 1`] = `
+Array [
+  Object {
+    "$id": "http://supermodel.io/schemaorg/Action",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$source": "http://schema.org/Action",
+    "allOf": Array [
+      Object {
+        "$ref": "http://supermodel.io/schemaorg/Thing",
+      },
+    ],
+    "description": "An action performed by a direct agent and indirect participants upon a direct object. Optionally happens at a location with the help of an inanimate instrument. The execution of the action may produce a result. Specific action sub-type documentation specifies the exact expectation of each argument/role.<br/><br/>
+
+See also <a href=\\"http://blog.schema.org/2014/04/announcing-schemaorg-actions.html\\">blog post</a> and <a href=\\"http://schema.org/docs/actions.html\\">Actions overview document</a>.",
+    "properties": Object {
+      "error": Object {
+        "$ref": "http://supermodel.io/schemaorg/properties/error",
+      },
+      "result": Object {
+        "$ref": "http://supermodel.io/schemaorg/properties/result",
+      },
+    },
+    "title": "Action",
+    "type": "object",
+  },
+  Object {
+    "$id": "http://supermodel.io/schemaorg/DataType",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$source": "http://schema.org/DataType",
+    "description": "The basic data types such as Integers, Strings, etc.",
+    "title": "DataType",
+  },
+  Object {
+    "$id": "http://supermodel.io/schemaorg/Text",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$source": "http://schema.org/Text",
+    "allOf": Array [
+      Object {
+        "$ref": "http://supermodel.io/schemaorg/DataType",
+      },
+    ],
+    "description": "Data type: Text.",
+    "title": "Text",
+    "type": "string",
+  },
+  Object {
+    "$id": "http://supermodel.io/schemaorg/Thing",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$source": "http://schema.org/Thing",
+    "description": "The most generic type of item.",
+    "properties": Object {
+      "name": Object {
+        "$ref": "http://supermodel.io/schemaorg/properties/name",
+      },
+    },
+    "title": "Thing",
+    "type": "object",
+  },
+  Object {
+    "$id": "http://supermodel.io/schemaorg/properties/error",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$source": "http://schema.org/error",
+    "description": "For failed actions, more information on the cause of the failure.",
+    "oneOf": Array [
+      Object {
+        "$ref": "http://supermodel.io/schemaorg/Thing",
+      },
+    ],
+    "title": "error",
+  },
+  Object {
+    "$id": "http://supermodel.io/schemaorg/properties/name",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$source": "http://schema.org/name",
+    "description": "The name of the item.",
+    "oneOf": Array [
+      Object {
+        "$ref": "http://supermodel.io/schemaorg/Text",
+      },
+    ],
+    "title": "name",
+  },
+  Object {
+    "$id": "http://supermodel.io/schemaorg/properties/result",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$source": "http://schema.org/result",
+    "description": "The result produced in the action. e.g. John wrote <em>a book</em>.",
+    "oneOf": Array [
+      Object {
+        "$ref": "http://supermodel.io/schemaorg/Thing",
+      },
+    ],
+    "title": "result",
+  },
+]
+`;
+
+exports[`SchemaResolver resolve valid schema via http #2 1`] = `
+Array [
+  Object {
+    "$id": "http://supermodel.io/adidas/product/Article",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "examples": Array [
+      Object {
+        "ageGroup": Object {
+          "code": "A",
+          "description": "ADULT",
+        },
+        "articleDescription": "COPA MUNDIAL",
+        "articleNumber": "015110",
+        "assets": Array [
+          Object {},
+        ],
+        "brand": Object {
+          "code": "11",
+          "description": "ADIDAS",
+        },
+        "catalog": Object {},
+        "color1": Object {
+          "code": "R1",
+          "description": "Red1",
+        },
+        "color2": Object {
+          "code": "R2",
+          "description": "Red2",
+        },
+        "color3": Object {
+          "code": "R3",
+          "description": "Red3",
+        },
+        "color4": Object {
+          "code": "R4",
+          "description": "Red4",
+        },
+        "colors": Array [
+          Object {},
+        ],
+        "colorwayDescription": "BLABAS/GRAFIT/BLABAS",
+        "colorwayname": "FTWR WHITE/BLACK",
+        "gender": Object {
+          "code": "M",
+          "description": "MALE",
+        },
+        "imageLaunchDate": "launchDate",
+        "materialWeight": "weight",
+        "modelNumber": "10034",
+        "productType": Object {
+          "code": "104",
+          "description": "FOOTBALL SHOES (FIRM GROUND)",
+        },
+        "seasons": Array [
+          Object {},
+        ],
+        "skus": Array [
+          Object {},
+        ],
+      },
+    ],
+    "properties": Object {
+      "ageGroup": Object {
+        "$ref": "utils/CodeDescription",
+      },
+      "articleDescription": Object {
+        "type": "string",
+      },
+      "articleNumber": Object {
+        "type": "string",
+      },
+      "assets": Object {
+        "items": Object {
+          "$ref": "Asset",
+        },
+        "type": "array",
+      },
+      "brand": Object {
+        "$ref": "utils/CodeDescription",
+      },
+      "businessSegment": Object {
+        "$ref": "utils/CodeDescription",
+      },
+      "catalog": Object {
+        "$ref": "Catalog",
+      },
+      "color1": Object {
+        "$ref": "utils/CodeDescription",
+      },
+      "color2": Object {
+        "$ref": "utils/CodeDescription",
+      },
+      "color3": Object {
+        "$ref": "utils/CodeDescription",
+      },
+      "color4": Object {
+        "$ref": "utils/CodeDescription",
+      },
+      "colors": Object {
+        "items": Object {
+          "$ref": "Color",
+        },
+        "type": "array",
+      },
+      "colorwayDescription": Object {
+        "type": "string",
+      },
+      "colorwayName": Object {
+        "type": "string",
+      },
+      "franchise": Object {
+        "$ref": "utils/CodeDescription",
+      },
+      "gender": Object {
+        "$ref": "utils/CodeDescription",
+      },
+      "imageLaunchDate": Object {
+        "format": "date-time",
+        "type": "string",
+      },
+      "lifecycleStatus": Object {
+        "properties": Object {
+          "code": Object {
+            "type": "string",
+          },
+          "date": Object {
+            "format": "date-time",
+            "type": "string",
+          },
+          "description": Object {
+            "type": "string",
+          },
+        },
+        "type": "object",
+      },
+      "materialWeight": Object {
+        "type": "string",
+      },
+      "modelNumber": Object {
+        "type": "string",
+      },
+      "productDivision": Object {
+        "$ref": "utils/CodeDescription",
+      },
+      "productFit": Object {
+        "$ref": "utils/CodeDescription",
+      },
+      "productGroup": Object {
+        "$ref": "utils/CodeDescription",
+      },
+      "productType": Object {
+        "$ref": "utils/CodeDescription",
+      },
+      "related": Object {
+        "items": Object {
+          "$ref": "Article",
+        },
+        "type": "array",
+      },
+      "seasons": Object {
+        "items": Object {
+          "$ref": "ArticleSeason",
+        },
+        "type": "array",
+      },
+      "skus": Object {
+        "items": Object {
+          "$ref": "SKU",
+        },
+        "type": "array",
+      },
+      "sportsCategory": Object {
+        "$ref": "utils/CodeDescription",
+      },
+      "subBrand": Object {
+        "$ref": "utils/CodeDescription",
+      },
+    },
+    "title": "Article",
+    "type": "object",
+  },
+  Object {
+    "$id": "http://supermodel.io/adidas/product/ArticleSeason",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Seasonal information about article",
+    "examples": Array [
+      Object {
+        "carryOver": false,
+        "retailExitDate": "2017-11-30",
+        "retailIntroDate": "2017-06-01",
+        "seasonName": "FW17",
+      },
+    ],
+    "properties": Object {
+      "carryOver": Object {
+        "type": "boolean",
+      },
+      "retailExitDate": Object {
+        "format": "date-time",
+        "type": "string",
+      },
+      "retailIntroDate": Object {
+        "format": "date-time",
+        "type": "string",
+      },
+      "seasonName": Object {
+        "type": "string",
+      },
+    },
+    "title": "Article Season",
+    "type": "object",
+  },
+  Object {
+    "$id": "http://supermodel.io/adidas/product/Asset",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Digital Asset",
+    "examples": Array [
+      Object {
+        "assetCategory": "Photography",
+        "assetHref": "http://domain.com/image.jpeg",
+        "assetType": "image",
+        "defaultAlias": "alias",
+        "image": Object {
+          "bgColor": "transparent",
+          "height": 2000,
+          "representation": null,
+          "width": 2000,
+        },
+        "imageStyle": "Standard",
+        "model": Object {
+          "chest": 97,
+          "height": 197,
+          "productSize": 540,
+          "waist": 58,
+        },
+        "pairedArticles": Object {
+          "value": "AB1234",
+        },
+        "publicID": "AZ1",
+        "sortOrder": 6,
+        "usage": Object {
+          "value": "pdp",
+        },
+        "usageTerms": Object {
+          "value": "B2B Catalogue",
+        },
+        "video": Object {
+          "fileSize": 99,
+        },
+        "view": "Top",
+        "viewGroup": "3d",
+      },
+    ],
+    "properties": Object {
+      "assetCategory": Object {
+        "type": "string",
+      },
+      "assetHref": Object {
+        "format": "uri",
+        "type": "string",
+      },
+      "assetType": Object {
+        "enum": Array [
+          "image",
+          "video",
+          "other",
+        ],
+        "type": "string",
+      },
+      "defaultAlias": Object {
+        "type": "string",
+      },
+      "image": Object {
+        "properties": Object {
+          "bgColor": Object {
+            "type": "string",
+          },
+          "height": Object {
+            "type": "integer",
+          },
+          "representation": Object {
+            "type": "string",
+          },
+          "width": Object {
+            "type": "integer",
+          },
+        },
+        "type": "object",
+      },
+      "imageStyle": Object {
+        "type": "string",
+      },
+      "model": Object {
+        "properties": Object {
+          "chest": Object {
+            "type": "string",
+          },
+          "height": Object {
+            "type": "string",
+          },
+          "productSize": Object {
+            "type": "string",
+          },
+          "waist": Object {
+            "type": "string",
+          },
+        },
+        "type": "object",
+      },
+      "pairedArticles": Object {
+        "items": Array [
+          Object {
+            "type": "string",
+            "value": null,
+          },
+        ],
+        "type": "array",
+      },
+      "publicId": Object {
+        "type": "string",
+      },
+      "sortOrder": Object {
+        "type": "string",
+      },
+      "usage": Object {
+        "items": Array [
+          Object {
+            "type": "string",
+            "value": null,
+          },
+        ],
+        "type": "array",
+      },
+      "usageTerms": Object {
+        "items": Array [
+          Object {
+            "type": "string",
+            "value": null,
+          },
+        ],
+        "type": "array",
+      },
+      "video": Object {
+        "properties": Object {
+          "fileSize": Object {
+            "type": "integer",
+          },
+        },
+        "type": "object",
+      },
+      "view": Object {
+        "type": "string",
+      },
+      "viewGroup": Object {
+        "type": "string",
+      },
+    },
+    "required": Array [
+      "assetType",
+      "viewGroup",
+      "view",
+      "assetCategory",
+      "usageTerms",
+      "assetHref",
+    ],
+    "title": "Asset",
+    "type": "object",
+  },
+  Object {
+    "$id": "http://supermodel.io/adidas/product/Catalog",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": Object {
+      "CatalogCopy": Object {
+        "properties": Object {
+          "articleNumber": Object {
+            "type": "string",
+          },
+          "catalog": Object {
+            "items": Object {
+              "$ref": "Catalogues",
+            },
+            "type": "array",
+          },
+          "modelNumber": Object {
+            "type": "string",
+          },
+        },
+        "title": "Catalog Copy",
+        "type": "object",
+      },
+    },
+    "examples": Array [
+      Object {
+        "catalogueCopy": Object {},
+        "featureAndBenefits": Array [
+          Object {},
+        ],
+      },
+    ],
+    "properties": Object {
+      "catalogueCopy": Object {
+        "$ref": "#/definitions/CatalogCopy",
+      },
+    },
+    "title": "Catalog",
+    "type": "object",
+  },
+  Object {
+    "$id": "http://supermodel.io/adidas/product/Catalogues",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "properties": Object {
+      "acsModelName": Object {
+        "type": "string",
+      },
+      "b2bCopy": Object {
+        "type": "string",
+      },
+      "b2bCopyShort": Object {
+        "type": "string",
+      },
+      "b2cCopy": Object {
+        "type": "string",
+      },
+      "b2cCopyShort": Object {
+        "type": "string",
+      },
+      "b2cModelName": Object {
+        "type": "string",
+      },
+      "bulletFit": Object {
+        "type": "string",
+      },
+      "bulletMaterial": Object {
+        "examples": Array [
+          Object {
+            "acsModelName": "COPA MUNDIAL",
+            "b2bCopy": "Hurricanes Training Jersey as worn by the players when training with dynamic retro design inspired by the original Super Jersey.Captured with shock blue and black colors on climalite fabric with moisture wicking properties.",
+            "b2bCopyShort": "Hurricanes Training Jersey as worn by the players when training with dynamic retro design inspired by the orginal Super jersey.",
+            "b2cCopy": "De populairste voetbalschoen ooit, en terecht. De adidas Copa Mundial heeft een bovenwerk van rijk leer en een loopzool met dubbele dichtheid die al decennia lang de toon zet voor comfort en prestaties op het veld.",
+            "b2cCopyShort": "Entraîne-toi comme les pros avec ce haut de l'équipe de Belgique de football.",
+            "b2cModelName": "COPA MUNDIAL",
+            "bulletFit": "bulletFit",
+            "bulletMaterial": "Maille double 100 % polyester.",
+            "bulletMeasurements": "bullet measurements",
+            "bulletWeight": "bullet weight",
+            "bullets1": "materiál Climalite odvádí pot a udrží tě vsuchu za všech okolností",
+            "bullets2": "Ribbet V-hals",
+            "bullets3": "Nackenband",
+            "bullets4": "Επένδυση προστασίας από τον άνεμο στο μπροστινό μέρος. Μανσέτες με ανοίγματα για τους αντίχειρες",
+            "bullets5": "Woven Belgium crest on chest",
+            "bullets6": "3 bandas en las mangas; logotipo de adidas serigrafiado a la derecha del pecho",
+            "bullets7": "Three stripes",
+            "locale": "en-GB",
+            "materialComposition": "100% Organic Cotton",
+            "materialConstruction": "Single jersey",
+          },
+        ],
+        "type": "string",
+      },
+      "bulletMeasurements": Object {
+        "type": "string",
+      },
+      "bulletWeight": Object {
+        "type": "string",
+      },
+      "bullets1": Object {
+        "type": "string",
+      },
+      "bullets2": Object {
+        "type": "string",
+      },
+      "bullets3": Object {
+        "type": "string",
+      },
+      "bullets4": Object {
+        "type": "string",
+      },
+      "bullets5": Object {
+        "type": "string",
+      },
+      "bullets6": Object {
+        "type": "string",
+      },
+      "bullets7": Object {
+        "type": "string",
+      },
+      "locale": Object {
+        "type": "string",
+      },
+      "materialComposition": Object {
+        "type": "string",
+      },
+      "materialConstruction": Object {
+        "type": "string",
+      },
+    },
+    "title": "Catalogues",
+    "type": "object",
+  },
+  Object {
+    "$id": "http://supermodel.io/adidas/product/Color",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Color descriptions are language-dependent",
+    "examples": Array [
+      Object {
+        "color1": Object {
+          "code": "A0QM",
+          "description": "core black",
+        },
+        "color2": Object {
+          "code": "A98B",
+          "description": "utility black",
+        },
+        "color3": Object {
+          "code": "A0QM",
+          "description": "core black",
+        },
+        "color4": Object {
+          "code": "01F7",
+          "description": "ftwr white",
+        },
+      },
+    ],
+    "properties": Object {
+      "color1": Object {
+        "$ref": "utils/CodeDescription",
+      },
+      "color2": Object {
+        "$ref": "utils/CodeDescription",
+      },
+      "color3": Object {
+        "$ref": "utils/CodeDescription",
+      },
+      "color4": Object {
+        "$ref": "utils/CodeDescription",
+      },
+    },
+    "title": "Color",
+    "type": "object",
+  },
+  Object {
+    "$id": "http://supermodel.io/adidas/product/SKU",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "examples": Array [
+      Object {
+        "EAN": "4058026055128",
+        "UPC": "885591427616",
+        "conversionIDs": Array [
+          Object {
+            "saleSizeAbbr": "27",
+            "saleSizeConvID": "D",
+            "saleSizeScale": "8C",
+          },
+        ],
+        "srcSizeCD3": "380",
+        "srcSizeScale": "T4",
+      },
+    ],
+    "properties": Object {
+      "EAN": Object {
+        "type": "string",
+      },
+      "UPC": Object {
+        "type": "string",
+      },
+      "conversionIDs": Object {
+        "items": Array [
+          Object {
+            "properties": Object {
+              "localSize": Object {
+                "type": "string",
+              },
+              "saleSizeAbbr": Object {
+                "type": "string",
+              },
+              "saleSizeConvID": Object {
+                "type": "string",
+              },
+              "saleSizeDesc": Object {
+                "type": "string",
+              },
+              "saleSizeScale": Object {
+                "type": "string",
+              },
+            },
+            "type": "object",
+          },
+        ],
+        "type": "array",
+      },
+      "srcSizeCD3": Object {
+        "type": "string",
+      },
+      "srcSizeDescription": Object {
+        "type": "string",
+      },
+      "srcSizeScale": Object {
+        "type": "string",
+      },
+    },
+    "title": "SKU",
+    "type": "object",
+  },
+  Object {
+    "$id": "http://supermodel.io/adidas/product/utils/CodeDescription",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Helper data structure to hold any code - description pair",
+    "properties": Object {
+      "code": Object {
+        "type": "string",
+      },
+      "description": Object {
+        "type": "string",
+      },
+    },
+    "title": "Code Description Tuple",
+    "type": "object",
+  },
+]
+`;

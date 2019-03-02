@@ -1,8 +1,9 @@
 {
-  "name": "@supermodel/file",
-  "version": "0.5.3",
-  "description": "File Schema Loader for Supermodel",
+  "name": "@supermodel/resolver",
+  "version": "0.0.1",
+  "description": "Schema resolver for Supermodel",
   "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/supermodel/supermodel.git"
@@ -18,10 +19,19 @@
   },
   "homepage": "https://github.com/supermodel/supermodel/tree/master/packages/file#readme",
   "dependencies": {
-    "js-yaml": "^3.11.0",
-    "node-fetch": "^2.2.0"
+    "@supermodel/fs": "0.0.1",
+    "@supermodel/http": "0.0.1",
+    "@supermodel/serializer": "0.0.1",
+    "isomorphic-fetch": "^2.2.1",
+    "path": "0.12.7",
+    "url": "0.11.0"
   },
   "files": [
     "lib"
-  ]
+  ],
+  "devDependencies": {
+    "@types/isomorphic-fetch": "^0.0.35",
+    "@types/json-schema": "^7.0.3",
+    "typescript": "^3.3.3"
+  }
 }

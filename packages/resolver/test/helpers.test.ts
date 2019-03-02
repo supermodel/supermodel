@@ -6,7 +6,7 @@ import {
   collectRefs,
   normalizeRefValue,
   collectDefinitions,
-} from './helpers';
+} from '../src/helpers';
 
 describe('Resolver.helpers', () => {
   test('isUrl', () => {

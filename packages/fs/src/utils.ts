@@ -1,4 +1,4 @@
-import { parseYAML } from '@supermodel/lib';
+import { fromYAML } from '@supermodel/serializer';
 import { resolve, sep } from 'path';
 import { stat, readFile } from 'fs';
 import { lookup } from 'mime-types';
@@ -39,7 +39,7 @@ export const parseContent = (schemaPath: string, content: string) => {
   if (mime === 'text/json') {
     return JSON.parse(content) as JSONSchema7;
   } else if (mime === 'text/yaml') {
-    return parseYAML(content) as JSONSchema7;
+    return fromYAML(content) as JSONSchema7;
   }
 
   throw new Error(`Schema file '${schemaPath}' is neither json or yaml`);

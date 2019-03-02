@@ -1,6 +1,6 @@
 {
-  "name": "@supermodel/file",
-  "version": "0.5.3",
+  "name": "@supermodel/http",
+  "version": "0.0.1",
   "description": "File Schema Loader for Supermodel",
   "main": "lib/index.js",
   "repository": {
@@ -18,10 +18,14 @@
   },
   "homepage": "https://github.com/supermodel/supermodel/tree/master/packages/file#readme",
   "dependencies": {
-    "js-yaml": "^3.11.0",
-    "node-fetch": "^2.2.0"
+    "@supermodel/serializer": "0.0.1",
+    "isomorphic-fetch": "^2.2.1",
+    "js-yaml": "^3.11.0"
   },
   "files": [
     "lib"
-  ]
+  ],
+  "devDependencies": {
+    "@types/js-yaml": "3.12.0"
+  }
 }

@@ -1,0 +1,31 @@
+{
+  "name": "@supermodel/serializer",
+  "version": "0.0.1",
+  "description": "Supermodel.io serializer utils",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/supermodel/supermodel.git"
+  },
+  "author": "Zdenek Nemec <z@goodapi.co> (http://goodapi.co)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/supermodel/supermodel/issues"
+  },
+  "homepage": "https://github.com/supermodel/supermodel/tree/master/packages/lib#readme",
+  "dependencies": {
+    "js-yaml": "^3.11.0"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^3.12.0",
+    "@types/json-schema": "^7.0.3"
+  },
+  "files": [
+    "lib"
+  ]
+}

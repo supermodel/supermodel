@@ -30,7 +30,6 @@
     "test": "test"
   },
   "devDependencies": {
-    "@supermodel/file": "^0.5.3",
     "@types/array.prototype.flatmap": "1.2.0",
     "@types/json-schema": "7.0.1",
     "@types/mime-types": "2.1.0",
