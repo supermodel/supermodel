@@ -5,6 +5,6 @@
     "outDir": "lib"
   },
   "references": [
-    { "path": "../resolver" }
+    { "path": "../serializer" }
   ]
 }

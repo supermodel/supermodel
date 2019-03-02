@@ -5,7 +5,9 @@
     "outDir": "lib"
   },
   "references": [
-    { "path": "../file" },
-    { "path": "../serializer" }
+    { "path": "../fs" },
+    { "path": "../http" },
+    { "path": "../serializer" },
+    { "path": "../validator" },
   ]
 }

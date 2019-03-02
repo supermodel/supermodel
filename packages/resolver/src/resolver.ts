@@ -1,6 +1,7 @@
 import { JSONSchema7 } from 'json-schema';
 import { SchemaFileReader } from '@supermodel/fs';
 import { schemaFetch } from '@supermodel/http';
+import { validateSchema } from '@supermodel/validator';
 import {
   SchemaSource,
   isNode,
@@ -16,6 +17,7 @@ type ResolverOptions = {
   file?: typeof SchemaFileReader;
   http?: boolean;
   concurrency?: number;
+  validate?: boolean;
 };
 
 type SchemasCache = Map<Url, Promise<JSONSchema7>>;
@@ -23,7 +25,11 @@ type SchemasCache = Map<Url, Promise<JSONSchema7>>;
 type Queue = Array<string>;
 
 export class SchemaResolver {
-  options: ResolverOptions & { http: boolean; concurrency: number };
+  options: ResolverOptions & {
+    http: boolean;
+    concurrency: number;
+    validate: boolean;
+  };
   schemas: { [key: string]: JSONSchema7 } = {};
 
   private local: boolean;
@@ -34,6 +40,7 @@ export class SchemaResolver {
     this.options = {
       http: true,
       concurrency: 10,
+      validate: true,
       ...options,
     };
 
