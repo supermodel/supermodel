@@ -33,7 +33,7 @@ type SchemasCache = Map<Url, Promise<JSONSchema7>>;
 
 type Queue = Array<string>;
 
-export class SchemaResolver {
+export class Schema {
   resolvedSchemas: JSONSchema7[] = [];
 
   // TODO: circular detection

@@ -1,1 +1,1 @@
-export { default } from './resolver';
+export { default } from './schema';

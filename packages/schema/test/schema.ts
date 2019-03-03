@@ -1,5 +1,5 @@
 import { SchemaFileReader } from '@supermodel/fs';
-import { SchemaResolver } from '../src/resolver';
+import { Schema } from '../src/schema';
 import { resolve } from 'path';
 import { JSONSchema7 } from 'json-schema';
 
@@ -17,12 +17,12 @@ const sortSchemas = (schemas: JSONSchema7[]) => {
   });
 };
 
-describe('SchemaResolver', () => {
+describe('Schema', () => {
   // NOTE: Resolving whole schemaorg is suicide in tests...
   // But can be used for testing :)
 
   // test('resolve valid schema via http', async () => {
-  //   const resolver = new SchemaResolver(
+  //   const resolver = new Schema(
   //     'https://supermodel.io/schemaorg/Action',
   //     {
   //       concurrency: 5,
@@ -33,7 +33,7 @@ describe('SchemaResolver', () => {
   // }, 100000);
 
   test('resolve valid schema via http #2', async () => {
-    const resolver = new SchemaResolver(
+    const resolver = new Schema(
       'https://supermodel.io/adidas/product/Article',
     );
     await resolver.resolve();
@@ -41,7 +41,7 @@ describe('SchemaResolver', () => {
   });
 
   test('resolve valid schema layer via http #3', async () => {
-    const resolver = new SchemaResolver('https://supermodel.io/adidas/product');
+    const resolver = new Schema('https://supermodel.io/adidas/product');
     await resolver.resolve();
     expect(sortSchemas(resolver.resolvedSchemas)).toMatchSnapshot();
   });
@@ -51,7 +51,7 @@ describe('SchemaResolver', () => {
       __dirname,
       '../../../fixtures/schema/schemaorg/Action.yaml',
     );
-    const resolver = new SchemaResolver(ActionSchemaPath, {
+    const resolver = new Schema(ActionSchemaPath, {
       file: SchemaFileReader,
     });
     await resolver.resolve();
@@ -63,7 +63,7 @@ describe('SchemaResolver', () => {
       __dirname,
       '../../../fixtures/schema/schemaorg',
     );
-    const resolver = new SchemaResolver(ActionSchemaPath, {
+    const resolver = new Schema(ActionSchemaPath, {
       file: SchemaFileReader,
     });
     await resolver.resolve();
