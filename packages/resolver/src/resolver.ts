@@ -4,7 +4,6 @@ import { schemaFetch } from '@supermodel/http';
 import { validateSchema } from '@supermodel/validator';
 import {
   SchemaSource,
-  isNode,
   isUrl,
   Url,
   collectRefs,
@@ -197,10 +196,6 @@ export class SchemaResolver {
 
   // File handling
   private get file() {
-    if (!isNode()) {
-      throw new Error(`Can't use local resolving in NON Node environment`);
-    }
-
     if (!this.schemaFileInstance) {
       const { file: SchemaFileClass } = this.options;
 

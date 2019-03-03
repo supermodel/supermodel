@@ -10,6 +10,14 @@ import { promisify } from 'util';
 const statAsync = promisify(stat);
 const readFileAsync = promisify(readFile);
 
+/*
+ * System checks
+ */
+export const isNode = () =>
+  typeof process === 'object' &&
+  typeof process.release === 'object' &&
+  process.release.name === 'node';
+
 export const exists = async (schemaPath: string) => {
   try {
     await statAsync(schemaPath);
