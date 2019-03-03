@@ -5,9 +5,9 @@ import {
   collectRefs,
   normalizeRefValue,
   collectDefinitions,
-} from '../src/helpers';
+} from '../src/utils';
 
-describe('Resolver.helpers', () => {
+describe('Resolver.utils', () => {
   test('isUrl', () => {
     expect(isUrl('http://supermodel.io/Layer/Model')).toBeTruthy();
     expect(isUrl('https://supermodel.io/Layer/Model.yaml')).toBeTruthy();

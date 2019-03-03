@@ -8,7 +8,7 @@ import {
   Url,
   collectRefs,
   collectDefinitions,
-} from './helpers';
+} from './utils';
 import { PromisePool } from './promise-pool';
 
 export type ResolverOptions = {
