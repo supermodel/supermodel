@@ -56,18 +56,18 @@ export class SchemaResolver {
   }
 
   async resolve() {
-    const initialSchema = await this.getInitialSchema();
+    const entrySchema = await this.getEntrySchema();
     const pendingSchemas: SchemasCache = new Map();
     const queue: Queue = [];
 
-    this.resolveSchema(initialSchema.$id, initialSchema, pendingSchemas, queue);
+    this.resolveSchema(entrySchema.$id, entrySchema, pendingSchemas, queue);
 
     await this.processQueue(queue, pendingSchemas, this.options.concurrency);
 
     const resolvedSchemas = await Promise.all(pendingSchemas.values());
 
     return {
-      initialSchema,
+      entrySchema,
       circular: this.circular,
       resolvedSchemas,
     };
@@ -76,7 +76,7 @@ export class SchemaResolver {
   /**
    * Get first schema from new SchemaResolver(schema). Could be object, url or local path
    */
-  private async getInitialSchema() {
+  private async getEntrySchema() {
     if (typeof this.source === 'object') {
       return this.source;
     } else if (typeof this.source === 'string') {

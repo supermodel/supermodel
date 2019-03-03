@@ -9,7 +9,7 @@ export class Schema {
   // TODO: circular detection
   circular: boolean = false;
 
-  initialSchema?: JSONSchema7;
+  entrySchema?: JSONSchema7;
   resolvedSchemas?: JSONSchema7[] = [];
 
   private source: SchemaSource;
@@ -26,14 +26,7 @@ export class Schema {
 
   async resolve() {
     const resolver = new SchemaResolver(this.source, this.options);
-    const {
-      initialSchema,
-      circular,
-      resolvedSchemas,
-    } = await resolver.resolve();
-    (this.initialSchema = initialSchema),
-      (this.circular = circular),
-      (this.resolvedSchemas = resolvedSchemas);
+    Object.assign(this, await resolver.resolve());
   }
 
   async bundle() {
