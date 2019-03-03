@@ -5,7 +5,7 @@ import {
   collectRefs,
   normalizeRefValue,
   collectDefinitions,
-} from '../src/utils';
+} from '../../src/schema/utils';
 
 describe('Resolver.utils', () => {
   test('isUrl', () => {
