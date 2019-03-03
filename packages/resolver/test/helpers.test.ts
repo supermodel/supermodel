@@ -1,7 +1,6 @@
 import {
   isUrl,
   isRelativeId,
-  isPath,
   resolveRelativeId,
   collectRefs,
   normalizeRefValue,
@@ -20,7 +19,9 @@ describe('Resolver.helpers', () => {
     expect(isRelativeId('Article')).toBeTruthy();
     expect(isRelativeId('Article/Detail')).toBeTruthy();
     expect(isRelativeId('A/B')).toBeTruthy();
-    expect(isRelativeId('/Article/Detail')).toBeFalsy();
+    expect(isRelativeId('./A/B')).toBeTruthy();
+    expect(isRelativeId('../A/B')).toBeTruthy();
+    expect(isRelativeId('/Article/Detail')).toBeTruthy();
     expect(isRelativeId('#/Article/Detail')).toBeFalsy();
     expect(isRelativeId('http://supermodel.io/Article/Detail')).toBeFalsy();
   });
@@ -30,11 +31,21 @@ describe('Resolver.helpers', () => {
     expect(resolveRelativeId(url, 'Image')).toEqual(
       'http://supermodel.io/Article/Image',
     );
+
+    expect(resolveRelativeId(url, './Image')).toEqual(
+      'http://supermodel.io/Article/Image',
+    );
+
+    expect(resolveRelativeId(url, '../Image')).toEqual(
+      'http://supermodel.io/Image',
+    );
+
     expect(resolveRelativeId(url, 'Image/Author')).toEqual(
       'http://supermodel.io/Article/Image/Author',
     );
-    expect(() => resolveRelativeId(url, '/Detail/Image')).toThrowError(
-      `Relative id '/Detail/Image' inside 'http://supermodel.io/Article/Detail' is invalid`,
+
+    expect(resolveRelativeId(url, '/Detail/Image')).toEqual(
+      'http://supermodel.io/Detail/Image',
     );
   });
 
@@ -94,27 +105,5 @@ describe('Resolver.helpers', () => {
       schema.definitions.a,
       schema.definitions['http://supermodel.io/Scope/Image'],
     ]);
-  });
-
-  test('isPath', () => {
-    expect(isPath('file')).toBeTruthy();
-    expect(isPath('file.text')).toBeTruthy();
-    expect(isPath('dir/file.text')).toBeTruthy();
-    expect(isPath('/root/dir/file.text')).toBeTruthy();
-    expect(isPath('./dir/file.text')).toBeTruthy();
-    expect(isPath('../dir/file.text')).toBeTruthy();
-
-    expect(isPath('dir\\file.text')).toBeTruthy();
-    expect(isPath('\\root\\dir\\file.text')).toBeTruthy();
-    expect(isPath('C:\\root\\dir\\file.text')).toBeTruthy();
-    expect(isPath('CE:\\root\\dir\\file.text')).toBeTruthy();
-    expect(isPath('.\\dir\\file.text')).toBeTruthy();
-    expect(isPath('..\\dir\\file.text')).toBeTruthy();
-
-    expect(isPath('file:///file.text')).toBeTruthy();
-    expect(isPath('file://file.text')).toBeTruthy();
-
-    // TODO:
-    // expect(isPath('http://supermodel.io/dir/file.text')).toBeFalsy()
   });
 });

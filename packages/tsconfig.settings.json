@@ -15,5 +15,8 @@
     "./*/lib",
     "./*/node_modules",
     "./*/test"
+  ],
+  "include": [
+    "../typings"
   ]
 }

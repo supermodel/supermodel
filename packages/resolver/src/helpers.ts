@@ -1,4 +1,5 @@
 import { JSONSchema7 } from 'json-schema';
+import * as resolvePathname from 'resolve-pathname';
 
 export const REF_KEY = '$ref';
 
@@ -14,40 +15,14 @@ export const isUrl = (url: Url) => {
 };
 
 /*
- * System checks
- */
-export const isNode = () =>
-  typeof process !== 'undefined' && process.release.name === 'node';
-
-// export const isWin = () => isNode && /^win/.test(process.platform);
-
-const POSIX_PATH_REGEXP = /^(?:\/|(?:(?:\.\.?|[^\/]+?)(?:\/|$))).*?$/;
-const WIN_PATH_REGEXP = /^(([a-z]{1,2}:)?\\|[^\\]+).*?$/;
-
-/*
- * Check for FS path (or at least try of that :)
- */
-export const isPath = (path: Path) => {
-  path = path.toLocaleLowerCase();
-  return (
-    path.startsWith('file://') ||
-    POSIX_PATH_REGEXP.test(path) ||
-    WIN_PATH_REGEXP.test(path)
-  );
-};
-
-// const ABSOLUTE_PATH_REGEXP = /^(([a-z]{1,2}:\\)|(\/))/;
-//
-// /*
-//  * Guess what :)
-//  */
-// export const isPathAbsolute = (path: Path) => ABSOLUTE_PATH_REGEXP.test(path);
-
-/*
  * Relative schema json $id check
- * example: "$ref": "Article/Detail"
+ * $ref could be
+ * "Article/Detail"
+ * "./Article/Detail"
+ * "../Article/Detail"
+ * "/Article/Detail"
  */
-const RELATIVE_ID_REGEXP = /^([a-z0-9][^//]*)(\/[^//]+)*$/i;
+const RELATIVE_ID_REGEXP = /^((\.?\.?\/)?([a-z0-9][^//]*))(\/[^//]+)*$/i;
 
 export const isRelativeId = (relativeId: string) =>
   RELATIVE_ID_REGEXP.test(relativeId);
@@ -59,7 +34,10 @@ export const resolveRelativeId = (rootId: string, relativeId: string) => {
     );
   }
 
-  return rootId.replace(/[^\/]+$/, relativeId);
+  const url = new URL(rootId);
+  url.pathname = resolvePathname(relativeId, url.pathname);
+
+  return url.toString();
 };
 
 /**
@@ -125,6 +103,7 @@ export const normalizeRefValue = (rootId: string | undefined, ref: string) => {
         `$ref '${ref}' is relative and can't be resolved without id of root schema`,
       );
     }
+
     return resolveRelativeId(rootId, ref);
   }
 
