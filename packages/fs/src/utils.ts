@@ -3,7 +3,7 @@ import { resolve, sep } from 'path';
 import { stat, readFile } from 'fs';
 import { lookup } from 'mime-types';
 import * as fg from 'fast-glob';
-import { JSONSchema7 } from 'json-schema';
+import { JSONSchema7, JSONSchema7Definition } from 'json-schema';
 import { URL } from 'url';
 import { promisify } from 'util';
 
@@ -50,6 +50,24 @@ export const schemaReadFile = async (schemaPath: string) => {
   return parseContent(schemaPath, content);
 };
 
+export const schemasToSchema = (schemas: JSONSchema7[]): JSONSchema7 => {
+  const definitions = schemas.reduce(
+    (defs, schema) => {
+      if (!schema.$id) {
+        // TODO: solve somehow better :)
+        throw new Error("Schema from directory can't be without an $id");
+      }
+      return { ...defs, [schema.$id]: schema };
+    },
+    {} as { [key: string]: JSONSchema7Definition },
+  );
+
+  return {
+    type: 'object',
+    definitions,
+  };
+};
+
 export const schemaReadDir = async (schemaPath: string) => {
   const files = await fg.async(resolve(schemaPath, '**/*.{yml,yaml,json}'));
 
@@ -62,7 +80,10 @@ export const schemaReadDir = async (schemaPath: string) => {
   return Promise.all(files.map(async file => schemaReadFile(file.toString())));
 };
 
-export const schemaRead = async (schemaPath: string, fileOnly: boolean = true) => {
+export const schemaRead = async (
+  schemaPath: string,
+  fileOnly: boolean = true,
+) => {
   if (!(await exists(schemaPath))) {
     throw new Error(`Missing file or directory '${schemaPath}'.`);
   }
@@ -83,9 +104,8 @@ export const schemaRead = async (schemaPath: string, fileOnly: boolean = true) =
  */
 export const extractUrl = (
   schemaPath: string,
-  schema: JSONSchema7 | JSONSchema7[],
+  schema: JSONSchema7 | undefined,
 ) => {
-  schema = Array.isArray(schema) ? schema[0] : schema;
   if (!schema) {
     throw new Error(`Missing schema from path '${schemaPath}'`);
   }

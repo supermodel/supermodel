@@ -1,0 +1,32 @@
+{
+  "scope": "http://supermodel.io:80",
+  "method": "GET",
+  "path": "/adidas/product",
+  "body": "",
+  "status": 200,
+  "response": {},
+  "rawHeaders": [
+    "Server",
+    "Cowboy",
+    "Date",
+    "Sat, 02 Mar 2019 23:33:45 GMT",
+    "Connection",
+    "close",
+    "Content-Type",
+    "application/schema+json; charset=utf-8",
+    "Etag",
+    "W/\"44136fa355b3678a1146ad16f7e8649e\"",
+    "Cache-Control",
+    "max-age=0, private, must-revalidate",
+    "X-Request-Id",
+    "511be1ad-ef94-4ed1-97c0-f3d6573acc92",
+    "X-Runtime",
+    "0.005933",
+    "Vary",
+    "Accept, Origin",
+    "Transfer-Encoding",
+    "chunked",
+    "Via",
+    "1.1 vegur"
+  ]
+}

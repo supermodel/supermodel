@@ -1,6 +1,11 @@
 import { resolve } from 'path';
 import { JSONSchema7 } from 'json-schema';
-import { schemaRead, buildSchemaIdToPath, extractUrl } from './utils';
+import {
+  schemaRead,
+  buildSchemaIdToPath,
+  extractUrl,
+  schemasToSchema,
+} from './utils';
 
 export class SchemaFileReader {
   cwd: string;
@@ -18,11 +23,16 @@ export class SchemaFileReader {
     if (!this.schemaIdToPath) {
       this.schemaIdToPath = buildSchemaIdToPath(
         schemaPath,
-        extractUrl(schemaPath, schemaResult),
+        extractUrl(
+          schemaPath,
+          Array.isArray(schemaResult) ? schemaResult[0] : schemaResult,
+        ),
       );
     }
 
-    return schemaResult;
+    return Array.isArray(schemaResult)
+      ? schemasToSchema(schemaResult)
+      : schemaResult;
   }
 
   async readId(
@@ -43,6 +53,10 @@ export class SchemaFileReader {
       return null;
     }
 
-    return schemaRead(schemaPath) as Promise<JSONSchema7>;
+    const schemaResult = await schemaRead(schemaPath);
+
+    return Array.isArray(schemaResult)
+      ? schemasToSchema(schemaResult)
+      : schemaResult;
   }
 }

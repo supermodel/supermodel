@@ -23,7 +23,6 @@
     "@supermodel/http": "0.0.1",
     "@supermodel/serializer": "0.0.1",
     "@supermodel/validator": "^0.0.1",
-    "isomorphic-fetch": "^2.2.1",
     "path": "0.12.7",
     "url": "0.11.0"
   },
@@ -31,7 +30,6 @@
     "lib"
   ],
   "devDependencies": {
-    "@types/isomorphic-fetch": "^0.0.35",
     "@types/json-schema": "^7.0.3",
     "typescript": "^3.3.3"
   }

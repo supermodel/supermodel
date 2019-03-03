@@ -12,12 +12,22 @@ import {
 } from './helpers';
 import { PromisePool } from './promise-pool';
 
-type ResolverOptions = {
+export type ResolverOptions = {
   cwd?: string;
   file?: typeof SchemaFileReader;
   http?: boolean;
   concurrency?: number;
   validate?: boolean;
+  circular?: boolean;
+  schemaId?: boolean;
+};
+
+type InternalResolverOptions = {
+  http: boolean;
+  concurrency: number;
+  validate: boolean;
+  circular: boolean;
+  schemaId: boolean;
 };
 
 type SchemasCache = Map<Url, Promise<JSONSchema7>>;
@@ -25,12 +35,9 @@ type SchemasCache = Map<Url, Promise<JSONSchema7>>;
 type Queue = Array<string>;
 
 export class SchemaResolver {
-  options: ResolverOptions & {
-    http: boolean;
-    concurrency: number;
-    validate: boolean;
-  };
+  options: ResolverOptions & InternalResolverOptions;
   schemas: { [key: string]: JSONSchema7 } = {};
+  circular: boolean;
 
   private local: boolean;
   private schemaFileInstance?: SchemaFileReader;
@@ -41,28 +48,29 @@ export class SchemaResolver {
       http: true,
       concurrency: 10,
       validate: true,
+      circular: true,
+      schemaId: false,
       ...options,
     };
 
+    // TODO: circular detection
+    this.circular = false;
     this.source = source;
     this.local = false;
   }
 
   async resolve() {
-    let schemas = await this.getInitialSchema();
-    if (!Array.isArray(schemas)) {
-      schemas = [schemas];
-    }
-
+    const initialSchema = await this.getInitialSchema();
     const resolvedSchemas: SchemasCache = new Map();
     const queue: Queue = [];
 
-    // TODO: temporary overwrite type beacuse of issue with loading @supermodel/file
-    schemas.map((schema: JSONSchema7) =>
-      this.resolveSchema(schema, resolvedSchemas, queue),
-    );
-
-    await this.processQueue(queue, resolvedSchemas, this.options.concurrency);
+    this.resolveSchema(
+      initialSchema.$id,
+      initialSchema,
+      resolvedSchemas,
+      queue,
+    ),
+      await this.processQueue(queue, resolvedSchemas, this.options.concurrency);
 
     // TEMP: just temporary result
     return Promise.all(resolvedSchemas.values());
@@ -104,20 +112,26 @@ export class SchemaResolver {
   }
 
   private resolveSchema(
+    schemaId: string | undefined,
     schema: JSONSchema7,
     resolvedSchemas: SchemasCache,
     queue: Queue,
   ) {
-    this.addSchemaToCache(schema, resolvedSchemas);
+    if (this.options.validate) {
+      // TODO: stop queue on error?
+      validateSchema(schema);
+    }
+
+    this.addSchemaToCache(schemaId, schema, resolvedSchemas);
 
     // Collect definition from model to resolved cache
     collectDefinitions(schema).forEach(definition =>
-      this.addSchemaToCache(definition, resolvedSchemas),
+      this.addSchemaToCache(definition.$id, definition, resolvedSchemas),
     );
 
     // Collect refs and enque them for resolve
-    collectRefs(schema).forEach(schemaId =>
-      this.enqueueSchema(schemaId, resolvedSchemas, queue),
+    collectRefs(schema).forEach(id =>
+      this.enqueueSchema(id, resolvedSchemas, queue),
     );
   }
 
@@ -154,7 +168,7 @@ export class SchemaResolver {
   private makeQueueWorker(resolvedSchemas: SchemasCache, queue: Queue) {
     return async (schemaId: string) => {
       const schema = await this.getSchema(schemaId);
-      this.resolveSchema(schema, resolvedSchemas, queue);
+      this.resolveSchema(schemaId, schema, resolvedSchemas, queue);
     };
   }
 
@@ -165,13 +179,19 @@ export class SchemaResolver {
     return () => queue.shift();
   }
 
-  private addSchemaToCache(schema: JSONSchema7, resolvedSchemas: SchemasCache) {
-    if (schema.$id) {
-      if (!resolvedSchemas.has(schema.$id)) {
-        resolvedSchemas.set(schema.$id, Promise.resolve(schema));
+  private addSchemaToCache(
+    schemaId: string | undefined,
+    schema: JSONSchema7,
+    resolvedSchemas: SchemasCache,
+  ) {
+    const $id = schema.$id || schemaId;
+
+    if ($id) {
+      if (!resolvedSchemas.has($id)) {
+        resolvedSchemas.set($id, Promise.resolve(schema));
       }
-    } else {
-      throw new Error('TODO: resolved schema is missing $id');
+    } else if (this.options.schemaId) {
+      throw new Error('Resolved schema is missing $id');
     }
   }
 

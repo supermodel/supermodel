@@ -1,5 +1,104 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`SchemaResolver resolve valid schema layer via http #3 1`] = `Array []`;
+
+exports[`SchemaResolver resolve valid schema via directory 1`] = `
+Array [
+  Object {
+    "$id": "http://supermodel.io/schemaorg/Action",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$source": "http://schema.org/Action",
+    "allOf": Array [
+      Object {
+        "$ref": "http://supermodel.io/schemaorg/Thing",
+      },
+    ],
+    "description": "An action performed by a direct agent and indirect participants upon a direct object. Optionally happens at a location with the help of an inanimate instrument. The execution of the action may produce a result. Specific action sub-type documentation specifies the exact expectation of each argument/role.<br/><br/>
+
+See also <a href=\\"http://blog.schema.org/2014/04/announcing-schemaorg-actions.html\\">blog post</a> and <a href=\\"http://schema.org/docs/actions.html\\">Actions overview document</a>.",
+    "properties": Object {
+      "error": Object {
+        "$ref": "http://supermodel.io/schemaorg/properties/error",
+      },
+      "result": Object {
+        "$ref": "http://supermodel.io/schemaorg/properties/result",
+      },
+    },
+    "title": "Action",
+    "type": "object",
+  },
+  Object {
+    "$id": "http://supermodel.io/schemaorg/DataType",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$source": "http://schema.org/DataType",
+    "description": "The basic data types such as Integers, Strings, etc.",
+    "title": "DataType",
+  },
+  Object {
+    "$id": "http://supermodel.io/schemaorg/Text",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$source": "http://schema.org/Text",
+    "allOf": Array [
+      Object {
+        "$ref": "http://supermodel.io/schemaorg/DataType",
+      },
+    ],
+    "description": "Data type: Text.",
+    "title": "Text",
+    "type": "string",
+  },
+  Object {
+    "$id": "http://supermodel.io/schemaorg/Thing",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$source": "http://schema.org/Thing",
+    "description": "The most generic type of item.",
+    "properties": Object {
+      "name": Object {
+        "$ref": "http://supermodel.io/schemaorg/properties/name",
+      },
+    },
+    "title": "Thing",
+    "type": "object",
+  },
+  Object {
+    "$id": "http://supermodel.io/schemaorg/properties/error",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$source": "http://schema.org/error",
+    "description": "For failed actions, more information on the cause of the failure.",
+    "oneOf": Array [
+      Object {
+        "$ref": "http://supermodel.io/schemaorg/Thing",
+      },
+    ],
+    "title": "error",
+  },
+  Object {
+    "$id": "http://supermodel.io/schemaorg/properties/name",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$source": "http://schema.org/name",
+    "description": "The name of the item.",
+    "oneOf": Array [
+      Object {
+        "$ref": "http://supermodel.io/schemaorg/Text",
+      },
+    ],
+    "title": "name",
+  },
+  Object {
+    "$id": "http://supermodel.io/schemaorg/properties/result",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$source": "http://schema.org/result",
+    "description": "The result produced in the action. e.g. John wrote <em>a book</em>.",
+    "oneOf": Array [
+      Object {
+        "$ref": "http://supermodel.io/schemaorg/Thing",
+      },
+    ],
+    "title": "result",
+  },
+]
+`;
+
 exports[`SchemaResolver resolve valid schema via file 1`] = `
 Array [
   Object {
