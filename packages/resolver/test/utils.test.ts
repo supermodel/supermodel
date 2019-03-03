@@ -97,6 +97,11 @@ describe('Resolver.utils', () => {
         },
         c: {
           properties: {},
+          definitions: {
+            d: {
+              $id: 'http://supermodel.io/Scope/Detail',
+            },
+          },
         },
       },
     };
@@ -104,6 +109,8 @@ describe('Resolver.utils', () => {
     expect(collectDefinitions(schema)).toEqual([
       schema.definitions.a,
       schema.definitions['http://supermodel.io/Scope/Image'],
+      schema.definitions.c,
+      schema.definitions.c.definitions.d,
     ]);
   });
 });

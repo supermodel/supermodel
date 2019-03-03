@@ -112,13 +112,20 @@ export const normalizeRefValue = (rootId: string | undefined, ref: string) => {
 
 export const collectDefinitions = ({ definitions }: JSONSchema7) => {
   if (typeof definitions === 'object') {
-    const extractedDefinitions = Object.values(definitions).map(definition => {
-      if (typeof definition === 'object' && definition.$id) {
-        return definition;
-      }
-    });
+    const extractedDefinitions: JSONSchema7[] = [];
 
-    return extractedDefinitions.filter(v => v) as JSONSchema7[];
+    for (const key in definitions) {
+      if (definitions.hasOwnProperty(key)) {
+        const definition = definitions[key] as JSONSchema7;
+
+        if (typeof definition === 'object') {
+          extractedDefinitions.push(definition);
+          extractedDefinitions.push(...collectDefinitions(definition));
+        }
+      }
+    }
+
+    return extractedDefinitions;
   }
 
   return [];

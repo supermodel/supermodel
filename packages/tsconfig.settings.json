@@ -3,7 +3,7 @@
     "target": "es5",
     "module": "commonjs",
     "moduleResolution": "node",
-    "lib": ["es2018", "dom"],
+    "lib": ["es2018", "dom", "es2017.object"],
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
