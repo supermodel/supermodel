@@ -40,12 +40,12 @@ export class SchemaResolver {
   circular: boolean = false;
   resolved: boolean = false;
 
-  private initialSchema: JSONSchema7;
+  private initialSchema?: JSONSchema7;
   private options: ResolverOptions & InternalResolverOptions;
   private local: boolean = false;
   private schemaFileInstance?: SchemaFileReader;
   private source: SchemaSource;
-  private pool: PromisePool | null;
+  private pool?: PromisePool | null;
 
   constructor(source: SchemaSource, options: ResolverOptions = {}) {
     this.options = {

@@ -1,6 +1,6 @@
 declare module 'resolve-pathname' {
-  export function resolvePathname(
-    prelativePath: string,
-    basePathname: string,
-  ): string;
+  function resolvePathname(prelativePath: string, basePathname: string): string;
+
+  namespace resolvePathname {}
+  export = resolvePathname;
 }

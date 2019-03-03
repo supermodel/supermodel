@@ -114,7 +114,11 @@ export const extractUrl = (schemaPath: string, schemas: JSONSchema7[]) => {
   const schema = schemas.find(s => typeof s.$id === 'string');
 
   if (!schema) {
-    throw new Error(`Missing schema with $id from path '${schemaPath}'`);
+    throw new Error(`Missing schema from path '${schemaPath}'`);
+  }
+
+  if (!schema.$id) {
+    throw new Error(`Missing schema.$id in path '${schemaPath}'`);
   }
 
   return schema.$id;

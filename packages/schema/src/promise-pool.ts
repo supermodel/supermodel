@@ -25,6 +25,14 @@ export class PromisePool {
   }
 
   abort(err = new Error('Abort pool without particular reason')) {
+    if (!this.callbacks) {
+      throw new Error("Can't abort unstarted pool");
+    }
+
+    if (this.done) {
+      throw new Error("Can't abort finished pool");
+    }
+
     this.done = true;
     this.callbacks.reject(err);
   }

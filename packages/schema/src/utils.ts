@@ -1,5 +1,5 @@
 import { JSONSchema7 } from 'json-schema';
-import * as resolvePathname from 'resolve-pathname';
+import resolvePathname = require('resolve-pathname');
 
 export const REF_KEY = '$ref';
 
