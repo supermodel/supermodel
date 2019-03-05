@@ -49,7 +49,7 @@ describe('SchemaResolver', () => {
   test('resolve valid schema via file', async () => {
     const ActionSchemaPath = resolve(
       __dirname,
-      '../../../fixtures/schema/SchemaorgExample/Action.yaml',
+      '../../../fixtures/schema/schemaorg/Action.yaml',
     );
     const resolver = new SchemaResolver(ActionSchemaPath, {
       file: SchemaFileReader,
@@ -61,7 +61,7 @@ describe('SchemaResolver', () => {
   test('resolve valid schema via directory', async () => {
     const ActionSchemaPath = resolve(
       __dirname,
-      '../../../fixtures/schema/SchemaorgExample',
+      '../../../fixtures/schema/schemaorg',
     );
     const resolver = new SchemaResolver(ActionSchemaPath, {
       file: SchemaFileReader,

@@ -110,16 +110,11 @@ export const schemaRead = async (
 /*
  * Validates schema and its $id presence and returns $id as URL
  */
-export const extractUrl = (
-  schemaPath: string,
-  schema: JSONSchema7 | undefined,
-) => {
-  if (!schema) {
-    throw new Error(`Missing schema from path '${schemaPath}'`);
-  }
+export const extractUrl = (schemaPath: string, schemas: JSONSchema7[]) => {
+  const schema = schemas.find(s => typeof s.$id === 'string');
 
-  if (!schema.$id) {
-    throw new Error(`Schema from '${schemaPath}' is missing $id`);
+  if (!schema) {
+    throw new Error(`Missing schema with $id from path '${schemaPath}'`);
   }
 
   return schema.$id;
@@ -138,13 +133,35 @@ export const buildSchemaIdToPath = (schemaPath: string, $id: string) => {
   const pathLastIdx = pathParts.length - 1;
   const urlPathLastIdx = urlPathParts.length - 1;
 
-  let i = 0;
-  while (pathParts[pathLastIdx - i] !== urlPathParts[urlPathLastIdx - i]) {
-    i++;
+  let pathIdx = 0;
+  let urlPathIdx = 0;
+
+  while (pathParts[pathLastIdx] !== urlPathParts[urlPathLastIdx - urlPathIdx]) {
+    if (urlPathIdx > urlPathLastIdx) {
+      throw new Error(
+        `Can\'t resolve root path for path '${schemaPath}' $id '${$id}'`,
+      );
+    }
+    urlPathIdx++;
   }
 
-  const pathBase = pathParts.slice(0, pathLastIdx - i).join(sep) + sep;
-  const urlPathBase = urlPathParts.slice(0, urlPathLastIdx - i).join('/') + '/';
+  while (
+    pathParts[pathLastIdx - pathIdx] ===
+    urlPathParts[urlPathLastIdx - urlPathIdx]
+  ) {
+    if (pathIdx > pathLastIdx) {
+      throw new Error(
+        `Can\'t resolve root path for path '${schemaPath}' $id '${$id}'`,
+      );
+    }
+    pathIdx++;
+    urlPathIdx++;
+  }
+
+  const pathBase =
+    pathParts.slice(0, pathLastIdx - pathIdx + 1).join(sep) + sep;
+  const urlPathBase =
+    urlPathParts.slice(0, urlPathLastIdx - urlPathIdx + 1).join('/') + '/';
 
   return async (schemaId: string) => {
     const url = new URL(schemaId);
@@ -153,8 +170,7 @@ export const buildSchemaIdToPath = (schemaPath: string, $id: string) => {
       return undefined;
     }
 
-    const pathPart = url.pathname.slice(urlPathBase.length);
-
+    const pathPart = url.pathname.slice(urlPathBase.length).replace('/', sep);
     const files = await fg.async(`${pathBase}${pathPart}.*`);
 
     if (files.length === 1) {

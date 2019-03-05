@@ -25,7 +25,7 @@ export class SchemaFileReader {
         schemaPath,
         extractUrl(
           schemaPath,
-          Array.isArray(schemaResult) ? schemaResult[0] : schemaResult,
+          Array.isArray(schemaResult) ? schemaResult : [schemaResult],
         ),
       );
     }
