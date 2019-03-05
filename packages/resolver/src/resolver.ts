@@ -34,11 +34,15 @@ type SchemasCache = Map<Url, Promise<JSONSchema7>>;
 type Queue = Array<string>;
 
 export class SchemaResolver {
-  options: ResolverOptions & InternalResolverOptions;
-  schemas: { [key: string]: JSONSchema7 } = {};
-  circular: boolean;
+  resolvedSchemas: JSONSchema7[] = [];
 
-  private local: boolean;
+  // TODO: circular detection
+  circular: boolean = false;
+  resolved: boolean = false;
+
+  private initialSchema: JSONSchema7;
+  private options: ResolverOptions & InternalResolverOptions;
+  private local: boolean = false;
   private schemaFileInstance?: SchemaFileReader;
   private source: SchemaSource;
 
@@ -52,27 +56,32 @@ export class SchemaResolver {
       ...options,
     };
 
-    // TODO: circular detection
-    this.circular = false;
     this.source = source;
-    this.local = false;
   }
 
   async resolve() {
-    const initialSchema = await this.getInitialSchema();
-    const resolvedSchemas: SchemasCache = new Map();
+    this.initialSchema = await this.getInitialSchema();
+    const pendingSchemas: SchemasCache = new Map();
     const queue: Queue = [];
 
     this.resolveSchema(
-      initialSchema.$id,
-      initialSchema,
-      resolvedSchemas,
+      this.initialSchema.$id,
+      this.initialSchema,
+      pendingSchemas,
       queue,
-    ),
-      await this.processQueue(queue, resolvedSchemas, this.options.concurrency);
+    );
 
-    // TEMP: just temporary result
-    return Promise.all(resolvedSchemas.values());
+    await this.processQueue(queue, pendingSchemas, this.options.concurrency);
+
+    this.resolvedSchemas = await Promise.all(pendingSchemas.values());
+
+    return (this.resolved = true);
+  }
+
+  async bundle() {
+    if (!this.resolved) {
+      await this.resolve();
+    }
   }
 
   /**
@@ -113,7 +122,7 @@ export class SchemaResolver {
   private resolveSchema(
     schemaId: string | undefined,
     schema: JSONSchema7,
-    resolvedSchemas: SchemasCache,
+    pendingSchemas: SchemasCache,
     queue: Queue,
   ) {
     if (this.options.validate) {
@@ -121,16 +130,16 @@ export class SchemaResolver {
       validateSchema(schema);
     }
 
-    this.addSchemaToCache(schemaId, schema, resolvedSchemas);
+    this.addSchemaToCache(schemaId, schema, pendingSchemas);
 
     // Collect definition from model to resolved cache
     collectDefinitions(schema).forEach(definition =>
-      this.addSchemaToCache(definition.$id, definition, resolvedSchemas),
+      this.addSchemaToCache(definition.$id, definition, pendingSchemas),
     );
 
     // Collect refs and enque them for resolve
     collectRefs(schema).forEach(id =>
-      this.enqueueSchema(id, resolvedSchemas, queue),
+      this.enqueueSchema(id, pendingSchemas, queue),
     );
   }
 
@@ -139,21 +148,21 @@ export class SchemaResolver {
    */
   private async enqueueSchema(
     schemaId: string,
-    resolvedSchemas: SchemasCache,
+    pendingSchemas: SchemasCache,
     queue: Queue,
   ) {
-    if (!resolvedSchemas.has(schemaId) && !queue.includes(schemaId)) {
+    if (!pendingSchemas.has(schemaId) && !queue.includes(schemaId)) {
       queue.push(schemaId);
     }
   }
 
   private async processQueue(
     queue: Queue,
-    resolvedSchemas: SchemasCache,
+    pendingSchemas: SchemasCache,
     concurrency: number,
   ) {
     const pool = new PromisePool(
-      this.makeQueueWorker(resolvedSchemas, queue),
+      this.makeQueueWorker(pendingSchemas, queue),
       this.makeQueueDataFetcher(queue),
       concurrency,
     );
@@ -164,10 +173,10 @@ export class SchemaResolver {
   /**
    * Makes function for pool which get result from data fetcher and process it
    */
-  private makeQueueWorker(resolvedSchemas: SchemasCache, queue: Queue) {
+  private makeQueueWorker(pendingSchemas: SchemasCache, queue: Queue) {
     return async (schemaId: string) => {
       const schema = await this.getSchema(schemaId);
-      this.resolveSchema(schemaId, schema, resolvedSchemas, queue);
+      this.resolveSchema(schemaId, schema, pendingSchemas, queue);
     };
   }
 
@@ -181,13 +190,13 @@ export class SchemaResolver {
   private addSchemaToCache(
     schemaId: string | undefined,
     schema: JSONSchema7,
-    resolvedSchemas: SchemasCache,
+    pendingSchemas: SchemasCache,
   ) {
     const $id = schema.$id || schemaId;
 
     if ($id) {
-      if (!resolvedSchemas.has($id)) {
-        resolvedSchemas.set($id, Promise.resolve(schema));
+      if (!pendingSchemas.has($id)) {
+        pendingSchemas.set($id, Promise.resolve(schema));
       }
     } else if (this.options.schemaId) {
       throw new Error('Resolved schema is missing $id');

@@ -36,14 +36,14 @@ describe('SchemaResolver', () => {
     const resolver = new SchemaResolver(
       'https://supermodel.io/adidas/product/Article',
     );
-    const result = await resolver.resolve();
-    expect(sortSchemas(result)).toMatchSnapshot();
+    await resolver.resolve();
+    expect(sortSchemas(resolver.resolvedSchemas)).toMatchSnapshot();
   });
 
   test('resolve valid schema layer via http #3', async () => {
     const resolver = new SchemaResolver('https://supermodel.io/adidas/product');
-    const result = await resolver.resolve();
-    expect(sortSchemas(result)).toMatchSnapshot();
+    await resolver.resolve();
+    expect(sortSchemas(resolver.resolvedSchemas)).toMatchSnapshot();
   });
 
   test('resolve valid schema via file', async () => {
@@ -54,8 +54,8 @@ describe('SchemaResolver', () => {
     const resolver = new SchemaResolver(ActionSchemaPath, {
       file: SchemaFileReader,
     });
-    const result = await resolver.resolve();
-    expect(sortSchemas(result)).toMatchSnapshot();
+    await resolver.resolve();
+    expect(sortSchemas(resolver.resolvedSchemas)).toMatchSnapshot();
   });
 
   test('resolve valid schema via directory', async () => {
@@ -66,7 +66,7 @@ describe('SchemaResolver', () => {
     const resolver = new SchemaResolver(ActionSchemaPath, {
       file: SchemaFileReader,
     });
-    const result = await resolver.resolve();
-    expect(sortSchemas(result)).toMatchSnapshot();
+    await resolver.resolve();
+    expect(sortSchemas(resolver.resolvedSchemas)).toMatchSnapshot();
   });
 });
