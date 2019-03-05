@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const importJsonLD = require('../src/importJsonLD');
-const { toYAML } = require('../src/yamlModel');
+const { toYAML } = require('../src/yaml');
 
 function matchSchema(jsonld) {
   const entities = importJsonLD(jsonld);

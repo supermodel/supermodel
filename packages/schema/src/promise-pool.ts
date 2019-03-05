@@ -17,11 +17,16 @@ export class PromisePool {
     this.done = false;
   }
 
-  async start() {
+  start() {
     return new Promise((resolve, reject) => {
       this.callbacks = { reject, resolve };
       this.startPool();
     });
+  }
+
+  abort(err = new Error('Abort pool without particular reason')) {
+    this.done = true;
+    this.callbacks.reject(err);
   }
 
   private async fetchData() {
@@ -58,6 +63,7 @@ export class PromisePool {
   private onWorkerFail = (error: Error) => {
     if (this.callbacks) {
       this.done = true;
+      // TODO: wait for pending workers and then reject
       this.callbacks.reject(error);
     }
   };

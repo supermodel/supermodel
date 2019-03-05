@@ -6,7 +6,7 @@
     {"path": "fs"},
     {"path": "http"},
     {"path": "lib"},
-    {"path": "resolver"},
+    {"path": "schema"},
     {"path": "serializer"},
     {"path": "validator"}
   ]

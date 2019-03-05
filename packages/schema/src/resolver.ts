@@ -45,6 +45,7 @@ export class SchemaResolver {
   private local: boolean = false;
   private schemaFileInstance?: SchemaFileReader;
   private source: SchemaSource;
+  private pool: PromisePool | null;
 
   constructor(source: SchemaSource, options: ResolverOptions = {}) {
     this.options = {
@@ -126,8 +127,15 @@ export class SchemaResolver {
     queue: Queue,
   ) {
     if (this.options.validate) {
-      // TODO: stop queue on error?
-      validateSchema(schema);
+      try {
+        validateSchema(schema);
+      } catch (err) {
+        if (this.pool) {
+          this.pool.abort(err);
+        }
+
+        throw err;
+      }
     }
 
     this.addSchemaToCache(schemaId, schema, pendingSchemas);
@@ -161,13 +169,13 @@ export class SchemaResolver {
     pendingSchemas: SchemasCache,
     concurrency: number,
   ) {
-    const pool = new PromisePool(
+    this.pool = new PromisePool(
       this.makeQueueWorker(pendingSchemas, queue),
       this.makeQueueDataFetcher(queue),
       concurrency,
     );
 
-    return pool.start();
+    return this.pool.start();
   }
 
   /**
@@ -197,6 +205,8 @@ export class SchemaResolver {
     if ($id) {
       if (!pendingSchemas.has($id)) {
         pendingSchemas.set($id, Promise.resolve(schema));
+      } else {
+        // TODO: we could check that content of schema is same as previous one. otherwise throw error
       }
     } else if (this.options.schemaId) {
       throw new Error('Resolved schema is missing $id');

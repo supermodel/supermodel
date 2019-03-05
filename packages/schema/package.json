@@ -1,7 +1,7 @@
 {
-  "name": "@supermodel/resolver",
+  "name": "@supermodel/schema",
   "version": "0.0.1",
-  "description": "Schema resolver for Supermodel",
+  "description": "Schema core for Supermodel",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "repository": {
