@@ -15,7 +15,7 @@
     "build:watch": "yarn build:clean && yarn build:tsc --watch --preserveWatchOutput",
     "local:install": "lerna exec yarn link",
     "local:uninstall": "lerna exec yarn unlink",
-    "preversion": "yarn test",
+    "preversion": "yarn test && yarn build",
     "test": "yarn test:lint && yarn test:types && yarn test:unit",
     "test:lint": "tslint --format stylish --project ./",
     "test:types": "tsc --noEmit",
