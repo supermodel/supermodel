@@ -1,0 +1,72 @@
+{
+  "scope": "http://supermodel.io:80",
+  "method": "GET",
+  "path": "/adidas/product/Color",
+  "body": "",
+  "status": 200,
+  "response": {
+    "$id": "http://supermodel.io/adidas/product/Color",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Color",
+    "type": "object",
+    "description": "Color descriptions are language-dependent",
+    "properties": {
+      "color1": {
+        "$ref": "utils/CodeDescription"
+      },
+      "color2": {
+        "$ref": "utils/CodeDescription"
+      },
+      "color3": {
+        "$ref": "utils/CodeDescription"
+      },
+      "color4": {
+        "$ref": "utils/CodeDescription"
+      }
+    },
+    "examples": [
+      {
+        "color1": {
+          "code": "A0QM",
+          "description": "core black"
+        },
+        "color2": {
+          "code": "A98B",
+          "description": "utility black"
+        },
+        "color3": {
+          "code": "A0QM",
+          "description": "core black"
+        },
+        "color4": {
+          "code": "01F7",
+          "description": "ftwr white"
+        }
+      }
+    ]
+  },
+  "rawHeaders": [
+    "Server",
+    "Cowboy",
+    "Date",
+    "Sun, 17 Feb 2019 23:14:07 GMT",
+    "Connection",
+    "close",
+    "Content-Type",
+    "application/schema+json; charset=utf-8",
+    "Etag",
+    "W/\"e4f4e4c7ec0f7f9de9f2c2126d5ecbe3\"",
+    "Cache-Control",
+    "max-age=0, private, must-revalidate",
+    "X-Request-Id",
+    "112e2c11-846c-45e3-8a02-79bac7d90ac6",
+    "X-Runtime",
+    "0.079664",
+    "Vary",
+    "Accept, Origin",
+    "Transfer-Encoding",
+    "chunked",
+    "Via",
+    "1.1 vegur"
+  ]
+}

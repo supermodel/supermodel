@@ -1,0 +1,7 @@
+$id: 'http://supermodel.io/schemaorg/properties/result'
+$schema: 'http://json-schema.org/draft-07/schema#'
+$source: 'http://schema.org/result'
+title: result
+description: The result produced in the action. e.g. John wrote <em>a book</em>.
+oneOf:
+  - $ref: 'http://supermodel.io/schemaorg/Thing'

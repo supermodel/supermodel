@@ -1,0 +1,46 @@
+{
+  "scope": "http://supermodel.io:80",
+  "method": "GET",
+  "path": "/adidas/product/utils/CodeDescription",
+  "body": "",
+  "status": 200,
+  "response": {
+    "$id": "http://supermodel.io/adidas/product/utils/CodeDescription",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Code Description Tuple",
+    "description": "Helper data structure to hold any code - description pair",
+    "type": "object",
+    "properties": {
+      "code": {
+        "type": "string"
+      },
+      "description": {
+        "type": "string"
+      }
+    }
+  },
+  "rawHeaders": [
+    "Server",
+    "Cowboy",
+    "Date",
+    "Sun, 17 Feb 2019 23:14:07 GMT",
+    "Connection",
+    "close",
+    "Content-Type",
+    "application/schema+json; charset=utf-8",
+    "Etag",
+    "W/\"9ad124157222ac6ed902e942f7b881ed\"",
+    "Cache-Control",
+    "max-age=0, private, must-revalidate",
+    "X-Request-Id",
+    "11b9a47e-2d24-46b0-ac83-00ceed1f164c",
+    "X-Runtime",
+    "0.022843",
+    "Vary",
+    "Accept, Origin",
+    "Transfer-Encoding",
+    "chunked",
+    "Via",
+    "1.1 vegur"
+  ]
+}

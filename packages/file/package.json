@@ -23,5 +23,8 @@
   },
   "files": [
     "lib"
-  ]
+  ],
+  "devDependencies": {
+    "@types/js-yaml": "3.12.0"
+  }
 }

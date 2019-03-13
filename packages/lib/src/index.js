@@ -8,7 +8,7 @@ const resolveSchema = require('./resolveSchema');
 const validateData = require('./validateData');
 const validateMetaSchema = require('./validateMetaSchema');
 const validateSchema = require('./validateSchema');
-const yamlModel = require('./yamlModel');
+const { parseYAML, toYAML } = require('./yaml');
 
 module.exports = {
   camelize,
@@ -21,5 +21,6 @@ module.exports = {
   validateData,
   validateMetaSchema,
   validateSchema,
-  yamlModel,
+  parseYAML,
+  toYAML,
 };

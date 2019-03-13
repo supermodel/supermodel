@@ -1,0 +1,70 @@
+{
+  "scope": "http://supermodel.io:80",
+  "method": "GET",
+  "path": "/adidas/product/Catalog",
+  "body": "",
+  "status": 200,
+  "response": {
+    "$id": "http://supermodel.io/adidas/product/Catalog",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Catalog",
+    "type": "object",
+    "properties": {
+      "catalogueCopy": {
+        "$ref": "#/definitions/CatalogCopy"
+      }
+    },
+    "examples": [
+      {
+        "catalogueCopy": {},
+        "featureAndBenefits": [
+          {}
+        ]
+      }
+    ],
+    "definitions": {
+      "CatalogCopy": {
+        "title": "Catalog Copy",
+        "type": "object",
+        "properties": {
+          "articleNumber": {
+            "type": "string"
+          },
+          "modelNumber": {
+            "type": "string"
+          },
+          "catalog": {
+            "type": "array",
+            "items": {
+              "$ref": "Catalogues"
+            }
+          }
+        }
+      }
+    }
+  },
+  "rawHeaders": [
+    "Server",
+    "Cowboy",
+    "Date",
+    "Sun, 17 Feb 2019 23:14:07 GMT",
+    "Connection",
+    "close",
+    "Content-Type",
+    "application/schema+json; charset=utf-8",
+    "Etag",
+    "W/\"111f7178c0e3ffad09efb1557d8524b3\"",
+    "Cache-Control",
+    "max-age=0, private, must-revalidate",
+    "X-Request-Id",
+    "ccaf10be-2f6d-4e04-864c-8e2ed5652510",
+    "X-Runtime",
+    "0.015504",
+    "Vary",
+    "Accept, Origin",
+    "Transfer-Encoding",
+    "chunked",
+    "Via",
+    "1.1 vegur"
+  ]
+}

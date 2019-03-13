@@ -4,7 +4,7 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "sourceMap": true,
-    "lib": ["es2018"],
+    "lib": ["es2018", "dom"],
     "allowJs": true,
     "noImplicitAny": true,
     "strict": true,
