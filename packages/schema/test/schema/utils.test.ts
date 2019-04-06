@@ -5,6 +5,7 @@ import {
   collectRefs,
   normalizeRefValue,
   collectDefinitions,
+  eachDefinition,
 } from '../../src/schema/utils';
 
 describe('Resolver.utils', () => {
@@ -106,11 +107,15 @@ describe('Resolver.utils', () => {
       },
     };
 
-    expect(collectDefinitions(schema)).toEqual([
-      schema.definitions.a,
+    const callback = jest.fn();
+    eachDefinition(schema, callback);
+
+    expect(callback).toBeCalledWith('a', schema.definitions.a);
+    expect(callback).toBeCalledWith(
+      'http://supermodel.io/Scope/Image',
       schema.definitions['http://supermodel.io/Scope/Image'],
-      schema.definitions.c,
-      schema.definitions.c.definitions.d,
-    ]);
+    );
+    expect(callback).toBeCalledWith('c', schema.definitions.c);
+    expect(callback).toBeCalledWith('d', schema.definitions.c.definitions.d);
   });
 });

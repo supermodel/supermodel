@@ -2,13 +2,7 @@ import { JSONSchema7 } from 'json-schema';
 import { SchemaFileReader } from '@supermodel/fs';
 import { schemaFetch } from '@supermodel/http';
 import { validateSchema } from '@supermodel/validator';
-import {
-  SchemaSource,
-  isUrl,
-  Url,
-  collectRefs,
-  collectDefinitions,
-} from './utils';
+import { SchemaSource, isUrl, collectRefs, eachDefinition } from './utils';
 import { PromisePool } from './promise-pool';
 
 export type ResolverOptions = {
@@ -29,7 +23,7 @@ type InternalResolverOptions = {
   schemaId: boolean;
 };
 
-type SchemasCache = Map<Url, Promise<JSONSchema7>>;
+type SchemasCache = { [schemaId: string]: Promise<JSONSchema7> };
 
 type Queue = Array<string>;
 
@@ -57,19 +51,25 @@ export class SchemaResolver {
 
   async resolve() {
     const entrySchema = await this.getEntrySchema();
-    const pendingSchemas: SchemasCache = new Map();
+    const pendingSchemas: SchemasCache = {};
     const queue: Queue = [];
 
     this.resolveSchema(entrySchema.$id, entrySchema, pendingSchemas, queue);
 
     await this.processQueue(queue, pendingSchemas, this.options.concurrency);
 
-    const resolvedSchemas = await Promise.all(pendingSchemas.values());
+    const schemas: { [schemaId: string]: JSONSchema7 } = {};
+
+    for (const schemaId in pendingSchemas) {
+      if (pendingSchemas.hasOwnProperty(schemaId)) {
+        schemas[schemaId] = await pendingSchemas[schemaId];
+      }
+    }
 
     return {
       entrySchema,
       circular: this.circular,
-      resolvedSchemas,
+      schemas,
     };
   }
 
@@ -114,29 +114,36 @@ export class SchemaResolver {
     pendingSchemas: SchemasCache,
     queue: Queue,
   ) {
-    if (this.options.validate) {
-      try {
-        validateSchema(schema);
-      } catch (err) {
-        if (this.pool) {
-          this.pool.abort(err);
-        }
+    this.validateSchema(schema, schemaId);
 
-        throw err;
-      }
-    }
-
-    this.addSchemaToCache(schemaId, schema, pendingSchemas);
+    this.addSchemaToCache(pendingSchemas, schema, schemaId);
 
     // Collect definition from model to resolved cache
-    collectDefinitions(schema).forEach(definition =>
-      this.addSchemaToCache(definition.$id, definition, pendingSchemas),
-    );
+    eachDefinition(schema, (key, definition) => {
+      if (isUrl(key)) {
+        this.addSchemaToCache(pendingSchemas, definition);
+      }
+    });
 
     // Collect refs and enque them for resolve
     collectRefs(schema).forEach(id =>
       this.enqueueSchema(id, pendingSchemas, queue),
     );
+  }
+
+  private validateSchema(
+    schema: JSONSchema7,
+    expectedSchemaId: string | undefined,
+  ) {
+    if (this.options.validate) {
+      validateSchema(schema);
+    }
+
+    if (expectedSchemaId && schema.$id && schema.$id !== expectedSchemaId) {
+      throw new Error(
+        `$id mismatch, expected '${expectedSchemaId}' got '${schema.$id}'`,
+      );
+    }
   }
 
   /**
@@ -147,7 +154,7 @@ export class SchemaResolver {
     pendingSchemas: SchemasCache,
     queue: Queue,
   ) {
-    if (!pendingSchemas.has(schemaId) && !queue.includes(schemaId)) {
+    if (pendingSchemas[schemaId] === undefined && !queue.includes(schemaId)) {
       queue.push(schemaId);
     }
   }
@@ -157,13 +164,21 @@ export class SchemaResolver {
     pendingSchemas: SchemasCache,
     concurrency: number,
   ) {
-    this.pool = new PromisePool(
-      this.makeQueueWorker(pendingSchemas, queue),
-      this.makeQueueDataFetcher(queue),
-      concurrency,
-    );
+    try {
+      this.pool = new PromisePool(
+        this.makeQueueWorker(pendingSchemas, queue),
+        this.makeQueueDataFetcher(queue),
+        concurrency,
+      );
 
-    return this.pool.start();
+      return this.pool.start();
+    } catch (err) {
+      if (this.pool) {
+        this.pool.abort(err);
+      }
+
+      throw err;
+    }
   }
 
   /**
@@ -184,15 +199,15 @@ export class SchemaResolver {
   }
 
   private addSchemaToCache(
-    schemaId: string | undefined,
-    schema: JSONSchema7,
     pendingSchemas: SchemasCache,
+    schema: JSONSchema7,
+    schemaId?: string,
   ) {
     const $id = schema.$id || schemaId;
 
     if ($id) {
-      if (!pendingSchemas.has($id)) {
-        pendingSchemas.set($id, Promise.resolve(schema));
+      if (pendingSchemas[$id] === undefined) {
+        pendingSchemas[$id] = Promise.resolve(schema);
       } else {
         // TODO: we could check that content of schema is same as previous one. otherwise throw error
       }

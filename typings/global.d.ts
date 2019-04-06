@@ -14,3 +14,7 @@ type Values<T> = T[keyof T];
 type TIterableObject = {
   [key: string]: TIterableObject;
 };
+
+type NHKeys<T> = ({ [P in keyof T]: P } & { [x: string]: never })[keyof T];
+
+type RequiredKeys<T> = { [K in NHKeys<T>]: T[K] };

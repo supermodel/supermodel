@@ -1,16 +1,14 @@
 import { JSONSchema7 } from 'json-schema';
-import { SchemaFileReader } from '@supermodel/fs';
-import { schemaFetch } from '@supermodel/http';
-import { validateSchema } from '@supermodel/validator';
-import { SchemaSource, Url } from './schema/utils';
+import { SchemaSource } from './schema/utils';
 import { ResolverOptions, SchemaResolver } from './schema/resolver';
+import { SchemaBundler } from './schema/bundler';
 
 export class Schema {
   // TODO: circular detection
-  circular: boolean = false;
+  circular: boolean;
 
   entrySchema?: JSONSchema7;
-  resolvedSchemas?: JSONSchema7[] = [];
+  schemas?: { [schemaId: string]: JSONSchema7 };
 
   private source: SchemaSource;
   private options: ResolverOptions;
@@ -18,10 +16,17 @@ export class Schema {
   constructor(source: SchemaSource, options: ResolverOptions = {}) {
     this.source = source;
     this.options = options;
+    this.circular = false;
   }
 
-  get resolved() {
-    return this.resolvedSchemas !== undefined;
+  get isResolved() {
+    return this.schemas !== undefined;
+  }
+
+  get(ref: string) {
+    if (!this.isResolved) {
+      throw new Error('Schema is not resolved');
+    }
   }
 
   async resolve() {
@@ -30,8 +35,11 @@ export class Schema {
   }
 
   async bundle() {
-    if (!this.resolved) {
+    if (!this.isResolved) {
       await this.resolve();
     }
+
+    const bundler = new SchemaBundler(this.entrySchema!, this.schemas!);
+    return bundler.bundle();
   }
 }

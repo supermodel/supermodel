@@ -1,5 +1,6 @@
 import { JSONSchema7 } from 'json-schema';
 import resolvePathname = require('resolve-pathname');
+import traverse, { TraverseCallback } from 'json-schema-traverse';
 
 export const REF_KEY = '$ref';
 
@@ -110,23 +111,30 @@ export const normalizeRefValue = (rootId: string | undefined, ref: string) => {
   throw new Error(`$ref '${ref}' in schema '${rootId}' cannot be resolved`);
 };
 
-export const collectDefinitions = ({ definitions }: JSONSchema7) => {
-  if (typeof definitions === 'object') {
-    const extractedDefinitions: JSONSchema7[] = [];
+type EachDefinitionCallback = (key: string, schema: JSONSchema7) => void;
 
+export const eachDefinition = (
+  { definitions }: JSONSchema7,
+  callback: EachDefinitionCallback,
+) => {
+  if (definitions) {
     for (const key in definitions) {
       if (definitions.hasOwnProperty(key)) {
         const definition = definitions[key] as JSONSchema7;
 
         if (typeof definition === 'object') {
-          extractedDefinitions.push(definition);
-          extractedDefinitions.push(...collectDefinitions(definition));
+          callback(key, definition);
+          eachDefinition(definition, callback);
         }
       }
     }
-
-    return extractedDefinitions;
   }
+};
 
-  return [];
+export const filteredTraverse = (
+  schema: JSONSchema7,
+  property: string,
+  callback: TraverseCallback,
+) => {
+  traverse(schema, callback);
 };
