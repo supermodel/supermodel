@@ -6,6 +6,7 @@ type: object
 properties:
   ba:
     "$ref": http://supermodel.io/supermodel/Test/Resolver/b#/properties/a
+required: ["ba"]
 definitions:
   http://supermodel.io/supermodel/Test/Resolver/b:
     "$id": http://supermodel.io/supermodel/Test/Resolver/b
@@ -25,3 +26,4 @@ definitions:
     properties:
       a:
         type: string
+    required: ["a"]

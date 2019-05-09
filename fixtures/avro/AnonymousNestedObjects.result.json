@@ -12,16 +12,19 @@
         "fields": [
           {
             "name": "data",
-            "type": {
-              "name": "SupermodelIoSupermodelProblemAvroAnonymousObjectSomeObjectData",
-              "type": "record",
-              "fields": [
-                {
-                  "name": "name",
-                  "type": "string"
-                }
-              ]
-            }
+            "type": [
+              {
+                "name": "SupermodelIoSupermodelProblemAvroAnonymousObjectSomeObjectData",
+                "type": "record",
+                "fields": [
+                  {
+                    "name": "name",
+                    "type": ["string", "null"]
+                  }
+                ]
+              },
+              "null"
+            ]
           }
         ]
       }

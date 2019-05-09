@@ -1,5 +1,7 @@
 export type AvroSchemaDefinition = AvroRecord;
 
+export type AvroTypeOrOptional = AvroType | [AvroType, 'null'];
+
 export type AvroType =
   | AvroPrimitiveType
   | AvroComplexType
@@ -67,7 +69,7 @@ export type AvroFixed = {
 
 export type AvroField = {
   name: string;
-  type: AvroType;
+  type: AvroTypeOrOptional;
   doc?: string;
   default?: any;
   order?: 'ascending' | 'descending' | 'ignore';

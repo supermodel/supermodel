@@ -20,3 +20,4 @@ properties:
         properties:
           name:
             type: string
+required: ["some_object"]

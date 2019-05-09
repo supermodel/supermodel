@@ -9,6 +9,7 @@ import {
   AvroUnion,
   AvroPrimitiveType,
   AvroComplexType,
+  AvroTypeOrOptional,
 } from '../Avro';
 import {
   isObject,
@@ -90,7 +91,7 @@ function convertProperties(
   rootSchema: JSONSchema7,
   schema: JSONSchema7,
 ): Array<AvroField> {
-  const properties = schema.properties;
+  const { properties, required = [] } = schema;
 
   if (!properties) {
     return [];
@@ -103,6 +104,7 @@ function convertProperties(
       schema,
       properties[propertyName] as JSONSchema7,
       propertyName,
+      required.includes(propertyName),
     ),
   );
 }
@@ -113,14 +115,20 @@ function propertyToField(
   parentSchema: JSONSchema7,
   schema: JSONSchema7,
   propertyName: string,
+  required: boolean = false,
 ): AvroField {
-  const type = propertyToType(
+  const typeOrLazyType = propertyToType(
     cache,
     rootSchema,
     parentSchema,
     schema,
     propertyName,
   );
+
+  const type =
+    typeof typeOrLazyType === 'function' ? typeOrLazyType() : typeOrLazyType;
+
+  const typeOrOptional: AvroTypeOrOptional = required ? type : [type, 'null'];
 
   if (type in AvroPrimitiveType) {
     let defaultValue;
@@ -131,14 +139,14 @@ function propertyToField(
 
     return {
       name: propertyName,
-      type: typeof type === 'function' ? type() : type,
+      type: typeOrOptional,
       ...(schema.description ? { doc: schema.description } : null),
       ...(defaultValue ? { default: defaultValue } : null),
     };
   } else {
     return {
       name: propertyName,
-      type: typeof type === 'function' ? type() : type,
+      type: typeOrOptional,
     };
   }
 }

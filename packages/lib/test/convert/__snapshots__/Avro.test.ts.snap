@@ -6,17 +6,23 @@ Object {
   "fields": Array [
     Object {
       "name": "item",
-      "type": Object {
-        "doc": "Order model description",
-        "fields": Array [
-          Object {
-            "name": "name",
-            "type": "string",
-          },
-        ],
-        "name": "SupermodelIoDavidOrder",
-        "type": "record",
-      },
+      "type": Array [
+        Object {
+          "doc": "Order model description",
+          "fields": Array [
+            Object {
+              "name": "name",
+              "type": Array [
+                "string",
+                "null",
+              ],
+            },
+          ],
+          "name": "SupermodelIoDavidOrder",
+          "type": "record",
+        },
+        "null",
+      ],
     },
   ],
   "name": "SupermodelIoDavidOrder",
@@ -30,393 +36,606 @@ Object {
   "fields": Array [
     Object {
       "name": "athlete",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "name": "clearance",
-      "type": "boolean",
+      "type": Array [
+        "boolean",
+        "null",
+      ],
     },
     Object {
       "name": "comingSoonSignup",
-      "type": "float",
+      "type": Array [
+        "float",
+        "null",
+      ],
     },
     Object {
       "name": "customizable",
-      "type": "boolean",
+      "type": Array [
+        "boolean",
+        "null",
+      ],
     },
     Object {
       "name": "age",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "name": "brand",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "name": "campaign",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "name": "color",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "name": "defaultColor",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "name": "gender",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "name": "genderSub",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "name": "hastag",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "name": "maxQuantity",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "name": "productDivision",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "name": "productLine",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "name": "productType",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "name": "price",
-      "type": Object {
-        "doc": "Price model description",
-        "fields": Array [
-          Object {
-            "name": "standardPrice",
-            "type": "float",
-          },
-          Object {
-            "name": "standardPriceWithoutVAT",
-            "type": "float",
-          },
-          Object {
-            "name": "currentPrice",
-            "type": "float",
-          },
-          Object {
-            "name": "salesPrice",
-            "type": "float",
-          },
-        ],
-        "name": "SupermodelIoAdidasProductEcomPrice",
-        "type": "record",
-      },
+      "type": Array [
+        Object {
+          "doc": "Price model description",
+          "fields": Array [
+            Object {
+              "name": "standardPrice",
+              "type": Array [
+                "float",
+                "null",
+              ],
+            },
+            Object {
+              "name": "standardPriceWithoutVAT",
+              "type": Array [
+                "float",
+                "null",
+              ],
+            },
+            Object {
+              "name": "currentPrice",
+              "type": Array [
+                "float",
+                "null",
+              ],
+            },
+            Object {
+              "name": "salesPrice",
+              "type": Array [
+                "float",
+                "null",
+              ],
+            },
+          ],
+          "name": "SupermodelIoAdidasProductEcomPrice",
+          "type": "record",
+        },
+        "null",
+      ],
     },
     Object {
       "name": "sport",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "name": "fitbarPosition",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "name": "care",
-      "type": Object {
-        "doc": "Care model description",
-        "fields": Array [
-          Object {
-            "name": "bleachingInstruction",
-            "type": "string",
-          },
-          Object {
-            "name": "ironInstruction",
-            "type": "string",
-          },
-          Object {
-            "name": "dryCleanInstruction",
-            "type": "string",
-          },
-          Object {
-            "name": "dryInstruction",
-            "type": "string",
-          },
-          Object {
-            "name": "extraCareInstruction",
-            "type": "string",
-          },
-        ],
-        "name": "SupermodelIoAdidasProductEcomCare",
-        "type": "record",
-      },
+      "type": Array [
+        Object {
+          "doc": "Care model description",
+          "fields": Array [
+            Object {
+              "name": "bleachingInstruction",
+              "type": Array [
+                "string",
+                "null",
+              ],
+            },
+            Object {
+              "name": "ironInstruction",
+              "type": Array [
+                "string",
+                "null",
+              ],
+            },
+            Object {
+              "name": "dryCleanInstruction",
+              "type": Array [
+                "string",
+                "null",
+              ],
+            },
+            Object {
+              "name": "dryInstruction",
+              "type": Array [
+                "string",
+                "null",
+              ],
+            },
+            Object {
+              "name": "extraCareInstruction",
+              "type": Array [
+                "string",
+                "null",
+              ],
+            },
+          ],
+          "name": "SupermodelIoAdidasProductEcomCare",
+          "type": "record",
+        },
+        "null",
+      ],
     },
     Object {
       "doc": "ISO 8601 Date",
       "name": "onlineFrom",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "doc": "ISO 8601 Date",
       "name": "onlineTo",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "doc": "ISO 8601 Date",
       "name": "previewTo",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "name": "pdp",
-      "type": Object {
-        "doc": "PDP model description",
-        "fields": Array [
-          Object {
-            "name": "callout",
-            "type": "string",
-          },
-          Object {
-            "name": "content",
-            "type": "string",
-          },
-          Object {
-            "name": "model",
-            "type": "string",
-          },
-        ],
-        "name": "SupermodelIoAdidasProductEcom",
-        "type": "record",
-      },
+      "type": Array [
+        Object {
+          "doc": "PDP model description",
+          "fields": Array [
+            Object {
+              "name": "callout",
+              "type": Array [
+                "string",
+                "null",
+              ],
+            },
+            Object {
+              "name": "content",
+              "type": Array [
+                "string",
+                "null",
+              ],
+            },
+            Object {
+              "name": "model",
+              "type": Array [
+                "string",
+                "null",
+              ],
+            },
+          ],
+          "name": "SupermodelIoAdidasProductEcom",
+          "type": "record",
+        },
+        "null",
+      ],
     },
     Object {
       "name": "flashProduct",
-      "type": "boolean",
+      "type": Array [
+        "boolean",
+        "null",
+      ],
     },
     Object {
       "name": "hypeProduct",
-      "type": "boolean",
+      "type": Array [
+        "boolean",
+        "null",
+      ],
     },
     Object {
       "name": "personalizable",
-      "type": "boolean",
+      "type": Array [
+        "boolean",
+        "null",
+      ],
     },
     Object {
       "name": "preorder",
-      "type": "boolean",
+      "type": Array [
+        "boolean",
+        "null",
+      ],
     },
     Object {
       "name": "soldout",
-      "type": "boolean",
+      "type": Array [
+        "boolean",
+        "null",
+      ],
     },
     Object {
       "name": "productFamily",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "name": "productFilter",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "name": "prodcutLine",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "name": "sizeChart",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "name": "teams",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "doc": "The 'Template' is used to identify if the inline or miadidas PDP template should be applied in the ecommerce frontend.",
       "name": "template",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "name": "articleNumber",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "name": "modelNumber",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "name": "articleDescription",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "name": "name",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "name": "badge",
-      "type": Object {
-        "fields": Array [
-          Object {
-            "name": "style",
-            "type": Object {
-              "name": "SupermodelIoAdidasProductEcomBadgeStyle",
-              "symbols": Array [
-                "new",
-                "preview",
-                "preorder",
-                "sales",
-                "customizable",
-                "soldout",
+      "type": Array [
+        Object {
+          "fields": Array [
+            Object {
+              "name": "style",
+              "type": Array [
+                Object {
+                  "name": "SupermodelIoAdidasProductEcomBadgeStyle",
+                  "symbols": Array [
+                    "new",
+                    "preview",
+                    "preorder",
+                    "sales",
+                    "customizable",
+                    "soldout",
+                  ],
+                  "type": "enum",
+                },
+                "null",
               ],
-              "type": "enum",
             },
-          },
-          Object {
-            "name": "description",
-            "type": "string",
-          },
-        ],
-        "name": "SupermodelIoAdidasProductEcomBadge",
-        "type": "record",
-      },
+            Object {
+              "name": "description",
+              "type": Array [
+                "string",
+                "null",
+              ],
+            },
+          ],
+          "name": "SupermodelIoAdidasProductEcomBadge",
+          "type": "record",
+        },
+        "null",
+      ],
     },
     Object {
       "name": "assets",
-      "type": Object {
-        "items": Object {
-          "doc": "Digital Asset",
-          "fields": Array [
-            Object {
-              "name": "assetType",
-              "type": Object {
-                "name": "SupermodelIoAdidasProductAssetAssetType",
-                "symbols": Array [
-                  "image",
-                  "video",
-                  "other",
+      "type": Array [
+        Object {
+          "items": Object {
+            "doc": "Digital Asset",
+            "fields": Array [
+              Object {
+                "name": "assetType",
+                "type": Object {
+                  "name": "SupermodelIoAdidasProductAssetAssetType",
+                  "symbols": Array [
+                    "image",
+                    "video",
+                    "other",
+                  ],
+                  "type": "enum",
+                },
+              },
+              Object {
+                "name": "viewGroup",
+                "type": "string",
+              },
+              Object {
+                "name": "view",
+                "type": "string",
+              },
+              Object {
+                "name": "assetCategory",
+                "type": "string",
+              },
+              Object {
+                "name": "usageTerms",
+                "type": Object {
+                  "items": "string",
+                  "type": "array",
+                },
+              },
+              Object {
+                "name": "assetHref",
+                "type": "string",
+              },
+              Object {
+                "name": "image",
+                "type": Array [
+                  Object {
+                    "fields": Array [
+                      Object {
+                        "name": "style",
+                        "type": Array [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      Object {
+                        "name": "width",
+                        "type": Array [
+                          "int",
+                          "null",
+                        ],
+                      },
+                      Object {
+                        "name": "height",
+                        "type": Array [
+                          "int",
+                          "null",
+                        ],
+                      },
+                      Object {
+                        "name": "bgColor",
+                        "type": Array [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      Object {
+                        "name": "representation",
+                        "type": Array [
+                          "string",
+                          "null",
+                        ],
+                      },
+                    ],
+                    "name": "SupermodelIoAdidasProductAssetImage",
+                    "type": "record",
+                  },
+                  "null",
                 ],
-                "type": "enum",
               },
-            },
-            Object {
-              "name": "viewGroup",
-              "type": "string",
-            },
-            Object {
-              "name": "view",
-              "type": "string",
-            },
-            Object {
-              "name": "assetCategory",
-              "type": "string",
-            },
-            Object {
-              "name": "usageTerms",
-              "type": Object {
-                "items": "string",
-                "type": "array",
-              },
-            },
-            Object {
-              "name": "assetHref",
-              "type": "string",
-            },
-            Object {
-              "name": "image",
-              "type": Object {
-                "fields": Array [
+              Object {
+                "name": "video",
+                "type": Array [
                   Object {
-                    "name": "style",
-                    "type": "string",
+                    "fields": Array [
+                      Object {
+                        "name": "fileSize",
+                        "type": Array [
+                          "int",
+                          "null",
+                        ],
+                      },
+                    ],
+                    "name": "SupermodelIoAdidasProductAssetVideo",
+                    "type": "record",
                   },
-                  Object {
-                    "name": "width",
-                    "type": "int",
-                  },
-                  Object {
-                    "name": "height",
-                    "type": "int",
-                  },
-                  Object {
-                    "name": "bgColor",
-                    "type": "string",
-                  },
-                  Object {
-                    "name": "representation",
-                    "type": "string",
-                  },
+                  "null",
                 ],
-                "name": "SupermodelIoAdidasProductAssetImage",
-                "type": "record",
               },
-            },
-            Object {
-              "name": "video",
-              "type": Object {
-                "fields": Array [
+              Object {
+                "name": "model",
+                "type": Array [
                   Object {
-                    "name": "fileSize",
-                    "type": "int",
+                    "fields": Array [
+                      Object {
+                        "name": "waist",
+                        "type": Array [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      Object {
+                        "name": "chest",
+                        "type": Array [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      Object {
+                        "name": "height",
+                        "type": Array [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      Object {
+                        "name": "productSize",
+                        "type": Array [
+                          "string",
+                          "null",
+                        ],
+                      },
+                    ],
+                    "name": "SupermodelIoAdidasProductAssetModel",
+                    "type": "record",
                   },
+                  "null",
                 ],
-                "name": "SupermodelIoAdidasProductAssetVideo",
-                "type": "record",
               },
-            },
-            Object {
-              "name": "model",
-              "type": Object {
-                "fields": Array [
-                  Object {
-                    "name": "waist",
-                    "type": "string",
-                  },
-                  Object {
-                    "name": "chest",
-                    "type": "string",
-                  },
-                  Object {
-                    "name": "height",
-                    "type": "string",
-                  },
-                  Object {
-                    "name": "productSize",
-                    "type": "string",
-                  },
-                ],
-                "name": "SupermodelIoAdidasProductAssetModel",
-                "type": "record",
-              },
-            },
-          ],
-          "name": "SupermodelIoAdidasProductAsset",
-          "type": "record",
+            ],
+            "name": "SupermodelIoAdidasProductAsset",
+            "type": "record",
+          },
+          "type": "array",
         },
-        "type": "array",
-      },
+        "null",
+      ],
     },
     Object {
       "name": "colorVariants",
-      "type": Object {
-        "items": "SupermodelIoAdidasProductEcomArticle",
-        "type": "array",
-      },
+      "type": Array [
+        Object {
+          "items": "SupermodelIoAdidasProductEcomArticle",
+          "type": "array",
+        },
+        "null",
+      ],
     },
     Object {
       "name": "miadidas",
-      "type": Object {
-        "items": "SupermodelIoAdidasProductEcomArticle",
-        "type": "array",
-      },
+      "type": Array [
+        Object {
+          "items": "SupermodelIoAdidasProductEcomArticle",
+          "type": "array",
+        },
+        "null",
+      ],
     },
     Object {
       "name": "completeLook",
-      "type": Object {
-        "items": "SupermodelIoAdidasProductEcomArticle",
-        "type": "array",
-      },
+      "type": Array [
+        Object {
+          "items": "SupermodelIoAdidasProductEcomArticle",
+          "type": "array",
+        },
+        "null",
+      ],
     },
   ],
   "name": "SupermodelIoAdidasProductEcomArticle",
@@ -430,24 +649,33 @@ Object {
   "fields": Array [
     Object {
       "name": "volume",
-      "type": "float",
+      "type": Array [
+        "float",
+        "null",
+      ],
     },
     Object {
       "name": "power",
-      "type": "int",
+      "type": Array [
+        "int",
+        "null",
+      ],
     },
     Object {
       "name": "fuel",
-      "type": Object {
-        "name": "SupermodelIoFactoryPartsEngineFuel",
-        "symbols": Array [
-          "gasoline",
-          "diesel",
-          "lpg",
-          "cng",
-        ],
-        "type": "enum",
-      },
+      "type": Array [
+        Object {
+          "name": "SupermodelIoFactoryPartsEngineFuel",
+          "symbols": Array [
+            "gasoline",
+            "diesel",
+            "lpg",
+            "cng",
+          ],
+          "type": "enum",
+        },
+        "null",
+      ],
     },
   ],
   "name": "SupermodelIoFactoryPartsEngine",
@@ -461,40 +689,64 @@ Object {
   "fields": Array [
     Object {
       "name": "manufacturer",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "name": "type",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "name": "weight",
-      "type": "int",
+      "type": Array [
+        "int",
+        "null",
+      ],
     },
     Object {
       "name": "length",
-      "type": "float",
+      "type": Array [
+        "float",
+        "null",
+      ],
     },
     Object {
       "name": "available",
-      "type": "boolean",
+      "type": Array [
+        "boolean",
+        "null",
+      ],
     },
     Object {
       "name": "engine",
-      "type": Object {
-        "fields": Array [
-          Object {
-            "name": "volume",
-            "type": "float",
-          },
-          Object {
-            "name": "power",
-            "type": "int",
-          },
-        ],
-        "name": "SupermodelIoFactoryCarEngine",
-        "type": "record",
-      },
+      "type": Array [
+        Object {
+          "fields": Array [
+            Object {
+              "name": "volume",
+              "type": Array [
+                "float",
+                "null",
+              ],
+            },
+            Object {
+              "name": "power",
+              "type": Array [
+                "int",
+                "null",
+              ],
+            },
+          ],
+          "name": "SupermodelIoFactoryCarEngine",
+          "type": "record",
+        },
+        "null",
+      ],
     },
   ],
   "name": "SupermodelIoFactoryCar",
@@ -509,30 +761,42 @@ Object {
     Object {
       "name": "engine",
       "type": Array [
-        Object {
-          "fields": Array [
-            Object {
-              "name": "volume",
-              "type": "float",
-            },
-            Object {
-              "name": "power",
-              "type": "int",
-            },
-          ],
-          "name": "SupermodelIoFactoryPartsEngine",
-          "type": "record",
-        },
-        Object {
-          "fields": Array [
-            Object {
-              "name": "gears",
-              "type": "float",
-            },
-          ],
-          "name": "SupermodelIoFactoryPartsTransmission",
-          "type": "record",
-        },
+        Array [
+          Object {
+            "fields": Array [
+              Object {
+                "name": "volume",
+                "type": Array [
+                  "float",
+                  "null",
+                ],
+              },
+              Object {
+                "name": "power",
+                "type": Array [
+                  "int",
+                  "null",
+                ],
+              },
+            ],
+            "name": "SupermodelIoFactoryPartsEngine",
+            "type": "record",
+          },
+          Object {
+            "fields": Array [
+              Object {
+                "name": "gears",
+                "type": Array [
+                  "float",
+                  "null",
+                ],
+              },
+            ],
+            "name": "SupermodelIoFactoryPartsTransmission",
+            "type": "record",
+          },
+        ],
+        "null",
       ],
     },
   ],
@@ -551,11 +815,17 @@ Object {
     },
     Object {
       "name": "type",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "name": "weight",
-      "type": "int",
+      "type": Array [
+        "int",
+        "null",
+      ],
     },
     Object {
       "name": "length",
@@ -563,7 +833,10 @@ Object {
     },
     Object {
       "name": "available",
-      "type": "boolean",
+      "type": Array [
+        "boolean",
+        "null",
+      ],
     },
   ],
   "name": "SupermodelIoFactoryCar",
@@ -577,40 +850,64 @@ Object {
   "fields": Array [
     Object {
       "name": "manufacturer",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "name": "type",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "name": "weight",
-      "type": "int",
+      "type": Array [
+        "int",
+        "null",
+      ],
     },
     Object {
       "name": "length",
-      "type": "float",
+      "type": Array [
+        "float",
+        "null",
+      ],
     },
     Object {
       "name": "available",
-      "type": "boolean",
+      "type": Array [
+        "boolean",
+        "null",
+      ],
     },
     Object {
       "name": "engine",
-      "type": Object {
-        "fields": Array [
-          Object {
-            "name": "volume",
-            "type": "float",
-          },
-          Object {
-            "name": "power",
-            "type": "int",
-          },
-        ],
-        "name": "SupermodelIoFactoryPartsEngine",
-        "type": "record",
-      },
+      "type": Array [
+        Object {
+          "fields": Array [
+            Object {
+              "name": "volume",
+              "type": Array [
+                "float",
+                "null",
+              ],
+            },
+            Object {
+              "name": "power",
+              "type": Array [
+                "int",
+                "null",
+              ],
+            },
+          ],
+          "name": "SupermodelIoFactoryPartsEngine",
+          "type": "record",
+        },
+        "null",
+      ],
     },
   ],
   "name": "SupermodelIoFactoryCar",
@@ -624,40 +921,64 @@ Object {
   "fields": Array [
     Object {
       "name": "manufacturer",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "name": "type",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "name": "weight",
-      "type": "int",
+      "type": Array [
+        "int",
+        "null",
+      ],
     },
     Object {
       "name": "length",
-      "type": "float",
+      "type": Array [
+        "float",
+        "null",
+      ],
     },
     Object {
       "name": "available",
-      "type": "boolean",
+      "type": Array [
+        "boolean",
+        "null",
+      ],
     },
     Object {
       "name": "engine",
-      "type": Object {
-        "fields": Array [
-          Object {
-            "name": "volume",
-            "type": "float",
-          },
-          Object {
-            "name": "power",
-            "type": "int",
-          },
-        ],
-        "name": "SupermodelIoFactoryPartsEngine",
-        "type": "record",
-      },
+      "type": Array [
+        Object {
+          "fields": Array [
+            Object {
+              "name": "volume",
+              "type": Array [
+                "float",
+                "null",
+              ],
+            },
+            Object {
+              "name": "power",
+              "type": Array [
+                "int",
+                "null",
+              ],
+            },
+          ],
+          "name": "SupermodelIoFactoryPartsEngine",
+          "type": "record",
+        },
+        "null",
+      ],
     },
   ],
   "name": "SupermodelIoFactoryCar",
@@ -671,40 +992,64 @@ Object {
   "fields": Array [
     Object {
       "name": "manufacturer",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "name": "type",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "name": "weight",
-      "type": "int",
+      "type": Array [
+        "int",
+        "null",
+      ],
     },
     Object {
       "name": "length",
-      "type": "float",
+      "type": Array [
+        "float",
+        "null",
+      ],
     },
     Object {
       "name": "available",
-      "type": "boolean",
+      "type": Array [
+        "boolean",
+        "null",
+      ],
     },
     Object {
       "name": "engine",
-      "type": Object {
-        "fields": Array [
-          Object {
-            "name": "volume",
-            "type": "float",
-          },
-          Object {
-            "name": "power",
-            "type": "int",
-          },
-        ],
-        "name": "SupermodelIoFactoryPartsEngine",
-        "type": "record",
-      },
+      "type": Array [
+        Object {
+          "fields": Array [
+            Object {
+              "name": "volume",
+              "type": Array [
+                "float",
+                "null",
+              ],
+            },
+            Object {
+              "name": "power",
+              "type": Array [
+                "int",
+                "null",
+              ],
+            },
+          ],
+          "name": "SupermodelIoFactoryPartsEngine",
+          "type": "record",
+        },
+        "null",
+      ],
     },
   ],
   "name": "SupermodelIoFactoryCar",
@@ -718,53 +1063,83 @@ Object {
   "fields": Array [
     Object {
       "name": "manufacturer",
-      "type": Object {
-        "fields": Array [
-          Object {
-            "name": "name",
-            "type": "string",
-          },
-        ],
-        "name": "SupermodelIoFactoryManufacturer",
-        "type": "record",
-      },
+      "type": Array [
+        Object {
+          "fields": Array [
+            Object {
+              "name": "name",
+              "type": Array [
+                "string",
+                "null",
+              ],
+            },
+          ],
+          "name": "SupermodelIoFactoryManufacturer",
+          "type": "record",
+        },
+        "null",
+      ],
     },
     Object {
       "name": "type",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
     Object {
       "name": "weight",
-      "type": "int",
+      "type": Array [
+        "int",
+        "null",
+      ],
     },
     Object {
       "name": "length",
-      "type": "float",
+      "type": Array [
+        "float",
+        "null",
+      ],
     },
     Object {
       "name": "available",
-      "type": "boolean",
+      "type": Array [
+        "boolean",
+        "null",
+      ],
     },
     Object {
       "name": "engine",
-      "type": Object {
-        "fields": Array [
-          Object {
-            "name": "volume",
-            "type": "float",
-          },
-          Object {
-            "name": "power",
-            "type": "int",
-          },
-          Object {
-            "name": "manufacturer",
-            "type": "SupermodelIoFactoryManufacturer",
-          },
-        ],
-        "name": "SupermodelIoFactoryPartsEngine",
-        "type": "record",
-      },
+      "type": Array [
+        Object {
+          "fields": Array [
+            Object {
+              "name": "volume",
+              "type": Array [
+                "float",
+                "null",
+              ],
+            },
+            Object {
+              "name": "power",
+              "type": Array [
+                "int",
+                "null",
+              ],
+            },
+            Object {
+              "name": "manufacturer",
+              "type": Array [
+                "SupermodelIoFactoryManufacturer",
+                "null",
+              ],
+            },
+          ],
+          "name": "SupermodelIoFactoryPartsEngine",
+          "type": "record",
+        },
+        "null",
+      ],
     },
   ],
   "name": "SupermodelIoFactoryCar",
@@ -779,7 +1154,10 @@ Object {
   "fields": Array [
     Object {
       "name": "timestamp",
-      "type": "string",
+      "type": Array [
+        "string",
+        "null",
+      ],
     },
   ],
   "name": "SupermodelIoDavidOrder",
