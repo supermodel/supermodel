@@ -24,6 +24,12 @@ import {
 import { ensureRefWithParent } from '../utils/resolveRef';
 import fetch from '../utils/fetch';
 
+// Convert JSON Schema into Avro format.
+// Due to circular references in original schema we use concept of "lazy" resolving. Resolution of each schema
+// node of object type is wrapped into unvaluated function and is cached for that node. Once the node should be
+// resolved from circular dependency the resolving function is get from cache. Once we resolve all the lazy
+// functions at the end when one function should be resolved multiple times it "resolves" itself into object
+// just for the first time. Each other resolving will lead just into reference string.
 export default function convertToAvro(
   schema: JSONSchema7,
 ): AvroSchemaDefinition {
@@ -254,43 +260,56 @@ function objectToAvro(
   schema: JSONSchema7,
   propertyName: string,
 ): LazyAvroRecord {
-  const currentLazyAvroRecord = cache.lazy.get(schema);
+  let lazyAvroRecord = cache.lazy.get(schema);
 
-  if (!currentLazyAvroRecord) {
-    const lazyAvroRecord = () => {
-      let avroRecord = cache.records.get(schema);
-
-      if (!avroRecord) {
-        const name = fetch(cache.avroNames, schema, () =>
-          getObjectName(cache, schema, parentSchema, propertyName),
-        );
-
-        avroRecord = {
-          name,
-          ...(schema.description ? { doc: schema.description } : null),
-          type: 'record',
-          fields: convertProperties(cache, rootSchema, schema),
-        };
-
-        cache.records.set(schema, avroRecord);
-
-        return avroRecord;
-      }
-
-      if (avroRecord.name) {
-        return avroRecord.name;
-      }
-
-      // throw 'missing name';
-      return avroRecord;
-    };
-
+  if (!lazyAvroRecord) {
+    lazyAvroRecord = objectToAvroLazyRecord(
+      cache,
+      rootSchema,
+      parentSchema,
+      schema,
+      propertyName,
+    );
     cache.lazy.set(schema, lazyAvroRecord);
-
-    return lazyAvroRecord;
   }
 
-  return currentLazyAvroRecord;
+  return lazyAvroRecord;
+}
+
+function objectToAvroLazyRecord(
+  cache: Cache,
+  rootSchema: JSONSchema7,
+  parentSchema: JSONSchema7,
+  schema: JSONSchema7,
+  propertyName: string,
+): LazyAvroRecord {
+  return () => {
+    let avroRecord = cache.records.get(schema);
+
+    if (!avroRecord) {
+      const name = fetch(cache.avroNames, schema, () =>
+        getObjectName(cache, schema, parentSchema, propertyName),
+      );
+
+      avroRecord = {
+        name,
+        ...(schema.description ? { doc: schema.description } : null),
+        type: 'record',
+        fields: convertProperties(cache, rootSchema, schema),
+      };
+
+      cache.records.set(schema, avroRecord);
+
+      return avroRecord;
+    }
+
+    if (avroRecord.name) {
+      return avroRecord.name;
+    }
+
+    // throw 'missing name';
+    return avroRecord;
+  };
 }
 
 function arrayToAvro(

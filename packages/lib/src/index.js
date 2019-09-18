@@ -1,7 +1,7 @@
 const { default: camelize } = require('./camelize');
 const { default: convertToAvro } = require('./convert/Avro');
 const convertToGraphQL = require('./convert/GraphQL');
-const convertToOAS2 = require('./convertToOAS2');
+const convertToOAS2 = require('./convert/OAS2');
 const createModelSchema = require('./createModelSchema');
 const importJsonLD = require('./importJsonLD');
 const resolveSchema = require('./resolveSchema');
