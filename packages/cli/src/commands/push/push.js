@@ -98,7 +98,7 @@ async function updateLayer(layerPath, layerData) {
     method: 'PUT',
     headers: {
       Authorization: `Bearer ${token}`,
-      Accept: 'application/json',
+      Accept: 'application/vnd.restful+json',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({

@@ -13,7 +13,7 @@ function supermodelAuthenticate(idToken) {
       method: 'POST',
       headers: {
         Authorization: 'Basic ' + idToken,
-        Accept: 'application/json',
+        Accept: 'application/vnd.restful+json',
         'Content-Type': 'application/json',
       },
     },
