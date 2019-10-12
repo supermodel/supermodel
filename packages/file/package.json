@@ -18,8 +18,8 @@
   },
   "homepage": "https://github.com/supermodel/supermodel/tree/master/packages/file#readme",
   "dependencies": {
-    "js-yaml": "^3.11.0",
-    "node-fetch": "^2.2.0"
+    "js-yaml": "^3.13.1",
+    "node-fetch": "^2.6.0"
   },
   "files": [
     "lib"

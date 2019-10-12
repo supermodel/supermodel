@@ -9,9 +9,8 @@
     "../../typings"
   ],
   "references": [
-    { "path": "../fs"},
-    { "path": "../http"},
-    { "path": "../serializer"},
-    { "path": "../validator"}
+    {"path": "../fs"},
+    {"path": "../http"},
+    {"path": "../validator"}
   ]
 }

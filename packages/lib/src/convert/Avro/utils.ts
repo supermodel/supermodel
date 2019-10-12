@@ -1,7 +1,7 @@
 import { JSONSchema7 } from 'json-schema';
 import { URL } from 'url';
 import { AvroPrimitiveType, AvroRecord, AvroName } from '../../Avro';
-import * as casex from 'casex';
+import casex = require('casex');
 
 export type LazyAvroRecord = () => AvroRecord | AvroName;
 

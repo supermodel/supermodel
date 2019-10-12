@@ -1,4 +1,8 @@
+const os = require('os');
+const cpuCount = os.cpus().length;
+
 module.exports = {
+  maxWorkers: Math.max(cpuCount / 4, 2),
   roots: ['<rootDir>/packages'],
   cacheDirectory: '<rootDir>/.cache/jest',
   clearMocks: true,

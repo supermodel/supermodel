@@ -17,16 +17,19 @@ declare module 'json-schema-traverse' {
     key: string,
   ) => void;
 
-  function traverse(schema: JSONSchema7, callback: TraverseCallback): void;
+  export default function traverse(
+    schema: JSONSchema7,
+    callback: TraverseCallback,
+  ): void;
 
-  function traverse(
+  export default function traverse(
     schema: JSONSchema7,
     options: {
       cb: TraverseCallback;
     },
   ): void;
 
-  function traverse(
+  export default function traverse(
     schema: JSONSchema7,
     options: {
       cb: {
@@ -35,7 +38,4 @@ declare module 'json-schema-traverse' {
       };
     },
   ): void;
-
-  namespace traverse {}
-  export = traverse;
 }

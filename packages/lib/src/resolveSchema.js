@@ -1,4 +1,3 @@
-const casex = require('casex');
 const validateSchema = require('./validateSchema');
 
 // Resolves "live" external references in a schema

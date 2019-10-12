@@ -1,5 +1,5 @@
 import { URL } from 'url';
-import * as casex from 'casex';
+import casex = require('casex');
 
 function idToName(id: string): string {
   const url = new URL(id);

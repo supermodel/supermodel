@@ -1,4 +1,4 @@
-export default function findInObject<O = {}>(
+export default function findInObject<O extends object>(
   object: O,
   find: (value: O) => any,
 ): Maybe<O> {

@@ -15,7 +15,7 @@
   },
   "homepage": "https://github.com/supermodel/supermodel/tree/master/packages/lib#readme",
   "dependencies": {
-    "js-yaml": "^3.11.0"
+    "js-yaml": "^3.13.1"
   },
   "directories": {
     "lib": "lib",

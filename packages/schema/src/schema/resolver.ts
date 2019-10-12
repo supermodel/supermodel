@@ -41,7 +41,7 @@ export class SchemaResolver {
       http: true,
       concurrency: 10,
       validate: true,
-      circular: true,
+      circular: false,
       schemaId: false,
       ...options,
     };
@@ -231,10 +231,6 @@ export class SchemaResolver {
       this.schemaFileInstance = new SchemaFileClass(this.options.cwd);
     }
 
-    if (!this.schemaFileInstance) {
-      throw new Error('Something went terribly wrong');
-    }
-
-    return this.schemaFileInstance;
+    return this.schemaFileInstance!;
   }
 }

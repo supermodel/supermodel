@@ -15,7 +15,7 @@
   },
   "homepage": "https://github.com/supermodel/supermodel/tree/master/packages/lib#readme",
   "dependencies": {
-    "ajv": "^6.9.2"
+    "ajv": "^6.11.0"
   },
   "directories": {
     "lib": "lib",

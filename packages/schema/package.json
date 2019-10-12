@@ -19,7 +19,6 @@
   },
   "homepage": "https://github.com/supermodel/supermodel/tree/master/packages/file#readme",
   "dependencies": {
-    "@supermodel/fs": "0.0.1",
     "@supermodel/http": "0.0.1",
     "@supermodel/validator": "^0.0.1",
     "json-schema-traverse": "^0.4.1",

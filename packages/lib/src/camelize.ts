@@ -1,4 +1,4 @@
-import * as casex from 'casex';
+import casex = require('casex');
 
 function camelize(str: string) {
   return casex(str, 'caSe');

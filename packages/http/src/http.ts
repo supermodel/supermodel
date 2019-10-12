@@ -1,9 +1,10 @@
 import 'isomorphic-fetch';
-import { fromYAML } from '@supermodel/serializer';
+import { fromJSON, fromYAML } from '@supermodel/serializer';
 import { JSONSchema7 } from 'json-schema';
 
 const DEFAULT_HEADERS = {
-  Accept: 'application/schema+json, application/json, application/schema+yaml',
+  Accept:
+    'application/schema+json, application/schema+yaml, application/json, application/yaml, application/x-yaml',
 };
 
 export const schemaFetch = async (url: string) => {
@@ -17,8 +18,12 @@ export const schemaFetch = async (url: string) => {
     contentType.includes('application/json') ||
     contentType.includes('application/schema+json')
   ) {
-    return response.json() as Promise<JSONSchema7>;
-  } else if (contentType.includes('application/schema+yaml')) {
+    return fromJSON(await response.text()) as JSONSchema7;
+  } else if (
+    contentType.includes('application/schema+yaml') ||
+    contentType.includes('application/yaml') ||
+    contentType.includes('application/x-yaml')
+  ) {
     return fromYAML(await response.text()) as JSONSchema7;
   }
 

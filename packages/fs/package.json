@@ -18,15 +18,15 @@
   },
   "homepage": "https://github.com/supermodel/supermodel/tree/master/packages/file#readme",
   "dependencies": {
-    "js-yaml": "^3.11.0",
-    "mime-types": "^2.1.22"
+    "js-yaml": "^3.13.1",
+    "mime-types": "^2.1.26"
   },
   "files": [
     "lib"
   ],
   "devDependencies": {
     "@supermodel/serializer": "0.0.1",
-    "@types/js-yaml": "3.12.0",
+    "@types/js-yaml": "3.12.2",
     "@types/mime-types": "^2.1.0"
   }
 }

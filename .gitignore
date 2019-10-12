@@ -62,3 +62,5 @@ oas2.yaml
 
 # Lerna stuffs
 lerna-debug.log
+
+tsconfig.tsbuildinfo

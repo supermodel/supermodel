@@ -3,7 +3,7 @@ import { SchemaSource } from './schema/utils';
 import { ResolverOptions, SchemaResolver } from './schema/resolver';
 import { SchemaBundler } from './schema/bundler';
 
-export class Schema {
+export default class Schema {
   // TODO: circular detection
   circular: boolean;
 
