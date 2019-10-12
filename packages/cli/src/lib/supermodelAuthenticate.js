@@ -1,3 +1,5 @@
+const fetch = require('isomorphic-fetch');
+
 /**
  * Register or login in Supermodel with user data
  *
