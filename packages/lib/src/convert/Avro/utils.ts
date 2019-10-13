@@ -72,8 +72,8 @@ export function getObjectName(
   if (schema.$id) {
     return casex(
       schema.$id
-        .replace(/^[a-z]+:\/\//i, '')
-        .replace(/[\.\/\:](.)?/, () => ` ${RegExp.lastMatch}`),
+        .replace(/^[a-z]+:\/\//i, '') // remove protocol
+        .replace(/[^\w]/g, ' '), // replace non alphanumeric characters with space
       'CaSe',
     );
   }

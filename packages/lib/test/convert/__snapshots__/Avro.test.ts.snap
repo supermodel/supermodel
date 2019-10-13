@@ -301,7 +301,7 @@ Object {
               ],
             },
           ],
-          "name": "SupermodelIoAdidasProductEcom",
+          "name": "SupermodelIoAdidasProductEcomPDP",
           "type": "record",
         },
         "null",

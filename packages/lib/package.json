@@ -15,7 +15,7 @@
   "homepage": "https://github.com/supermodel/supermodel/tree/master/packages/lib#readme",
   "dependencies": {
     "ajv": "^6.4.0",
-    "casex": "0.0.5",
+    "casex": "3.0.0",
     "graphql": "14.1.1",
     "js-yaml": "^3.11.0",
     "jsonpointer": "4.0.1",

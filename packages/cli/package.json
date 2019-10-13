@@ -24,7 +24,7 @@
     "@supermodel/lib": "^0.4.22",
     "ajv": "^6.1.1",
     "auth0-js": "9.4.2",
-    "casex": "0.0.5",
+    "casex": "3.0.0",
     "commander": "^2.14.1",
     "dotenv": "5.0.1",
     "glob": "7.1.3",

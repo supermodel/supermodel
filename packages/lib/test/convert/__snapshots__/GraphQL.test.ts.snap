@@ -12,7 +12,7 @@ exports[`schemaToGraphQL complex schema 1`] = `
   colorway: DavidAdidasProductArticleColorway
   colors: [DavidAdidasProductColor]
   seasons: [DavidAdidasProductArticleSeason]
-  skus: [DavidAdidasProduct]
+  skus: [DavidAdidasProductSKU]
   assets: [DavidAdidasProductAsset]
   catalog: DavidAdidasProductCatalog
   related: [DavidAdidasProductArticle]
@@ -42,13 +42,13 @@ type DavidAdidasProductArticleSeason {
   retailExitDate: String
 }
 
-type DavidAdidasProduct {
+type DavidAdidasProductSKU {
   EAN: String
   UPC: String
   srcSizeCD3: String
   srcSizeScale: String
   srcSizeDescription: String
-  conversionIDs: [DavidAdidasProductConversionDs]
+  conversionIDs: [DavidAdidasProductSKUConversionIDs]
 }
 
 type DavidAdidasProductAsset {
@@ -68,7 +68,7 @@ type DavidAdidasProductCatalog {
   featureAndBenefits: [DavidAdidasProductCatalogFeatureAndBenefit]
 }
 
-type DavidAdidasProductConversionDs {
+type DavidAdidasProductSKUConversionIDs {
   localSize: String
   saleSizeConvID: String
   saleSizeScale: String
