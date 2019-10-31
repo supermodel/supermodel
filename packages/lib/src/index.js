@@ -2,6 +2,7 @@ const { default: camelize } = require('./camelize');
 const { default: convertToAvro } = require('./convert/Avro');
 const convertToGraphQL = require('./convert/GraphQL');
 const convertToOAS2 = require('./convert/OAS2');
+const convertToOAS3 = require('./convert/OAS3');
 const createModelSchema = require('./createModelSchema');
 const importJsonLD = require('./importJsonLD');
 const resolveSchema = require('./resolveSchema');
@@ -15,6 +16,7 @@ module.exports = {
   convertToAvro,
   convertToGraphQL,
   convertToOAS2,
+  convertToOAS3,
   createModelSchema,
   importJsonLD,
   resolveSchema,

@@ -4,6 +4,7 @@ const runValidateSchema = require('./validate');
 const runResolveSchema = require('./resolve');
 const runCompileSchema = require('./compile');
 const runConvertToOAS2 = require('./convertOAS2');
+const runConvertToOAS3 = require('./convertOAS3');
 const runConvertToAvro = require('./convertAvro');
 const runConvertToGraphQL = require('./convertGraphQL');
 const { version } = require('../../version');
@@ -41,17 +42,20 @@ program
   .action((path, command) => runConvertToOAS2(path, command.out));
 
 program
+  .command('oas3 <path>')
+  .description(
+    'convert given model or directory to OpenAPI Specification 3 definitions',
+  )
+  .option(
+    '-o, --out <oas3Path>',
+    'Replace existing OAS3 file definitions section instead of writing to stdout',
+  )
+  .action((path, command) => runConvertToOAS3(path, command.out));
+
+program
   .command('json <modelPath>')
   .description('convert given model to JSON Schema (JSON)')
   .action(modelPath => runConvertToJSON(modelPath));
-
-// Contribution welcomed <3
-program
-  .command('oas3 <modelPath>')
-  .description('convert given model to OpenAPI Specification 3.0 definitions')
-  .action(modelPath => {
-    console.error('not implemented');
-  });
 
 program
   .command('graphql <modelPath>')
