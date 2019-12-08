@@ -143,7 +143,11 @@ function FSLayerToEntity(layerDirectory, errors) {
     layerData = { title, description };
   }
 
-  const items = fs.readdirSync(layerDirectory);
+  let items = fs.readdirSync(layerDirectory);
+
+  // Filter out hidden files
+  items = items.filter(item => !item.startsWith('.'));
+
   const nestedEntities = items.map(itemName => {
     const entityPath = path.join(layerDirectory, itemName);
 
@@ -181,7 +185,10 @@ function addErrorMessage(errors, file, message) {
   messages.push(message);
 }
 
-const validSchema = 'http://json-schema.org/draft-07/schema';
+const VALID_SCHEMAS = [
+  'http://json-schema.org/draft-07/schema',
+  'http://superschema.org/draft-01/schema',
+];
 
 /**
  * Convert model schema (file) json data structure
@@ -210,8 +217,10 @@ function FSModelToEntity(modelFile, errors) {
   const filePath = modelFile.substr(supermodelDirectory.length + 1);
 
   if (schema) {
-    if (schema.$id) {
-      if (!schema.$id.startsWith(process.env['SCHEMA_ORIGIN'])) {
+    const { $id, $schema } = schema;
+
+    if ($id) {
+      if (!$id.startsWith(process.env['SCHEMA_ORIGIN'])) {
         addErrorMessage(
           errors,
           modelFile,
@@ -220,7 +229,7 @@ function FSModelToEntity(modelFile, errors) {
       }
 
       const modelPath = filePath.replace(/\.(ya?ml)/, '');
-      const url = new URL(schema.$id);
+      const url = new URL($id);
       let idPath = url.pathname.substr(1);
 
       try {
@@ -242,12 +251,16 @@ function FSModelToEntity(modelFile, errors) {
       addErrorMessage(errors, modelFile, `model is missing '$id' property`);
     }
 
-    if (schema.$schema) {
-      if (!schema.$schema.startsWith(validSchema)) {
+    if ($schema) {
+      const isValid = VALID_SCHEMAS.find(validSchema =>
+        $schema.startsWith(validSchema),
+      );
+
+      if (!isValid) {
         addErrorMessage(
           errors,
           modelFile,
-          `model has invalid '$schema'. Valid: ${validSchema}`,
+          `model has invalid '$schema'. Valid: ${validSchema.join(',')}`,
         );
       }
     } else {
