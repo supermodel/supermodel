@@ -59,15 +59,15 @@ function convertURItoStringId(uri) {
   const inputURI = new URL(uri);
   let source = `${inputURI.hostname}${inputURI.pathname}`;
 
-  // If hash fragment is anything else but #/definitions don't convert it but append
+  // If hash fragment is anything else but #/components/schemas don't convert it but append
   //  for example:
-  //  http://supermodel.io/fragments/A#/definitions/a - needs to be converted including the hash
+  //  http://supermodel.io/fragments/A#/components/schemas/a - needs to be converted including the hash
   //  http://supermodel.io/fragments/A#/properties/a - the hash needs to be preserved as '/properties/a'
   // one has to love OpenAPI Spec
   const hash = inputURI.hash;
   let appendHash;
   if (hash) {
-    if (!hash.startsWith('#/definitions')) {
+    if (!hash.startsWith('#/components/schemas')) {
       appendHash = hash;
     } else {
       source += hash;
@@ -198,7 +198,7 @@ function convertSchemaObjectProperty(
         let fullURI = dictValue.$id || dictKey;
 
         if (!isURL(fullURI)) {
-          fullURI = `${currentId}#/definitions/${dictKey}`;
+          fullURI = `${currentId}#/components/schemas/${dictKey}`;
         }
 
         resultDictionary[convertURItoStringId(fullURI)] = resultSchemaObject;
@@ -265,19 +265,19 @@ function convertSchemaObjectProperty(
   // based on the option convert refs to local flat definition dictionary or
   // fully qualify any remote schema references
   if (key === '$ref') {
-    if (value.startsWith('#/definitions')) {
+    if (value.startsWith('#/components/schemas')) {
       // Local reference
       // We need to add "namespace" to the local reference to prevent clash in
       // OAS2 flat definitions
-      const refValue = value.replace('#/definitions/', '');
+      const refValue = value.replace('#/components/schemas/', '');
       const fullURI = `${currentId.replace(
         /#\/definitions\/(.+)/,
         '',
-      )}#/definitions/${refValue}`;
+      )}#/components/schemas/${refValue}`;
       // TODO: add options to use remote ref
       return {
         key,
-        value: `#/definitions/${convertURItoStringId(fullURI)}`,
+        value: `#/components/schemas/${convertURItoStringId(fullURI)}`,
       };
     } else if (isURL(value)) {
       // Remote schema reference
@@ -285,14 +285,14 @@ function convertSchemaObjectProperty(
       // TODO: add options to use remote ref
       return {
         key,
-        value: `#/definitions/${convertURItoStringId(value)}`,
+        value: `#/components/schemas/${convertURItoStringId(value)}`,
       };
     } else if (value === '#') {
       // Self reference
       // TODO: add options to use remote ref
       return {
         key,
-        value: `#/definitions/${convertURItoStringId(currentId)}`,
+        value: `#/components/schemas/${convertURItoStringId(currentId)}`,
       };
     }
 
@@ -303,7 +303,7 @@ function convertSchemaObjectProperty(
     const fullURI = `${base}${value}`;
     return {
       key,
-      value: `#/definitions/${convertURItoStringId(fullURI)}`,
+      value: `#/components/schemas/${convertURItoStringId(fullURI)}`,
     };
   }
 
