@@ -1,0 +1,13 @@
+$id: http://supermodel.io/superlib/basic/SimpleSchema
+
+title: Simple Schema
+type: object
+
+properties:
+  propertyA:
+    $ref: '#/definitions/definitionA'
+
+definitions:
+  definitionA:
+    type: string
+    required: true

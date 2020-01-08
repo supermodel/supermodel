@@ -67,7 +67,7 @@ function convertURItoStringId(uri) {
   const hash = inputURI.hash;
   let appendHash;
   if (hash) {
-    if (!hash.startsWith('#/components/schemas')) {
+    if (!hash.startsWith('#/definitions')) {
       appendHash = hash;
     } else {
       source += hash;
@@ -90,6 +90,7 @@ function convertURItoStringId(uri) {
   if (appendHash) {
     target += appendHash.slice(1); // skip the leading '#' ie. in #/properties/a
   }
+
   return target;
 }
 
@@ -198,7 +199,7 @@ function convertSchemaObjectProperty(
         let fullURI = dictValue.$id || dictKey;
 
         if (!isURL(fullURI)) {
-          fullURI = `${currentId}#/components/schemas/${dictKey}`;
+          fullURI = `${currentId}/${dictKey}`;
         }
 
         resultDictionary[convertURItoStringId(fullURI)] = resultSchemaObject;
@@ -265,15 +266,15 @@ function convertSchemaObjectProperty(
   // based on the option convert refs to local flat definition dictionary or
   // fully qualify any remote schema references
   if (key === '$ref') {
-    if (value.startsWith('#/components/schemas')) {
+    if (value.startsWith('#/definitions')) {
       // Local reference
       // We need to add "namespace" to the local reference to prevent clash in
       // OAS2 flat definitions
-      const refValue = value.replace('#/components/schemas/', '');
+      const refValue = value.replace('#/definitions/', '');
       const fullURI = `${currentId.replace(
         /#\/definitions\/(.+)/,
         '',
-      )}#/components/schemas/${refValue}`;
+      )}/${refValue}`;
       // TODO: add options to use remote ref
       return {
         key,
