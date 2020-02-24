@@ -1,0 +1,9 @@
+$id: 'http://supermodel.io/test/schemaorg/Thing'
+$schema: 'http://json-schema.org/draft-07/schema#'
+$source: 'http://schema.org/Thing'
+title: Thing
+type: object
+description: The most generic type of item.
+properties:
+  name:
+    $ref: 'http://supermodel.io/test/schemaorg/properties/name'

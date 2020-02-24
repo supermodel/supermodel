@@ -1,0 +1,5 @@
+$id: http://supermodel.io/test/Circular2
+$schema: 'http://json-schema.org/draft-07/schema#'
+
+title: Circular2 Schema
+type: object

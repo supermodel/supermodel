@@ -36,9 +36,7 @@ async function push() {
   const config = supermodelConfig.getSupermodelConfig();
   if (config.host && config.host !== process.env['SUPERMODEL_URL']) {
     throw new Error(
-      `Can't push into ${config.host} because logged into ${
-        process.env['SUPERMODEL_URL']
-      }`,
+      `Can't push into ${config.host} because logged into ${process.env['SUPERMODEL_URL']}`,
     );
   }
 
@@ -98,7 +96,7 @@ async function updateLayer(layerPath, layerData) {
     method: 'PUT',
     headers: {
       Authorization: `Bearer ${token}`,
-      Accept: 'application/json',
+      Accept: 'application/vnd.restful+json',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -110,9 +108,7 @@ async function updateLayer(layerPath, layerData) {
     const data = await response.json();
     if (response.status === 400) {
       throw new Error(
-        `Push failed for $id '${data.instance}' with validation errors:\n${
-          data.detail
-        }`,
+        `Push failed for $id '${data.instance}' with validation errors:\n${data.detail}`,
       );
     } else if (response.status === 401) {
       throw new Error(`Push failed for unauthorized user`);

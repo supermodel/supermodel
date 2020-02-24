@@ -7,7 +7,7 @@ import { PromisePool } from './promise-pool';
 
 export type ResolverOptions = {
   cwd?: string;
-  file?: typeof SchemaFileReader;
+  file?: boolean;
   http?: boolean;
   concurrency?: number;
   validate?: boolean;
@@ -97,6 +97,7 @@ export class SchemaResolver {
    * You disable http fetch at all with options.http = false
    */
   private async getSchema(id: string) {
+    // TODO: resolving order
     if (this.local || !this.options.http) {
       const schema = await this.file.readId(id, !this.options.http);
 
@@ -219,16 +220,20 @@ export class SchemaResolver {
   // File handling
   private get file() {
     if (!this.schemaFileInstance) {
-      const { file: SchemaFileClass } = this.options;
+      // const { default: SchemaFileClass } = require('@supermodel/file')
+      // TODO: error message to add '@supermodel/fs' to dependencies
+      const {
+        SchemaFileReader: SchemaFileReaderRequired,
+      } = require('@supermodel/fs');
 
-      if (!SchemaFileClass) {
-        throw new Error(`
-          To use local resolving, you must provide 'file' option to Resolver constructor
-          'new Resolver(path, { file: require("@supermodel/file")})' or with custom one.
-        `);
-      }
+      // if (!SchemaFileClass) {
+      //   throw new Error(`
+      //     To use local resolving, you must provide 'file' option to Resolver constructor
+      //     'new Resolver(path, { file: require("@supermodel/file")})' or with custom one.
+      //   `);
+      // }
 
-      this.schemaFileInstance = new SchemaFileClass(this.options.cwd);
+      this.schemaFileInstance = new SchemaFileReaderRequired(this.options.cwd);
     }
 
     return this.schemaFileInstance!;

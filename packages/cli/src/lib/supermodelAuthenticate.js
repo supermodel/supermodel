@@ -1,3 +1,5 @@
+const fetch = require('isomorphic-fetch');
+
 /**
  * Register or login in Supermodel with user data
  *
@@ -6,14 +8,12 @@
  */
 function supermodelAuthenticate(idToken) {
   return fetch(
-    `${process.env['SUPERMODEL_URL']}/auth0?client_id=${
-      process.env['CLIENT_ID']
-    }`,
+    `${process.env['SUPERMODEL_URL']}/auth0?client_id=${process.env['CLIENT_ID']}`,
     {
       method: 'POST',
       headers: {
         Authorization: 'Basic ' + idToken,
-        Accept: 'application/json',
+        Accept: 'application/vnd.restful+json',
         'Content-Type': 'application/json',
       },
     },

@@ -1,0 +1,5 @@
+$id: 'http://supermodel.io/test/schemaorg/DataType'
+$schema: 'http://json-schema.org/draft-07/schema#'
+$source: 'http://schema.org/DataType'
+title: DataType
+description: 'The basic data types such as Integers, Strings, etc.'

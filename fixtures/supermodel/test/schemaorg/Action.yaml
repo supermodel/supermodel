@@ -1,0 +1,24 @@
+$id: 'http://supermodel.io/test/schemaorg/Action'
+$schema: 'http://json-schema.org/draft-07/schema#'
+$source: 'http://schema.org/Action'
+title: Action
+type: object
+description: >-
+  An action performed by a direct agent and indirect participants upon a direct
+  object. Optionally happens at a location with the help of an inanimate
+  instrument. The execution of the action may produce a result. Specific action
+  sub-type documentation specifies the exact expectation of each
+  argument/role.<br/><br/>
+
+
+  See also <a
+  href="http://blog.schema.org/2014/04/announcing-schemaorg-actions.html">blog
+  post</a> and <a href="http://schema.org/docs/actions.html">Actions overview
+  document</a>.
+allOf:
+  - $ref: 'http://supermodel.io/test/schemaorg/Thing'
+properties:
+  result:
+    $ref: 'http://supermodel.io/test/schemaorg/properties/result'
+  error:
+    $ref: 'http://supermodel.io/test/schemaorg/properties/error'

@@ -88,7 +88,7 @@ async function fetchEntity(entityPath, config) {
 
   const response = await fetch(url.toString(), {
     headers: {
-      Accept: 'application/json',
+      Accept: 'application/vnd.restful+json',
       'Content-Type': 'application/json',
     },
   });

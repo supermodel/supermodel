@@ -1,0 +1,9 @@
+$id: http://supermodel.io/test/LocalToRemoteRef
+$schema: 'http://json-schema.org/draft-07/schema#'
+
+title: LocalToRemoteRef Schema
+type: object
+
+properties:
+  remote:
+    $ref: http://supermodel.io/test/FromLocal

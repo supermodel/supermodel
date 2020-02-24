@@ -34,6 +34,9 @@
     "fast-clone": "^1.5.13",
     "typescript": "^3.3.3"
   },
+  "peerDependencies": {
+    "@supermodel/fs": "0.0.1"
+  },
   "optionalDependencies": {
     "@supermodel/file": "^0.5.3"
   }
