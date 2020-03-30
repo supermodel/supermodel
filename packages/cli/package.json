@@ -1,6 +1,6 @@
 {
   "name": "@supermodel/cli",
-  "version": "0.47.0",
+  "version": "0.48.0",
   "description": "Supermodel command tool",
   "repository": {
     "type": "git",

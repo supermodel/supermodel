@@ -87,7 +87,7 @@ Every new module which manipulates with schemas (conversion, resolving, transfor
 
 ## License
 
-The MIT License (MIT) 2019 Good API
+The MIT License (MIT) 2020 Good API
 
 <!-- urls -->
 [supermodel-ci-badge]: https://circleci.com/gh/supermodel/supermodel.svg?style=svg
